@@ -14,7 +14,7 @@ let name_of_ident i = i |> Ident.name |> normalize_name
       * types.signature_item
  *)
 let build_exports: name:string -> Typedtree.structure -> Types.signature option -> Erlast.export list =
-  fun ~name typedtree signature ->
+  fun ~name:_ typedtree signature ->
     let rec value_arity = fun value count ->
       match value.desc with
       | Tarrow (_, _, next, _) -> value_arity next (count + 1)
@@ -26,10 +26,6 @@ let build_exports: name:string -> Typedtree.structure -> Types.signature option 
       | None -> typedtree.str_type
       | Some x -> x
     in
-
-    Format.fprintf Format.std_formatter "%s: \n" name;
-    Printtyp.printed_signature "" Format.std_formatter signature;
-    Format.fprintf Format.std_formatter "\n\n";
 
     signature |> (List.filter_map (fun sig_item ->
       match sig_item  with
