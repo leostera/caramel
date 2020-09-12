@@ -1,4 +1,5 @@
 % Source code generated with Caramel.
--module(nested_a_c_d).
+-module(sig).
 
+-export([inc/1]).
 
