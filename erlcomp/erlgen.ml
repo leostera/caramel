@@ -14,7 +14,7 @@ let generate_one erlmod =
         Format.fprintf f "%!";
     )
 
-let generate_sources file_info (typedtree, _mod_coercion) =
-  let erlmods = Erlconv.from_typedtree ~name:file_info.module_name typedtree in
+let generate_sources file_info (typedtree, _mod_coercion) signature =
+  let erlmods = Erlconv.from_typedtree ~name:file_info.module_name typedtree signature in
   let _ = print_string ("Generating " ^ (string_of_int (List.length erlmods)) ^ " sources...\n" ) in
   List.iter generate_one erlmods

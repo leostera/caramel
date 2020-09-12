@@ -4,25 +4,17 @@ open Types
 let normalize_name = String.lowercase_ascii
 let name_of_ident i = i |> Ident.name |> normalize_name
 
-(** Build a single Erlang module from a Typedtree.structure.
+(** Build the exports table of an Erlang module
 
     This will look for the signature of the module to determine what to export.
 
-    The type-chain looks like this for nested modules:
+    The type-chain looks like this:
       * Typedtree.structure
-      * Typedtree.structure_item
-      * Typedtree.structure_item_desc
-      * Typedtree.module_binding
-      * Typedtree.module_expr
-      * Typedtree.module_type
-      * Typedtree.signature
-      * Typedtree.signature_item
-
-    but we are not following those!
-
+      * Types.signature
+      * types.signature_item
  *)
-let build_module: name:string -> Typedtree.structure -> Erlast.t =
-  fun ~name typedtree ->
+let build_exports: name:string -> Typedtree.structure -> Types.signature option -> Erlast.export list =
+  fun ~name typedtree signature ->
     let rec value_arity = fun value count ->
       match value.desc with
       | Tarrow (_, _, next, _) -> value_arity next (count + 1)
@@ -30,15 +22,30 @@ let build_module: name:string -> Typedtree.structure -> Erlast.t =
       | _ -> count
     in
 
-    let exports = typedtree.str_type |> (List.filter_map (fun sig_item ->
+    let signature = match signature with
+      | None -> typedtree.str_type
+      | Some x -> x
+    in
+
+    Format.fprintf Format.std_formatter "%s: \n" name;
+    Printtyp.printed_signature "" Format.std_formatter signature;
+    Format.fprintf Format.std_formatter "\n\n";
+
+    signature |> (List.filter_map (fun sig_item ->
       match sig_item  with
-      | Sig_value (name, { val_type  }, _) ->
+      | Sig_value (name, { val_type }, Exported) ->
           Some (name_of_ident name, value_arity val_type 0)
       | Sig_type (name, { type_arity }, _, Exported) ->
           Some (name_of_ident name, type_arity)
       | _  -> None
-    )) |> List.map Erlast.make_export in
+    )) |> List.map Erlast.make_export
 
+(** Build a single Erlang module from a Typedtree.structure, and an optionally
+    constraining Types.signature.
+ *)
+let build_module: name:string -> Typedtree.structure -> Types.signature option -> Erlast.t =
+  fun ~name typedtree signature ->
+    let exports = build_exports ~name typedtree signature in
     Erlast.make ~name ~exports
 
 (** Navigate a [Typedtree.structure] and recursively collect all module definitions,
@@ -53,7 +60,10 @@ let build_module: name:string -> Typedtree.structure -> Erlast.t =
       * Typedtree.module_expr_desc
       * Typedtree.structure -> back to the top again
  *)
-let rec find_modules: prefix:string -> Typedtree.structure -> (string * Typedtree.structure) list =
+let rec find_modules:
+  prefix:string
+  -> Typedtree.structure
+  -> (string * Typedtree.structure * (Types.signature option)) list =
   fun ~prefix typedtree ->
     let module_name prefix mb_id = (match mb_id with
           | Some x -> prefix ^ "_" ^ (name_of_ident x)
@@ -68,7 +78,12 @@ let rec find_modules: prefix:string -> Typedtree.structure -> (string * Typedtre
             |> (List.concat_map (fun mb ->
                 let prefix = module_name prefix mb.mb_id in
                 match mb.mb_expr.mod_desc with
-                  | Tmod_structure typedtree -> (prefix, typedtree) :: (find_modules ~prefix typedtree)
+                  | Tmod_constraint ({ mod_desc = Tmod_structure typedtree },
+                                     Mty_signature signature,
+                                     _mod_type_constr,
+                                     _mod_type_coerc) ->
+                      (prefix, typedtree, Some signature) :: (find_modules ~prefix typedtree)
+                  | Tmod_structure typedtree -> (prefix, typedtree, None) :: (find_modules ~prefix typedtree)
                   | _ -> []
                 )) in
         List.concat [mbs; acc]
@@ -78,14 +93,16 @@ let rec find_modules: prefix:string -> Typedtree.structure -> (string * Typedtre
 (** Turn an OCaml Typedtree into a list of Erlang ASTs that can be compiled to
     sources.
 *)
-let from_typedtree: name:string -> Typedtree.structure -> Erlast.t list =
-  fun ~name typedtree ->
+let from_typedtree:
+  name:string
+  -> Typedtree.structure
+  -> (Types.signature option)
+  -> Erlast.t list =
+  fun ~name typedtree signature ->
     let name = normalize_name name in
     [
-
       (find_modules ~prefix:name typedtree)
-      |> List.map( fun (name, mb) -> build_module ~name mb );
+      |> List.map( fun (name, impl, sign) -> build_module ~name impl sign );
 
-      [ build_module ~name typedtree ];
-
+      [ build_module ~name typedtree signature ];
     ] |> List.concat

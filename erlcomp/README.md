@@ -27,3 +27,8 @@ incurs zero penalty on the final Erlang programs.
 * Module Signatures: the signature of a module, will regulate what functions
   are exported from that module. If something does not appear on the signature,
   it will be kept unexported.
+
+* Types: records map into records, variants map into tagged tuples.
+
+  `(a, b) result = Ok of a | Error of b` maps into
+  `-type result(A, B) :: {ok, A} | {error, B}`
