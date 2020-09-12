@@ -53,7 +53,7 @@ let build_module: name:string -> Typedtree.structure -> Erlast.t =
       * Typedtree.module_expr_desc
       * Typedtree.structure -> back to the top again
  *)
-let rec find_modules: prefix:string -> Typedtree.structure -> (string * Typedtree.module_binding) list =
+let rec find_modules: prefix:string -> Typedtree.structure -> (string * Typedtree.structure) list =
   fun ~prefix typedtree ->
     let module_name prefix mb_id = (match mb_id with
           | Some x -> prefix ^ "_" ^ (name_of_ident x)
@@ -67,9 +67,9 @@ let rec find_modules: prefix:string -> Typedtree.structure -> (string * Typedtre
             | _ -> [])
             |> (List.concat_map (fun mb ->
                 let prefix = module_name prefix mb.mb_id in
-                (prefix, mb) :: (match mb.mb_expr.mod_desc with
-                  | Tmod_structure typedtree -> find_modules ~prefix typedtree
-                  | _ -> [])
+                match mb.mb_expr.mod_desc with
+                  | Tmod_structure typedtree -> (prefix, typedtree) :: (find_modules ~prefix typedtree)
+                  | _ -> []
                 )) in
         List.concat [mbs; acc]
     ) [])
@@ -84,7 +84,7 @@ let from_typedtree: name:string -> Typedtree.structure -> Erlast.t list =
     [
 
       (find_modules ~prefix:name typedtree)
-      |> List.map( fun (name, _mb) -> Erlast.make ~name ~exports:[] );
+      |> List.map( fun (name, mb) -> build_module ~name mb );
 
       [ build_module ~name typedtree ];
 
