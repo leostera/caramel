@@ -1,6 +1,7 @@
 % Source code generated with Caramel.
 -module(type_defs).
 
+-export_type([alias/0]).
 -export_type([compound/0]).
 -export_type([hidden/0]).
 -export_type([inlined_record/0]).
@@ -14,7 +15,9 @@
 -export_type([tree/1]).
 -export_type([triplet/2]).
 
--type opaque() :: string().
+-type alias() :: int().
+
+-type opaque() :: list(string()).
 
 -type hidden() :: ref().
 
@@ -37,19 +40,20 @@
 -type triplet(A, B) :: {A, A, B}.
 
 -type phantom(A) :: phantom
+                  | {phantom_with_value, int()}
                   .
 
--type record() :: #{ a :: any()
-                   , b :: any()
+-type record() :: #{ a :: string()
+                   , b :: int()
                    }.
 
 -type inlined_record() :: compound
                         .
 
--type compound() :: #{ c_a :: any()
-                     , c_b :: any()
-                     , c_c :: any()
-                     , c_d :: any()
+-type compound() :: #{ c_a :: inlined_record()
+                     , c_b :: phantom(bool())
+                     , c_c :: triplet(int(), bool())
+                     , c_d :: record()
                      }.
 
 

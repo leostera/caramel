@@ -7,20 +7,7 @@ let atom_of_string = String.lowercase_ascii
 let atom_of_ident i = i |> Ident.name |> String.lowercase_ascii
 
 (** Build the types of an Erlang module.
-
-  | Ttyp_var of string
-  | Ttyp_arrow of arg_label * core_type * core_type
-  | Ttyp_tuple of core_type list
-  | Ttyp_constr of Path.t * Longident.t loc * core_type list
-  | Ttyp_object of object_field list * closed_flag
-  | Ttyp_class of Path.t * Longident.t loc * core_type list
-  | Ttyp_alias of core_type * string
-  | Ttyp_variant of row_field list * closed_flag * label list option
-  | Ttyp_poly of string list * core_type
-  | Ttyp_package of package_type
-
  *)
-
 let build_types:
   Typedtree.structure
   -> Types.signature option
@@ -28,12 +15,17 @@ let build_types:
   fun typedtree _signature ->
     let rec build_type_kind name core_type =
       match core_type.ctyp_desc with
-      | Ttyp_any -> Some (Erlast.Type_constr { tc_name="any"; tc_args=[]})
+      | Ttyp_any -> Some (Erlast.type_any)
 
       | Ttyp_var var_name -> Some (Erlast.Type_variable (var_name |> varname_of_string))
 
+      | Ttyp_arrow _ -> None
+
       (* NOTE: this allows us to export type aliases that may have been made
        * opaque, such as `type opaque = string`, as `-type opaque() :: string().`
+       *
+       * It is also used for application of type constructors: `type a = string list`
+       * gets compiled to `-type a() :: list(string()).`
        *)
       | Ttyp_constr (_, { txt; }, args) ->
           let tc_name = Longident.last txt |> atom_of_string in
@@ -44,7 +36,19 @@ let build_types:
           let parts = (els |> List.filter_map (build_type_kind name)) in
           Some (Erlast.Type_tuple parts)
 
-      | _ -> None
+      | Ttyp_variant  _ -> None
+
+      (* NOTE: these are two core type constructors that are essentially "links"
+       * to follow.
+       *
+       * The second one `Ttyp_poly (strings, core_typ)` seemed to appear in records.
+       *)
+      | Ttyp_alias (follow, _)
+      | Ttyp_poly (_, follow) -> build_type_kind name follow
+
+      | Ttyp_object _
+      | Ttyp_class _
+      | Ttyp_package _ -> None
     in
 
     let build_abstract name params _type_decl core_type =
@@ -67,15 +71,27 @@ let build_types:
       let params = build_type_params type_decl.typ_params in
       match type_decl.typ_kind with
 
+      (* NOTE: turns out that "abstract" here means "only structure, no names!"
+       * so this branch will generate the appropriate types for tuples, aliases
+       * and actual abstract types.
+       * *)
       | Ttype_abstract  ->
           begin match type_decl.typ_manifest with
           | Some abs -> (build_abstract name params type_decl abs)
-          | None -> Some (Erlast.make_named_type name params (Erlast.Type_constr { tc_name="ref"; tc_args=[]}))
+          | None ->
+              let ref = (Erlast.Type_constr { tc_name="ref"; tc_args=[]}) in
+              Some (Erlast.make_named_type name params ref)
           end
 
       | Ttype_record labels ->
           let fields = labels
-          |> List.map(fun Typedtree.{ ld_id } -> Erlast.{ rf_name = atom_of_ident ld_id } )
+          |> List.map(fun Typedtree.{ ld_id; ld_type } ->
+              let rf_name = atom_of_ident ld_id in
+              let rf_type = match build_type_kind name ld_type with
+              | Some t -> t
+              | None -> Erlast.type_any
+              in
+              Erlast.{ rf_name; rf_type } )
           in Some (Erlast.make_named_type name params (Erlast.Type_record {fields}))
 
       | Ttype_variant constructors ->

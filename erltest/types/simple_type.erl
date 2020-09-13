@@ -11,9 +11,9 @@
                   , y :: any()
                   }.
 
--type axis() :: {x}
-              | {y}
-              | {z}
+-type axis() :: x
+              | y
+              | z
               .
 
 

@@ -63,10 +63,14 @@ and pp_type_kind prefix ppf typ_kind =
       let padding = H.pad ((String.length prefix) + 1) in
       begin match fields with
       | [] -> Format.fprintf ppf "#{}";
-      | Erlast.{ rf_name } :: fs -> begin
-          Format.fprintf ppf "#{ %s :: any()\n" rf_name;
-          fs |> List.iter (fun Erlast.{ rf_name } ->
-            Format.fprintf ppf "%s, %s :: any()\n" padding rf_name );
+      | Erlast.{ rf_name; rf_type } :: fs -> begin
+          Format.fprintf ppf "#{ %s :: " rf_name;
+          pp_type_kind prefix ppf rf_type;
+          Format.fprintf ppf "\n";
+          fs |> List.iter (fun Erlast.{ rf_name; rf_type } ->
+            Format.fprintf ppf "%s, %s :: " padding rf_name;
+            pp_type_kind prefix ppf rf_type;
+            Format.fprintf ppf "\n");
           Format.fprintf ppf "%s}" padding;
       end
       end

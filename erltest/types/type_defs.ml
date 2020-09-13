@@ -1,4 +1,6 @@
-type opaque = string
+type alias = int
+
+type opaque = string list
 
 type hidden
 
@@ -20,9 +22,7 @@ type ('a, 'b) result =
 
 type ('a, 'b) triplet = 'a * 'a * 'b
 
-type 'a phantom = Phantom
-
-type poly = [ `Poly_one | `Poly_two of int ]
+type 'a phantom = Phantom | Phantom_with_value of int
 
 type record = { a: string; b: int }
 
@@ -35,3 +35,6 @@ type compound = {
   c_c: (int, bool) triplet ;
   c_d: record ;
 }
+
+type poly = [ `Poly_one | `Poly_two of int ]
+

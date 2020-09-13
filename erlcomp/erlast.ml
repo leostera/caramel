@@ -11,14 +11,14 @@ and name = string
       http://erlang.org/doc/reference_manual/typespec.html
  *)
 
-and record_field = { rf_name: atom }
+and record_field = { rf_name: atom; rf_type: type_kind }
 
 and variant_constructor = { vc_name: atom; vc_args: type_kind list }
 
 and type_constr = { tc_name: atom; tc_args: type_kind list }
 
 and type_kind =
-  | Type_constr of type_constr 
+  | Type_constr of type_constr
   | Type_variable of name
   | Type_tuple of type_kind list
   | Type_record of { fields: record_field list; }
@@ -67,3 +67,5 @@ let make_fn_export exp_name exp_arity = {exp_type=Export_function; exp_name; exp
 let make_type_export exp_name exp_arity = {exp_type=Export_type; exp_name; exp_arity }
 
 let make_named_type typ_name typ_params typ_kind = { typ_name; typ_params; typ_kind }
+
+let type_any = Type_constr { tc_name="any"; tc_args=[] }
