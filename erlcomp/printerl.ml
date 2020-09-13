@@ -67,12 +67,16 @@ and pp_type_kind prefix ppf typ_kind =
       | Erlast.{ rf_name; rf_type } :: fs -> begin
           Format.fprintf ppf "#{ %s => " rf_name;
           pp_type_kind prefix ppf rf_type;
-          Format.fprintf ppf "\n";
-          fs |> List.iter (fun Erlast.{ rf_name; rf_type } ->
-            Format.fprintf ppf "%s, %s => " padding rf_name;
-            pp_type_kind prefix ppf rf_type;
-            Format.fprintf ppf "\n");
-          Format.fprintf ppf "%s}" padding;
+          match fs with
+          | [] -> Format.fprintf ppf " }";
+          | fs -> begin
+            Format.fprintf ppf "\n";
+            fs |> List.iter (fun Erlast.{ rf_name; rf_type } ->
+              Format.fprintf ppf "%s, %s => " padding rf_name;
+              pp_type_kind prefix ppf rf_type;
+              Format.fprintf ppf "\n");
+            Format.fprintf ppf "%s}" padding;
+          end;
       end
       end
 

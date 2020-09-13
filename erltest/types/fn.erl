@@ -18,7 +18,6 @@
 
 -type f_with_tuples(A, B) :: fun(({A, B}, unit()) -> bool()).
 
--type r(A) :: #{ f => fun((unit()) -> {A, int()})
-               }.
+-type r(A) :: #{ f => fun((unit()) -> {A, int()}) }.
 
 

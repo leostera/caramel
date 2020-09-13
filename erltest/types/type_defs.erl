@@ -5,13 +5,14 @@
 -export_type([compound/0]).
 -export_type([hidden/0]).
 -export_type([inlined_record/0]).
+-export_type([large_record/0]).
 -export_type([list/1]).
 -export_type([opaque/0]).
 -export_type([option/1]).
 -export_type([phantom/1]).
 -export_type([poly/0]).
--export_type([record/0]).
 -export_type([result/2]).
+-export_type([small_record/0]).
 -export_type([tree/1]).
 -export_type([triplet/2]).
 
@@ -39,13 +40,20 @@
 
 -type triplet(A, B) :: {A, A, B}.
 
--type phantom(_A) :: phantom
+-type phantom(A) :: phantom
                   | {phantom_with_value, int()}
                   .
 
--type record() :: #{ a => string()
-                   , b => int()
-                   }.
+-type small_record() :: #{ a => string() }.
+
+-type large_record() :: #{ lr_a => string()
+                         , lr_b => string()
+                         , lr_c => string()
+                         , lr_d => string()
+                         , lr_e => string()
+                         , lr_f => string()
+                         , lr_g => string()
+                         }.
 
 -type inlined_record() :: {simpler, bool()}
                         | {many, bool(), bool()}
@@ -57,7 +65,8 @@
 -type compound() :: #{ c_a => inlined_record()
                      , c_b => phantom(bool())
                      , c_c => triplet(int(), bool())
-                     , c_d => record()
+                     , c_d => large_record()
+                     , c_fn => fun((unit()) -> {small_record(), int()})
                      }.
 
 
