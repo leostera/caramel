@@ -1,6 +1,4 @@
-type opaque = string
-
-type hidden
+type opaque
 
 type 'a list =
   | Cons of ('a * 'a list)
