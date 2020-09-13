@@ -4,6 +4,30 @@ open Types
 let normalize_name = String.lowercase_ascii
 let name_of_ident i = i |> Ident.name |> normalize_name
 
+let build_types:
+  Typedtree.structure
+  -> Types.signature option
+  -> Erlast.type_decl list =
+  fun typedtree _signature ->
+    let build_type type_decl =
+      let name = (name_of_ident type_decl.typ_id) in
+      match type_decl.typ_kind with
+      | Ttype_record labels ->
+          let fields = labels |> List.map(fun Typedtree.{ ld_id } -> name_of_ident ld_id ) in
+          Some (Erlast.make_record_type name fields )
+      | Ttype_variant constructors ->
+          let constructors = constructors |> List.map(fun Typedtree.{ cd_id } -> name_of_ident cd_id ) in
+          Some (Erlast.make_variant_type name constructors )
+      | _ -> None
+    in
+    typedtree.str_items
+    |> (List.concat_map (fun item  ->
+        match item.str_desc with
+        | Tstr_type (_, tys)  -> tys
+        | _ -> []
+    ))
+    |> List.filter_map build_type
+
 (** Build the exports table of an Erlang module
 
     This will look for the signature of the module to determine what to export.
@@ -13,7 +37,11 @@ let name_of_ident i = i |> Ident.name |> normalize_name
       * Types.signature
       * types.signature_item
  *)
-let build_exports: name:string -> Typedtree.structure -> Types.signature option -> Erlast.export list =
+let build_exports:
+  name:string
+  -> Typedtree.structure
+  -> Types.signature option
+  -> Erlast.export list =
   fun ~name:_ typedtree signature ->
     let rec value_arity = fun value count ->
       match value.desc with
@@ -42,7 +70,8 @@ let build_exports: name:string -> Typedtree.structure -> Types.signature option 
 let build_module: name:string -> Typedtree.structure -> Types.signature option -> Erlast.t =
   fun ~name typedtree signature ->
     let exports = build_exports ~name typedtree signature in
-    Erlast.make ~name ~exports
+    let types = build_types typedtree signature in
+    Erlast.make ~name ~exports ~types
 
 (** Navigate a [Typedtree.structure] and recursively collect all module definitions,
     building up the right prefixed names.

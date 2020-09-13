@@ -2,32 +2,62 @@ type arity = int
 
 and atom = string
 
+(** A type declaration in an Erlang module. This follows what is currently
+    representable by Dialyzer.
+
+    See:
+      http://erlang.org/doc/reference_manual/typespec.html
+ *)
+
+and record_field = atom
+
+and variant_constructor = atom
+
+and type_kind =
+  | Type_record of { fields: record_field list; }
+  | Type_variant of { constructors: variant_constructor list; }
+
+and type_decl = {
+  typ_kind: type_kind;
+  typ_name: atom;
+  typ_params: atom list;
+}
+
+(** An exported symbol in an Erlang module. This could be a function or a type.
+    See:
+      http://erlang.org/doc/reference_manual/modules.html for missing fields.
+      http://erlang.org/doc/reference_manual/typespec.html
+ *)
 and export_type = Export_function | Export_type
 
 and export = {
-  export_type: export_type;
-  name: atom;
-  arity: arity;
+  exp_type: export_type;
+  exp_name: atom;
+  exp_arity: arity;
 }
 
-(**
- * The type of an Erlang module. Intentionally incomplete for now.
- *
- * See: http://erlang.org/doc/reference_manual/modules.html for missing fields.
+(** The type of an Erlang module. Intentionally incomplete for now.
+    See:
+      http://erlang.org/doc/reference_manual/modules.html
  *)
 and t = {
   file_name: string;
   behaviour: atom option;
   module_name: atom;
   exports: export list;
+  types: type_decl list;
 }
 
-let make ~name ~exports = {
+let make ~name ~exports ~types = {
   file_name = name ^ ".erl";
   behaviour = None;
   module_name = name;
   exports = exports;
+  types = types;
 }
 
-let make_fn_export name arity = {export_type = Export_function; name; arity }
-let make_type_export name arity = {export_type = Export_type; name; arity }
+let make_fn_export exp_name exp_arity = {exp_type=Export_function; exp_name; exp_arity }
+let make_type_export exp_name exp_arity = {exp_type=Export_type; exp_name; exp_arity }
+
+let make_record_type typ_name fields = { typ_name; typ_params=[]; typ_kind=Type_record { fields } }
+let make_variant_type typ_name constructors = { typ_name; typ_params=[]; typ_kind=Type_variant { constructors } }
