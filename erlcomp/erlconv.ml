@@ -13,13 +13,26 @@ let build_types:
   -> Types.signature option
   -> Erlast.type_decl list =
   fun typedtree _signature ->
-    let rec build_type_kind name core_type =
+    let rec build_type_kind core_type =
       match core_type.ctyp_desc with
       | Ttyp_any -> Some (Erlast.type_any)
 
       | Ttyp_var var_name -> Some (Erlast.Type_variable (var_name |> varname_of_string))
 
-      | Ttyp_arrow _ -> None
+      (* NOTE: OCaml works with functions from one type to another, and supports
+       * multiargument functions via currying or tuples.
+       *
+       * Erlang doesn't, so we'll squash the function type into a single function
+       * with multiple arguments instead.
+       *)
+      | Ttyp_arrow (_, param, out) ->
+          let rec args t acc = match t with
+            | Ttyp_arrow (_, p, t') -> args t'.ctyp_desc (p :: acc)
+            | _ -> acc |> List.rev
+          in
+          let args = (args out.ctyp_desc [param]) |> List.filter_map build_type_kind in
+          Some (Erlast.Type_function args)
+
 
       (* NOTE: this allows us to export type aliases that may have been made
        * opaque, such as `type opaque = string`, as `-type opaque() :: string().`
@@ -29,11 +42,11 @@ let build_types:
        *)
       | Ttyp_constr (_, { txt; }, args) ->
           let tc_name = Longident.last txt |> atom_of_string in
-          let tc_args = args |> List.filter_map (build_type_kind name) in
+          let tc_args = args |> List.filter_map build_type_kind in
           Some (Erlast.Type_constr { tc_name; tc_args})
 
       | Ttyp_tuple els ->
-          let parts = (els |> List.filter_map (build_type_kind name)) in
+          let parts = (els |> List.filter_map build_type_kind) in
           Some (Erlast.Type_tuple parts)
 
       | Ttyp_variant  _ -> None
@@ -44,17 +57,17 @@ let build_types:
        * The second one `Ttyp_poly (strings, core_typ)` seemed to appear in records.
        *)
       | Ttyp_alias (follow, _)
-      | Ttyp_poly (_, follow) -> build_type_kind name follow
+      | Ttyp_poly (_, follow) -> build_type_kind follow
 
       | Ttyp_object _
       | Ttyp_class _
       | Ttyp_package _ -> None
     in
 
-    let build_record name labels =
+    let build_record labels =
       let fields = labels |> List.map(fun Typedtree.{ ld_id; ld_type } ->
         let rf_name = atom_of_ident ld_id in
-        let rf_type = match build_type_kind name ld_type with
+        let rf_type = match build_type_kind ld_type with
           | Some t -> t
           | None -> Erlast.type_any
         in Erlast.{ rf_name; rf_type })
@@ -62,7 +75,7 @@ let build_types:
     in
 
     let build_abstract name params _type_decl core_type =
-      match build_type_kind name core_type with
+      match build_type_kind core_type with
       | Some kind -> Some (Erlast.make_named_type name params kind)
       | None -> None
     in
@@ -94,15 +107,15 @@ let build_types:
           end
 
       | Ttype_record labels ->
-          let record = build_record name labels in
+          let record = build_record labels in
           Some (Erlast.make_named_type name params (record))
 
       | Ttype_variant constructors ->
           let constructors = constructors
           |> List.map(fun Typedtree.{ cd_id; cd_args } ->
               let vc_args = match cd_args with
-                | Cstr_tuple core_types -> core_types |> List.filter_map (build_type_kind name)
-                | Cstr_record labels -> [build_record name labels]
+                | Cstr_tuple core_types -> core_types |> List.filter_map build_type_kind
+                | Cstr_record labels -> [build_record labels]
               in
               Erlast.{ vc_name = atom_of_ident cd_id; vc_args } )
           in Some (Erlast.make_named_type name params (Erlast.Type_variant {constructors}))

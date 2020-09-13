@@ -88,6 +88,24 @@ and pp_type_kind prefix ppf typ_kind =
         Format.fprintf ppf "\n");
       Format.fprintf ppf "%s" padding;
 
+  | Type_function args ->
+      let sgra = args |> List.rev in
+      let return = sgra |> List.hd in
+      let args = sgra |> List.tl |> List.rev in
+      Format.fprintf ppf "fun((";
+      begin match args with
+      | [] -> ()
+      | x :: xs ->
+          pp_type_kind prefix ppf x;
+          xs |> List.iter( fun arg ->
+            Format.fprintf ppf ", ";
+            pp_type_kind prefix ppf arg);
+      end;
+      Format.fprintf ppf ") -> ";
+      pp_type_kind prefix ppf return;
+      Format.fprintf ppf ")";
+
+
   end
 
 let pp_types ppf types =

@@ -18,6 +18,7 @@ and variant_constructor = { vc_name: atom; vc_args: type_kind list }
 and type_constr = { tc_name: atom; tc_args: type_kind list }
 
 and type_kind =
+  | Type_function of type_kind list
   | Type_constr of type_constr
   | Type_variable of name
   | Type_tuple of type_kind list
