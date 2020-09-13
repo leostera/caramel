@@ -49,5 +49,3 @@ type compound = {
   c_fn: unit -> small_record * int ;
 }
 
-type poly = [ `Poly_one | `Poly_two of int ]
-

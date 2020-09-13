@@ -49,7 +49,19 @@ let build_types:
           let parts = (els |> List.filter_map build_type_kind) in
           Some (Erlast.Type_tuple parts)
 
-      | Ttyp_variant  _ -> None
+      | Ttyp_variant  (rows, _closed, _labels) ->
+          let rec all_rows rs acc =  match rs with
+            | [] -> acc |> List.rev
+            | r :: rs' -> match r.rf_desc with
+              | Tinherit _ctype -> all_rows rs' acc
+              | Ttag ( {txt}, _, core_types) ->
+                  let vc_name = txt |> atom_of_string in
+                  let vc_args = (core_types |> List.filter_map build_type_kind) in
+                  let variant = Erlast.{ vc_name; vc_args } in
+                  all_rows rs' (variant :: acc)
+          in
+          let constructors = all_rows rows [] in
+          Some (Erlast.Type_variant {constructors})
 
       (* NOTE: these are two core type constructors that are essentially "links"
        * to follow.
