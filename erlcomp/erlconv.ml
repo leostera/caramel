@@ -51,6 +51,16 @@ let build_types:
       | Ttyp_package _ -> None
     in
 
+    let build_record name labels =
+      let fields = labels |> List.map(fun Typedtree.{ ld_id; ld_type } ->
+        let rf_name = atom_of_ident ld_id in
+        let rf_type = match build_type_kind name ld_type with
+          | Some t -> t
+          | None -> Erlast.type_any
+        in Erlast.{ rf_name; rf_type })
+      in Erlast.Type_record {fields}
+    in
+
     let build_abstract name params _type_decl core_type =
       match build_type_kind name core_type with
       | Some kind -> Some (Erlast.make_named_type name params kind)
@@ -84,22 +94,15 @@ let build_types:
           end
 
       | Ttype_record labels ->
-          let fields = labels
-          |> List.map(fun Typedtree.{ ld_id; ld_type } ->
-              let rf_name = atom_of_ident ld_id in
-              let rf_type = match build_type_kind name ld_type with
-              | Some t -> t
-              | None -> Erlast.type_any
-              in
-              Erlast.{ rf_name; rf_type } )
-          in Some (Erlast.make_named_type name params (Erlast.Type_record {fields}))
+          let record = build_record name labels in
+          Some (Erlast.make_named_type name params (record))
 
       | Ttype_variant constructors ->
           let constructors = constructors
           |> List.map(fun Typedtree.{ cd_id; cd_args } ->
               let vc_args = match cd_args with
                 | Cstr_tuple core_types -> core_types |> List.filter_map (build_type_kind name)
-                | _ -> []
+                | Cstr_record labels -> [build_record name labels]
               in
               Erlast.{ vc_name = atom_of_ident cd_id; vc_args } )
           in Some (Erlast.make_named_type name params (Erlast.Type_variant {constructors}))

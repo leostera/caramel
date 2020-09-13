@@ -19,15 +19,16 @@ let pp_exports ppf exports =
       Format.fprintf ppf "-export([%s/%d]).\n" exp_name exp_arity));
   ()
 
-let rec pp_variant_constructor ppf c =
+let rec pp_variant_constructor prefix ppf c =
   begin match c.vc_args with
   | [] -> Format.fprintf ppf "%s" c.vc_name;
   | _ ->
-      Format.fprintf ppf "{%s" c.vc_name;
+      let tag = Format.sprintf "{%s" c.vc_name in
+      Format.fprintf ppf "%s" tag;
       c.vc_args
       |> (List.iter (fun arg ->
           Format.fprintf ppf ", ";
-          pp_type_kind "" ppf arg));
+          pp_type_kind (prefix^tag) ppf arg));
       Format.fprintf ppf "}";
   end
 
@@ -64,11 +65,11 @@ and pp_type_kind prefix ppf typ_kind =
       begin match fields with
       | [] -> Format.fprintf ppf "#{}";
       | Erlast.{ rf_name; rf_type } :: fs -> begin
-          Format.fprintf ppf "#{ %s :: " rf_name;
+          Format.fprintf ppf "#{ %s => " rf_name;
           pp_type_kind prefix ppf rf_type;
           Format.fprintf ppf "\n";
           fs |> List.iter (fun Erlast.{ rf_name; rf_type } ->
-            Format.fprintf ppf "%s, %s :: " padding rf_name;
+            Format.fprintf ppf "%s, %s => " padding rf_name;
             pp_type_kind prefix ppf rf_type;
             Format.fprintf ppf "\n");
           Format.fprintf ppf "%s}" padding;
@@ -79,11 +80,11 @@ and pp_type_kind prefix ppf typ_kind =
       let padding = H.pad ((String.length prefix) - 2) in
       let c = List.hd constructors in
       let cs = List.tl constructors in
-      pp_variant_constructor ppf c;
+      pp_variant_constructor prefix ppf c;
       Format.fprintf ppf "\n";
       cs |> List.iter (fun c ->
         Format.fprintf ppf "%s| " padding;
-        pp_variant_constructor ppf c;
+        pp_variant_constructor (prefix ^ "| ") ppf c;
         Format.fprintf ppf "\n");
       Format.fprintf ppf "%s" padding;
 

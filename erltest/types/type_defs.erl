@@ -39,21 +39,25 @@
 
 -type triplet(A, B) :: {A, A, B}.
 
--type phantom(A) :: phantom
+-type phantom(_A) :: phantom
                   | {phantom_with_value, int()}
                   .
 
--type record() :: #{ a :: string()
-                   , b :: int()
+-type record() :: #{ a => string()
+                   , b => int()
                    }.
 
--type inlined_record() :: compound
+-type inlined_record() :: {simpler, bool()}
+                        | {many, bool(), bool()}
+                        | {compound, #{ ir_a => float()
+                                      , ir_b => bool()
+                                      }}
                         .
 
--type compound() :: #{ c_a :: inlined_record()
-                     , c_b :: phantom(bool())
-                     , c_c :: triplet(int(), bool())
-                     , c_d :: record()
+-type compound() :: #{ c_a => inlined_record()
+                     , c_b => phantom(bool())
+                     , c_c => triplet(int(), bool())
+                     , c_d => record()
                      }.
 
 
