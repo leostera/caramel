@@ -19,13 +19,34 @@ let pp_exports ppf exports =
       Format.fprintf ppf "-export([%s/%d]).\n" exp_name exp_arity));
   ()
 
-let rec pp_type_kind prefix ppf typ_kind =
+let rec pp_variant_constructor ppf c =
+  begin match c.vc_args with
+  | [] -> Format.fprintf ppf "%s" c.vc_name;
+  | _ ->
+      Format.fprintf ppf "{%s" c.vc_name;
+      c.vc_args
+      |> (List.iter (fun arg ->
+          Format.fprintf ppf ", ";
+          pp_type_kind "" ppf arg));
+      Format.fprintf ppf "}";
+  end
+
+and pp_type_kind prefix ppf typ_kind =
   begin match typ_kind with
   | Type_variable var_name ->
       Format.fprintf ppf "%s" var_name;
 
-  | Type_alias alias_name ->
-      Format.fprintf ppf "%s()" alias_name;
+  | Type_constr { tc_name; tc_args} ->
+      Format.fprintf ppf "%s(" tc_name;
+      begin match tc_args with
+      | [] -> ()
+      | a :: args ->
+          pp_type_kind prefix ppf a;
+          args |> List.iter( fun arg ->
+            Format.fprintf ppf ", ";
+            pp_type_kind prefix ppf arg);
+      end;
+      Format.fprintf ppf ")";
 
   | Type_tuple parts ->
       Format.fprintf ppf "{";
@@ -54,9 +75,12 @@ let rec pp_type_kind prefix ppf typ_kind =
       let padding = H.pad ((String.length prefix) - 2) in
       let c = List.hd constructors in
       let cs = List.tl constructors in
-      Format.fprintf ppf "{%s}\n" c.vc_name ;
+      pp_variant_constructor ppf c;
+      Format.fprintf ppf "\n";
       cs |> List.iter (fun c ->
-        Format.fprintf ppf "%s| {%s}\n" padding c.vc_name);
+        Format.fprintf ppf "%s| " padding;
+        pp_variant_constructor ppf c;
+        Format.fprintf ppf "\n");
       Format.fprintf ppf "%s" padding;
 
   end

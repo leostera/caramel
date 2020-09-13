@@ -28,20 +28,20 @@ let build_types:
   fun typedtree _signature ->
     let rec build_type_kind name core_type =
       match core_type.ctyp_desc with
-      | Ttyp_any -> Some (Erlast.Type_alias "any")
+      | Ttyp_any -> Some (Erlast.Type_constr { tc_name="any"; tc_args=[]})
 
       | Ttyp_var var_name -> Some (Erlast.Type_variable (var_name |> varname_of_string))
 
       (* NOTE: this allows us to export type aliases that may have been made
        * opaque, such as `type opaque = string`, as `-type opaque() :: string().`
        *)
-      | Ttyp_constr (_, { txt; }, _) ->
-          let alias = Longident.last txt |> atom_of_string in
-          Some (Erlast.Type_alias alias)
+      | Ttyp_constr (_, { txt; }, args) ->
+          let tc_name = Longident.last txt |> atom_of_string in
+          let tc_args = args |> List.filter_map (build_type_kind name) in
+          Some (Erlast.Type_constr { tc_name; tc_args})
 
       | Ttyp_tuple els ->
           let parts = (els |> List.filter_map (build_type_kind name)) in
-          Format.fprintf Format.std_formatter "%s %d" name (parts |> List.length);
           Some (Erlast.Type_tuple parts)
 
       | _ -> None
@@ -70,7 +70,7 @@ let build_types:
       | Ttype_abstract  ->
           begin match type_decl.typ_manifest with
           | Some abs -> (build_abstract name params type_decl abs)
-          | None -> Some (Erlast.make_named_type name params (Erlast.Type_alias "ref"))
+          | None -> Some (Erlast.make_named_type name params (Erlast.Type_constr { tc_name="ref"; tc_args=[]}))
           end
 
       | Ttype_record labels ->
@@ -80,7 +80,12 @@ let build_types:
 
       | Ttype_variant constructors ->
           let constructors = constructors
-          |> List.map(fun Typedtree.{ cd_id } -> Erlast.{ vc_name = atom_of_ident cd_id } )
+          |> List.map(fun Typedtree.{ cd_id; cd_args } ->
+              let vc_args = match cd_args with
+                | Cstr_tuple core_types -> core_types |> List.filter_map (build_type_kind name)
+                | _ -> []
+              in
+              Erlast.{ vc_name = atom_of_ident cd_id; vc_args } )
           in Some (Erlast.make_named_type name params (Erlast.Type_variant {constructors}))
 
       | _ -> None

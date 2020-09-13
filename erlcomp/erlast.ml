@@ -13,11 +13,13 @@ and name = string
 
 and record_field = { rf_name: atom }
 
-and variant_constructor = { vc_name: atom }
+and variant_constructor = { vc_name: atom; vc_args: type_kind list }
+
+and type_constr = { tc_name: atom; tc_args: type_kind list }
 
 and type_kind =
+  | Type_constr of type_constr 
   | Type_variable of name
-  | Type_alias of atom
   | Type_tuple of type_kind list
   | Type_record of { fields: record_field list; }
   | Type_variant of { constructors: variant_constructor list; }

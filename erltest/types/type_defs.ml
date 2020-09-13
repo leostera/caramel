@@ -6,6 +6,10 @@ type 'a list =
   | Cons of ('a * 'a list)
   | Nil
 
+type 'value tree =
+  | Leaf of 'value
+  | Node of 'value * 'value tree * 'value
+
 type 'a option =
   | Some of 'a
   | None
