@@ -30,11 +30,11 @@ let build_exports: name:string -> Typedtree.structure -> Types.signature option 
     signature |> (List.filter_map (fun sig_item ->
       match sig_item  with
       | Sig_value (name, { val_type }, Exported) ->
-          Some (name_of_ident name, value_arity val_type 0)
+          Some (Erlast.make_fn_export (name_of_ident name) (value_arity val_type 0))
       | Sig_type (name, { type_arity }, _, Exported) ->
-          Some (name_of_ident name, type_arity)
+          Some (Erlast.make_type_export (name_of_ident name) type_arity)
       | _  -> None
-    )) |> List.map Erlast.make_export
+    ))
 
 (** Build a single Erlang module from a Typedtree.structure, and an optionally
     constraining Types.signature.

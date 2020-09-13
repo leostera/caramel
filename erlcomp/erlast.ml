@@ -2,7 +2,10 @@ type arity = int
 
 and atom = string
 
+and export_type = Export_function | Export_type
+
 and export = {
+  export_type: export_type;
   name: atom;
   arity: arity;
 }
@@ -26,4 +29,5 @@ let make ~name ~exports = {
   exports = exports;
 }
 
-let make_export (name, arity) = { name; arity }
+let make_fn_export name arity = {export_type = Export_function; name; arity }
+let make_type_export name arity = {export_type = Export_type; name; arity }
