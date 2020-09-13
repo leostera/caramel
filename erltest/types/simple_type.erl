@@ -2,13 +2,18 @@
 -module(simple_type).
 
 -export_type([axis/0]).
+-export_type([p3d/0]).
 -export_type([point/0]).
 
+-type p3d() :: {int(), int(), int()}.
+
 -type point() :: #{ x :: any()
-, y :: any()
-}.
--type axis() :: x 
-| y
-| z
-.
+                  , y :: any()
+                  }.
+
+-type axis() :: {x}
+              | {y}
+              | {z}
+              .
+
 

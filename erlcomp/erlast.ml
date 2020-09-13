@@ -2,6 +2,8 @@ type arity = int
 
 and atom = string
 
+and name = string
+
 (** A type declaration in an Erlang module. This follows what is currently
     representable by Dialyzer.
 
@@ -9,11 +11,14 @@ and atom = string
       http://erlang.org/doc/reference_manual/typespec.html
  *)
 
-and record_field = atom
+and record_field = { rf_name: atom }
 
-and variant_constructor = atom
+and variant_constructor = { vc_name: atom }
 
 and type_kind =
+  | Type_variable of name
+  | Type_alias of atom
+  | Type_tuple of type_kind list
   | Type_record of { fields: record_field list; }
   | Type_variant of { constructors: variant_constructor list; }
 
@@ -59,5 +64,4 @@ let make ~name ~exports ~types = {
 let make_fn_export exp_name exp_arity = {exp_type=Export_function; exp_name; exp_arity }
 let make_type_export exp_name exp_arity = {exp_type=Export_type; exp_name; exp_arity }
 
-let make_record_type typ_name fields = { typ_name; typ_params=[]; typ_kind=Type_record { fields } }
-let make_variant_type typ_name constructors = { typ_name; typ_params=[]; typ_kind=Type_variant { constructors } }
+let make_named_type typ_name typ_params typ_kind = { typ_name; typ_params; typ_kind }

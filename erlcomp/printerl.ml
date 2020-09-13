@@ -1,5 +1,9 @@
 open Erlast
 
+module H = struct
+  let pad n = String.make n ' '
+end
+
 let pp_exports ppf exports =
   let (fn_exports, type_exports) = exports
     |> List.sort (Stdlib.compare)
@@ -15,28 +19,57 @@ let pp_exports ppf exports =
       Format.fprintf ppf "-export([%s/%d]).\n" exp_name exp_arity));
   ()
 
+let rec pp_type_kind prefix ppf typ_kind =
+  begin match typ_kind with
+  | Type_variable var_name ->
+      Format.fprintf ppf "%s" var_name;
+
+  | Type_alias alias_name ->
+      Format.fprintf ppf "%s()" alias_name;
+
+  | Type_tuple parts ->
+      Format.fprintf ppf "{";
+      let p = List.hd parts in
+      let ps = List.tl parts in
+      pp_type_kind prefix ppf p;
+      ps |> List.iter (fun p ->
+        Format.fprintf ppf ", ";
+        pp_type_kind prefix ppf p;
+      );
+      Format.fprintf ppf "}";
+
+  | Type_record { fields } ->
+      let padding = H.pad ((String.length prefix) + 1) in
+      begin match fields with
+      | [] -> Format.fprintf ppf "#{}";
+      | Erlast.{ rf_name } :: fs -> begin
+          Format.fprintf ppf "#{ %s :: any()\n" rf_name;
+          fs |> List.iter (fun Erlast.{ rf_name } ->
+            Format.fprintf ppf "%s, %s :: any()\n" padding rf_name );
+          Format.fprintf ppf "%s}" padding;
+      end
+      end
+
+  | Type_variant { constructors } ->
+      let padding = H.pad ((String.length prefix) - 2) in
+      let c = List.hd constructors in
+      let cs = List.tl constructors in
+      Format.fprintf ppf "{%s}\n" c.vc_name ;
+      cs |> List.iter (fun c ->
+        Format.fprintf ppf "%s| {%s}\n" padding c.vc_name);
+      Format.fprintf ppf "%s" padding;
+
+  end
+
 let pp_types ppf types =
   types
   |> (List.iter (fun
-    { typ_name; typ_kind } ->
-      Format.fprintf ppf "-type %s() :: " typ_name;
-      (match typ_kind with
-      | Type_record { fields } ->
-          begin match fields with
-          | [] -> Format.fprintf ppf "#{}";
-          | f :: fs -> begin
-              Format.fprintf ppf "#{ %s :: any()\n" f;
-              fs |> List.iter (fun f -> Format.fprintf ppf ", %s :: any()\n" f );
-              Format.fprintf ppf "}";
-          end
-          end
-      | Type_variant { constructors } ->
-          let c = List.hd constructors in
-          let cs = List.tl constructors in
-          Format.fprintf ppf "%s \n" c;
-          cs |> List.iter (fun c -> Format.fprintf ppf "| %s\n" c );
-      );
-      Format.fprintf ppf ".\n";
+    { typ_name; typ_kind; typ_params } ->
+      let params = typ_params |> (String.concat ", ") in
+      let prefix = Format.sprintf "-type %s(%s) :: " typ_name params in
+      Format.fprintf ppf "%s" prefix;
+      pp_type_kind prefix ppf typ_kind;
+      Format.fprintf ppf ".\n\n"
   ))
 
 let pp ppf m =

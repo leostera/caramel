@@ -1,23 +1,88 @@
 open Typedtree
 open Types
 
-let normalize_name = String.lowercase_ascii
-let name_of_ident i = i |> Ident.name |> normalize_name
+let varname_of_string = String.capitalize_ascii
+let atom_of_string = String.lowercase_ascii
+
+let atom_of_ident i = i |> Ident.name |> String.lowercase_ascii
+
+(** Build the types of an Erlang module.
+
+  | Ttyp_var of string
+  | Ttyp_arrow of arg_label * core_type * core_type
+  | Ttyp_tuple of core_type list
+  | Ttyp_constr of Path.t * Longident.t loc * core_type list
+  | Ttyp_object of object_field list * closed_flag
+  | Ttyp_class of Path.t * Longident.t loc * core_type list
+  | Ttyp_alias of core_type * string
+  | Ttyp_variant of row_field list * closed_flag * label list option
+  | Ttyp_poly of string list * core_type
+  | Ttyp_package of package_type
+
+ *)
 
 let build_types:
   Typedtree.structure
   -> Types.signature option
   -> Erlast.type_decl list =
   fun typedtree _signature ->
+    let rec build_type_kind name core_type =
+      match core_type.ctyp_desc with
+      | Ttyp_any -> Some (Erlast.Type_alias "any")
+
+      | Ttyp_var var_name -> Some (Erlast.Type_variable (var_name |> varname_of_string))
+
+      (* NOTE: this allows us to export type aliases that may have been made
+       * opaque, such as `type opaque = string`, as `-type opaque() :: string().`
+       *)
+      | Ttyp_constr (_, { txt; }, _) ->
+          let alias = Longident.last txt |> atom_of_string in
+          Some (Erlast.Type_alias alias)
+
+      | Ttyp_tuple els ->
+          let parts = (els |> List.filter_map (build_type_kind name)) in
+          Format.fprintf Format.std_formatter "%s %d" name (parts |> List.length);
+          Some (Erlast.Type_tuple parts)
+
+      | _ -> None
+    in
+
+    let build_abstract name params _type_decl core_type =
+      match build_type_kind name core_type with
+      | Some kind -> Some (Erlast.make_named_type name params kind)
+      | None -> None
+    in
+
+    let build_type_params params =
+      params
+      |> List.filter_map (fun (core_type, _) ->
+          match core_type.ctyp_desc with
+          | Ttyp_var name -> Some (name |> varname_of_string)
+          | _ -> None
+      )
+    in
+
     let build_type type_decl =
-      let name = (name_of_ident type_decl.typ_id) in
+      let name = (atom_of_ident type_decl.typ_id) in
+      let params = build_type_params type_decl.typ_params in
       match type_decl.typ_kind with
+
+      | Ttype_abstract  ->
+          begin match type_decl.typ_manifest with
+          | Some abs -> (build_abstract name params type_decl abs)
+          | None -> Some (Erlast.make_named_type name params (Erlast.Type_alias "ref"))
+          end
+
       | Ttype_record labels ->
-          let fields = labels |> List.map(fun Typedtree.{ ld_id } -> name_of_ident ld_id ) in
-          Some (Erlast.make_record_type name fields )
+          let fields = labels
+          |> List.map(fun Typedtree.{ ld_id } -> Erlast.{ rf_name = atom_of_ident ld_id } )
+          in Some (Erlast.make_named_type name params (Erlast.Type_record {fields}))
+
       | Ttype_variant constructors ->
-          let constructors = constructors |> List.map(fun Typedtree.{ cd_id } -> name_of_ident cd_id ) in
-          Some (Erlast.make_variant_type name constructors )
+          let constructors = constructors
+          |> List.map(fun Typedtree.{ cd_id } -> Erlast.{ vc_name = atom_of_ident cd_id } )
+          in Some (Erlast.make_named_type name params (Erlast.Type_variant {constructors}))
+
       | _ -> None
     in
     typedtree.str_items
@@ -58,9 +123,9 @@ let build_exports:
     signature |> (List.filter_map (fun sig_item ->
       match sig_item  with
       | Sig_value (name, { val_type }, Exported) ->
-          Some (Erlast.make_fn_export (name_of_ident name) (value_arity val_type 0))
+          Some (Erlast.make_fn_export (atom_of_ident name) (value_arity val_type 0))
       | Sig_type (name, { type_arity }, _, Exported) ->
-          Some (Erlast.make_type_export (name_of_ident name) type_arity)
+          Some (Erlast.make_type_export (atom_of_ident name) type_arity)
       | _  -> None
     ))
 
@@ -91,7 +156,7 @@ let rec find_modules:
   -> (string * Typedtree.structure * (Types.signature option)) list =
   fun ~prefix typedtree ->
     let module_name prefix mb_id = (match mb_id with
-          | Some x -> prefix ^ "_" ^ (name_of_ident x)
+          | Some x -> prefix ^ "_" ^ (atom_of_ident x)
           | None -> prefix) |> String.lowercase_ascii
     in
     typedtree.str_items
@@ -124,7 +189,7 @@ let from_typedtree:
   -> (Types.signature option)
   -> Erlast.t list =
   fun ~name typedtree signature ->
-    let name = normalize_name name in
+    let name = atom_of_string name in
     [
       (find_modules ~prefix:name typedtree)
       |> List.map( fun (name, impl, sign) -> build_module ~name impl sign );

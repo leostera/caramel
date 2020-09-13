@@ -6,11 +6,15 @@ type 'a list =
   | Cons of ('a * 'a list)
   | Nil
 
+type 'a option =
+  | Some of 'a
+  | None
+
 type ('a, 'b) result =
   | Ok of 'a
   | Error of 'b
 
-type 'a triplet = ('a * 'a * 'a)
+type ('a, 'b) triplet = 'a * 'a * 'b
 
 type 'a phantom = Phantom
 
@@ -24,6 +28,6 @@ type inlined_record =
 type compound = {
   c_a: inlined_record ;
   c_b: bool phantom ;
-  c_c: int triplet ;
+  c_c: (int, bool) triplet ;
   c_d: record ;
 }
