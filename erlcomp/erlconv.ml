@@ -26,11 +26,11 @@ let build_types:
        * with multiple arguments instead.
        *)
       | Ttyp_arrow (_, param, out) ->
-          let rec args t acc = match t with
-            | Ttyp_arrow (_, p, t') -> args t'.ctyp_desc (p :: acc)
-            | _ -> acc |> List.rev
+          let rec args t acc = match t.ctyp_desc with
+            | Ttyp_arrow (_, p, t') -> args t' (p :: acc)
+            | _ -> (t :: acc) |> List.rev
           in
-          let args = (args out.ctyp_desc [param]) |> List.filter_map build_type_kind in
+          let args = (args out [param]) |> List.filter_map build_type_kind in
           Some (Erlast.Type_function args)
 
 
