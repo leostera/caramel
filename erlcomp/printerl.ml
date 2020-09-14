@@ -189,6 +189,7 @@ let rec pp_expression prefix ppf expr ~module_ =
   | Expr_literal lit -> pp_literal ppf lit;
 
   | Expr_let (binding, expr) ->
+      (* NOTE: we can optimize away the binding if the name is _ *)
       pp_pattern_match ppf binding.lb_lhs;
       Format.fprintf ppf " = ";
       pp_expression "" ppf binding.lb_rhs ~module_;

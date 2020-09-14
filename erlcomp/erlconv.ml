@@ -34,6 +34,26 @@ let build_functions:
   Typedtree.structure ->
   Erlast.fun_decl list =
   fun ~module_name ~modules typedtree ->
+    (* NOTE: flatten down all the names bound in the parameters
+     * to a single list that we can use to quickly check how to
+     * normalize them in the function's body.
+     *)
+    let rec collect_var_names pat =
+      let open Erlast in
+      let rec collect acc p =
+        match p with
+        | [] -> acc
+        | p :: ps ->
+          let subpats = match p with
+          | Pattern_list pats -> collect_var_names pats
+          | Pattern_tuple pats -> collect_var_names pats
+          | Pattern_map pats -> pats |> List.map(fun (_, p) -> p )
+          | _ -> [p]
+          in collect (subpats @ acc) ps
+      in
+      collect [] pat
+    in
+
     (* NOTE: We need a universally quantified k here because this function will
      * be called with several types indexing general_pattern *)
     let rec build_pattern: type k. k general_pattern -> Erlast.pattern =
@@ -61,8 +81,13 @@ let build_functions:
       | Tpat_construct ({ txt }, _, patterns) when longident_to_string txt = "::" ->
           Erlast.Pattern_list (List.map build_pattern patterns)
 
-      | Tpat_construct ({ txt }, _, _patterns) ->
+      | Tpat_construct ({ txt }, _, []) ->
           Erlast.Pattern_match (longident_to_string txt |> atom_of_string)
+
+      | Tpat_construct ({ txt }, _, patterns) ->
+          let tag = Erlast.Pattern_match (longident_to_string txt |> atom_of_string) in
+          let values = (List.map build_pattern patterns) in
+          Erlast.Pattern_tuple (tag :: values)
 
       (* NOTE: here's where the translation of pattern
        * matching at the function level should happen. *)
@@ -81,9 +106,7 @@ let build_functions:
 
     let is_nested_module name =
       let name = name |> Longident.flatten |> List.hd in
-      modules |> List.exists (fun Erlast.{ ocaml_name = mn } ->
-        Format.fprintf Format.std_formatter "%s %s %b \n " mn name (mn = name);
-        mn = name)
+      modules |> List.exists (fun Erlast.{ ocaml_name = mn } -> mn = name)
     in
 
     let rec build_bindings vbs ~var_names =
@@ -176,6 +199,7 @@ let build_functions:
         (* NOTE: match on c_guard here to translate guards *)
         let branches: Erlast.case_branch list = branches |> List.map (fun c ->
           let cb_pattern = build_pattern c.c_lhs in
+          let var_names = (collect_var_names [cb_pattern]) @ var_names in
           let cb_expr = build_expression c.c_rhs ~var_names |> maybe_unsupported in
           Erlast.{ cb_pattern; cb_expr }
         )
@@ -191,93 +215,11 @@ let build_functions:
           let bindings = flatten expr [] in
           *)
           let let_binding = build_bindings vbs ~var_names in
-          let var_names = Erlast.(let_binding.lb_lhs) :: var_names in
+          let var_names = (collect_var_names Erlast.([let_binding.lb_lhs])) @ var_names in
           let let_expr = build_expression ~var_names expr |> maybe_unsupported in
           Some (Erlast.Expr_let (let_binding, let_expr))
 
-      | _ -> None
-
-      (*
-
-  | Texp_let of rec_flag * value_binding list * expression
-        (** let P1 = E1 and ... and Pn = EN in E       (flag = Nonrecursive)
-            let rec P1 = E1 and ... and Pn = EN in E   (flag = Recursive)
-         *)
-  | Texp_function of { arg_label : arg_label; param : Ident.t;
-      cases : value case list; partial : partial; }
-        (** [Pexp_fun] and [Pexp_function] both translate to [Texp_function].
-            See {!Parsetree} for more details.
-
-            [param] is the identifier that is to be used to name the
-            parameter of the function.
-
-            partial =
-              [Partial] if the pattern match is partial
-              [Total] otherwise.
-         *)
-  | Texp_apply of expression * (arg_label * expression option) list
-        (** E0 ~l1:E1 ... ~ln:En
-
-            The expression can be None if the expression is abstracted over
-            this argument. It currently appears when a label is applied.
-
-            For example:
-            let f x ~y = x + y in
-            f ~y:3
-
-            The resulting typedtree for the application is:
-            Texp_apply (Texp_ident "f/1037",
-                        [(Nolabel, None);
-                         (Labelled "y", Some (Texp_constant Const_int 3))
-                        ])
-         *)
-  | Texp_try of expression * value case list
-        (** try E with P1 -> E1 | ... | PN -> EN *)
-  | Texp_construct of
-      Longident.t loc * Types.constructor_description * expression list
-        (** C                []
-            C E              [E]
-            C (E1, ..., En)  [E1;...;En]
-         *)
-  | Texp_field of expression * Longident.t loc * Types.label_description
-  | Texp_setfield of
-      expression * Longident.t loc * Types.label_description * expression
-  | Texp_array of expression list
-  | Texp_ifthenelse of expression * expression * expression option
-  | Texp_sequence of expression * expression
-  | Texp_while of expression * expression
-  | Texp_for of
-      Ident.t * Parsetree.pattern * expression * expression * direction_flag *
-        expression
-  | Texp_send of expression * meth * expression option
-  | Texp_new of Path.t * Longident.t loc * Types.class_declaration
-  | Texp_instvar of Path.t * Path.t * string loc
-  | Texp_setinstvar of Path.t * Path.t * string loc * expression
-  | Texp_override of Path.t * (Path.t * string loc * expression) list
-  | Texp_letmodule of
-      Ident.t option * string option loc * Types.module_presence * module_expr *
-        expression
-  | Texp_letexception of extension_constructor * expression
-  | Texp_assert of expression
-  | Texp_lazy of expression
-  | Texp_object of class_structure * string list
-  | Texp_pack of module_expr
-  | Texp_letop of {
-      let_ : binding_op;
-      ands : binding_op list;
-      param : Ident.t;
-      body : value case;
-      partial : partial;
-    }
-  | Texp_unreachable
-  | Texp_extension_constructor of Longident.t loc * Path.t
-  | Texp_open of open_declaration * expression
-        (** let open[!] M in e *)
-
-
-        *)
-
-
+      | _ -> raise Unsupported_feature
     in
 
     let build_value vb =
@@ -308,28 +250,8 @@ let build_functions:
               end
             in
 
-            (* NOTE: flatten down all the names bound in the parameters
-             * to a single list that we can use to quickly check how to
-             * normalize them in the function's body.
-             *)
-            let rec var_names pat =
-              let open Erlast in
-              let rec collect acc p =
-                match p with
-                | [] -> acc
-                | p :: ps ->
-                  let subpats = match p with
-                  | Pattern_list pats -> var_names pats
-                  | Pattern_tuple pats -> var_names pats
-                  | Pattern_map pats -> pats |> List.map(fun (_, p) -> p )
-                  | _ -> [p]
-                  in collect (subpats @ acc) ps
-              in
-              collect [] pat
-            in
-
             let fc_lhs = params case [] in
-            let fc_rhs = body case (var_names fc_lhs) in
+            let fc_rhs = body case (collect_var_names fc_lhs) in
             let fc_guards = [] in
             Erlast.{ fc_lhs; fc_guards; fc_rhs }
           ) in Some Erlast.{ fd_name; fd_arity; fd_cases }
