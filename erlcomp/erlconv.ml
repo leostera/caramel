@@ -134,6 +134,21 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
 
     in
 
+    let rec build_pattern pat =
+      match pat.pat_desc with
+      | Tpat_var (id, _) ->
+          let var_name = id |> varname_of_ident in
+          Erlast.Pattern_binding var_name
+
+      | Tpat_tuple tuples ->
+          Erlast.Pattern_tuple (List.map build_pattern tuples)
+
+      (* NOTE: here's where the translation of pattern
+       * matching at the function level should happen. *)
+      | _ ->
+          Erlast.Pattern_ignore
+    in
+
     let build_value vb =
       match vb.vb_pat.pat_desc, vb.vb_expr.exp_desc with
       | Tpat_var (id, _), Texp_function { cases; } ->
@@ -143,15 +158,7 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
              * make sure we collapse as many top-level arguments for this function.
              *)
             let rec params c acc =
-              let param = match c.c_lhs.pat_desc with
-                          | Tpat_var (id, _) ->
-                              let var_name = id |> varname_of_ident in
-                              Erlast.Pattern_binding var_name
-                          (* NOTE: here's where the translation of pattern
-                           * matching at the function level should happen. *)
-                          | _ ->
-                              Erlast.Pattern_ignore
-              in
+              let param = build_pattern c.c_lhs in
               let acc' = param :: acc in
               match c.c_rhs.exp_desc with
               | Texp_function { cases = [c']; } -> params c' acc'

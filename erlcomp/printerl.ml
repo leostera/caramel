@@ -112,10 +112,27 @@ and pp_type_kind prefix ppf typ_kind =
 
   end
 
-let pp_pattern_match ppf pm =
+let rec pp_pattern_match ppf pm =
   begin match pm with
   | Pattern_ignore -> Format.fprintf ppf "_" ;
+
   | Pattern_binding name -> Format.fprintf ppf "%s" name;
+
+  | Pattern_tuple [] -> Format.fprintf ppf "{}";
+
+  | Pattern_tuple (p :: []) ->
+      Format.fprintf ppf "{";
+      pp_pattern_match ppf p;
+      Format.fprintf ppf "}";
+
+  | Pattern_tuple (p :: ps) ->
+      Format.fprintf ppf "{";
+      pp_pattern_match ppf p;
+      ps 
+      |> (List.iter (fun p ->
+          Format.fprintf ppf ", ";
+          pp_pattern_match ppf p));
+      Format.fprintf ppf "}";
   end
 
 let rec pp_expression ppf expr =

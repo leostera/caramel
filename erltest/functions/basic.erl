@@ -3,13 +3,19 @@
 
 
 -export([fst/1]).
+-export([left/2]).
 -export([pair/2]).
+-export([right/2]).
 -export([snd/1]).
 
 pair(X, Y) -> {X, Y}.
 
-fst(_) -> A.
+left(L, _) -> L.
 
-snd(_) -> B.
+right(_, R) -> R.
+
+fst({A, _}) -> A.
+
+snd({_, B}) -> B.
 
 
