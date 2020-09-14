@@ -12,8 +12,15 @@ and case_branch = {
   cb_expr: expr
 }
 
+and literal = 
+  | Lit_integer of string
+  | Lit_char of string
+  | Lit_binary of string
+  | Lit_float of string
+
 and expr =
   | Expr_name of atom
+  | Expr_literal of literal
   | Expr_fun_ref of atom
   | Expr_apply of fun_apply
   | Expr_map of map_field list

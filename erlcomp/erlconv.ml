@@ -1,7 +1,7 @@
 open Typedtree
 open Types
 
-exception Function_without_body
+exception Function_without_body of Typedtree.expression
 exception Unsupported_feature
 
 let maybe_unsupported x = match x with | Some x -> x | None -> raise Unsupported_feature
@@ -88,6 +88,18 @@ let build_functions:
 
     let rec build_expression exp ~var_names =
       match exp.exp_desc with
+      | Texp_constant constant ->
+          let v = match constant with
+          | Const_int int -> Erlast.Lit_integer (string_of_int int)
+          | Const_char char -> Erlast.Lit_char (String.make 1 char)
+          | Const_string (string, _, _) -> Erlast.Lit_binary string
+          | Const_float string -> Erlast.Lit_float string
+          | Const_int32 int32 -> Erlast.Lit_integer (Int32.to_string int32)
+          | Const_int64 int64 -> Erlast.Lit_integer (Int64.to_string int64)
+          | Const_nativeint nativeint -> Erlast.Lit_integer (Nativeint.to_string nativeint)
+          in
+          Some (Erlast.Expr_literal v)
+
       | Texp_ident (_, {txt}, _) ->
           let name = longident_to_string txt in
           let name = if is_nested_module txt then module_name ^ "__" ^ name else name in
@@ -147,8 +159,6 @@ let build_functions:
       | _ -> None
 
       (*
-  | Texp_constant of constant -> Some (Erlast.Expr_literal )
-        (** 1, 'a', "true", 1.0, 1l, 1L, 1n *)
 
   | Texp_let of rec_flag * value_binding list * expression
         (** let P1 = E1 and ... and Pn = EN in E       (flag = Nonrecursive)
@@ -256,7 +266,7 @@ let build_functions:
               | Texp_function { cases = [c']; } -> body c' var_names
               | _ -> begin match build_expression c.c_rhs ~var_names with
                 | Some exp -> exp
-                | _ -> raise Function_without_body
+                | _ -> raise (Function_without_body c.c_rhs)
               end
             in
 

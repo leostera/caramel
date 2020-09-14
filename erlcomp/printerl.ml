@@ -172,10 +172,21 @@ let rec pp_pattern_match ppf pm =
       Format.fprintf ppf " }";
   end
 
+let pp_literal ppf lit =
+  let str = match lit with
+  | Lit_integer string -> string
+  | Lit_char string -> "'" ^ string ^ "'"
+  | Lit_binary string -> "<<" ^ string ^ ">>"
+  | Lit_float string -> string
+  in
+  Format.fprintf ppf "%s" str
+
 let rec pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
   begin match expr with
   | Expr_name name -> Format.fprintf ppf "%s" name;
+
+  | Expr_literal lit -> pp_literal ppf lit;
 
   | Expr_fun_ref name ->
       begin match Erlast.find_fun_by_name ~module_ name with
@@ -295,6 +306,7 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
       | Expr_fun_ref _
       | Expr_list _
       | Expr_tuple _
+      | Expr_literal _ 
       | Expr_name _ -> " ";
       end) in
       pp_expression prefix ppf fc_rhs ~module_;
