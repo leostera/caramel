@@ -12,15 +12,22 @@ and case_branch = {
   cb_expr: expr
 }
 
-and literal = 
+and let_binding = {
+  lb_lhs: pattern;
+  lb_rhs: expr;
+}
+
+and literal =
   | Lit_integer of string
   | Lit_char of string
   | Lit_binary of string
   | Lit_float of string
 
 and expr =
+  | Expr_let of let_binding * expr
   | Expr_name of atom
   | Expr_literal of literal
+  (* NOTE: function references will be resolved at print time for now :( *)
   | Expr_fun_ref of atom
   | Expr_apply of fun_apply
   | Expr_map of map_field list

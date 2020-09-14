@@ -86,7 +86,17 @@ let build_functions:
         mn = name)
     in
 
-    let rec build_expression exp ~var_names =
+    let rec build_bindings vbs ~var_names =
+      match vbs with
+      | [] -> raise Unsupported_feature
+      | vb :: [] ->
+          Erlast.{
+            lb_lhs = build_pattern vb.vb_pat ;
+            lb_rhs = build_expression vb.vb_expr ~var_names |> maybe_unsupported;
+          }
+      | _ -> raise Unsupported_feature
+
+    and build_expression exp ~var_names =
       match exp.exp_desc with
       | Texp_constant constant ->
           let v = match constant with
@@ -170,6 +180,20 @@ let build_functions:
           Erlast.{ cb_pattern; cb_expr }
         )
         in Some (Erlast.Expr_case (expr, branches))
+
+      | Texp_let (_, vbs, expr) ->
+          (* NOTE: consider flattening let-ins ?
+          let rec flatten e acc =
+            match e with
+            | Texp_let (_, vbs, e') -> flatten e' (e :: acc)
+            | _ -> (e :: acc) |> List.rev
+          in
+          let bindings = flatten expr [] in
+          *)
+          let let_binding = build_bindings vbs ~var_names in
+          let var_names = Erlast.(let_binding.lb_lhs) :: var_names in
+          let let_expr = build_expression ~var_names expr |> maybe_unsupported in
+          Some (Erlast.Expr_let (let_binding, let_expr))
 
       | _ -> None
 
