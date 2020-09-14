@@ -244,15 +244,15 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
              * to a single list that we can use to quickly check how to
              * normalize them in the function's body.
              *)
-            let var_names pat =
+            let rec var_names pat =
               let open Erlast in
               let rec collect acc p =
                 match p with
                 | [] -> acc
                 | p :: ps ->
                   let subpats = match p with
-                  | Pattern_list pats -> pats
-                  | Pattern_tuple pats -> pats
+                  | Pattern_list pats -> var_names pats
+                  | Pattern_tuple pats -> var_names pats
                   | Pattern_map pats -> pats |> List.map(fun (_, p) -> p )
                   | _ -> [p]
                   in collect (subpats @ acc) ps

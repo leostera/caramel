@@ -42,8 +42,6 @@ at_3([_ | [_ | [X | _]]]) -> X.
 
 iff(true, F, _) -> F.
 
-iff(false, _, F) -> F.
-
 iff2({false, _, F}) -> F;
 iff2({true, F, _}) -> F.
 

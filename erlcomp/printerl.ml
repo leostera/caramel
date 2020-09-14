@@ -1,6 +1,6 @@
 open Erlast
 
-exception Undefined_function_reference
+exception Undefined_function_reference of string
 
 module H = struct
   let pad n = String.make n ' '
@@ -178,7 +178,8 @@ let rec pp_expression prefix ppf expr ~module_ =
 
   | Expr_fun_ref name ->
       begin match Erlast.find_fun_by_name ~module_ name with
-      | None -> raise Undefined_function_reference
+      | None ->
+          raise (Undefined_function_reference name)
       | Some { fd_arity } ->
           Format.fprintf ppf "fun %s/%d" name fd_arity;
       end

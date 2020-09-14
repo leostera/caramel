@@ -17,7 +17,9 @@ let at_2 (_ :: x :: _) = x
 let at_3 (_ :: _ :: x :: _) = x
 
 let iff true f _ = f
+(* TODO: make redefining a function a compiler error:
 let iff false _ f = f
+*)
 
 let iff2 =
   function
