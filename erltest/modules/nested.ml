@@ -1,12 +1,12 @@
 module A = struct
-  let a () = 1
+  let a () = true
   (* module C should only export the function c
    *)
   module C : sig
-    val c : unit -> string
+    val c : unit -> bool
   end = struct
-    let c () = ""
-    let internal_c () = ""
+    let c () = true
+    let internal_c () = true
     (* module D should not be generated, since it is completely private
        and not in use by anybody
      *)

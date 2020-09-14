@@ -1,5 +1,9 @@
 % Source code generated with Caramel.
--module(nested_a).
+-module(nested__a).
+
 
 -export([a/1]).
+
+a({}) -> true.
+
 

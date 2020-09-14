@@ -1,6 +1,8 @@
 % Source code generated with Caramel.
--module(empty).
+-module(nested__a__c__d).
 
 
+
+d({}) -> true.
 
 
