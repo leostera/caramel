@@ -23,3 +23,7 @@ let iff2 =
   function
   | false, _, f -> f
   | true, f, _ -> f
+
+let ignore _x = ()
+
+let empty_list _x = []

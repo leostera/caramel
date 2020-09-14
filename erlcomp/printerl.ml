@@ -190,6 +190,22 @@ let rec pp_expression prefix ppf expr =
           pp_expression "" ppf e));
       Format.fprintf ppf "}";
 
+  | Exp_list [] -> Format.fprintf ppf "[]";
+
+  | Exp_list (e :: []) ->
+      Format.fprintf ppf "[";
+      pp_expression prefix ppf e;
+      Format.fprintf ppf "]";
+
+  | Exp_list (e :: es) ->
+      Format.fprintf ppf "[";
+      pp_expression "" ppf e;
+      es
+      |> (List.iter (fun e ->
+          Format.fprintf ppf ", ";
+          pp_expression "" ppf e));
+      Format.fprintf ppf "]";
+
   | Exp_map fields ->
       let padding = H.pad ((String.length prefix) + 1) in
       begin match fields with
@@ -220,8 +236,14 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } =
       ps |> List.iter( fun pat ->
         Format.fprintf ppf ", ";
         pp_pattern_match ppf pat );
-      Format.fprintf ppf ") ->\n";
-      pp_expression "  " ppf fc_rhs;
+      Format.fprintf ppf ") ->";
+      let prefix = (begin match fc_rhs with
+      | Exp_map _ -> Format.fprintf ppf "\n";  "  "
+      | Exp_list _
+      | Exp_tuple _
+      | Exp_name _ -> " ";
+      end) in
+      pp_expression prefix ppf fc_rhs;
   end
 
 let pp_fun_cases prefix ppf fd_name fd_cases =

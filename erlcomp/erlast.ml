@@ -14,6 +14,7 @@ and map_field = {
 and expr =
   | Exp_name of atom
   | Exp_map of map_field list
+  | Exp_list of expr list
   | Exp_tuple of expr list
 
 and pattern =

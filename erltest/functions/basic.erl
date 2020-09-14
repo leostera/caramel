@@ -5,10 +5,12 @@
 -export([at_2/1]).
 -export([at_3/1]).
 -export([combine/2]).
+-export([empty_list/1]).
 -export([fst/1]).
 -export([head/1]).
 -export([iff/3]).
 -export([iff2/1]).
+-export([ignore/1]).
 -export([left/2]).
 -export([one_el/1]).
 -export([pair/2]).
@@ -44,5 +46,9 @@ iff(false, _, F) -> F.
 
 iff2({false, _, F}) -> F;
 iff2({true, F, _}) -> F.
+
+ignore(_X) -> {}.
+
+empty_list(_X) -> [].
 
 

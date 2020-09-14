@@ -27,6 +27,13 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
       | Texp_ident (_, {txt}, _) ->
           Some (Erlast.Exp_name (Longident.last txt |> varname_of_string))
 
+
+      | Texp_construct ({ txt }, _, _expr)  when Longident.last txt = "[]" ->
+          Some (Erlast.Exp_list [])
+
+      | Texp_construct ({ txt }, _, _expr)  when Longident.last txt = "()" ->
+          Some (Erlast.Exp_tuple [])
+
       (* NOTE: use `extended_expression` to provide map overrides *)
       | Texp_record { fields; } ->
           Some (Erlast.Exp_map (fields |> Array.to_list |> List.map (fun (field, value) ->
