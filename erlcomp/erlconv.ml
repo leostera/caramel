@@ -4,6 +4,8 @@ open Types
 exception Function_without_body
 exception Unsupported_feature
 
+let maybe_unsupported x = match x with | Some x -> x | None -> raise Unsupported_feature
+
 let rec varname_of_string s =
   let name = s |> String.capitalize_ascii in
   match String.get name 0, name with
@@ -22,6 +24,40 @@ let varname_of_ident i = i |> Ident.name |> varname_of_string
  *)
 let build_functions: Typedtree.structure -> Erlast.fun_decl list =
   fun typedtree ->
+    (* NOTE: We need a universally quantified k here because this function will
+     * be called with several types indexing general_pattern *)
+    let rec build_pattern: type k. k general_pattern -> Erlast.pattern =
+      fun pat ->
+      match pat.pat_desc with
+      | Tpat_var (id, _) ->
+          let var_name = id |> varname_of_ident in
+          Erlast.Pattern_binding var_name
+
+      | Tpat_value t ->
+          (* NOTE: type casting magic! *)
+          let t = (t :> pattern) in
+          build_pattern t
+
+      | Tpat_tuple tuples ->
+          Erlast.Pattern_tuple (List.map build_pattern tuples)
+
+      | Tpat_record (fields, _) ->
+          Erlast.Pattern_map (fields |> List.map (fun (Asttypes.{txt}, _, pattern) ->
+            (atom_of_string (Longident.last txt), build_pattern pattern)
+          ))
+
+      | Tpat_construct ({ txt }, _, patterns) when Longident.last txt = "::" ->
+          Erlast.Pattern_list (List.map build_pattern patterns)
+
+      | Tpat_construct ({ txt }, _, _patterns) ->
+          Erlast.Pattern_match (Longident.last txt |> atom_of_string)
+
+      (* NOTE: here's where the translation of pattern
+       * matching at the function level should happen. *)
+      | _ ->
+          Erlast.Pattern_ignore
+    in
+
     let rec build_expression exp =
       match exp.exp_desc with
       | Texp_ident (_, {txt}, _) ->
@@ -33,6 +69,9 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
 
       | Texp_construct ({ txt }, _, _expr)  when Longident.last txt = "()" ->
           Some (Erlast.Exp_tuple [])
+
+      | Texp_construct ({ txt }, _, _expr) ->
+          Some (Erlast.Exp_name (Longident.last txt))
 
       (* NOTE: use `extended_expression` to provide map overrides *)
       | Texp_record { fields; } ->
@@ -49,6 +88,16 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
 
       | Texp_tuple exprs ->
           Some (Erlast.Exp_tuple (exprs |> List.filter_map build_expression))
+
+      | Texp_match (expr, branches, _) ->
+        let expr = build_expression expr |> maybe_unsupported in
+        (* NOTE: match on c_guard here to translate guards *)
+        let branches: Erlast.case_branch list = branches |> List.map (fun c ->
+          let cb_pattern = build_pattern c.c_lhs in
+          let cb_expr = build_expression c.c_rhs |> maybe_unsupported in
+          Erlast.{ cb_pattern; cb_expr }
+        )
+        in Some (Erlast.Exp_case (expr, branches))
 
       | _ -> None
 
@@ -87,15 +136,6 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
                         [(Nolabel, None);
                          (Labelled "y", Some (Texp_constant Const_int 3))
                         ])
-         *)
-  | Texp_match of expression * computation case list * partial
-        (** match E0 with
-            | P1 -> E1
-            | P2 | exception P3 -> E2
-            | exception P4 -> E3
-
-            [Texp_match (E0, [(P1, E1); (P2 | exception P3, E2);
-                              (exception P4, E3)], _)]
          *)
   | Texp_try of expression * value case list
         (** try E with P1 -> E1 | ... | PN -> EN *)
@@ -145,32 +185,6 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
         *)
 
 
-    in
-
-    let rec build_pattern pat =
-      match pat.pat_desc with
-      | Tpat_var (id, _) ->
-          let var_name = id |> varname_of_ident in
-          Erlast.Pattern_binding var_name
-
-      | Tpat_tuple tuples ->
-          Erlast.Pattern_tuple (List.map build_pattern tuples)
-
-      | Tpat_record (fields, _) ->
-          Erlast.Pattern_map (fields |> List.map (fun (Asttypes.{txt}, _, pattern) ->
-            (atom_of_string (Longident.last txt), build_pattern pattern)
-          ))
-
-      | Tpat_construct ({ txt }, _, patterns) when Longident.last txt = "::" ->
-          Erlast.Pattern_list (List.map build_pattern patterns)
-
-      | Tpat_construct ({ txt }, _, _patterns) ->
-          Erlast.Pattern_match (Longident.last txt |> atom_of_string)
-
-      (* NOTE: here's where the translation of pattern
-       * matching at the function level should happen. *)
-      | _ ->
-          Erlast.Pattern_ignore
     in
 
     let build_value vb =

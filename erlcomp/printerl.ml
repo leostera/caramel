@@ -206,6 +206,34 @@ let rec pp_expression prefix ppf expr =
           pp_expression "" ppf e));
       Format.fprintf ppf "]";
 
+  | Exp_case (expr, branches) ->
+      Format.fprintf ppf "case ";
+      pp_expression "" ppf expr;
+      Format.fprintf ppf " of";
+      begin match branches with
+      | [] -> ()
+      | Erlast.{ cb_pattern; cb_expr } :: bs -> begin
+          let prefix = prefix ^ "  " in
+          Format.fprintf ppf "\n%s" prefix;
+          pp_pattern_match ppf cb_pattern;
+          Format.fprintf ppf " -> ";
+          pp_expression "" ppf cb_expr;
+          match bs with
+          | [] -> ()
+          | bs -> begin
+            bs |> List.iter (fun Erlast.{ cb_pattern; cb_expr } ->
+              Format.fprintf ppf ";\n%s" prefix;
+              pp_pattern_match ppf cb_pattern;
+              Format.fprintf ppf " -> ";
+              pp_expression "" ppf cb_expr;
+            );
+          end;
+      end;
+      Format.fprintf ppf "\n%send" prefix;
+
+
+      end
+
   | Exp_map fields ->
       let padding = H.pad ((String.length prefix) + 1) in
       begin match fields with
@@ -238,7 +266,8 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } =
         pp_pattern_match ppf pat );
       Format.fprintf ppf ") ->";
       let prefix = (begin match fc_rhs with
-      | Exp_map _ -> Format.fprintf ppf "\n";  "  "
+      | Exp_map _
+      | Exp_case _ -> Format.fprintf ppf "\n";  "  "
       | Exp_list _
       | Exp_tuple _
       | Exp_name _ -> " ";

@@ -11,10 +11,16 @@ and map_field = {
   mf_value: expr
 }
 
+and case_branch = {
+  cb_pattern: pattern;
+  cb_expr: expr
+}
+
 and expr =
   | Exp_name of atom
   | Exp_map of map_field list
   | Exp_list of expr list
+  | Exp_case of expr * (case_branch list)
   | Exp_tuple of expr list
 
 and pattern =
