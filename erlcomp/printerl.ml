@@ -17,6 +17,7 @@ let pp_exports ppf exports =
   fn_exports
   |> (List.iter (fun { exp_name; exp_arity } ->
       Format.fprintf ppf "-export([%s/%d]).\n" exp_name exp_arity));
+  Format.fprintf ppf "\n";
   ()
 
 let rec pp_variant_constructor prefix ppf c =
@@ -112,6 +113,44 @@ and pp_type_kind prefix ppf typ_kind =
 
   end
 
+let pp_pattern_match ppf pm =
+  begin match pm with
+  | Pattern_ignore -> Format.fprintf ppf "_" ;
+  | Pattern_binding name -> Format.fprintf ppf "%s" name;
+  end
+
+let pp_fun_case ppf { fc_lhs; } =
+  begin match fc_lhs with
+  | [] -> Format.fprintf ppf "()"
+  | p :: ps ->
+      Format.fprintf ppf "(";
+      pp_pattern_match ppf p;
+      ps |> List.iter( fun pat ->
+        Format.fprintf ppf ", ";
+        pp_pattern_match ppf pat);
+      Format.fprintf ppf ") -> ok";
+  end
+
+let pp_fun_cases ppf fd_cases =
+  begin match fd_cases with
+  | [] -> Format.fprintf ppf "() -> ok"
+  | c :: [] -> pp_fun_case ppf c
+  | c :: cs ->
+      pp_fun_case ppf c;
+      cs |> List.iter( fun case ->
+        Format.fprintf ppf ";\n";
+        pp_fun_case ppf case);
+  end
+
+let pp_function ppf { fd_name; fd_cases; } =
+  let prefix = Format.sprintf "%s" fd_name in
+  Format.fprintf ppf "%s" prefix;
+  pp_fun_cases ppf fd_cases;
+  Format.fprintf ppf ".\n\n"
+
+let pp_functions ppf funcs =
+  funcs |> (List.iter (pp_function ppf))
+
 let pp_types ppf types =
   types
   |> (List.iter (fun
@@ -127,5 +166,6 @@ let pp ppf m =
   Format.fprintf ppf "-module(%s).\n\n" m.module_name;
   pp_exports ppf m.exports;
   pp_types ppf m.types;
+  pp_functions ppf m.functions;
   ()
 

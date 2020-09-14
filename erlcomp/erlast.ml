@@ -4,6 +4,22 @@ and atom = string
 
 and name = string
 
+and guard = unit
+
+and pattern_match =
+  | Pattern_ignore
+  | Pattern_binding of atom
+
+and fun_case = {
+  fc_lhs: pattern_match list;
+  fc_guards: guard list;
+}
+
+and fun_decl = {
+  fd_name: atom;
+  fd_cases: fun_case list;
+}
+
 (** A type declaration in an Erlang module. This follows what is currently
     representable by Dialyzer.
 
@@ -54,14 +70,16 @@ and t = {
   module_name: atom;
   exports: export list;
   types: type_decl list;
+  functions: fun_decl list;
 }
 
-let make ~name ~exports ~types = {
+let make ~name ~exports ~types ~functions = {
   file_name = name ^ ".erl";
   behaviour = None;
   module_name = name;
   exports = exports;
   types = types;
+  functions = functions;
 }
 
 let make_fn_export exp_name exp_arity = {exp_type=Export_function; exp_name; exp_arity }
