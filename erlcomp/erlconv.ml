@@ -143,6 +143,12 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
       | Tpat_tuple tuples ->
           Erlast.Pattern_tuple (List.map build_pattern tuples)
 
+      | Tpat_construct ({ txt }, _, patterns) when Longident.last txt = "::" ->
+          Erlast.Pattern_list (List.map build_pattern patterns)
+
+      | Tpat_construct ({ txt }, _, _patterns) ->
+          Erlast.Pattern_match (Longident.last txt |> atom_of_string)
+
       (* NOTE: here's where the translation of pattern
        * matching at the function level should happen. *)
       | _ ->
@@ -152,19 +158,23 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
     let build_value vb =
       match vb.vb_pat.pat_desc, vb.vb_expr.exp_desc with
       | Tpat_var (id, _), Texp_function { cases; } ->
+          let rec params c acc =
+            let param = build_pattern c.c_lhs in
+            let acc' = param :: acc in
+            match c.c_rhs.exp_desc with
+            | Texp_function { cases = [c']; } -> params c' acc'
+            | _ -> acc' |> List.rev
+          in
+
           let fd_name = id |> atom_of_ident in
+          let fd_arity = match cases with
+            | [] -> 0
+            | c :: _ -> (params c []) |> List.length
+          in
           let fd_cases = cases |> List.map (fun case ->
             (* NOTE: we'll just traverse all the expressions in this case and
              * make sure we collapse as many top-level arguments for this function.
              *)
-            let rec params c acc =
-              let param = build_pattern c.c_lhs in
-              let acc' = param :: acc in
-              match c.c_rhs.exp_desc with
-              | Texp_function { cases = [c']; } -> params c' acc'
-              | _ -> acc' |> List.rev
-            in
-
             let rec body c =
               match c.c_rhs.exp_desc with
               | Texp_function { cases = [c']; } -> body c'
@@ -178,18 +188,19 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
             let fc_rhs = body case in
             let fc_guards = [] in
             Erlast.{ fc_lhs; fc_guards; fc_rhs }
-
-          ) in Some Erlast.{ fd_name; fd_cases }
+          ) in Some Erlast.{ fd_name; fd_arity; fd_cases }
 
       | _ -> None
     in
 
     typedtree.str_items
-    |> (List.concat_map (fun item  ->
+    |> (List.fold_left (fun acc item  ->
         match item.str_desc with
-        | Tstr_value (_, vb) -> List.filter_map build_value vb
-        | _ -> []
-    ))
+        | Tstr_value (_, vb) ->
+            (List.filter_map build_value vb) @ acc
+        | _ -> acc
+    ) [])
+    |> List.rev
 
 (** Build the types of an Erlang module.
  *)

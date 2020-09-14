@@ -118,6 +118,8 @@ let rec pp_pattern_match ppf pm =
 
   | Pattern_binding name -> Format.fprintf ppf "%s" name;
 
+  | Pattern_match name -> Format.fprintf ppf "%s" name;
+
   | Pattern_tuple [] -> Format.fprintf ppf "{}";
 
   | Pattern_tuple (p :: []) ->
@@ -128,11 +130,27 @@ let rec pp_pattern_match ppf pm =
   | Pattern_tuple (p :: ps) ->
       Format.fprintf ppf "{";
       pp_pattern_match ppf p;
-      ps 
+      ps
       |> (List.iter (fun p ->
           Format.fprintf ppf ", ";
           pp_pattern_match ppf p));
       Format.fprintf ppf "}";
+
+  | Pattern_list [] -> Format.fprintf ppf "[]";
+
+  | Pattern_list (p :: []) ->
+      Format.fprintf ppf "[";
+      pp_pattern_match ppf p;
+      Format.fprintf ppf "]";
+
+  | Pattern_list (p :: ps) ->
+      Format.fprintf ppf "[";
+      pp_pattern_match ppf p;
+      ps
+      |> (List.iter (fun p ->
+          Format.fprintf ppf " | ";
+          pp_pattern_match ppf p));
+      Format.fprintf ppf "]";
   end
 
 let rec pp_expression ppf expr =
@@ -169,21 +187,21 @@ let pp_fun_case ppf { fc_lhs; fc_rhs } =
       pp_expression ppf fc_rhs;
   end
 
-let pp_fun_cases ppf fd_cases =
+let pp_fun_cases ppf fd_name fd_cases =
   begin match fd_cases with
   | [] -> Format.fprintf ppf "() -> ok"
   | c :: [] -> pp_fun_case ppf c
   | c :: cs ->
       pp_fun_case ppf c;
       cs |> List.iter( fun case ->
-        Format.fprintf ppf ";\n";
+        Format.fprintf ppf ";\n%s" fd_name;
         pp_fun_case ppf case);
   end
 
 let pp_function ppf { fd_name; fd_cases; } =
   let prefix = Format.sprintf "%s" fd_name in
   Format.fprintf ppf "%s" prefix;
-  pp_fun_cases ppf fd_cases;
+  pp_fun_cases ppf fd_name fd_cases;
   Format.fprintf ppf ".\n\n"
 
 let pp_functions ppf funcs =

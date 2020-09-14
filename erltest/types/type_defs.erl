@@ -10,15 +10,15 @@
 -export_type([opaque/0]).
 -export_type([option/1]).
 -export_type([phantom/1]).
--export_type([poly/0]).
 -export_type([result/2]).
 -export_type([small_record/0]).
 -export_type([tree/1]).
 -export_type([triplet/2]).
 
+
 -type alias() :: int().
 
--type opaque() :: list(string()).
+-type opaque() :: fun((alias()) -> bool()).
 
 -type hidden() :: ref().
 
@@ -50,9 +50,6 @@
                          , lr_b => string()
                          , lr_c => string()
                          , lr_d => string()
-                         , lr_e => string()
-                         , lr_f => string()
-                         , lr_g => string()
                          }.
 
 -type inlined_record() :: {simpler, bool()}

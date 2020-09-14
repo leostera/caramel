@@ -14,6 +14,8 @@ and pattern =
   | Pattern_ignore
   | Pattern_binding of atom
   | Pattern_tuple of pattern list
+  | Pattern_list of pattern list
+  | Pattern_match of atom
 
 and fun_case = {
   fc_lhs: pattern list;
@@ -23,6 +25,7 @@ and fun_case = {
 
 and fun_decl = {
   fd_name: atom;
+  fd_arity: int;
   fd_cases: fun_case list;
 }
 

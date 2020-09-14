@@ -1,6 +1,6 @@
 type alias = int
 
-type opaque = string list
+type opaque = alias -> bool
 
 type hidden
 
@@ -31,9 +31,6 @@ type large_record = {
   lr_b: string;
   lr_c: string;
   lr_d: string;
-  lr_e: string;
-  lr_f: string;
-  lr_g: string;
 }
 
 type inlined_record =
