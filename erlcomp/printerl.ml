@@ -172,16 +172,16 @@ let rec pp_pattern_match ppf pm =
 let rec pp_expression prefix ppf expr =
   Format.fprintf ppf "%s" prefix;
   begin match expr with
-  | Exp_name name -> Format.fprintf ppf "%s" name;
+  | Expr_name name -> Format.fprintf ppf "%s" name;
 
-  | Exp_tuple [] -> Format.fprintf ppf "{}";
+  | Expr_tuple [] -> Format.fprintf ppf "{}";
 
-  | Exp_tuple (e :: []) ->
+  | Expr_tuple (e :: []) ->
       Format.fprintf ppf "{";
       pp_expression prefix ppf e;
       Format.fprintf ppf "}";
 
-  | Exp_tuple (e :: es) ->
+  | Expr_tuple (e :: es) ->
       Format.fprintf ppf "{";
       pp_expression "" ppf e;
       es
@@ -190,14 +190,14 @@ let rec pp_expression prefix ppf expr =
           pp_expression "" ppf e));
       Format.fprintf ppf "}";
 
-  | Exp_list [] -> Format.fprintf ppf "[]";
+  | Expr_list [] -> Format.fprintf ppf "[]";
 
-  | Exp_list (e :: []) ->
+  | Expr_list (e :: []) ->
       Format.fprintf ppf "[";
       pp_expression prefix ppf e;
       Format.fprintf ppf "]";
 
-  | Exp_list (e :: es) ->
+  | Expr_list (e :: es) ->
       Format.fprintf ppf "[";
       pp_expression "" ppf e;
       es
@@ -206,7 +206,7 @@ let rec pp_expression prefix ppf expr =
           pp_expression "" ppf e));
       Format.fprintf ppf "]";
 
-  | Exp_case (expr, branches) ->
+  | Expr_case (expr, branches) ->
       Format.fprintf ppf "case ";
       pp_expression "" ppf expr;
       Format.fprintf ppf " of";
@@ -234,7 +234,7 @@ let rec pp_expression prefix ppf expr =
 
       end
 
-  | Exp_map fields ->
+  | Expr_map fields ->
       let padding = H.pad ((String.length prefix) + 1) in
       begin match fields with
       | [] -> Format.fprintf ppf "#{}";
@@ -266,11 +266,11 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } =
         pp_pattern_match ppf pat );
       Format.fprintf ppf ") ->";
       let prefix = (begin match fc_rhs with
-      | Exp_map _
-      | Exp_case _ -> Format.fprintf ppf "\n";  "  "
-      | Exp_list _
-      | Exp_tuple _
-      | Exp_name _ -> " ";
+      | Expr_map _
+      | Expr_case _ -> Format.fprintf ppf "\n";  "  "
+      | Expr_list _
+      | Expr_tuple _
+      | Expr_name _ -> " ";
       end) in
       pp_expression prefix ppf fc_rhs;
   end

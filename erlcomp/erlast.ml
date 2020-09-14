@@ -17,11 +17,12 @@ and case_branch = {
 }
 
 and expr =
-  | Exp_name of atom
-  | Exp_map of map_field list
-  | Exp_list of expr list
-  | Exp_case of expr * (case_branch list)
-  | Exp_tuple of expr list
+  | Expr_name of atom
+  | Expr_apply of fun_call
+  | Expr_map of map_field list
+  | Expr_list of expr list
+  | Expr_case of expr * (case_branch list)
+  | Expr_tuple of expr list
 
 and pattern =
   | Pattern_ignore
@@ -30,6 +31,11 @@ and pattern =
   | Pattern_list of pattern list
   | Pattern_map of (atom * pattern) list
   | Pattern_match of atom
+
+and fun_call = {
+  fn_name: atom;
+  fn_args: expr list;
+}
 
 and fun_case = {
   fc_lhs: pattern list;

@@ -1,8 +1,8 @@
 
 let iff cond t f =
   match cond with
-  | true -> t
-  | _ -> f
+  | true -> t ()
+  | _ -> f ()
 
 let is_empty l =
   match l with

@@ -61,21 +61,21 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
     let rec build_expression exp =
       match exp.exp_desc with
       | Texp_ident (_, {txt}, _) ->
-          Some (Erlast.Exp_name (Longident.last txt |> varname_of_string))
+          Some (Erlast.Expr_name (Longident.last txt |> varname_of_string))
 
 
       | Texp_construct ({ txt }, _, _expr)  when Longident.last txt = "[]" ->
-          Some (Erlast.Exp_list [])
+          Some (Erlast.Expr_list [])
 
       | Texp_construct ({ txt }, _, _expr)  when Longident.last txt = "()" ->
-          Some (Erlast.Exp_tuple [])
+          Some (Erlast.Expr_tuple [])
 
       | Texp_construct ({ txt }, _, _expr) ->
-          Some (Erlast.Exp_name (Longident.last txt))
+          Some (Erlast.Expr_name (Longident.last txt))
 
       (* NOTE: use `extended_expression` to provide map overrides *)
       | Texp_record { fields; } ->
-          Some (Erlast.Exp_map (fields |> Array.to_list |> List.map (fun (field, value) ->
+          Some (Erlast.Expr_map (fields |> Array.to_list |> List.map (fun (field, value) ->
             let value = match value with
             | Kept _ -> raise Unsupported_feature
             | Overridden (_, exp) -> begin match build_expression exp with
@@ -87,7 +87,7 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
           )))
 
       | Texp_tuple exprs ->
-          Some (Erlast.Exp_tuple (exprs |> List.filter_map build_expression))
+          Some (Erlast.Expr_tuple (exprs |> List.filter_map build_expression))
 
       | Texp_match (expr, branches, _) ->
         let expr = build_expression expr |> maybe_unsupported in
@@ -97,12 +97,12 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
           let cb_expr = build_expression c.c_rhs |> maybe_unsupported in
           Erlast.{ cb_pattern; cb_expr }
         )
-        in Some (Erlast.Exp_case (expr, branches))
+        in Some (Erlast.Expr_case (expr, branches))
 
       | _ -> None
 
       (*
-  | Texp_constant of constant -> Some (Erlast.Exp_literal )
+  | Texp_constant of constant -> Some (Erlast.Expr_literal )
         (** 1, 'a', "true", 1.0, 1l, 1L, 1n *)
 
   | Texp_let of rec_flag * value_binding list * expression
