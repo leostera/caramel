@@ -5,10 +5,11 @@
 -export_type([p3d/0]).
 -export_type([point/0]).
 
+
 -type p3d() :: {int(), int(), int()}.
 
--type point() :: #{ x :: any()
-                  , y :: any()
+-type point() :: #{ x => int()
+                  , y => int()
                   }.
 
 -type axis() :: x

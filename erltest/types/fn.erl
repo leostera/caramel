@@ -8,6 +8,7 @@
 -export_type([predicate/1]).
 -export_type([r/1]).
 
+
 -type predicate(A) :: fun((A) -> bool()).
 
 -type add() :: fun((int(), int()) -> int()).

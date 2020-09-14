@@ -3,8 +3,9 @@
 
 -export_type([record/1]).
 
--type record(A) :: #{ author :: list(A)
-                    , year :: int()
+
+-type record(A) :: #{ author => list(A)
+                    , year => int()
                     }.
 
 
