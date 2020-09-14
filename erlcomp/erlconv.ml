@@ -4,11 +4,19 @@ open Types
 exception Function_without_body
 exception Unsupported_feature
 
-let varname_of_string = String.capitalize_ascii
+let rec varname_of_string s =
+  let name = s |> String.capitalize_ascii in
+  match String.get name 0, name with
+  | '_', name when name <> "_" ->
+      let name = name |> String.to_seq |> List.of_seq |> List.tl |> List.to_seq |> String.of_seq in
+      "_" ^ (varname_of_string name)
+  | _, _ -> name
+
 let atom_of_string = String.lowercase_ascii
 
 let atom_of_ident i = i |> Ident.name |> atom_of_string
 let varname_of_ident i = i |> Ident.name |> varname_of_string
+
 
 (** Build the actual functions of an Erlang module
  *)

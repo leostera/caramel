@@ -183,11 +183,11 @@ let rec pp_expression prefix ppf expr =
 
   | Exp_tuple (e :: es) ->
       Format.fprintf ppf "{";
-      pp_expression prefix ppf e;
+      pp_expression "" ppf e;
       es
       |> (List.iter (fun e ->
           Format.fprintf ppf ", ";
-          pp_expression prefix ppf e));
+          pp_expression "" ppf e));
       Format.fprintf ppf "}";
 
   | Exp_map fields ->
