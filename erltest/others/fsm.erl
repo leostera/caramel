@@ -7,40 +7,41 @@
 
 -export([empty/1]).
 -export([make/1]).
+-export([nested_lists/1]).
 -export([run/1]).
 -export([start/1]).
 -export([validate/1]).
 
--type valid() :: ref().
+-type valid() :: reference().
 
--type invalid() :: ref().
+-type invalid() :: reference().
 
--type state(A) :: #{ counter => int()
-                   , flag => bool()
-                   }.
+-type state(_A) :: #{ counter => integer()
+                    , flag => boolean()
+                    }.
 
 empty({}) ->
   #{ counter => 0
    , flag => false
    }.
 
-make({}) -> empty().
+make({}) -> empty({}).
 
 validate(#{ counter := Counter, flag := Flag }) -> {ok, #{ counter => Counter
  , flag => Flag
  }}.
 
 run(#{ counter := Counter }) ->
-  _ = print_string(<<"counter=">>),
-  _ = print_int(Counter),
-  _ = print_newline(),
+  _ = io:format(<<"counter=~p\n">>, [Counter | []]),
   {}.
 
+nested_lists({}) -> [[1 | [2 | []]] | [[3 | [4 | []]] | []]].
+
 start({}) ->
-  Empty = make(),
+  Empty = make({}),
   case validate(Empty) of
     {ok, S} -> run(S);
-    {error, Err} -> print_string(Err)
+    {error, Err} -> io:format(<<"~p">>, [Err | [Err | []]])
   end.
 
 

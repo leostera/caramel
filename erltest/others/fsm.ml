@@ -11,13 +11,13 @@ let validate : invalid state -> (valid state, string) result =
   fun { counter; flag } -> Ok { counter; flag }
 
 let run : valid state -> unit = fun { counter; _ } ->
-  let _ = print_string "counter=" in
-  let _ = print_int counter in
-  let _ = print_newline () in
+  let _ = Io.format "counter=~p\n" [counter] in
   ()
+
+let nested_lists () = [ [1;2]; [3;4] ]
 
 let start () =
   let empty = make () in
   match validate empty with
   | Ok s -> run s
-  | Error err -> print_string err
+  | Error err -> Io.format "~p" [err; err]
