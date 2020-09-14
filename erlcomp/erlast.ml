@@ -21,6 +21,7 @@ and pattern =
   | Pattern_binding of atom
   | Pattern_tuple of pattern list
   | Pattern_list of pattern list
+  | Pattern_map of (atom * pattern) list
   | Pattern_match of atom
 
 and fun_case = {

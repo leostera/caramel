@@ -16,10 +16,10 @@ pair(X, Y) ->
    , snd => Y
    }.
 
-fst(Fst) ->
+fst(#{ fst := Fst }) ->
   Fst.
 
-snd(Snd) ->
+snd(#{ snd := Snd }) ->
   Snd.
 
 

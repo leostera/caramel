@@ -151,6 +151,22 @@ let rec pp_pattern_match ppf pm =
           Format.fprintf ppf " | ";
           pp_pattern_match ppf p));
       Format.fprintf ppf "]";
+
+  | Pattern_map [] -> Format.fprintf ppf "#{}";
+
+  | Pattern_map ((name, pat) :: []) ->
+      Format.fprintf ppf "#{ %s := " name;
+      pp_pattern_match ppf pat;
+      Format.fprintf ppf " }";
+
+  | Pattern_map ((name, pat) :: ps) ->
+      Format.fprintf ppf "#{ %s := " name;
+      pp_pattern_match ppf pat;
+      ps
+      |> (List.iter (fun (name, p) ->
+          Format.fprintf ppf ", %s := " name;
+          pp_pattern_match ppf p));
+      Format.fprintf ppf " }";
   end
 
 let rec pp_expression prefix ppf expr =

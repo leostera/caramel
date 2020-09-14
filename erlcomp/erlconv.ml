@@ -141,6 +141,11 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
       | Tpat_tuple tuples ->
           Erlast.Pattern_tuple (List.map build_pattern tuples)
 
+      | Tpat_record (fields, _) ->
+          Erlast.Pattern_map (fields |> List.map (fun (Asttypes.{txt}, _, pattern) ->
+            (atom_of_string (Longident.last txt), build_pattern pattern)
+          ))
+
       | Tpat_construct ({ txt }, _, patterns) when Longident.last txt = "::" ->
           Erlast.Pattern_list (List.map build_pattern patterns)
 
