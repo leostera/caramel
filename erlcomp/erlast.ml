@@ -127,7 +127,42 @@ let make ~name ~ocaml_name ~exports ~types ~functions = {
 let make_fn_export exp_name exp_arity = {exp_type=Export_function; exp_name; exp_arity }
 let make_type_export exp_name exp_arity = {exp_type=Export_type; exp_name; exp_arity }
 
-let make_named_type typ_name typ_params typ_kind = { typ_name; typ_params; typ_kind }
+let make_named_type typ_name typ_params typ_kind =
+  let used_params: atom list =
+    let rec collect_params acc k =
+      let flat_args = match k with
+      | Type_function args ->
+          List.concat_map (collect_params []) args
+
+      | Type_constr { tc_args }  ->
+          tc_args
+          |> List.concat_map (collect_params [])
+
+      | Type_variable atom -> [atom]
+
+      | Type_tuple args ->
+          List.concat_map (collect_params []) args
+
+      | Type_record  { fields } ->
+          fields
+          |> List.map (fun { rf_type } -> rf_type )
+          |> List.concat_map (collect_params [] )
+
+      | Type_variant { constructors } ->
+          constructors
+          |> List.concat_map (fun { vc_args } -> vc_args ) 
+          |> List.concat_map (collect_params [])
+      in
+      [flat_args; acc] |> List.concat
+    in
+    collect_params [] typ_kind
+  in
+  let typ_params = typ_params |> List.map (fun p -> 
+    if List.exists (fun up -> up = p) used_params
+    then p
+    else "_" ^ p 
+  ) in
+  { typ_name; typ_params; typ_kind }
 
 let type_any = Type_constr { tc_name="any"; tc_args=[] }
 
