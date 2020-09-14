@@ -1,6 +1,8 @@
 open Typedtree
 open Types
 
+exception Function_without_body
+
 let varname_of_string = String.capitalize_ascii
 let atom_of_string = String.lowercase_ascii
 
@@ -11,6 +13,127 @@ let varname_of_ident i = i |> Ident.name |> varname_of_string
  *)
 let build_functions: Typedtree.structure -> Erlast.fun_decl list =
   fun typedtree ->
+    let rec build_expression exp =
+      match exp.exp_desc with
+      | Texp_ident (_, {txt}, _) ->
+          Some (Erlast.Exp_name (Longident.last txt |> varname_of_string))
+
+      | Texp_tuple exprs ->
+          Some (Erlast.Exp_tuple (exprs |> List.filter_map build_expression))
+
+      | _ -> None
+
+      (*
+  | Texp_constant of constant -> Some (Erlast.Exp_literal )
+        (** 1, 'a', "true", 1.0, 1l, 1L, 1n *)
+
+  | Texp_let of rec_flag * value_binding list * expression
+        (** let P1 = E1 and ... and Pn = EN in E       (flag = Nonrecursive)
+            let rec P1 = E1 and ... and Pn = EN in E   (flag = Recursive)
+         *)
+  | Texp_function of { arg_label : arg_label; param : Ident.t;
+      cases : value case list; partial : partial; }
+        (** [Pexp_fun] and [Pexp_function] both translate to [Texp_function].
+            See {!Parsetree} for more details.
+
+            [param] is the identifier that is to be used to name the
+            parameter of the function.
+
+            partial =
+              [Partial] if the pattern match is partial
+              [Total] otherwise.
+         *)
+  | Texp_apply of expression * (arg_label * expression option) list
+        (** E0 ~l1:E1 ... ~ln:En
+
+            The expression can be None if the expression is abstracted over
+            this argument. It currently appears when a label is applied.
+
+            For example:
+            let f x ~y = x + y in
+            f ~y:3
+
+            The resulting typedtree for the application is:
+            Texp_apply (Texp_ident "f/1037",
+                        [(Nolabel, None);
+                         (Labelled "y", Some (Texp_constant Const_int 3))
+                        ])
+         *)
+  | Texp_match of expression * computation case list * partial
+        (** match E0 with
+            | P1 -> E1
+            | P2 | exception P3 -> E2
+            | exception P4 -> E3
+
+            [Texp_match (E0, [(P1, E1); (P2 | exception P3, E2);
+                              (exception P4, E3)], _)]
+         *)
+  | Texp_try of expression * value case list
+        (** try E with P1 -> E1 | ... | PN -> EN *)
+  | Texp_construct of
+      Longident.t loc * Types.constructor_description * expression list
+        (** C                []
+            C E              [E]
+            C (E1, ..., En)  [E1;...;En]
+         *)
+  | Texp_variant of label * expression option
+  | Texp_record of {
+      fields : ( Types.label_description * record_label_definition ) array;
+      representation : Types.record_representation;
+      extended_expression : expression option;
+    }
+        (** { l1=P1; ...; ln=Pn }           (extended_expression = None)
+            { E0 with l1=P1; ...; ln=Pn }   (extended_expression = Some E0)
+
+            Invariant: n > 0
+
+            If the type is { l1: t1; l2: t2 }, the expression
+            { E0 with t2=P2 } is represented as
+            Texp_record
+              { fields = [| l1, Kept t1; l2 Override P2 |]; representation;
+                extended_expression = Some E0 }
+        *)
+  | Texp_field of expression * Longident.t loc * Types.label_description
+  | Texp_setfield of
+      expression * Longident.t loc * Types.label_description * expression
+  | Texp_array of expression list
+  | Texp_ifthenelse of expression * expression * expression option
+  | Texp_sequence of expression * expression
+  | Texp_while of expression * expression
+  | Texp_for of
+      Ident.t * Parsetree.pattern * expression * expression * direction_flag *
+        expression
+  | Texp_send of expression * meth * expression option
+  | Texp_new of Path.t * Longident.t loc * Types.class_declaration
+  | Texp_instvar of Path.t * Path.t * string loc
+  | Texp_setinstvar of Path.t * Path.t * string loc * expression
+  | Texp_override of Path.t * (Path.t * string loc * expression) list
+  | Texp_letmodule of
+      Ident.t option * string option loc * Types.module_presence * module_expr *
+        expression
+  | Texp_letexception of extension_constructor * expression
+  | Texp_assert of expression
+  | Texp_lazy of expression
+  | Texp_object of class_structure * string list
+  | Texp_pack of module_expr
+  | Texp_letop of {
+      let_ : binding_op;
+      ands : binding_op list;
+      param : Ident.t;
+      body : value case;
+      partial : partial;
+    }
+  | Texp_unreachable
+  | Texp_extension_constructor of Longident.t loc * Path.t
+  | Texp_open of open_declaration * expression
+        (** let open[!] M in e *)
+
+
+        *)
+
+
+    in
+
     let build_value vb =
       match vb.vb_pat.pat_desc, vb.vb_expr.exp_desc with
       | Tpat_var (id, _), Texp_function { cases; } ->
@@ -34,9 +157,20 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
               | Texp_function { cases = [c']; } -> params c' acc'
               | _ -> acc' |> List.rev
             in
+
+            let rec body c =
+              match c.c_rhs.exp_desc with
+              | Texp_function { cases = [c']; } -> body c'
+              | _ -> begin match build_expression c.c_rhs with
+                | Some exp -> exp
+                | _ -> raise Function_without_body
+              end
+            in
+
             let fc_lhs = params case [] in
+            let fc_rhs = body case in
             let fc_guards = [] in
-            Erlast.{ fc_lhs; fc_guards }
+            Erlast.{ fc_lhs; fc_guards; fc_rhs }
 
           ) in Some Erlast.{ fd_name; fd_cases }
 

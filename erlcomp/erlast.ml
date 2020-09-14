@@ -6,6 +6,10 @@ and name = string
 
 and guard = unit
 
+and expr =
+  | Exp_name of atom
+  | Exp_tuple of expr list
+
 and pattern_match =
   | Pattern_ignore
   | Pattern_binding of atom
@@ -13,6 +17,7 @@ and pattern_match =
 and fun_case = {
   fc_lhs: pattern_match list;
   fc_guards: guard list;
+  fc_rhs: expr;
 }
 
 and fun_decl = {

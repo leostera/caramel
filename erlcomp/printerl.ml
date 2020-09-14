@@ -110,7 +110,6 @@ and pp_type_kind prefix ppf typ_kind =
       pp_type_kind prefix ppf return;
       Format.fprintf ppf ")";
 
-
   end
 
 let pp_pattern_match ppf pm =
@@ -119,7 +118,28 @@ let pp_pattern_match ppf pm =
   | Pattern_binding name -> Format.fprintf ppf "%s" name;
   end
 
-let pp_fun_case ppf { fc_lhs; } =
+let rec pp_expression ppf expr =
+  begin match expr with
+  | Exp_name name -> Format.fprintf ppf "%s" name;
+
+  | Exp_tuple [] -> Format.fprintf ppf "{}";
+
+  | Exp_tuple (e :: []) ->
+      Format.fprintf ppf "{";
+      pp_expression ppf e;
+      Format.fprintf ppf "}";
+
+  | Exp_tuple (e :: es) ->
+      Format.fprintf ppf "{";
+      pp_expression ppf e;
+      es
+      |> (List.iter (fun e ->
+          Format.fprintf ppf ", ";
+          pp_expression ppf e));
+      Format.fprintf ppf "}";
+  end
+
+let pp_fun_case ppf { fc_lhs; fc_rhs } =
   begin match fc_lhs with
   | [] -> Format.fprintf ppf "()"
   | p :: ps ->
@@ -127,8 +147,9 @@ let pp_fun_case ppf { fc_lhs; } =
       pp_pattern_match ppf p;
       ps |> List.iter( fun pat ->
         Format.fprintf ppf ", ";
-        pp_pattern_match ppf pat);
-      Format.fprintf ppf ") -> ok";
+        pp_pattern_match ppf pat );
+      Format.fprintf ppf ") -> ";
+      pp_expression ppf fc_rhs;
   end
 
 let pp_fun_cases ppf fd_cases =
