@@ -2,6 +2,7 @@ open Typedtree
 open Types
 
 exception Function_without_body
+exception Unsupported_feature
 
 let varname_of_string = String.capitalize_ascii
 let atom_of_string = String.lowercase_ascii
@@ -17,6 +18,19 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
       match exp.exp_desc with
       | Texp_ident (_, {txt}, _) ->
           Some (Erlast.Exp_name (Longident.last txt |> varname_of_string))
+
+      (* NOTE: use `extended_expression` to provide map overrides *)
+      | Texp_record { fields; } ->
+          Some (Erlast.Exp_map (fields |> Array.to_list |> List.map (fun (field, value) ->
+            let value = match value with
+            | Kept _ -> raise Unsupported_feature
+            | Overridden (_, exp) -> begin match build_expression exp with
+                | None -> raise Unsupported_feature
+                | Some v -> v
+                end
+            in
+            Erlast.{ mf_name = field.lbl_name; mf_value = value }
+          )))
 
       | Texp_tuple exprs ->
           Some (Erlast.Exp_tuple (exprs |> List.filter_map build_expression))
@@ -77,22 +91,6 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
             C (E1, ..., En)  [E1;...;En]
          *)
   | Texp_variant of label * expression option
-  | Texp_record of {
-      fields : ( Types.label_description * record_label_definition ) array;
-      representation : Types.record_representation;
-      extended_expression : expression option;
-    }
-        (** { l1=P1; ...; ln=Pn }           (extended_expression = None)
-            { E0 with l1=P1; ...; ln=Pn }   (extended_expression = Some E0)
-
-            Invariant: n > 0
-
-            If the type is { l1: t1; l2: t2 }, the expression
-            { E0 with t2=P2 } is represented as
-            Texp_record
-              { fields = [| l1, Kept t1; l2 Override P2 |]; representation;
-                extended_expression = Some E0 }
-        *)
   | Texp_field of expression * Longident.t loc * Types.label_description
   | Texp_setfield of
       expression * Longident.t loc * Types.label_description * expression

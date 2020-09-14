@@ -6,8 +6,14 @@ and name = string
 
 and guard = unit
 
+and map_field = {
+  mf_name: atom;
+  mf_value: expr
+}
+
 and expr =
   | Exp_name of atom
+  | Exp_map of map_field list
   | Exp_tuple of expr list
 
 and pattern =

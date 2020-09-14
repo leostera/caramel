@@ -153,7 +153,8 @@ let rec pp_pattern_match ppf pm =
       Format.fprintf ppf "]";
   end
 
-let rec pp_expression ppf expr =
+let rec pp_expression prefix ppf expr =
+  Format.fprintf ppf "%s" prefix;
   begin match expr with
   | Exp_name name -> Format.fprintf ppf "%s" name;
 
@@ -161,20 +162,40 @@ let rec pp_expression ppf expr =
 
   | Exp_tuple (e :: []) ->
       Format.fprintf ppf "{";
-      pp_expression ppf e;
+      pp_expression prefix ppf e;
       Format.fprintf ppf "}";
 
   | Exp_tuple (e :: es) ->
       Format.fprintf ppf "{";
-      pp_expression ppf e;
+      pp_expression prefix ppf e;
       es
       |> (List.iter (fun e ->
           Format.fprintf ppf ", ";
-          pp_expression ppf e));
+          pp_expression prefix ppf e));
       Format.fprintf ppf "}";
+
+  | Exp_map fields ->
+      let padding = H.pad ((String.length prefix) + 1) in
+      begin match fields with
+      | [] -> Format.fprintf ppf "#{}";
+      | Erlast.{ mf_name; mf_value } :: fs -> begin
+          Format.fprintf ppf "#{ %s => " mf_name;
+          pp_expression "" ppf mf_value;
+          match fs with
+          | [] -> Format.fprintf ppf " }";
+          | fs -> begin
+            Format.fprintf ppf "\n";
+            fs |> List.iter (fun Erlast.{ mf_name; mf_value } ->
+              Format.fprintf ppf "%s, %s => " padding mf_name;
+              pp_expression "" ppf mf_value;
+              Format.fprintf ppf "\n");
+            Format.fprintf ppf "%s}" padding;
+          end;
+      end
+      end
   end
 
-let pp_fun_case ppf { fc_lhs; fc_rhs } =
+let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } =
   begin match fc_lhs with
   | [] -> Format.fprintf ppf "()"
   | p :: ps ->
@@ -183,25 +204,25 @@ let pp_fun_case ppf { fc_lhs; fc_rhs } =
       ps |> List.iter( fun pat ->
         Format.fprintf ppf ", ";
         pp_pattern_match ppf pat );
-      Format.fprintf ppf ") -> ";
-      pp_expression ppf fc_rhs;
+      Format.fprintf ppf ") ->\n";
+      pp_expression "  " ppf fc_rhs;
   end
 
-let pp_fun_cases ppf fd_name fd_cases =
+let pp_fun_cases prefix ppf fd_name fd_cases =
   begin match fd_cases with
   | [] -> Format.fprintf ppf "() -> ok"
-  | c :: [] -> pp_fun_case ppf c
+  | c :: [] -> pp_fun_case prefix ppf c
   | c :: cs ->
-      pp_fun_case ppf c;
+      pp_fun_case prefix ppf c;
       cs |> List.iter( fun case ->
         Format.fprintf ppf ";\n%s" fd_name;
-        pp_fun_case ppf case);
+        pp_fun_case prefix ppf case);
   end
 
 let pp_function ppf { fd_name; fd_cases; } =
   let prefix = Format.sprintf "%s" fd_name in
   Format.fprintf ppf "%s" prefix;
-  pp_fun_cases ppf fd_name fd_cases;
+  pp_fun_cases prefix ppf fd_name fd_cases;
   Format.fprintf ppf ".\n\n"
 
 let pp_functions ppf funcs =
