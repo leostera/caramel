@@ -94,15 +94,17 @@ and t = {
   file_name: string;
   behaviour: atom option;
   module_name: atom;
+  ocaml_name: atom;
   exports: export list;
   types: type_decl list;
   functions: fun_decl list;
 }
 
-let make ~name ~exports ~types ~functions = {
+let make ~name ~ocaml_name ~exports ~types ~functions = {
   file_name = name ^ ".erl";
   behaviour = None;
   module_name = name;
+  ocaml_name = ocaml_name;
   exports = exports;
   types = types;
   functions = functions;

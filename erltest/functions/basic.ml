@@ -26,6 +26,6 @@ let iff2 =
   | false, _, f -> f
   | true, f, _ -> f
 
-let ignore _x = ()
+let ignore () = ()
 
 let empty_list _x = []

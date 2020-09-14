@@ -45,7 +45,7 @@ iff(true, F, _) -> F.
 iff2({false, _, F}) -> F;
 iff2({true, F, _}) -> F.
 
-ignore(_X) -> {}.
+ignore({}) -> {}.
 
 empty_list(_X) -> [].
 

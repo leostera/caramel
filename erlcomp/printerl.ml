@@ -1,6 +1,7 @@
 open Erlast
 
 exception Undefined_function_reference of string
+exception Function_without_cases of string
 
 module H = struct
   let pad n = String.make n ' '
@@ -301,7 +302,7 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
 
 let pp_fun_cases prefix ppf fd_name fd_cases ~module_ =
   begin match fd_cases with
-  | [] -> Format.fprintf ppf "() -> ok"
+  | [] -> raise (Function_without_cases fd_name);
   | c :: [] -> pp_fun_case prefix ppf c ~module_
   | c :: cs ->
       pp_fun_case prefix ppf c ~module_;

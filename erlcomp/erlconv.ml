@@ -19,11 +19,21 @@ let atom_of_string = String.lowercase_ascii
 let atom_of_ident i = i |> Ident.name |> atom_of_string
 let varname_of_ident i = i |> Ident.name |> varname_of_string
 
+let longident_to_string x =
+  match x |> Longident.flatten |> List.rev with
+  | [] -> ""
+  | x :: [] -> x
+  | f :: mods -> (mods |> List.rev |> String.concat "__") ^ ":" ^ f
+
 
 (** Build the actual functions of an Erlang module
  *)
-let build_functions: Typedtree.structure -> Erlast.fun_decl list =
-  fun typedtree ->
+let build_functions:
+  module_name: string ->
+  modules: Erlast.t list ->
+  Typedtree.structure ->
+  Erlast.fun_decl list =
+  fun ~module_name ~modules typedtree ->
     (* NOTE: We need a universally quantified k here because this function will
      * be called with several types indexing general_pattern *)
     let rec build_pattern: type k. k general_pattern -> Erlast.pattern =
@@ -35,22 +45,24 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
 
       | Tpat_value t ->
           (* NOTE: type casting magic! *)
-          let t = (t :> pattern) in
-          build_pattern t
+          build_pattern (t :> pattern)
 
       | Tpat_tuple tuples ->
           Erlast.Pattern_tuple (List.map build_pattern tuples)
 
       | Tpat_record (fields, _) ->
           Erlast.Pattern_map (fields |> List.map (fun (Asttypes.{txt}, _, pattern) ->
-            (atom_of_string (Longident.last txt), build_pattern pattern)
+            (atom_of_string (longident_to_string txt), build_pattern pattern)
           ))
 
-      | Tpat_construct ({ txt }, _, patterns) when Longident.last txt = "::" ->
+      | Tpat_construct ({ txt }, _, _) when longident_to_string txt = "()" ->
+          Erlast.Pattern_tuple []
+
+      | Tpat_construct ({ txt }, _, patterns) when longident_to_string txt = "::" ->
           Erlast.Pattern_list (List.map build_pattern patterns)
 
       | Tpat_construct ({ txt }, _, _patterns) ->
-          Erlast.Pattern_match (Longident.last txt |> atom_of_string)
+          Erlast.Pattern_match (longident_to_string txt |> atom_of_string)
 
       (* NOTE: here's where the translation of pattern
        * matching at the function level should happen. *)
@@ -67,22 +79,31 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
         | _ -> false)
     in
 
+    let is_nested_module name =
+      let name = name |> Longident.flatten |> List.hd in
+      modules |> List.exists (fun Erlast.{ ocaml_name = mn } ->
+        Format.fprintf Format.std_formatter "%s %s %b \n " mn name (mn = name);
+        mn = name)
+    in
+
     let rec build_expression exp ~var_names =
       match exp.exp_desc with
       | Texp_ident (_, {txt}, _) ->
-          let name = (Longident.last txt) |> varname_of_string in
+          let name = longident_to_string txt in
+          let name = if is_nested_module txt then module_name ^ "__" ^ name else name in
+          let name = name |> varname_of_string in
           if (name_in_var_names ~var_names name)
           then Some (Erlast.Expr_name name)
           else Some (Erlast.Expr_fun_ref (atom_of_string name))
 
-      | Texp_construct ({ txt }, _, _expr) when Longident.last txt = "[]" ->
+      | Texp_construct ({ txt }, _, _expr) when longident_to_string txt = "[]" ->
           Some (Erlast.Expr_list [])
 
-      | Texp_construct ({ txt }, _, _expr) when Longident.last txt = "()" ->
+      | Texp_construct ({ txt }, _, _expr) when longident_to_string txt = "()" ->
           Some (Erlast.Expr_tuple [])
 
       | Texp_construct ({ txt }, _, _expr) ->
-          Some (Erlast.Expr_name (Longident.last txt))
+          Some (Erlast.Expr_name (longident_to_string txt))
 
       | Texp_apply (expr, args) ->
           let fa_name =
@@ -215,8 +236,7 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
       match vb.vb_pat.pat_desc, vb.vb_expr.exp_desc with
       | Tpat_var (id, _), Texp_function { cases; } ->
           let rec params c acc =
-            let param = build_pattern c.c_lhs in
-            let acc' = param :: acc in
+            let acc' = (build_pattern c.c_lhs) :: acc in
             match c.c_rhs.exp_desc with
             | Texp_function { cases = [c']; } -> params c' acc'
             | _ -> acc' |> List.rev
@@ -312,7 +332,7 @@ let build_types:
        * gets compiled to `-type a() :: list(string()).`
        *)
       | Ttyp_constr (_, { txt; }, args) ->
-          let tc_name = Longident.last txt |> atom_of_string in
+          let tc_name = longident_to_string txt |> atom_of_string in
           let tc_args = args |> List.filter_map build_type_kind in
           Some (Erlast.Type_constr { tc_name; tc_args})
 
@@ -452,12 +472,17 @@ let build_exports:
 (** Build a single Erlang module from a Typedtree.structure, and an optionally
     constraining Types.signature.
  *)
-let build_module: name:string -> Typedtree.structure -> Types.signature option -> Erlast.t =
-  fun ~name typedtree signature ->
+let build_module:
+  name: string ->
+  ocaml_name: string ->
+  modules: Erlast.t list ->
+  Typedtree.structure ->
+  Types.signature option -> Erlast.t =
+  fun ~name ~ocaml_name ~modules typedtree signature ->
     let exports = build_exports ~name typedtree signature in
     let types = build_types typedtree in
-    let functions = build_functions typedtree in
-    Erlast.make ~name ~exports ~types ~functions
+    let functions = build_functions ~module_name:name ~modules typedtree in
+    Erlast.make ~name ~ocaml_name ~exports ~types ~functions
 
 (** Navigate a [Typedtree.structure] and recursively collect all module definitions,
     building up the right prefixed names.
@@ -474,10 +499,10 @@ let build_module: name:string -> Typedtree.structure -> Types.signature option -
 let rec find_modules:
   prefix:string
   -> Typedtree.structure
-  -> (string * Typedtree.structure * (Types.signature option)) list =
+  -> (string * string * Typedtree.structure * (Types.signature option)) list =
   fun ~prefix typedtree ->
     let module_name prefix mb_id = (match mb_id with
-          | Some x -> prefix ^ "_" ^ (atom_of_ident x)
+          | Some x -> prefix ^ "__" ^ (atom_of_ident x)
           | None -> prefix) |> String.lowercase_ascii
     in
     typedtree.str_items
@@ -487,14 +512,18 @@ let rec find_modules:
             | Tstr_recmodule mbs ->  mbs
             | _ -> [])
             |> (List.concat_map (fun mb ->
+                let ocaml_name = match mb.mb_id with
+                                 | Some x -> (Ident.name x)
+                                 | None -> ""
+                in
                 let prefix = module_name prefix mb.mb_id in
                 match mb.mb_expr.mod_desc with
                   | Tmod_constraint ({ mod_desc = Tmod_structure typedtree },
                                      Mty_signature signature,
                                      _mod_type_constr,
                                      _mod_type_coerc) ->
-                      (prefix, typedtree, Some signature) :: (find_modules ~prefix typedtree)
-                  | Tmod_structure typedtree -> (prefix, typedtree, None) :: (find_modules ~prefix typedtree)
+                      (prefix, ocaml_name, typedtree, Some signature) :: (find_modules ~prefix typedtree)
+                  | Tmod_structure typedtree -> (prefix, ocaml_name, typedtree, None) :: (find_modules ~prefix typedtree)
                   | _ -> []
                 )) in
         List.concat [mbs; acc]
@@ -511,9 +540,10 @@ let from_typedtree:
   -> Erlast.t list =
   fun ~name typedtree signature ->
     let name = atom_of_string name in
-    [
+    let modules = List.fold_left
+      (fun mods (name, ocaml_name, impl, sign) ->
+        (build_module ~name ~ocaml_name ~modules:mods impl sign) :: mods)
+      []
       (find_modules ~prefix:name typedtree)
-      |> List.map( fun (name, impl, sign) -> build_module ~name impl sign );
-
-      [ build_module ~name typedtree signature ];
-    ] |> List.concat
+    in
+    [ modules; [build_module ~name ~ocaml_name:name ~modules typedtree signature] ] |> List.concat
