@@ -114,8 +114,23 @@ let build_functions:
       | Texp_construct ({ txt }, _, _expr) when longident_to_string txt = "()" ->
           Some (Erlast.Expr_tuple [])
 
-      | Texp_construct ({ txt }, _, _expr) ->
-          Some (Erlast.Expr_name (longident_to_string txt))
+      | Texp_construct ({ txt }, _, []) ->
+          Some (Erlast.Expr_name (longident_to_string txt |> atom_of_string))
+
+      (* NOTE: these are actually the variants! and Texp_variant below is for
+       * polymorphic ones *)
+      | Texp_construct ({ txt }, _, exprs) ->
+          let tag = Erlast.Expr_name (longident_to_string txt |> atom_of_string) in
+          let values = exprs |> List.filter_map(build_expression ~var_names) in
+          Some (Erlast.Expr_tuple (tag :: values))
+
+      | Texp_variant (label, None) ->
+          Some (Erlast.Expr_name (atom_of_string label))
+
+      | Texp_variant (label, Some expr) ->
+          let tag = Erlast.Expr_name (label |> atom_of_string) in
+          let value = build_expression ~var_names expr |> maybe_unsupported in
+          Some (Erlast.Expr_tuple [tag; value])
 
       | Texp_apply (expr, args) ->
           let fa_name =
@@ -200,7 +215,6 @@ let build_functions:
             C E              [E]
             C (E1, ..., En)  [E1;...;En]
          *)
-  | Texp_variant of label * expression option
   | Texp_field of expression * Longident.t loc * Types.label_description
   | Texp_setfield of
       expression * Longident.t loc * Types.label_description * expression
@@ -374,7 +388,7 @@ let build_types:
 
       | Ttyp_object _
       | Ttyp_class _
-      | Ttyp_package _ -> None
+      | Ttyp_package _ -> raise Unsupported_feature
     in
 
     let build_record labels =

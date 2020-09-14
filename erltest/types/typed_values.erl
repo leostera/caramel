@@ -7,18 +7,21 @@
 -export([nil/1]).
 -export([none/1]).
 -export([ok/1]).
+-export([poly/1]).
 -export([some/1]).
 
-ok(X) -> Ok.
+ok(X) -> {ok, X}.
 
-err(X) -> Error.
+err(X) -> {error, X}.
 
-nil({}) -> Nil.
+nil({}) -> nil.
 
-cons(X, Xs) -> Cons.
+cons(X, Xs) -> {cons, {X, Xs}}.
 
-some(X) -> Some.
+some(X) -> {some, X}.
 
-none({}) -> None.
+none({}) -> none.
+
+poly(X) -> {poly, X}.
 
 
