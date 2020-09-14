@@ -18,7 +18,7 @@ and case_branch = {
 
 and expr =
   | Expr_name of atom
-  | Expr_apply of fun_call
+  | Expr_apply of fun_apply
   | Expr_map of map_field list
   | Expr_list of expr list
   | Expr_case of expr * (case_branch list)
@@ -32,9 +32,9 @@ and pattern =
   | Pattern_map of (atom * pattern) list
   | Pattern_match of atom
 
-and fun_call = {
-  fn_name: atom;
-  fn_args: expr list;
+and fun_apply = {
+  fa_name: expr;
+  fa_args: expr list
 }
 
 and fun_case = {

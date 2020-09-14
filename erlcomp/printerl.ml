@@ -174,6 +174,20 @@ let rec pp_expression prefix ppf expr =
   begin match expr with
   | Expr_name name -> Format.fprintf ppf "%s" name;
 
+  | Expr_apply { fa_name; fa_args } ->
+      pp_expression "" ppf fa_name;
+      begin match fa_args with
+      | [] | (Erlast.Expr_tuple []) :: []->
+          Format.fprintf ppf "()"
+      | exp :: args ->
+          Format.fprintf ppf "(";
+          pp_expression "" ppf exp;
+          args |> (List.iter (fun e ->
+            Format.fprintf ppf ", ";
+            pp_expression "" ppf e));
+          Format.fprintf ppf ")";
+      end
+
   | Expr_tuple [] -> Format.fprintf ppf "{}";
 
   | Expr_tuple (e :: []) ->
@@ -230,8 +244,6 @@ let rec pp_expression prefix ppf expr =
           end;
       end;
       Format.fprintf ppf "\n%send" prefix;
-
-
       end
 
   | Expr_map fields ->
@@ -268,6 +280,7 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } =
       let prefix = (begin match fc_rhs with
       | Expr_map _
       | Expr_case _ -> Format.fprintf ppf "\n";  "  "
+      | Expr_apply _
       | Expr_list _
       | Expr_tuple _
       | Expr_name _ -> " ";
