@@ -1,8 +1,4 @@
-type arity = int
-
-and atom = string
-
-and name = string
+type atom = string
 
 and guard = unit
 
@@ -18,6 +14,7 @@ and case_branch = {
 
 and expr =
   | Expr_name of atom
+  | Expr_fun_ref of atom
   | Expr_apply of fun_apply
   | Expr_map of map_field list
   | Expr_list of expr list
@@ -65,7 +62,7 @@ and type_constr = { tc_name: atom; tc_args: type_kind list }
 and type_kind =
   | Type_function of type_kind list
   | Type_constr of type_constr
-  | Type_variable of name
+  | Type_variable of atom
   | Type_tuple of type_kind list
   | Type_record of { fields: record_field list; }
   | Type_variant of { constructors: variant_constructor list; }
@@ -86,7 +83,7 @@ and export_type = Export_function | Export_type
 and export = {
   exp_type: export_type;
   exp_name: atom;
-  exp_arity: arity;
+  exp_arity: int;
 }
 
 (** The type of an Erlang module. Intentionally incomplete for now.
@@ -117,3 +114,6 @@ let make_type_export exp_name exp_arity = {exp_type=Export_type; exp_name; exp_a
 let make_named_type typ_name typ_params typ_kind = { typ_name; typ_params; typ_kind }
 
 let type_any = Type_constr { tc_name="any"; tc_args=[] }
+
+let find_fun_by_name ~module_ name =
+  module_.functions |> List.find_opt (fun { fd_name } -> fd_name = name )

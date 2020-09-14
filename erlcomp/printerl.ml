@@ -1,5 +1,7 @@
 open Erlast
 
+exception Undefined_function_reference
+
 module H = struct
   let pad n = String.make n ' '
 end
@@ -169,22 +171,29 @@ let rec pp_pattern_match ppf pm =
       Format.fprintf ppf " }";
   end
 
-let rec pp_expression prefix ppf expr =
+let rec pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
   begin match expr with
   | Expr_name name -> Format.fprintf ppf "%s" name;
 
+  | Expr_fun_ref name ->
+      begin match Erlast.find_fun_by_name ~module_ name with
+      | None -> raise Undefined_function_reference
+      | Some { fd_arity } ->
+          Format.fprintf ppf "fun %s/%d" name fd_arity;
+      end
+
   | Expr_apply { fa_name; fa_args } ->
-      pp_expression "" ppf fa_name;
+      pp_expression "" ppf fa_name ~module_;
       begin match fa_args with
       | [] | (Erlast.Expr_tuple []) :: []->
           Format.fprintf ppf "()"
       | exp :: args ->
           Format.fprintf ppf "(";
-          pp_expression "" ppf exp;
+          pp_expression "" ppf exp ~module_;
           args |> (List.iter (fun e ->
             Format.fprintf ppf ", ";
-            pp_expression "" ppf e));
+            pp_expression "" ppf e ~module_));
           Format.fprintf ppf ")";
       end
 
@@ -192,37 +201,37 @@ let rec pp_expression prefix ppf expr =
 
   | Expr_tuple (e :: []) ->
       Format.fprintf ppf "{";
-      pp_expression prefix ppf e;
+      pp_expression prefix ppf e ~module_;
       Format.fprintf ppf "}";
 
   | Expr_tuple (e :: es) ->
       Format.fprintf ppf "{";
-      pp_expression "" ppf e;
+      pp_expression "" ppf e ~module_;
       es
       |> (List.iter (fun e ->
           Format.fprintf ppf ", ";
-          pp_expression "" ppf e));
+          pp_expression "" ppf e ~module_));
       Format.fprintf ppf "}";
 
   | Expr_list [] -> Format.fprintf ppf "[]";
 
   | Expr_list (e :: []) ->
       Format.fprintf ppf "[";
-      pp_expression prefix ppf e;
+      pp_expression prefix ppf e ~module_;
       Format.fprintf ppf "]";
 
   | Expr_list (e :: es) ->
       Format.fprintf ppf "[";
-      pp_expression "" ppf e;
+      pp_expression "" ppf e ~module_;
       es
       |> (List.iter (fun e ->
           Format.fprintf ppf ", ";
-          pp_expression "" ppf e));
+          pp_expression "" ppf e ~module_));
       Format.fprintf ppf "]";
 
   | Expr_case (expr, branches) ->
       Format.fprintf ppf "case ";
-      pp_expression "" ppf expr;
+      pp_expression "" ppf expr ~module_;
       Format.fprintf ppf " of";
       begin match branches with
       | [] -> ()
@@ -231,7 +240,7 @@ let rec pp_expression prefix ppf expr =
           Format.fprintf ppf "\n%s" prefix;
           pp_pattern_match ppf cb_pattern;
           Format.fprintf ppf " -> ";
-          pp_expression "" ppf cb_expr;
+          pp_expression "" ppf cb_expr ~module_;
           match bs with
           | [] -> ()
           | bs -> begin
@@ -239,7 +248,7 @@ let rec pp_expression prefix ppf expr =
               Format.fprintf ppf ";\n%s" prefix;
               pp_pattern_match ppf cb_pattern;
               Format.fprintf ppf " -> ";
-              pp_expression "" ppf cb_expr;
+              pp_expression "" ppf cb_expr ~module_;
             );
           end;
       end;
@@ -252,14 +261,14 @@ let rec pp_expression prefix ppf expr =
       | [] -> Format.fprintf ppf "#{}";
       | Erlast.{ mf_name; mf_value } :: fs -> begin
           Format.fprintf ppf "#{ %s => " mf_name;
-          pp_expression "" ppf mf_value;
+          pp_expression "" ppf mf_value ~module_;
           match fs with
           | [] -> Format.fprintf ppf " }";
           | fs -> begin
             Format.fprintf ppf "\n";
             fs |> List.iter (fun Erlast.{ mf_name; mf_value } ->
               Format.fprintf ppf "%s, %s => " padding mf_name;
-              pp_expression "" ppf mf_value;
+              pp_expression "" ppf mf_value ~module_;
               Format.fprintf ppf "\n");
             Format.fprintf ppf "%s}" padding;
           end;
@@ -267,7 +276,7 @@ let rec pp_expression prefix ppf expr =
       end
   end
 
-let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } =
+let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
   begin match fc_lhs with
   | [] -> Format.fprintf ppf "()"
   | p :: ps ->
@@ -281,32 +290,33 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } =
       | Expr_map _
       | Expr_case _ -> Format.fprintf ppf "\n";  "  "
       | Expr_apply _
+      | Expr_fun_ref _
       | Expr_list _
       | Expr_tuple _
       | Expr_name _ -> " ";
       end) in
-      pp_expression prefix ppf fc_rhs;
+      pp_expression prefix ppf fc_rhs ~module_;
   end
 
-let pp_fun_cases prefix ppf fd_name fd_cases =
+let pp_fun_cases prefix ppf fd_name fd_cases ~module_ =
   begin match fd_cases with
   | [] -> Format.fprintf ppf "() -> ok"
-  | c :: [] -> pp_fun_case prefix ppf c
+  | c :: [] -> pp_fun_case prefix ppf c ~module_
   | c :: cs ->
-      pp_fun_case prefix ppf c;
+      pp_fun_case prefix ppf c ~module_;
       cs |> List.iter( fun case ->
         Format.fprintf ppf ";\n%s" fd_name;
-        pp_fun_case prefix ppf case);
+        pp_fun_case prefix ppf case ~module_);
   end
 
-let pp_function ppf { fd_name; fd_cases; } =
+let pp_function ppf { fd_name; fd_cases; }  ~module_=
   let prefix = Format.sprintf "%s" fd_name in
   Format.fprintf ppf "%s" prefix;
-  pp_fun_cases prefix ppf fd_name fd_cases;
+  pp_fun_cases prefix ppf fd_name fd_cases ~module_;
   Format.fprintf ppf ".\n\n"
 
-let pp_functions ppf funcs =
-  funcs |> (List.iter (pp_function ppf))
+let pp_functions ppf funcs  ~module_=
+  funcs |> (List.iter (pp_function ppf ~module_))
 
 let pp_types ppf types =
   types
@@ -323,6 +333,6 @@ let pp ppf m =
   Format.fprintf ppf "-module(%s).\n\n" m.module_name;
   pp_exports ppf m.exports;
   pp_types ppf m.types;
-  pp_functions ppf m.functions;
+  pp_functions ppf m.functions ~module_:m;
   ()
 

@@ -58,25 +58,43 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
           Erlast.Pattern_ignore
     in
 
-    let rec build_expression exp =
+    let name_in_var_names ~var_names name =
+      let open Erlast in
+      var_names
+      |> List.exists (fun pat ->
+        match pat with
+        | Pattern_binding x -> x = name
+        | _ -> false)
+    in
+
+    let rec build_expression exp ~var_names =
       match exp.exp_desc with
       | Texp_ident (_, {txt}, _) ->
-          Some (Erlast.Expr_name (Longident.last txt |> varname_of_string))
+          let name = (Longident.last txt) |> varname_of_string in
+          if (name_in_var_names ~var_names name)
+          then Some (Erlast.Expr_name name)
+          else Some (Erlast.Expr_fun_ref (atom_of_string name))
 
-
-      | Texp_construct ({ txt }, _, _expr)  when Longident.last txt = "[]" ->
+      | Texp_construct ({ txt }, _, _expr) when Longident.last txt = "[]" ->
           Some (Erlast.Expr_list [])
 
-      | Texp_construct ({ txt }, _, _expr)  when Longident.last txt = "()" ->
+      | Texp_construct ({ txt }, _, _expr) when Longident.last txt = "()" ->
           Some (Erlast.Expr_tuple [])
 
       | Texp_construct ({ txt }, _, _expr) ->
           Some (Erlast.Expr_name (Longident.last txt))
 
       | Texp_apply (expr, args) ->
-          let fa_name = build_expression expr |> maybe_unsupported in
+          let fa_name =
+            match build_expression expr ~var_names |> maybe_unsupported with
+            | Erlast.Expr_fun_ref n -> Erlast.Expr_name n
+            | x -> x
+          in
           let fa_args = args |> List.map (fun (_, arg) ->
-            arg |> maybe_unsupported |> build_expression |> maybe_unsupported
+            arg
+            |> maybe_unsupported
+            |> build_expression ~var_names
+            |> maybe_unsupported
           ) in Some (Erlast.Expr_apply { fa_name; fa_args })
 
       (* NOTE: use `extended_expression` to provide map overrides *)
@@ -84,7 +102,7 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
           Some (Erlast.Expr_map (fields |> Array.to_list |> List.map (fun (field, value) ->
             let value = match value with
             | Kept _ -> raise Unsupported_feature
-            | Overridden (_, exp) -> begin match build_expression exp with
+            | Overridden (_, exp) -> begin match build_expression exp ~var_names with
                 | None -> raise Unsupported_feature
                 | Some v -> v
                 end
@@ -93,14 +111,14 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
           )))
 
       | Texp_tuple exprs ->
-          Some (Erlast.Expr_tuple (exprs |> List.filter_map build_expression))
+          Some (Erlast.Expr_tuple (exprs |> List.filter_map (build_expression ~var_names)))
 
       | Texp_match (expr, branches, _) ->
-        let expr = build_expression expr |> maybe_unsupported in
+        let expr = build_expression expr ~var_names |> maybe_unsupported in
         (* NOTE: match on c_guard here to translate guards *)
         let branches: Erlast.case_branch list = branches |> List.map (fun c ->
           let cb_pattern = build_pattern c.c_lhs in
-          let cb_expr = build_expression c.c_rhs |> maybe_unsupported in
+          let cb_expr = build_expression c.c_rhs ~var_names |> maybe_unsupported in
           Erlast.{ cb_pattern; cb_expr }
         )
         in Some (Erlast.Expr_case (expr, branches))
@@ -213,17 +231,37 @@ let build_functions: Typedtree.structure -> Erlast.fun_decl list =
             (* NOTE: we'll just traverse all the expressions in this case and
              * make sure we collapse as many top-level arguments for this function.
              *)
-            let rec body c =
+            let rec body c var_names =
               match c.c_rhs.exp_desc with
-              | Texp_function { cases = [c']; } -> body c'
-              | _ -> begin match build_expression c.c_rhs with
+              | Texp_function { cases = [c']; } -> body c' var_names
+              | _ -> begin match build_expression c.c_rhs ~var_names with
                 | Some exp -> exp
                 | _ -> raise Function_without_body
               end
             in
 
+            (* NOTE: flatten down all the names bound in the parameters
+             * to a single list that we can use to quickly check how to
+             * normalize them in the function's body.
+             *)
+            let var_names pat =
+              let open Erlast in
+              let rec collect acc p =
+                match p with
+                | [] -> acc
+                | p :: ps ->
+                  let subpats = match p with
+                  | Pattern_list pats -> pats
+                  | Pattern_tuple pats -> pats
+                  | Pattern_map pats -> pats |> List.map(fun (_, p) -> p )
+                  | _ -> [p]
+                  in collect (subpats @ acc) ps
+              in
+              collect [] pat
+            in
+
             let fc_lhs = params case [] in
-            let fc_rhs = body case in
+            let fc_rhs = body case (var_names fc_lhs) in
             let fc_guards = [] in
             Erlast.{ fc_lhs; fc_guards; fc_rhs }
           ) in Some Erlast.{ fd_name; fd_arity; fd_cases }
