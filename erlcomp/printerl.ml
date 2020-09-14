@@ -176,7 +176,7 @@ let pp_literal ppf lit =
   let str = match lit with
   | Lit_integer string -> string
   | Lit_char string -> "'" ^ string ^ "'"
-  | Lit_binary string -> "<<\"" ^ string ^ "\">>"
+  | Lit_binary string -> "<<\"" ^ (String.escaped string) ^ "\">>"
   | Lit_float string -> string
   in
   Format.fprintf ppf "%s" str
@@ -207,8 +207,7 @@ let rec pp_expression prefix ppf expr ~module_ =
   | Expr_apply { fa_name; fa_args } ->
       pp_expression "" ppf fa_name ~module_;
       begin match fa_args with
-      | [] | (Erlast.Expr_tuple []) :: []->
-          Format.fprintf ppf "()"
+      | [] -> Format.fprintf ppf "()"
       | exp :: args ->
           Format.fprintf ppf "(";
           pp_expression "" ppf exp ~module_;
@@ -246,7 +245,7 @@ let rec pp_expression prefix ppf expr ~module_ =
       pp_expression "" ppf e ~module_;
       es
       |> (List.iter (fun e ->
-          Format.fprintf ppf ", ";
+          Format.fprintf ppf " | ";
           pp_expression "" ppf e ~module_));
       Format.fprintf ppf "]";
 

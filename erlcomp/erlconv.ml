@@ -25,6 +25,12 @@ let longident_to_string x =
   | x :: [] -> x
   | f :: mods -> (mods |> List.rev |> String.concat "__") ^ ":" ^ f
 
+let ocaml_to_erlang_type t =
+  match t with
+  | "int" -> "integer"
+  | "bool" -> "boolean"
+  | u -> u
+
 
 (** Build the actual functions of an Erlang module
  *)
@@ -149,6 +155,11 @@ let build_functions:
 
       | Texp_construct ({ txt }, _, []) ->
           Some (Erlast.Expr_name (longident_to_string txt |> atom_of_string))
+
+      (* NOTE: lists are just variants :) *)
+      | Texp_construct ({ txt }, _, exprs) when longident_to_string txt = "::" ->
+          let values = exprs |> List.filter_map(build_expression ~var_names) in
+          Some (Erlast.Expr_list values)
 
       (* NOTE: these are actually the variants! and Texp_variant below is for
        * polymorphic ones *)
@@ -302,7 +313,7 @@ let build_types:
        * gets compiled to `-type a() :: list(string()).`
        *)
       | Ttyp_constr (_, { txt; }, args) ->
-          let tc_name = longident_to_string txt |> atom_of_string in
+          let tc_name = longident_to_string txt |> atom_of_string |> ocaml_to_erlang_type in
           let tc_args = args |> List.filter_map build_type_kind in
           Some (Erlast.Type_constr { tc_name; tc_args})
 
@@ -375,7 +386,7 @@ let build_types:
           begin match type_decl.typ_manifest with
           | Some abs -> (build_abstract name params type_decl abs)
           | None ->
-              let ref = (Erlast.Type_constr { tc_name="ref"; tc_args=[]}) in
+              let ref = (Erlast.Type_constr { tc_name="reference"; tc_args=[]}) in
               Some (Erlast.make_named_type name params ref)
           end
 
