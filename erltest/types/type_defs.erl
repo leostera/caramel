@@ -16,11 +16,11 @@
 -export_type([triplet/2]).
 
 
--type alias() :: int().
+-type alias() :: integer().
 
--type opaque() :: fun((alias()) -> bool()).
+-type opaque() :: fun((alias()) -> boolean()).
 
--type hidden() :: ref().
+-type hidden() :: reference().
 
 -type list(A) :: {cons, {A, list(A)}}
                | nil
@@ -40,9 +40,9 @@
 
 -type triplet(A, B) :: {A, A, B}.
 
--type phantom(A) :: phantom
-                  | {phantom_with_value, int()}
-                  .
+-type phantom(_A) :: phantom
+                   | {phantom_with_value, integer()}
+                   .
 
 -type small_record() :: #{ a => string() }.
 
@@ -52,18 +52,18 @@
                          , lr_d => string()
                          }.
 
--type inlined_record() :: {simpler, bool()}
-                        | {many, bool(), bool()}
+-type inlined_record() :: {simpler, boolean()}
+                        | {many, boolean(), boolean()}
                         | {compound, #{ ir_a => float()
-                                      , ir_b => bool()
+                                      , ir_b => boolean()
                                       }}
                         .
 
 -type compound() :: #{ c_a => inlined_record()
-                     , c_b => phantom(bool())
-                     , c_c => triplet(int(), bool())
+                     , c_b => phantom(boolean())
+                     , c_c => triplet(integer(), boolean())
                      , c_d => large_record()
-                     , c_fn => fun((unit()) -> {small_record(), int()})
+                     , c_fn => fun((unit()) -> {small_record(), integer()})
                      }.
 
 

@@ -5,7 +5,7 @@
 
 
 -type record(A) :: #{ author => list(A)
-                    , year => int()
+                    , year => integer()
                     }.
 
 

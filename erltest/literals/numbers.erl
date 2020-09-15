@@ -16,6 +16,6 @@ float({}) -> 1.0.
 
 character({}) -> 'c'.
 
-string({}) -> <<hello>>.
+string({}) -> <<"hello">>.
 
 

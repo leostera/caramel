@@ -9,16 +9,16 @@
 -export_type([r/1]).
 
 
--type predicate(A) :: fun((A) -> bool()).
+-type predicate(A) :: fun((A) -> boolean()).
 
--type add() :: fun((int(), int()) -> int()).
+-type add() :: fun((integer(), integer()) -> integer()).
 
--type f(A, B) :: fun((A, B) -> bool()).
+-type f(A, B) :: fun((A, B) -> boolean()).
 
--type nested() :: fun((unit(), fun((int()) -> bool())) -> string()).
+-type nested() :: fun((unit(), fun((integer()) -> boolean())) -> string()).
 
--type f_with_tuples(A, B) :: fun(({A, B}, unit()) -> bool()).
+-type f_with_tuples(A, B) :: fun(({A, B}, unit()) -> boolean()).
 
--type r(A) :: #{ f => fun((unit()) -> {A, int()}) }.
+-type r(A) :: #{ f => fun((unit()) -> {A, integer()}) }.
 
 

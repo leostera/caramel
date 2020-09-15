@@ -5,7 +5,7 @@
 
 
 -type poly() :: poly_a
-              | {poly_b, int()}
+              | {poly_b, integer()}
               .
 
 

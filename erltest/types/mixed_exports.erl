@@ -7,7 +7,7 @@
 
 -type opaque() :: string().
 
--type hidden() :: ref().
+-type hidden() :: reference().
 
 id(X) -> X.
 

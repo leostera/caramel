@@ -5,7 +5,7 @@
 -export([hello/1]).
 
 hello({}) ->
-  Text = <<hello, joe!>>,
+  Text = <<"hello, joe!">>,
   print_string(Text).
 
 
