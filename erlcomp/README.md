@@ -2,12 +2,12 @@
 
 ## Rationale
 
-OCaml is a much safer language than Erlang.
-It is also a lot more restricted.
+OCaml is a much safer language than Erlang. It is also a lot more restricted.
 
 A subset of OCaml should compile just fine to the functional parts of Erlang.
 
-An interop library could bridge the gap to the concurrent parts of Erlang.
+An interop library and some syntax extensions could bridge the gaps where OCaml
+doesn't translate very well to Erlang.
 
 ## Mapping
 
@@ -32,3 +32,8 @@ incurs zero penalty on the final Erlang programs.
 
   `(a, b) result = Ok of a | Error of b` maps into
   `-type result(A, B) :: {ok, A} | {error, B}`
+
+# Differences from vanilla OCaml
+
+Expect no mutability (yet), so `ref` and `mutable` should not be valid syntax
+at some point.

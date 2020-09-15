@@ -150,17 +150,17 @@ let make_named_type typ_name typ_params typ_kind =
 
       | Type_variant { constructors } ->
           constructors
-          |> List.concat_map (fun { vc_args } -> vc_args ) 
+          |> List.concat_map (fun { vc_args } -> vc_args )
           |> List.concat_map (collect_params [])
       in
       [flat_args; acc] |> List.concat
     in
     collect_params [] typ_kind
   in
-  let typ_params = typ_params |> List.map (fun p -> 
+  let typ_params = typ_params |> List.map (fun p ->
     if List.exists (fun up -> up = p) used_params
     then p
-    else "_" ^ p 
+    else "_" ^ p
   ) in
   { typ_name; typ_params; typ_kind }
 

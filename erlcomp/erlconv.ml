@@ -3,6 +3,7 @@ open Types
 
 exception Function_without_body of Typedtree.expression
 exception Unsupported_feature
+exception Unsupported_expression
 
 let maybe_unsupported x = match x with | Some x -> x | None -> raise Unsupported_feature
 
@@ -139,6 +140,9 @@ let build_functions:
           in
           Some (Erlast.Expr_literal v)
 
+      | Texp_ident (_, {txt}, _) when longident_to_string txt = "__MODULE__" ->
+          Some (Erlast.Expr_name "?MODULE")
+
       | Texp_ident (_, {txt}, _) ->
           let name = longident_to_string txt in
           let name = if is_nested_module txt then module_name ^ "__" ^ name else name in
@@ -230,7 +234,8 @@ let build_functions:
           let let_expr = build_expression ~var_names expr |> maybe_unsupported in
           Some (Erlast.Expr_let (let_binding, let_expr))
 
-      | _ -> raise Unsupported_feature
+
+      | _ -> raise Unsupported_expression
     in
 
     let build_value vb =
@@ -527,4 +532,6 @@ let from_typedtree:
       []
       (find_modules ~prefix:name typedtree)
     in
-    [ modules; [build_module ~name ~ocaml_name:name ~modules typedtree signature] ] |> List.concat
+    [ modules;
+      [build_module ~name ~ocaml_name:name ~modules typedtree signature]
+    ] |> List.concat
