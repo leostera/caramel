@@ -1,3 +1,1 @@
-type pid = unit
-
-let spawn : (unit -> unit) -> pid = fun _ -> ()
+type 'message t

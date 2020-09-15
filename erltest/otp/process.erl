@@ -1,12 +1,8 @@
 % Source code generated with Caramel.
 -module(process).
+-export_type([t/1]).
 
--export_type([pid/0]).
 
--export([spawn/1]).
-
--type pid() :: unit().
-
-spawn(_) -> {}.
+-type t(_Message) :: reference().
 
 

@@ -1,26 +1,24 @@
 % Source code generated with Caramel.
 -module(adder).
-
--export_type([error/0]).
 -export_type([message/0]).
--export_type([opts/0]).
--export_type([state/0]).
 
--export([init/1]).
--export([start_link/1]).
-
--type error() :: unit().
-
--type state() :: integer().
-
--type opts() :: unit().
+-export([add/2]).
+-export([reset/1]).
 
 -type message() :: {add, integer()}
-                 | get
+                 | reset
                  .
 
-start_link({}) -> gen_server:start_link(?MODULE, [], none).
+-type t() :: integer().
 
-init({}) -> {ok, 0}.
+-type resp() :: unit().
+
+-type call_reply() :: {no_reply, t()}
+                    | {reply, resp(), t()}
+                    .
+
+add(Pid, X) -> call(Pid, {add, X}).
+
+reset(Pid) -> call(Pid, reset).
 
 
