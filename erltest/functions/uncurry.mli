@@ -1,0 +1,1 @@
+val ignore : 'a -> bool

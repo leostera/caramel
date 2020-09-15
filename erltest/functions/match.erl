@@ -8,7 +8,7 @@
 iff(Cond, T, F) ->
   case Cond of
     true -> T({});
-    _ -> F({})
+    false -> F({})
   end.
 
 is_empty(L) ->

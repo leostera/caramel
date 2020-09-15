@@ -29,6 +29,11 @@ representations (specially the ones with phantom types), runtime safe too.
 - [ ] Automatic Function Specs
 - [x] Control Exports via Interfaces
 
+### Functions
+
+- [ ] Explicitly distinguish between parameters that can be uncurried
+      and curriable ones
+
 ### Expression Generation
 
 Valid expressions in the Erlang language that are supported off the bad, or translated via FFI libraries or syntax extensions at the OCaml level.
@@ -46,11 +51,13 @@ Valid expressions in the Erlang language that are supported off the bad, or tran
 - [x] Let Bindings
 - [x] Variables
   - [ ] Make sure all variable names translate to valid Erlang variable names
+- [ ] Lambdas
 - [x] Function Reference
 - [x] Function Calls
   - [x] Proper resolution of local nested modules
+  - [ ] Proper calls for lambdas
 - [x] Case Expressions
-- [ ] If Expressions
+- [x] If Expressions (they get turned into case expressions)
 - [ ] Receive Expression
 - [ ] Guards
 

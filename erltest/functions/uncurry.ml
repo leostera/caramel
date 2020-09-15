@@ -1,1 +1,1 @@
-let ignore _x () = true
+let ignore _x = true

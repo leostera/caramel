@@ -188,6 +188,19 @@ let rec pp_expression prefix ppf expr ~module_ =
 
   | Expr_literal lit -> pp_literal ppf lit;
 
+  | Expr_fun { fd_name; fd_cases } ->
+    Format.fprintf ppf "fun";
+    begin match fd_cases with
+    | [] -> raise (Function_without_cases fd_name);
+    | c :: [] -> pp_fun_case prefix ppf c ~module_
+    | c :: cs ->
+        pp_fun_case prefix ppf c ~module_;
+        cs |> List.iter( fun case ->
+          Format.fprintf ppf ";\n%s" fd_name;
+          pp_fun_case prefix ppf case ~module_);
+    end;
+    Format.fprintf ppf "\n%send" prefix;
+
   | Expr_let (binding, expr) ->
       (* NOTE: we can optimize away the binding if the name is _ *)
       pp_pattern_match ppf binding.lb_lhs;
@@ -296,7 +309,7 @@ let rec pp_expression prefix ppf expr ~module_ =
       end
   end
 
-let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
+and pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
   begin match fc_lhs with
   | [] -> Format.fprintf ppf "()"
   | p :: ps ->
@@ -310,11 +323,12 @@ let pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
       | Expr_map _
       | Expr_let _
       | Expr_case _ -> Format.fprintf ppf "\n";  "  "
+      | Expr_fun _
       | Expr_apply _
       | Expr_fun_ref _
       | Expr_list _
       | Expr_tuple _
-      | Expr_literal _ 
+      | Expr_literal _
       | Expr_name _ -> " ";
       end) in
       pp_expression prefix ppf fc_rhs ~module_;
@@ -352,7 +366,7 @@ let pp_types ppf types =
   ))
 
 let pp ppf m =
-  Format.fprintf ppf "-module(%s).\n\n" m.module_name;
+  Format.fprintf ppf "-module(%s).\n" m.module_name;
   pp_exports ppf m.exports;
   pp_types ppf m.types;
   pp_functions ppf m.functions ~module_:m;

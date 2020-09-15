@@ -61,9 +61,54 @@ let build_functions:
       collect [] pat
     in
 
+    let name_in_var_names ~var_names name =
+      let open Erlast in
+      var_names
+      |> List.exists (fun pat ->
+        match pat with
+        | Pattern_binding x -> x = name
+        | _ -> false)
+    in
+
+    let is_nested_module name =
+      let name = name |> Longident.flatten |> List.hd in
+      modules |> List.exists (fun Erlast.{ ocaml_name = mn } -> mn = name)
+    in
+
+    let rec build_function fd_name cases ~var_names =
+      let rec params c acc =
+        let acc' = (build_pattern c.c_lhs) :: acc in
+        match c.c_rhs.exp_desc with
+        | Texp_function { cases = [c']; } -> params c' acc'
+        | _ -> acc' |> List.rev
+      in
+
+      let fd_arity = match cases with
+        | [] -> 0
+        | c :: _ -> (params c []) |> List.length
+      in
+      let fd_cases = cases |> List.map (fun case ->
+        (* NOTE: we'll just traverse all the expressions in this case and
+         * make sure we collapse as many top-level arguments for this function.
+         *)
+        let rec body c var_names =
+          match c.c_rhs.exp_desc with
+          | Texp_function { cases = [c']; } -> body c' var_names
+          | _ -> begin match build_expression c.c_rhs ~var_names with
+            | Some exp -> exp
+            | _ -> raise (Function_without_body c.c_rhs)
+          end
+        in
+
+        let fc_lhs = params case [] in
+        let fc_rhs = body case (var_names @ (collect_var_names fc_lhs)) in
+        let fc_guards = [] in
+        Erlast.{ fc_lhs; fc_guards; fc_rhs }
+      ) in Some Erlast.{ fd_name; fd_arity; fd_cases }
+
     (* NOTE: We need a universally quantified k here because this function will
      * be called with several types indexing general_pattern *)
-    let rec build_pattern: type k. k general_pattern -> Erlast.pattern =
+    and build_pattern: type k. k general_pattern -> Erlast.pattern =
       fun pat ->
       match pat.pat_desc with
       | Tpat_var (id, _) ->
@@ -100,31 +145,17 @@ let build_functions:
        * matching at the function level should happen. *)
       | _ ->
           Erlast.Pattern_ignore
-    in
 
-    let name_in_var_names ~var_names name =
-      let open Erlast in
-      var_names
-      |> List.exists (fun pat ->
-        match pat with
-        | Pattern_binding x -> x = name
-        | _ -> false)
-    in
-
-    let is_nested_module name =
-      let name = name |> Longident.flatten |> List.hd in
-      modules |> List.exists (fun Erlast.{ ocaml_name = mn } -> mn = name)
-    in
-
-    let rec build_bindings vbs ~var_names =
+    and build_bindings vbs ~var_names =
       match vbs with
-      | [] -> raise Unsupported_feature
       | vb :: [] ->
           Erlast.{
             lb_lhs = build_pattern vb.vb_pat ;
             lb_rhs = build_expression vb.vb_expr ~var_names |> maybe_unsupported;
           }
-      | _ -> raise Unsupported_feature
+      | _ ->
+          List.iter (Printtyped.value_binding 0 Format.std_formatter) vbs;
+          raise Unsupported_feature
 
     and build_expression exp ~var_names =
       match exp.exp_desc with
@@ -197,9 +228,14 @@ let build_functions:
       | Texp_record { fields; } ->
           Some (Erlast.Expr_map (fields |> Array.to_list |> List.map (fun (field, value) ->
             let value = match value with
-            | Kept _ -> raise Unsupported_feature
+            | Kept _ ->
+                Format.fprintf Format.std_formatter "record overrides unsupported yet!";
+                Printtyped.expression 0 Format.std_formatter exp;
+                raise Unsupported_feature
             | Overridden (_, exp) -> begin match build_expression exp ~var_names with
-                | None -> raise Unsupported_feature
+                | None ->
+                    Printtyped.expression 0 Format.std_formatter exp;
+                    raise Unsupported_feature
                 | Some v -> v
                 end
             in
@@ -220,6 +256,24 @@ let build_functions:
         )
         in Some (Erlast.Expr_case (expr, branches))
 
+      | Texp_ifthenelse (if_cond, if_true, if_false) ->
+          let expr = build_expression ~var_names if_cond |> maybe_unsupported in
+          let if_true =
+            Erlast.{ cb_pattern = Erlast.Pattern_match "true";
+                     cb_expr = build_expression ~var_names if_true
+                               |> maybe_unsupported }
+          in
+          let if_false =
+            match if_false with
+            | Some if_false ->
+                [Erlast.{ cb_pattern = Erlast.Pattern_match "false";
+                         cb_expr = build_expression ~var_names if_false
+                                   |> maybe_unsupported }]
+            | None -> []
+          in
+          let branches = if_true :: if_false in
+          Some (Erlast.Expr_case (expr, branches))
+
       | Texp_let (_, vbs, expr) ->
           (* NOTE: consider flattening let-ins ?
           let rec flatten e acc =
@@ -235,43 +289,22 @@ let build_functions:
           Some (Erlast.Expr_let (let_binding, let_expr))
 
 
-      | _ -> raise Unsupported_expression
+      | Texp_function { cases } ->
+          begin match build_function ~var_names:[] "anonymous" cases with
+          | Some f -> Some (Erlast.Expr_fun f)
+          | None -> None
+          end
+
+      | _ ->
+          Printtyped.expression 0 Format.std_formatter exp;
+          raise Unsupported_expression
     in
 
     let build_value vb =
       match vb.vb_pat.pat_desc, vb.vb_expr.exp_desc with
       | Tpat_var (id, _), Texp_function { cases; } ->
-          let rec params c acc =
-            let acc' = (build_pattern c.c_lhs) :: acc in
-            match c.c_rhs.exp_desc with
-            | Texp_function { cases = [c']; } -> params c' acc'
-            | _ -> acc' |> List.rev
-          in
-
-          let fd_name = id |> atom_of_ident in
-          let fd_arity = match cases with
-            | [] -> 0
-            | c :: _ -> (params c []) |> List.length
-          in
-          let fd_cases = cases |> List.map (fun case ->
-            (* NOTE: we'll just traverse all the expressions in this case and
-             * make sure we collapse as many top-level arguments for this function.
-             *)
-            let rec body c var_names =
-              match c.c_rhs.exp_desc with
-              | Texp_function { cases = [c']; } -> body c' var_names
-              | _ -> begin match build_expression c.c_rhs ~var_names with
-                | Some exp -> exp
-                | _ -> raise (Function_without_body c.c_rhs)
-              end
-            in
-
-            let fc_lhs = params case [] in
-            let fc_rhs = body case (collect_var_names fc_lhs) in
-            let fc_guards = [] in
-            Erlast.{ fc_lhs; fc_guards; fc_rhs }
-          ) in Some Erlast.{ fd_name; fd_arity; fd_cases }
-
+          let id = id |> atom_of_ident in
+          build_function ~var_names:[] id cases
       | _ -> None
     in
 
@@ -350,7 +383,9 @@ let build_types:
 
       | Ttyp_object _
       | Ttyp_class _
-      | Ttyp_package _ -> raise Unsupported_feature
+      | Ttyp_package _ -> 
+          Printtyped.core_type 0 Format.std_formatter core_type;
+          raise Unsupported_feature
     in
 
     let build_record labels =

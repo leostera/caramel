@@ -34,6 +34,7 @@ and expr =
   | Expr_list of expr list
   | Expr_case of expr * (case_branch list)
   | Expr_tuple of expr list
+  | Expr_fun of fun_decl
 
 and pattern =
   | Pattern_ignore
