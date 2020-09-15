@@ -38,13 +38,14 @@ Valid expressions in the Erlang language that are supported off the bad, or tran
   - [ ] Reference
   - [x] Integer
   - [x] Character
-  - [x] String (OCaml strings turned as binary string)
+  - [x] String (OCaml strings turned into as binary string)
   - [x] Float
   - [x] Maps
   - [x] Lists
   - [x] Tuples
 - [x] Let Bindings
 - [x] Variables
+  - [ ] Make sure all variable names translate to valid Erlang variable names
 - [x] Function Reference
 - [x] Function Calls
   - [x] Proper resolution of local nested modules
