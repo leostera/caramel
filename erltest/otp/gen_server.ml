@@ -1,4 +1,5 @@
-let start_link mod_name init_arg opts = Ok (Process.make_pid ())
+let start () = Dummy.start ()
+let start_link mod_name init_arg opts = Ok (Process.spawn start)
 
 module type S = sig
   type error
