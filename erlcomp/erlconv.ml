@@ -93,8 +93,12 @@ let build_functions:
          *)
         let rec body c var_names =
           match c.c_rhs.exp_desc with
-          | Texp_function { cases = [c']; } -> body c' var_names
-          | _ -> begin match build_expression c.c_rhs ~var_names with
+          | Texp_function { cases = [c']; } ->
+              let pattern =  (build_pattern c'.c_lhs) in
+              let var_names = (var_names @ (collect_var_names [pattern])) in
+              body c' var_names
+          | _ ->
+            begin match build_expression c.c_rhs ~var_names with
             | Some exp -> exp
             | _ -> raise (Function_without_body c.c_rhs)
           end
@@ -155,6 +159,7 @@ let build_functions:
           }
       | _ ->
           List.iter (Printtyped.value_binding 0 Format.std_formatter) vbs;
+          Format.fprintf Format.std_formatter "Caramel does not support \"let and\" bindings!\n";
           raise Unsupported_feature
 
     and build_expression exp ~var_names =
@@ -290,10 +295,18 @@ let build_functions:
 
 
       | Texp_function { cases } ->
-          begin match build_function ~var_names:[] "anonymous" cases with
+          begin match build_function ~var_names "anonymous" cases with
           | Some f -> Some (Erlast.Expr_fun f)
           | None -> None
           end
+
+      | Texp_sequence (this, next) ->
+          let let_binding = Erlast.{
+            lb_lhs = Erlast.Pattern_ignore;
+            lb_rhs = build_expression this ~var_names |> maybe_unsupported;
+          } in 
+          let let_expr = build_expression ~var_names next |> maybe_unsupported in
+          Some (Erlast.Expr_let (let_binding, let_expr))
 
       | _ ->
           Printtyped.expression 0 Format.std_formatter exp;

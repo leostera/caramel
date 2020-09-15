@@ -189,14 +189,14 @@ let rec pp_expression prefix ppf expr ~module_ =
   | Expr_literal lit -> pp_literal ppf lit;
 
   | Expr_fun { fd_name; fd_cases } ->
-    Format.fprintf ppf "fun";
+    Format.fprintf ppf "fun\n  %s" prefix;
     begin match fd_cases with
     | [] -> raise (Function_without_cases fd_name);
     | c :: [] -> pp_fun_case prefix ppf c ~module_
     | c :: cs ->
         pp_fun_case prefix ppf c ~module_;
         cs |> List.iter( fun case ->
-          Format.fprintf ppf ";\n%s" fd_name;
+          Format.fprintf ppf ";\n  %s" prefix;
           pp_fun_case prefix ppf case ~module_);
     end;
     Format.fprintf ppf "\n%send" prefix;

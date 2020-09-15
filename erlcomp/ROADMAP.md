@@ -55,7 +55,8 @@ Valid expressions in the Erlang language that are supported off the bad, or tran
 - [x] Function Reference
 - [x] Function Calls
   - [x] Proper resolution of local nested modules
-  - [ ] Proper calls for lambdas
+  - [ ] Proper calls for lambdas -- currently this prints `f(A, B)` for `f(A)(B)`
+        since it has no way of knowing that `f` has arity 1.
 - [x] Case Expressions
 - [x] If Expressions (they get turned into case expressions)
 - [ ] Receive Expression
