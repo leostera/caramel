@@ -46,9 +46,9 @@ let rec filter_map f seq () = match seq() with
 let rec filter f seq () = match seq() with
   | Nil -> Nil
   | Cons (x, next) ->
-      match f x with
-      | true -> Cons (x, filter f next)
-      | _ -> filter f next ()
+      if f x
+      then Cons (x, filter f next)
+      else filter f next ()
 
 let rec flat_map f seq () = match seq () with
   | Nil -> Nil
@@ -61,7 +61,25 @@ and flat_map_app f seq tail () = match seq () with
   | Cons (x, next) ->
     Cons (x, flat_map_app f next tail)
 
+let fold_left f acc seq =
+  let rec aux f acc seq = match seq () with
+    | Nil -> acc
+    | Cons (x, next) ->
+        let acc = f acc x in
+        aux f acc next
+  in
+  aux f acc seq
+
+let iter f seq =
+  let rec aux seq = match seq () with
+    | Nil -> ()
+    | Cons (x, next) ->
+        let _ = f x in
+        aux next
+  in
+  aux seq
+
 let rec unfold f u () =
   match f u with
   | None -> Nil
-  | Some (x, u2) -> Cons (x, unfold f u2)
+  | Some (x, u') -> Cons (x, unfold f u')

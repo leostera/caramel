@@ -10,6 +10,8 @@
 -export([filter/2]).
 -export([filter_map/2]).
 -export([flat_map/2]).
+-export([fold_left/3]).
+-export([iter/2]).
 -export([map/2]).
 -export([return/1]).
 -export([unfold/2]).
@@ -52,7 +54,7 @@ filter(F, Seq, {}) ->
     nil -> nil;
     {cons, X, Next} -> case F(X) of
   true -> {cons, X, filter(F, Next)};
-  _ -> filter(F, Next, {})
+  false -> filter(F, Next, {})
 end
   end.
 
@@ -68,10 +70,30 @@ flat_map(F, Seq, {}) ->
     {cons, X, Next} -> flat_map_app(F, F(X), Next, {})
   end.
 
+fold_left(F, Acc, Seq) ->
+  Aux = fun(F, Acc, Seq) ->
+  case Seq({}) of
+    nil -> Acc;
+    {cons, X, Next} -> Acc = F(Acc, X),
+aux(F, Acc, Next)
+  end
+end,
+  Aux(F, Acc, Seq).
+
+iter(F, Seq) ->
+  Aux = fun(Seq) ->
+  case Seq({}) of
+    nil -> {};
+    {cons, X, Next} -> _ = f(X),
+aux(Next)
+  end
+end,
+  Aux(Seq).
+
 unfold(F, U, {}) ->
   case F(U) of
     none -> nil;
-    {some, {X, U2}} -> {cons, X, unfold(F, U2)}
+    {some, {X, U'}} -> {cons, X, unfold(F, U')}
   end.
 
 

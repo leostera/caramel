@@ -76,16 +76,16 @@ val flat_map : ('a -> 'b t) -> 'a t -> 'b t
     This transformation is lazy, it only applies when the result is
     traversed. *)
 
-(** Traverse the sequence from left to right, combining each element with the
 val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b t -> 'a
+(** Traverse the sequence from left to right, combining each element with the
     accumulator using the given function.
     The traversal happens immediately and will not terminate on infinite
     sequences.
 
     Also see {!List.fold_left} *)
 
-(** Iterate on the sequence, calling the (imperative) function on every element.
 val iter : ('a -> unit) -> 'a t -> unit
+(** Iterate on the sequence, calling the (imperative) function on every element.
     The traversal happens immediately and will not terminate on infinite
     sequences. *)
 
