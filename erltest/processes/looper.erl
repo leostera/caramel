@@ -5,7 +5,9 @@
 -export([loop/1]).
 -export([start/1]).
 
-loop(X) -> loop(X).
+loop(X) ->
+  _ = io:format(<<"~p\n">>, [erlang:self() | []]),
+  loop(X).
 
 start(X) -> erlang:spawn(fun
   () -> loop(X)
@@ -13,6 +15,6 @@ end).
 
 do_work() ->
   Pid = start(1),
-  erlang:send(Pid, 2).
+  erlang:send(Pid, 2112).
 
 

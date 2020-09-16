@@ -1,8 +1,10 @@
 % Source code generated with Caramel.
 -module(process).
--export_type([t/1]).
 
+-export([spawn/1]).
 
--type t(_Message) :: reference().
+spawn(F) -> erlang:spawn(fun
+  () -> F(fun (T) -> receive X -> {some, X} after T -> none end end)
+end).
 
 

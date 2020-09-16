@@ -1,8 +1,11 @@
-let rec loop x = loop x
+let rec loop x =
+  Io.format "~p\n" [Erlang.self()];
+  loop x
 
-let start : int -> int Process.t =
-  fun x -> Erlang.spawn (fun () -> loop x )
+let start x =
+  Erlang.spawn (fun () -> loop x )
 
 let do_work () =
   let pid = start 1 in
-  Erlang.send pid 2
+  (* Erlang.send pid true *)
+  Erlang.send pid 2112
