@@ -511,11 +511,11 @@ let build_exports:
   -> Types.signature option
   -> Erlast.export list =
   fun ~name:_ typedtree signature ->
-    let rec value_arity = fun value count ->
+    let rec collect_args = fun value args ->
       match value.desc with
-      | Tarrow (_, _, next, _) -> value_arity next (count + 1)
-      | Tlink t -> value_arity t count
-      | _ -> count
+      | Tarrow (_, arg, next, _) -> collect_args next (arg :: args)
+      | Tlink t -> collect_args t args
+      | _ -> args
     in
 
     let signature = match signature with
@@ -528,7 +528,12 @@ let build_exports:
       | Sig_value (_, { val_kind = Val_prim _  }, Exported) ->
           None
       | Sig_value (name, vd, Exported) ->
-          Some (Erlast.make_fn_export (atom_of_ident name) (value_arity vd.val_type 0))
+          let args = collect_args vd.val_type [] in
+          let args = match args with
+          | ({ desc = Tconstr (path, _, _) } :: rest) when Path.last path = "unit" -> rest
+          | _ -> args
+          in
+          Some (Erlast.make_fn_export (atom_of_ident name) (List.length args))
       | Sig_type (name, td, _, Exported) ->
           Some (Erlast.make_type_export (atom_of_ident name) td.type_arity)
       | _  -> None
