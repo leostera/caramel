@@ -155,6 +155,14 @@ let build_functions:
           let values = (List.map build_pattern patterns) in
           Erlast.Pattern_tuple (tag :: values)
 
+      | Tpat_variant (label, None, _) ->
+          Erlast.Pattern_match (atom_of_string label)
+
+      | Tpat_variant (label, Some expr, _) ->
+          let tag = Erlast.Pattern_match (atom_of_string label) in
+          let value = build_pattern expr in
+          Erlast.Pattern_tuple [tag; value]
+
       (* NOTE: here's where the translation of pattern
        * matching at the function level should happen. *)
       | _ ->

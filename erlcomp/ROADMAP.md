@@ -3,7 +3,10 @@
 ### Up Next 
 
 - [X] Better handling of externals / FFI
-- [ ] Example of type-safe process
+- [X] Example of type-safe process
+- [ ] fully inferred message type in processes experiments
+  - [X] passing a recv function for the unification to work from the inside out
+- [X] bind names from poly variants!!!
 - [ ] Function signatures 
 
 ### Module System

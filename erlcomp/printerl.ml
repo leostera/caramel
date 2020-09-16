@@ -236,6 +236,7 @@ let rec pp_expression prefix ppf expr ~module_ =
       pp_expression "" ppf fa_name ~module_;
       begin match fa_args with
       | [] -> Format.fprintf ppf "()"
+      | (Expr_tuple []) :: [] -> Format.fprintf ppf "()"
       | exp :: args ->
           Format.fprintf ppf "(";
           pp_expression "" ppf exp ~module_;
