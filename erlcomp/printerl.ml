@@ -223,10 +223,16 @@ let rec pp_expression prefix ppf expr ~module_ =
       Format.fprintf ppf ",\n";
       pp_expression prefix ppf expr ~module_;
 
+  | Expr_fun_ref "__caramel_recv" ->
+      Format.fprintf ppf "fun (T) -> ";
+      Format.fprintf ppf   "receive X -> {some, X} ";
+      Format.fprintf ppf   "after T -> none ";
+      Format.fprintf ppf   "end ";
+      Format.fprintf ppf "end";
+
   | Expr_fun_ref name ->
       begin match Erlast.find_fun_by_name ~module_ name with
-      | None ->
-          raise (Undefined_function_reference name)
+      | None -> ()
       | Some { fd_arity } ->
           Format.fprintf ppf "fun %s/%d" name fd_arity;
       end

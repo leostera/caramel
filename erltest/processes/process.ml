@@ -1,3 +1,5 @@
-type 'message t
+external __caramel_recv: timeout:int -> 'message option = ""
 
-external send : 'message t -> 'message -> unit = ""
+let spawn : ((timeout:int -> 'message option) -> 'a) -> 'message Erlang.process =
+  fun f -> Erlang.spawn(fun () -> f __caramel_recv )
+
