@@ -198,7 +198,6 @@ let rec pp_expression prefix ppf expr ~module_ =
        * figure out what it actually translates to since it could be a external
        * call!
        *)
-      Format.fprintf Format.std_formatter "USING NAME: %s : %s" n_mod n_fun;
       Format.fprintf ppf "%s:%s" (String.lowercase_ascii n_mod) n_fun;
 
   | Expr_literal lit -> pp_literal ppf lit;
