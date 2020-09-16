@@ -184,7 +184,22 @@ let pp_literal ppf lit =
 let rec pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
   begin match expr with
-  | Expr_name name -> Format.fprintf ppf "%s" name;
+  | Expr_name (Var_name name) ->
+      Format.fprintf ppf "%s" (String.capitalize_ascii name);
+
+  | Expr_name (Atom_name name) ->
+      Format.fprintf ppf "%s" (String.lowercase_ascii name);
+
+  | Expr_name (Macro_name name) ->
+      Format.fprintf ppf "?%s" name;
+
+  | Expr_name (Qualified_name { n_mod; n_fun }) ->
+      (* TODO: lookup n_mod and n_fun in a global table of symbols to
+       * figure out what it actually translates to since it could be a external
+       * call!
+       *)
+      Format.fprintf Format.std_formatter "USING NAME: %s : %s" n_mod n_fun;
+      Format.fprintf ppf "%s:%s" (String.lowercase_ascii n_mod) n_fun;
 
   | Expr_literal lit -> pp_literal ppf lit;
 
@@ -365,10 +380,14 @@ let pp_types ppf types =
       Format.fprintf ppf ".\n\n"
   ))
 
-let pp ppf m =
-  Format.fprintf ppf "-module(%s).\n" m.module_name;
-  pp_exports ppf m.exports;
-  pp_types ppf m.types;
-  pp_functions ppf m.functions ~module_:m;
-  ()
+let pp ppf ({ module_name; exports; types; functions } as m) =
+  match exports with
+  | [] -> ()
+  | _ -> begin
+    Format.fprintf ppf "-module(%s).\n" module_name;
+    pp_exports ppf exports;
+    pp_types ppf types;
+    pp_functions ppf functions ~module_:m;
+    ()
+  end
 

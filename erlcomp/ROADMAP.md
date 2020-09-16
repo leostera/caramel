@@ -1,5 +1,11 @@
 # Roadmap
 
+### Up Next 
+
+- [X] Better handling of externals / FFI
+- [ ] Example of type-safe Gen_server
+- [ ] Function signatures 
+
 ### Module System
 
 The goal here is to support the OCaml module system, with its nesting, functors,

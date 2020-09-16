@@ -2,6 +2,12 @@ type atom = string
 
 and guard = unit
 
+and name =
+  | Var_name of atom
+  | Atom_name of atom
+  | Macro_name of atom
+  | Qualified_name of { n_mod: atom; n_fun: atom }
+
 and map_field = {
   mf_name: atom;
   mf_value: expr
@@ -25,7 +31,7 @@ and literal =
 
 and expr =
   | Expr_let of let_binding * expr
-  | Expr_name of atom
+  | Expr_name of name
   | Expr_literal of literal
   (* NOTE: function references will be resolved at print time for now :( *)
   | Expr_fun_ref of atom

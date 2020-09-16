@@ -10,11 +10,12 @@ let generate_one erlmod =
     (fun () ->
         let f = Format.formatter_of_out_channel oc in
         Format.fprintf f "%% Source code generated with Caramel.\n";
-        Format.fprintf f "%a@\n" Printerl.pp erlmod;
-        Format.fprintf f "%!";
+        Format.fprintf f "%a@\n%!" Printerl.pp erlmod;
     )
 
 let generate_sources file_info (typedtree, _mod_coercion) signature =
   let erlmods = Erlconv.from_typedtree ~name:file_info.module_name typedtree signature in
   let _ = print_string ("Generating " ^ (string_of_int (List.length erlmods)) ^ " sources...\n" ) in
-  List.iter generate_one erlmods
+  erlmods
+  |> List.filter (fun erlmod -> Erlast.(erlmod.exports) <> [] )
+  |> List.iter generate_one

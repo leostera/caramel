@@ -4,8 +4,14 @@ open Types
 exception Function_without_body of Typedtree.expression
 exception Unsupported_feature
 exception Unsupported_expression
+exception Unsupported_empty_identifier
+exception Unsupported_naming
 
-let maybe_unsupported x = match x with | Some x -> x | None -> raise Unsupported_feature
+let maybe e x = match x with
+  | Some v -> v
+  | None -> raise e
+
+let maybe_unsupported x = maybe Unsupported_feature x
 
 let rec varname_of_string s =
   let name = s |> String.capitalize_ascii in
@@ -14,17 +20,21 @@ let rec varname_of_string s =
       let name = name |> String.to_seq |> List.of_seq |> List.tl |> List.to_seq |> String.of_seq in
       "_" ^ (varname_of_string name)
   | _, _ -> name
-
-let atom_of_string = String.lowercase_ascii
-
-let atom_of_ident i = i |> Ident.name |> atom_of_string
 let varname_of_ident i = i |> Ident.name |> varname_of_string
 
-let longident_to_string x =
+let atom_of_string = String.lowercase_ascii
+let atom_of_ident i = i |> Ident.name |> atom_of_string
+
+let longident_to_atom x = x |> Longident.last |> atom_of_string
+let longident_to_name x =
   match x |> Longident.flatten |> List.rev with
-  | [] -> ""
-  | x :: [] -> x
-  | f :: mods -> (mods |> List.rev |> String.concat "__") ^ ":" ^ f
+  | [] ->
+      raise Unsupported_empty_identifier
+  | x :: [] ->
+      Erlast.(Var_name x)
+  | n_fun :: mods ->
+      let n_mod = (mods |> List.rev |> String.concat "__")  in
+      Erlast.(Qualified_name { n_mod; n_fun })
 
 let ocaml_to_erlang_type t =
   match t with
@@ -128,20 +138,20 @@ let build_functions:
 
       | Tpat_record (fields, _) ->
           Erlast.Pattern_map (fields |> List.map (fun (Asttypes.{txt}, _, pattern) ->
-            (atom_of_string (longident_to_string txt), build_pattern pattern)
+            (longident_to_atom txt, build_pattern pattern)
           ))
 
-      | Tpat_construct ({ txt }, _, _) when longident_to_string txt = "()" ->
+      | Tpat_construct ({ txt }, _, _) when longident_to_atom txt = "()" ->
           Erlast.Pattern_tuple []
 
-      | Tpat_construct ({ txt }, _, patterns) when longident_to_string txt = "::" ->
+      | Tpat_construct ({ txt }, _, patterns) when longident_to_atom txt = "::" ->
           Erlast.Pattern_list (List.map build_pattern patterns)
 
       | Tpat_construct ({ txt }, _, []) ->
-          Erlast.Pattern_match (longident_to_string txt |> atom_of_string)
+          Erlast.Pattern_match (longident_to_atom txt)
 
       | Tpat_construct ({ txt }, _, patterns) ->
-          let tag = Erlast.Pattern_match (longident_to_string txt |> atom_of_string) in
+          let tag = Erlast.Pattern_match (longident_to_atom txt) in
           let values = (List.map build_pattern patterns) in
           Erlast.Pattern_tuple (tag :: values)
 
@@ -176,50 +186,69 @@ let build_functions:
           in
           Some (Erlast.Expr_literal v)
 
-      | Texp_ident (_, {txt}, _) when longident_to_string txt = "__MODULE__" ->
-          Some (Erlast.Expr_name "?MODULE")
+      | Texp_ident (_, {txt}, _) when longident_to_atom txt = "__MODULE__" ->
+          Some (Erlast.Expr_name (Erlast.Macro_name "MODULE"))
 
       | Texp_ident (_, {txt}, _) ->
-          let name = longident_to_string txt in
-          let name = if is_nested_module txt then module_name ^ "__" ^ name else name in
-          let name = name |> varname_of_string in
-          if (name_in_var_names ~var_names name)
-          then Some (Erlast.Expr_name name)
-          else Some (Erlast.Expr_fun_ref (atom_of_string name))
+          let name = longident_to_name txt in
+          let var_name = txt |> longident_to_atom |> varname_of_string in
 
-      | Texp_construct ({ txt }, _, _expr) when longident_to_string txt = "[]" ->
+          (* NOTE: an identifier may be a currently bound variable name *)
+          if (name_in_var_names ~var_names var_name)
+          then Some (Erlast.Expr_name (Erlast.Var_name var_name))
+
+          (* NOTE: or it may be a function name of 3 kinds *)
+          else begin match name, is_nested_module txt with
+
+            (* NOTE: qualified and local, refering a module that's nested *)
+            | Erlast.Qualified_name { n_mod; n_fun }, true ->
+                let name = Erlast.Qualified_name {
+                  n_fun=n_fun;
+                  n_mod=module_name ^ "__" ^ n_mod;
+                } in Some (Erlast.Expr_name name)
+
+            (* NOTE: qualified and external, refering to a module that is not nested *)
+            | Erlast.Qualified_name _, false ->
+                Some (Erlast.Expr_name name)
+
+            (* NOTE: unqualified, and thus refering to a function reference *)
+            | _, _ -> Some (Erlast.Expr_fun_ref (atom_of_string var_name))
+          end
+
+      | Texp_construct ({ txt }, _, _expr) when longident_to_atom txt = "[]" ->
           Some (Erlast.Expr_list [])
 
-      | Texp_construct ({ txt }, _, _expr) when longident_to_string txt = "()" ->
+      | Texp_construct ({ txt }, _, _expr) when longident_to_atom txt = "()" ->
           Some (Erlast.Expr_tuple [])
 
       | Texp_construct ({ txt }, _, []) ->
-          Some (Erlast.Expr_name (longident_to_string txt |> atom_of_string))
+          Some (Erlast.Expr_name (longident_to_name txt))
 
       (* NOTE: lists are just variants :) *)
-      | Texp_construct ({ txt }, _, exprs) when longident_to_string txt = "::" ->
+      | Texp_construct ({ txt }, _, exprs) when longident_to_atom txt = "::" ->
           let values = exprs |> List.filter_map(build_expression ~var_names) in
           Some (Erlast.Expr_list values)
 
       (* NOTE: these are actually the variants! and Texp_variant below is for
        * polymorphic ones *)
       | Texp_construct ({ txt }, _, exprs) ->
-          let tag = Erlast.Expr_name (longident_to_string txt |> atom_of_string) in
+          let tag = Erlast.Expr_name (longident_to_name txt) in
           let values = exprs |> List.filter_map(build_expression ~var_names) in
           Some (Erlast.Expr_tuple (tag :: values))
 
       | Texp_variant (label, None) ->
-          Some (Erlast.Expr_name (atom_of_string label))
+          Some (Erlast.Expr_name (Erlast.Atom_name label))
 
       | Texp_variant (label, Some expr) ->
-          let tag = Erlast.Expr_name (label |> atom_of_string) in
+          let tag = Erlast.Expr_name (Erlast.Atom_name label) in
           let value = build_expression ~var_names expr |> maybe_unsupported in
           Some (Erlast.Expr_tuple [tag; value])
 
       | Texp_apply (expr, args) ->
           let fa_name =
             match build_expression expr ~var_names |> maybe_unsupported with
-            | Erlast.Expr_fun_ref n -> Erlast.Expr_name n
+            | Erlast.Expr_fun_ref n ->
+                Erlast.Expr_name (Var_name n)
             | x -> x
           in
           let fa_args = args |> List.map (fun (_, arg) ->
@@ -364,9 +393,9 @@ let build_types:
        * gets compiled to `-type a() :: list(string()).`
        *)
       | Ttyp_constr (_, { txt; }, args) ->
-          let tc_name = longident_to_string txt |> atom_of_string |> ocaml_to_erlang_type in
+          let tc_name = Longident.last txt |> atom_of_string |> ocaml_to_erlang_type in
           let tc_args = args |> List.filter_map build_type_kind in
-          Some (Erlast.Type_constr { tc_name; tc_args})
+          Some (Erlast.Type_constr { tc_name; tc_args })
 
       | Ttyp_tuple els ->
           let parts = (els |> List.filter_map build_type_kind) in
@@ -496,10 +525,12 @@ let build_exports:
 
     signature |> (List.filter_map (fun sig_item ->
       match sig_item  with
-      | Sig_value (name, { val_type }, Exported) ->
-          Some (Erlast.make_fn_export (atom_of_ident name) (value_arity val_type 0))
-      | Sig_type (name, { type_arity }, _, Exported) ->
-          Some (Erlast.make_type_export (atom_of_ident name) type_arity)
+      | Sig_value (_, { val_kind = Val_prim { prim_name }  }, Exported) ->
+          None
+      | Sig_value (name, vd, Exported) ->
+          Some (Erlast.make_fn_export (atom_of_ident name) (value_arity vd.val_type 0))
+      | Sig_type (name, td, _, Exported) ->
+          Some (Erlast.make_type_export (atom_of_ident name) td.type_arity)
       | _  -> None
     ))
 
