@@ -324,15 +324,25 @@ let rec pp_expression prefix ppf expr ~module_ =
       end
   end
 
-and pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
-  begin match fc_lhs with
-  | [] -> Format.fprintf ppf "()"
+and pp_fun_args ppf args =
+  match args with
+  | [] -> ()
+  | arg :: [] ->
+      if arg = Pattern_tuple []
+      then ()
+      else pp_pattern_match ppf arg
   | p :: ps ->
-      Format.fprintf ppf "(";
       pp_pattern_match ppf p;
       ps |> List.iter( fun pat ->
         Format.fprintf ppf ", ";
         pp_pattern_match ppf pat );
+
+and pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
+  begin match fc_lhs with
+  | [] -> Format.fprintf ppf "()"
+  | args ->
+      Format.fprintf ppf "(";
+      pp_fun_args ppf args;
       Format.fprintf ppf ") ->";
       let prefix = (begin match fc_rhs with
       | Expr_map _

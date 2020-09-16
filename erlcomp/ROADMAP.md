@@ -3,7 +3,7 @@
 ### Up Next 
 
 - [X] Better handling of externals / FFI
-- [ ] Example of type-safe Gen_server
+- [ ] Example of type-safe process
 - [ ] Function signatures 
 
 ### Module System

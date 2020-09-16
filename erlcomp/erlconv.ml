@@ -248,7 +248,7 @@ let build_functions:
           let fa_name =
             match build_expression expr ~var_names |> maybe_unsupported with
             | Erlast.Expr_fun_ref n ->
-                Erlast.Expr_name (Var_name n)
+                Erlast.Expr_name (Atom_name n)
             | x -> x
           in
           let fa_args = args |> List.map (fun (_, arg) ->
