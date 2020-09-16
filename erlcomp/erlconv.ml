@@ -525,7 +525,7 @@ let build_exports:
 
     signature |> (List.filter_map (fun sig_item ->
       match sig_item  with
-      | Sig_value (_, { val_kind = Val_prim { prim_name }  }, Exported) ->
+      | Sig_value (_, { val_kind = Val_prim _  }, Exported) ->
           None
       | Sig_value (name, vd, Exported) ->
           Some (Erlast.make_fn_export (atom_of_ident name) (value_arity vd.val_type 0))
