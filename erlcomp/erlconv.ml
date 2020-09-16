@@ -42,6 +42,22 @@ let ocaml_to_erlang_type t =
   | "bool" -> "boolean"
   | u -> u
 
+let to_erl_op t =  Erlast.(Qualified_name { n_mod = "erlang"; n_fun = "'" ^ t ^ "'" })
+let ocaml_to_erlang_primitive_op t =
+  match t with
+  | "!"
+  | "++"
+  | "-"
+  | "--"
+  | "/"
+  | "<"
+  | ">"
+  | "*"
+  | "+" -> to_erl_op t
+  | "<>" -> to_erl_op "=/="
+  | "=" -> to_erl_op "=:="
+  | "==" -> to_erl_op "=="
+  | u -> Erlast.Atom_name u
 
 (** Build the actual functions of an Erlang module
  *)
@@ -256,7 +272,7 @@ let build_functions:
           let fa_name =
             match build_expression expr ~var_names |> maybe_unsupported with
             | Erlast.Expr_fun_ref n ->
-                Erlast.Expr_name (Atom_name n)
+                Erlast.Expr_name (n |> ocaml_to_erlang_primitive_op)
             | x -> x
           in
           let fa_args = args |> List.map (fun (_, arg) ->
