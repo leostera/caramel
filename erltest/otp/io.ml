@@ -1,1 +1,2 @@
-let format: 'k. string -> 'k list -> unit = fun _pat _args -> ()
+external format : string -> 'a list -> unit = ""
+

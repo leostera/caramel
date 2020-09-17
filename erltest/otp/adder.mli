@@ -1,4 +1,10 @@
-type message
+type init_args = int
+type message = Add of int
+type reply = int
+type state = int
 
-val add : pid:message Process.t -> int -> unit
-val reset :  pid:message Process.t -> unit
+type rpc
+
+val start : init_args -> rpc Erlang.process
+
+val call : rpc Erlang.process -> message -> reply option

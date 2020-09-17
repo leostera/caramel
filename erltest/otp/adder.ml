@@ -1,34 +1,67 @@
-type message =
-  | Add of int
-  | Reset
+type init_args = int
+type message = Add of int
+type reply = int
+type state = int
+type call_response =
+  | Reply of reply * state
+  | No_reply of state
 
-type t = int
+let init x = Ok x
 
-type resp = unit
+let handle_call message _pid state =
+  match message with
+  | Add i -> Reply (state, state + i)
 
-type call_reply =
-  | No_reply of t
-  | Reply of resp * t
+  (*
+module Server : Gen_server.Intf
+  with type gs_init_args = init_args
+   and type gs_message = message
+   and type gs_reply = reply
+   and type gs_state = state
+= Gen_server.Make(struct
+  type gs_call_response = call_response = 
+    | Reply of reply * state
+    | No_reply of state
+  type gs_init_args = init_args
+  type gs_message = message
+  type gs_reply = reply
+  type gs_state = state
+  let init = init
+  let handle_call = handle_call
+end)
 
-include (Gen_server.Make(struct
-  type nonrec msg = message
+include Server
+*)
 
-  type nonrec state = t
+type rpc =
+  | Call : 'a Erlang.process * message -> rpc
 
-  type nonrec call_value = resp
+let call pid msg =
+  Erlang.send pid (Call (Process.self (), msg ));
+  Process.recv ~timeout:(Process.Bounded 5000)
 
-  type nonrec reply = call_reply
+let handle_call pid msg state =
+  match handle_call msg pid state with
+  | Reply (reply, state2) ->
+      Erlang.send pid reply;
+      state2
+  | No_reply state2 ->
+      state2
 
-  let handle_call state _msg =
-    Io.format "~p" state;
-    No_reply state
+let rec loop:
+    'a. state ->
+            recv: (timeout:Process.after_time -> rpc option) ->
+            'b
+= fun state ~recv ->
+  let state2 =
+    match recv ~timeout:Process.Infinity with
+    | Some (Call (pid, msg)) -> handle_call (pid :> 'a Erlang.process) msg state
+    | None -> state
+  in
+  loop state2 ~recv
 
-end): Gen_server.Intf with type msg = message
-                       and type state = t
-                       and type call_value = resp
-                       and type reply = call_reply)
-
-
-let add ~pid x = call pid (Add x)
-
-let reset ~pid = call pid Reset
+let start args = Process.spawn ( fun recv ->
+  match init args with
+  | Ok initial_state -> loop initial_state ~recv
+  | Error err -> Io.format "ERROR: Process crashed - ~p\n" [err];
+)
