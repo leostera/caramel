@@ -39,10 +39,10 @@ run() ->
   A = process:make(fun
   (Pid, Recv) -> a_loop(Pid, Recv, 0)
 end),
-  _ = process:make(fun
+  _B = process:make(fun
   (Pid, Recv) -> b_loop(Pid, Recv, A)
 end),
-  _ = process:make(fun
+  _C = process:make(fun
   (Pid, Recv) -> c_loop(Pid, Recv, A)
 end),
   {}.
