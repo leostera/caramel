@@ -17,7 +17,7 @@ let rec b_loop pid recv a =
 let rec c_loop pid recv a =
   Timer.sleep 1000;
   (* contramap this process to map ints to booleans *)
-  let cb: int Process.erlang = Process.contramap (fun x -> x > 10) pid in
+  let cb = Process.contramap (fun x -> x > 10) pid in
   Erlang.send a (`Call (cb, 1)) ;
   match recv ~timeout:(Process.Bounded 0) with
   | None -> c_loop pid recv a
