@@ -21,7 +21,7 @@ let send : 'message Erlang.process -> 'message -> unit =
 
 let contramap : ('b -> 'a) -> 'a Erlang.process -> 'b Erlang.process =
   fun f pid ->
-    make (fun self recv ->
+    make (fun _self recv ->
       match recv ~timeout:Infinity with
       | Some a -> send pid (f a)
       | None -> ())

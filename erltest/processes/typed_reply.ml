@@ -21,7 +21,7 @@ let rec c_loop pid recv a =
   Erlang.send a (`Call (cb, 1)) ;
   match recv ~timeout:(Process.Bounded 0) with
   | None -> c_loop pid recv a
-  | Some true -> Io.format "yay, it is true\n" []; c_loop pid recv a
+  | Some true -> Io.format "yay, it is true\n" [];
   | Some false -> Io.format "oh noes!\n" []; c_loop pid recv a
 
 let run () =

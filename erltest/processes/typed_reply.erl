@@ -30,8 +30,7 @@ end, Pid),
   _ = erlang:send(A, {call, {Cb, 1}}),
   case Recv({bounded, 0}) of
     none -> c_loop(Pid, Recv, A);
-    {some, true} -> _ = io:format(<<"yay, it is true\n">>, []),
-c_loop(Pid, Recv, A);
+    {some, true} -> io:format(<<"yay, it is true\n">>, []);
     {some, false} -> _ = io:format(<<"oh noes!\n">>, []),
 c_loop(Pid, Recv, A)
   end.

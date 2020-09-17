@@ -30,7 +30,7 @@ end).
 send(Proc, Msg) -> erlang:send(Proc, Msg).
 
 contramap(F, Pid) -> make(fun
-  (Self, Recv) ->
+  (_Self, Recv) ->
   case Recv(infinity) of
     {some, A} -> send(Pid, F(A));
     none -> {}
