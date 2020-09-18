@@ -1,0 +1,22 @@
+module Funs = struct
+  let apply_fun () =
+    let a = (fun () -> 1) in
+    let b () = 2 in
+    let c x = x + 1 in
+    a ();
+    b ();
+    c 0;
+end
+
+let rec f x = f x
+let f1 x = f [x]
+let f2 x y = f [x; y]
+let f3 x y z = f [x; y; z]
+let f4 w x y z = f [w; x; y; z]
+
+let run () =
+  f1 1;
+  f2 1 2;
+  f3 1 2 3;
+  f4 1 2 3 4;
+  Funs.apply_fun ()
