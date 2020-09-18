@@ -32,17 +32,34 @@ let longident_to_name x =
       raise Unsupported_empty_identifier
   | x :: [] ->
       Erlast.(Var_name x)
-  | n_fun :: mods ->
+  | n_name :: mods ->
       let n_mod = (mods |> List.rev |> String.concat "__")  in
-      Erlast.(Qualified_name { n_mod; n_fun })
+      Erlast.(Qualified_name { n_mod; n_name })
 
 let ocaml_to_erlang_type t =
+  let open Erlast in
   match t with
-  | "int" -> "integer"
-  | "bool" -> "boolean"
-  | u -> u
+  | "int" -> Atom_name "integer"
+  | "bool" -> Atom_name "boolean"
+  | "option" -> Qualified_name { n_mod="option"; n_name="t" }
+  | "result" -> Qualified_name { n_mod="result"; n_name="t" }
+  | u -> Atom_name u
 
-let to_erl_op t =  Erlast.(Qualified_name { n_mod = "erlang"; n_fun = "'" ^ t ^ "'" })
+let longident_to_type_name x =
+  match x |> Longident.flatten |> List.rev with
+  | [] -> raise Unsupported_empty_identifier
+  | x :: [] -> ocaml_to_erlang_type x
+  | n_name :: mods ->
+      let n_mod = (mods |> List.rev |> String.concat "__") |> String.lowercase_ascii in
+      match n_mod, n_name with
+      | _, x when x="option" || x="result" ->
+          Erlast.(Qualified_name { n_mod=x; n_name="t" })
+      | "erlang", "process" ->
+          Erlast.(Qualified_name { n_mod; n_name="pid"})
+      | _, _ ->
+          Erlast.(Qualified_name { n_mod; n_name })
+
+let to_erl_op t =  Erlast.(Qualified_name { n_mod = "erlang"; n_name = "'" ^ t ^ "'" })
 let ocaml_to_erlang_primitive_op t =
   match t with
   | "!"
@@ -225,9 +242,9 @@ let build_functions:
           else begin match name, is_nested_module txt with
 
             (* NOTE: qualified and local, refering a module that's nested *)
-            | Erlast.Qualified_name { n_mod; n_fun }, true ->
+            | Erlast.Qualified_name { n_mod; n_name }, true ->
                 let name = Erlast.Qualified_name {
-                  n_fun=n_fun;
+                  n_name=n_name;
                   n_mod=module_name ^ "__" ^ n_mod;
                 } in Some (Erlast.Expr_name name)
 
@@ -246,7 +263,7 @@ let build_functions:
           Some (Erlast.Expr_tuple [])
 
       | Texp_construct ({ txt }, _, []) ->
-          Some (Erlast.Expr_name (longident_to_name txt))
+          Some (Erlast.Expr_name (Atom_name (longident_to_atom txt)))
 
       (* NOTE: lists are just variants :) *)
       | Texp_construct ({ txt }, _, exprs) when longident_to_atom txt = "::" ->
@@ -256,7 +273,7 @@ let build_functions:
       (* NOTE: these are actually the variants! and Texp_variant below is for
        * polymorphic ones *)
       | Texp_construct ({ txt }, _, exprs) ->
-          let tag = Erlast.Expr_name (longident_to_name txt) in
+          let tag = Erlast.Expr_name (Atom_name (longident_to_atom txt)) in
           let values = exprs |> List.filter_map(build_expression ~var_names) in
           Some (Erlast.Expr_tuple (tag :: values))
 
@@ -417,7 +434,7 @@ let build_types:
        * gets compiled to `-type a() :: list(string()).`
        *)
       | Ttyp_constr (_, { txt; }, args) ->
-          let tc_name = Longident.last txt |> atom_of_string |> ocaml_to_erlang_type in
+          let tc_name = longident_to_type_name txt in
           let tc_args = args |> List.filter_map build_type_kind in
           Some (Erlast.Type_constr { tc_name; tc_args })
 
@@ -492,7 +509,7 @@ let build_types:
           begin match type_decl.typ_manifest with
           | Some abs -> (build_abstract name params type_decl abs)
           | None ->
-              let ref = (Erlast.Type_constr { tc_name="reference"; tc_args=[]}) in
+              let ref = (Erlast.Type_constr { tc_name=Atom_name "reference"; tc_args=[]}) in
               Some (Erlast.make_named_type name params ref)
           end
 
@@ -552,12 +569,14 @@ let build_exports:
       | Sig_value (_, { val_kind = Val_prim _  }, Exported) ->
           None
       | Sig_value (name, vd, Exported) ->
+          let name = (atom_of_ident name) in
           let args = collect_args vd.val_type [] in
           let args = match args with
-          | ({ desc = Tconstr (path, _, _) } :: rest) when Path.last path = "unit" -> rest
+          | ({ desc = Tconstr (path, _, _)} :: rest)  when Path.last path = "unit" -> rest
           | _ -> args
           in
-          Some (Erlast.make_fn_export (atom_of_ident name) (List.length args))
+          let arity = (List.length args) in
+          Some (Erlast.make_fn_export name arity)
       | Sig_type (name, td, _, Exported) ->
           Some (Erlast.make_type_export (atom_of_ident name) td.type_arity)
       | _  -> None
