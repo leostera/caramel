@@ -33,7 +33,7 @@ contramap(F, Pid) -> make(fun
   (_Self, Recv) ->
   case Recv(infinity) of
     {some, A} -> send(Pid, F(A));
-    none -> {}
+    none -> ok
   end
 end).
 

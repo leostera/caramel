@@ -4,7 +4,7 @@
 -export([a_loop/3]).
 -export([b_loop/3]).
 -export([c_loop/3]).
--export([run/0]).
+-export([run/1]).
 
 a_loop(Pid, Recv, I) ->
   case Recv(infinity) of
@@ -45,6 +45,6 @@ end),
   _C = process:make(fun
   (Pid, Recv) -> c_loop(Pid, Recv, A)
 end),
-  {}.
+  ok.
 
 

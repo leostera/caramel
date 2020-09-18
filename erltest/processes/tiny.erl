@@ -9,8 +9,8 @@ loop(T, Recv) ->
   _ = timer:sleep(T),
   loop(erlang:'*'(T, 2), Recv).
 
-start(T) -> process:spawn(fun
-  (R) -> loop(T, R)
+start(T) -> process:make(fun
+  (_Self, R) -> loop(T, R)
 end).
 
 

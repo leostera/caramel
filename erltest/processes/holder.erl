@@ -17,12 +17,12 @@ handle_message(State, Msg) ->
 
 loop(Recv, State) ->
   _ = io:format(<<"current_state: ~p\n">>, [State | []]),
-  Msg = Recv(5000),
+  Msg = Recv({bounded, 5000}),
   State2 = handle_message(State, Msg),
   loop(Recv, State2).
 
-start(X) -> process:spawn(fun
-  (Recv) -> loop(Recv, X)
+start(X) -> process:make(fun
+  (_Self, Recv) -> loop(Recv, X)
 end).
 
 do_work() ->
