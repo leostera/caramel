@@ -1,11 +1,10 @@
 % Source code generated with Caramel.
 -module(nested__a__c).
 
+-export([c/0]).
 
--export([c/1]).
+c() -> true.
 
-c({}) -> true.
-
-internal_c({}) -> true.
+internal_c() -> true.
 
 

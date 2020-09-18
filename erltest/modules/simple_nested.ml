@@ -1,9 +1,11 @@
 module A = struct
-  let f () = ()
+  let f () = 0
 end
 module B : sig
-  val f : unit -> unit
+  val f : unit -> int
 end = struct
-  let f () = ()
+  let f () = 2
   let g () = ()
 end
+
+let run () = A.f () + B.f ()

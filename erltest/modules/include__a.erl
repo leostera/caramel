@@ -1,5 +1,5 @@
 % Source code generated with Caramel.
--module(simple_nested__a).
+-module(include__a).
 
 -export([f/1]).
 

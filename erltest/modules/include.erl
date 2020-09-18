@@ -1,10 +1,9 @@
 % Source code generated with Caramel.
--module(simple_nested__b).
+-module(include).
 
 -export([f/0]).
+-export([run/0]).
 
-f() -> 2.
-
-g() -> {}.
+run() -> f().
 
 
