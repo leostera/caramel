@@ -1,6 +1,4 @@
 let run () =
-  let pid = Adder.start 10 in
-  match Adder.call pid (Add 1) with
-  | Some rep -> Io.format "reply: ~p" [rep];
-  | None -> Io.format "no reply?" []
-
+  let pid = Adder.start_link 10 in
+  let `Ok reply = Adder.add pid (Add 1) in
+  Io.format "reply: ~p" [reply];
