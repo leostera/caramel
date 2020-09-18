@@ -10,6 +10,7 @@ let rec b_loop pid recv a =
   Erlang.send a (`Call (pid, 1)) ;
   match recv ~timeout:(Process.Bounded 0) with
   | None -> b_loop pid recv a
+  | Some 11 -> Io.format "aaadn i'm out\n" [];
   | Some i ->
       Io.format "received: ~p, state must be ~p\n" [i; i + 1];
       b_loop pid recv a

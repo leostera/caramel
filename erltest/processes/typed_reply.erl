@@ -4,7 +4,7 @@
 -export([a_loop/3]).
 -export([b_loop/3]).
 -export([c_loop/3]).
--export([run/1]).
+-export([run/0]).
 
 a_loop(Pid, Recv, I) ->
   case Recv(infinity) of
@@ -18,6 +18,7 @@ b_loop(Pid, Recv, A) ->
   _ = erlang:send(A, {call, {Pid, 1}}),
   case Recv({bounded, 0}) of
     none -> b_loop(Pid, Recv, A);
+    {some, _} -> io:format(<<"aaadn i'm out\n">>, []);
     {some, I} -> _ = io:format(<<"received: ~p, state must be ~p\n">>, [I | [erlang:'+'(I, 1) | []]]),
 b_loop(Pid, Recv, A)
   end.
