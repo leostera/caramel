@@ -5,8 +5,8 @@
 
 inc(X) -> erlang:'+'(X, 1).
 
-hidden() -> {}.
+hidden() -> ok.
 
-secret() -> {}.
+secret() -> ok.
 
 

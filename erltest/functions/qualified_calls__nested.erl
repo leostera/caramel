@@ -3,10 +3,10 @@
 
 -export([f/2]).
 
-f(X, {}) ->
+f(X, ok) ->
   case X of
-    true -> {};
-    false -> {}
+    true -> ok;
+    false -> ok
   end.
 
 

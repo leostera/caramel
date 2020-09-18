@@ -14,7 +14,7 @@ double(F, X) -> F(F(X)).
 
 add_twice(X) -> double(fun add/1, X).
 
-call_nested(X) -> qualified_calls__nested:f(X, {}).
+call_nested(X) -> qualified_calls__nested:f(X, ok).
 
 call_other(X) -> qualified_calls_helper:f(X).
 

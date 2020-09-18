@@ -12,12 +12,12 @@
 
 -type defer(A) :: fun((unit()) -> A).
 
-ignore(_X, {}) -> {}.
+ignore(_X, ok) -> ok.
 
 add(X, Y) -> erlang:'+'(X, X).
 
-add_slow(X, Y, {}) -> erlang:'+'(X, Y).
+add_slow(X, Y, ok) -> erlang:'+'(X, Y).
 
-add_really_slow(X, {}, Y, {}) -> erlang:'+'(X, Y).
+add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
 
 

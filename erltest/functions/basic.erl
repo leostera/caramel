@@ -9,6 +9,6 @@ pair(X, Y) -> {X, Y}.
 
 combine({A, B}, {C, D}) -> {{A, C}, {B, D}}.
 
-ignore() -> {}.
+ignore() -> ok.
 
 

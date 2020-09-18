@@ -1,8 +1,8 @@
 % Source code generated with Caramel.
--module(qualified_calls_helper).
+-module(let_open__a).
 
 -export([f/1]).
 
-f(_X) -> ok.
+f() -> 0.
 
 

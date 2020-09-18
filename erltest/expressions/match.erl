@@ -16,12 +16,12 @@
                      }.
 
 match_unit() ->
-  case {} of
-    {} -> true
+  case ok of
+    ok -> true
   end.
 
 match_ignore() ->
-  case {} of
+  case ok of
     _ -> true
   end.
 
