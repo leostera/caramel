@@ -2,6 +2,7 @@ open Erlast
 
 exception Undefined_function_reference of string
 exception Function_without_cases of string
+exception Type_constructors_must_be_atoms_or_qualified_names of Erlast.name
 
 module H = struct
   let pad n = String.make n ' '
@@ -41,11 +42,21 @@ and pp_type_kind prefix ppf typ_kind =
   | Type_variable var_name ->
       Format.fprintf ppf "%s" var_name;
 
+  | Type_constr { tc_name=Atom_name "unit"; } ->
+      Format.fprintf ppf "ok";
+
   | Type_constr { tc_name; tc_args} ->
+      let tc_name = match tc_name with
+      | Atom_name x -> x |> String.lowercase_ascii
+      | Qualified_name {n_mod;n_name} -> Format.sprintf "%s:%s" n_mod n_name
+      | _ -> raise (Type_constructors_must_be_atoms_or_qualified_names tc_name)
+      in
       Format.fprintf ppf "%s(" tc_name;
-      begin match tc_args with
-      | [] -> ()
-      | a :: args ->
+      begin match tc_name, tc_args with
+      | _, [] -> ()
+      (* NOTE: need to find a better way to map these types and their arities *)
+      | "erlang:pid", _ -> ()
+      | _, a :: args ->
           pp_type_kind prefix ppf a;
           args |> List.iter( fun arg ->
             Format.fprintf ppf ", ";
@@ -123,7 +134,7 @@ let rec pp_pattern_match ppf pm =
 
   | Pattern_match name -> Format.fprintf ppf "%s" name;
 
-  | Pattern_tuple [] -> Format.fprintf ppf "{}";
+  | Pattern_tuple [] -> Format.fprintf ppf "ok";
 
   | Pattern_tuple (p :: []) ->
       Format.fprintf ppf "{";
@@ -193,12 +204,12 @@ let rec pp_expression prefix ppf expr ~module_ =
   | Expr_name (Macro_name name) ->
       Format.fprintf ppf "?%s" name;
 
-  | Expr_name (Qualified_name { n_mod; n_fun }) ->
-      (* TODO: lookup n_mod and n_fun in a global table of symbols to
+  | Expr_name (Qualified_name { n_mod; n_name }) ->
+      (* TODO: lookup n_mod and n_name in a global table of symbols to
        * figure out what it actually translates to since it could be a external
        * call!
        *)
-      Format.fprintf ppf "%s:%s" (String.lowercase_ascii n_mod) n_fun;
+      Format.fprintf ppf "%s:%s" (String.lowercase_ascii n_mod) n_name;
 
   | Expr_literal lit -> pp_literal ppf lit;
 
@@ -251,7 +262,7 @@ let rec pp_expression prefix ppf expr ~module_ =
           Format.fprintf ppf ")";
       end
 
-  | Expr_tuple [] -> Format.fprintf ppf "{}";
+  | Expr_tuple [] -> Format.fprintf ppf "ok";
 
   | Expr_tuple (e :: []) ->
       Format.fprintf ppf "{";
