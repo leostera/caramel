@@ -14,6 +14,6 @@ end
 
 let call_nested x = Nested.f x ()
 
-let call_other x = Call_other.f x
+let call_other x = Qualified_calls_helper.f x
 
-let call_other_nested x = Call_other.Nested.f x
+let call_other_nested x = Qualified_calls_helper.Nested.f x
