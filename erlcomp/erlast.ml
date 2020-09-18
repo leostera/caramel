@@ -6,7 +6,7 @@ and name =
   | Var_name of atom
   | Atom_name of atom
   | Macro_name of atom
-  | Qualified_name of { n_mod: atom; n_fun: atom }
+  | Qualified_name of { n_mod: atom; n_name: atom }
 
 and map_field = {
   mf_name: atom;
@@ -78,7 +78,7 @@ and record_field = { rf_name: atom; rf_type: type_kind }
 
 and variant_constructor = { vc_name: atom; vc_args: type_kind list }
 
-and type_constr = { tc_name: atom; tc_args: type_kind list }
+and type_constr = { tc_name: name; tc_args: type_kind list }
 
 and type_kind =
   | Type_function of type_kind list
@@ -171,7 +171,7 @@ let make_named_type typ_name typ_params typ_kind =
   ) in
   { typ_name; typ_params; typ_kind }
 
-let type_any = Type_constr { tc_name="any"; tc_args=[] }
+let type_any = Type_constr { tc_name=Atom_name "any"; tc_args=[] }
 
 let find_fun_by_name ~module_ name =
   module_.functions |> List.find_opt (fun { fd_name } -> fd_name = name )
