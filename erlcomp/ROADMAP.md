@@ -6,8 +6,25 @@
 - [X] Example of type-safe process
 - [ ] fully inferred message type in processes experiments
   - [X] passing a recv function for the unification to work from the inside out
+  - [ ] hack "receive" expression into the language
+- [ ] Type Safe Send & Receive:
+  - [X] ~~try universally quantified message types~~ -- nope, too permissive,
+        got runtime crashes!
+  - [ ] try hiding the message type altogether in a GADT
+  - [X] try fixing the type of the receiver pid's message instead -- needs a
+        additional layering over process (contramap) to turn them into the
+        current processes' acceptable message type
 - [X] bind names from poly variants!!!
+- [X] clean up tests to make it easier to see what's being changed where
 - [ ] Function signatures 
+- [ ] refactor fun refs to resolve as much data (M, F, Arity) at compile time
+
+### Idioms
+
+- [X] Empty tuple `()` is a common value in OCaml, this is translated to the
+  atom `ok` in Erlang. This is not _entirely_ idiomatic, since some functions
+  are generated that take for last argument the atom `ok`, but it is much nicer
+  for the returned values. 
 
 ### Module System
 
@@ -16,6 +33,8 @@ aliasing, and combination support, to provide a flexible and type-safe way of
 structuring large amounts of code.
 
 - [x] Modules
+- [X] Modules that have no exports of any kind will not generate Erlang code
+  and are thus zero-cost
 - [x] Nested Modules are flattened out
 - [x] Control Exports via Interfaces
 - [x] Module Functions Declarations
@@ -37,6 +56,7 @@ representations (specially the ones with phantom types), runtime safe too.
 - [x] Function Types
 - [ ] Automatic Function Specs
 - [x] Control Exports via Interfaces
+- [ ] Support qualified type constructor names
 
 ### Functions
 
