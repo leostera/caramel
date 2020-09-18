@@ -1,9 +1,9 @@
 % Source code generated with Caramel.
--module(external).
+-module(using_io).
 
 -export([fmt/1]).
 
-fmt({}) ->
+fmt() ->
   Str = <<"Hello">>,
   _ = io:format(<<"~p">>, [Str | []]),
   Ints = 1,
