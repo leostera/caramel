@@ -319,8 +319,7 @@ let build_functions :
                           raise Unsupported_feature
                       | Overridden (_, exp) -> (
                           match build_expression exp ~var_names with
-                          | None ->
-                              raise Unsupported_feature
+                          | None -> raise Unsupported_feature
                           | Some v -> v )
                     in
                     Erlast.{ mf_name = field.lbl_name; mf_value = value }) ))
@@ -408,8 +407,7 @@ let build_functions :
         in
         let let_expr = build_expression ~var_names next |> maybe_unsupported in
         Some (Erlast.Expr_let (let_binding, let_expr))
-    | _ ->
-        raise Unsupported_expression
+    | _ -> raise Unsupported_expression
   in
 
   let build_value vb =
@@ -431,8 +429,22 @@ let build_functions :
 
 (** Build the types of an Erlang module.
  *)
-let build_types : Typedtree.structure -> Erlast.type_decl list =
- fun typedtree ->
+let build_types :
+    Typedtree.structure -> Types.signature option -> Erlast.type_decl list =
+ fun typedtree signature ->
+  let is_opaque_in_signature type_decl =
+    match signature with
+    | None -> Erlast.Visible
+    | Some sign ->
+        List.fold_left
+          (fun visibility sig_item ->
+            match sig_item with
+            | Sig_type (name, { type_manifest = None }, _, _)
+              when Ident.name name = Ident.name type_decl.typ_id ->
+                Erlast.Opaque
+            | _ -> visibility)
+          Erlast.Visible sign
+  in
   let rec build_type_kind core_type =
     match core_type.ctyp_desc with
     | Ttyp_any -> Some Erlast.type_any
@@ -490,11 +502,9 @@ let build_types : Typedtree.structure -> Erlast.type_decl list =
      *
      * The second one `Ttyp_poly (strings, core_typ)` seemed to appear in records.
      *)
-    | Ttyp_poly (_names, follow) ->
-        build_type_kind follow
+    | Ttyp_poly (_names, follow) -> build_type_kind follow
     | Ttyp_alias (follow, _) -> build_type_kind follow
-    | Ttyp_object _ | Ttyp_class _ | Ttyp_package _ ->
-        raise Unsupported_feature
+    | Ttyp_object _ | Ttyp_class _ | Ttyp_package _ -> raise Unsupported_feature
   in
 
   let build_record labels =
@@ -512,9 +522,12 @@ let build_types : Typedtree.structure -> Erlast.type_decl list =
     Erlast.Type_record { fields }
   in
 
-  let build_abstract name params _type_decl core_type =
+  let build_abstract name params type_decl core_type =
     match build_type_kind core_type with
-    | Some kind -> Some (Erlast.make_named_type name params kind)
+    | Some kind ->
+        Some
+          (Erlast.make_named_type name params kind
+             (is_opaque_in_signature type_decl))
     | None -> None
   in
 
@@ -542,10 +555,10 @@ let build_types : Typedtree.structure -> Erlast.type_decl list =
               Erlast.Type_constr
                 { tc_name = Atom_name "reference"; tc_args = [] }
             in
-            Some (Erlast.make_named_type name params ref) )
+            Some (Erlast.make_named_type name params ref Opaque) )
     | Ttype_record labels ->
         let record = build_record labels in
-        Some (Erlast.make_named_type name params record)
+        Some (Erlast.make_named_type name params record Visible)
     | Ttype_variant constructors ->
         let constructors =
           constructors
@@ -560,7 +573,8 @@ let build_types : Typedtree.structure -> Erlast.type_decl list =
         in
         Some
           (Erlast.make_named_type name params
-             (Erlast.Type_variant { constructors }))
+             (Erlast.Type_variant { constructors })
+             Visible)
     | _ -> None
   in
   typedtree.str_items
@@ -630,7 +644,7 @@ let build_module :
     Erlast.t =
  fun ~name ~ocaml_name ~modules typedtree signature ->
   let exports = build_exports ~name typedtree signature in
-  let types = build_types typedtree in
+  let types = build_types typedtree signature in
   let functions = build_functions ~module_name:name ~modules typedtree in
   Erlast.make ~name ~ocaml_name ~exports ~types ~functions
 

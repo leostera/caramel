@@ -353,9 +353,16 @@ let pp_functions ppf funcs ~module_ =
 
 let pp_types ppf types =
   types
-  |> List.iter (fun { typ_name; typ_kind; typ_params } ->
+  |> List.iter (fun { typ_visibility; typ_name; typ_kind; typ_params } ->
+         let visibility =
+           match typ_visibility with
+           | Erlast.Opaque -> "opaque"
+           | Erlast.Visible -> "type"
+         in
          let params = typ_params |> String.concat ", " in
-         let prefix = Format.sprintf "-type %s(%s) :: " typ_name params in
+         let prefix =
+           Format.sprintf "-%s %s(%s) :: " visibility typ_name params
+         in
          Format.fprintf ppf "%s" prefix;
          pp_type_kind prefix ppf typ_kind;
          Format.fprintf ppf ".\n\n")

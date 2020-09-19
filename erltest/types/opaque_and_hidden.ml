@@ -1,3 +1,5 @@
+type visible = int
+
 type opaque = string
 
 (* FIXME: Idiomatic Erlang would actually generate a new module

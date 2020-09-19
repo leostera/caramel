@@ -3,6 +3,6 @@
 -export_type([t/0]).
 
 
--type t() :: reference().
+-opaque t() :: reference().
 
 

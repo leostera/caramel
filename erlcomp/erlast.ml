@@ -71,8 +71,11 @@ and type_kind =
   | Type_record of { fields : record_field list }
   | Type_variant of { constructors : variant_constructor list }
 
+and type_visibility = Opaque | Visible
+
 and type_decl = {
   typ_kind : type_kind;
+  typ_visibility : type_visibility;
   typ_name : atom;
   typ_params : atom list;
 }
@@ -117,7 +120,7 @@ let make_fn_export exp_name exp_arity =
 let make_type_export exp_name exp_arity =
   { exp_type = Export_type; exp_name; exp_arity }
 
-let make_named_type typ_name typ_params typ_kind =
+let make_named_type typ_name typ_params typ_kind typ_visibility =
   let used_params : atom list =
     let rec collect_params acc k =
       let flat_args =
@@ -147,7 +150,7 @@ let make_named_type typ_name typ_params typ_kind =
     |> List.map (fun p ->
            if List.exists (fun up -> up = p) used_params then p else "_" ^ p)
   in
-  { typ_name; typ_params; typ_kind }
+  { typ_name; typ_params; typ_kind; typ_visibility }
 
 let type_any = Type_constr { tc_name = Atom_name "any"; tc_args = [] }
 
