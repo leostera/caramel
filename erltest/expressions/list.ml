@@ -10,8 +10,4 @@ let tail (_ :: x) = x
 
 let at_2 (_ :: x :: _) = x
 
-(* FIXME: this should translate to:
- *
- *  concat(A, B) -> erlang:'++'(a, b).
- *)
 let concat a b = a @ b

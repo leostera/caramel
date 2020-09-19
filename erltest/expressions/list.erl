@@ -21,6 +21,6 @@ tail([_ | X]) -> X.
 
 at_2([_ | [X | _]]) -> X.
 
-concat(A, B) -> @(A, B).
+concat(A, B) -> erlang:'++'(A, B).
 
 

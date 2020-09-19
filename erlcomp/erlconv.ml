@@ -76,6 +76,7 @@ let ocaml_to_erlang_primitive_op t =
   | "<>" -> to_erl_op "=/="
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="
+  | "@" -> to_erl_op "++"
   | u -> Erlast.Atom_name u
 
 let const_to_literal const =
