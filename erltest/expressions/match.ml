@@ -36,7 +36,7 @@ let match_record () =
 let match_list () =
   match [0; 1] with
   | [] -> true
-  | 1 :: _ -> true
+  | 1 :: xs -> true
   | 1 :: [] -> true
   | 0 :: 1 :: _ -> true
   | [0; 1] -> true
@@ -52,4 +52,6 @@ let match_tuples () =
 
 let match_atoms () =
   match `Hello with
+  | `Xavier -> true
   | `Joe -> true
+  | _ -> false

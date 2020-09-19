@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(runner).
 
--export([run/0]).
+-export([run/1]).
 
 run() ->
   Pid = adder:start_link(10),

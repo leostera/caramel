@@ -76,6 +76,18 @@ let ocaml_to_erlang_primitive_op t =
   | "==" -> to_erl_op "=="
   | u -> Erlast.Atom_name u
 
+let const_to_literal const =
+  let open Asttypes in
+  match const with
+  | Const_int int -> Erlast.Lit_integer (string_of_int int)
+  | Const_char char -> Erlast.Lit_char (String.make 1 char)
+  | Const_string (string, _, _) -> Erlast.Lit_binary string
+  | Const_float string -> Erlast.Lit_float string
+  | Const_int32 int32 -> Erlast.Lit_integer (Int32.to_string int32)
+  | Const_int64 int64 -> Erlast.Lit_integer (Int64.to_string int64)
+  | Const_nativeint nativeint -> Erlast.Lit_integer (Nativeint.to_string nativeint)
+
+
 (** Build the actual functions of an Erlang module
  *)
 let build_functions:
@@ -181,20 +193,24 @@ let build_functions:
           Erlast.Pattern_list (List.map build_pattern patterns)
 
       | Tpat_construct ({ txt }, _, []) ->
-          Erlast.Pattern_match (longident_to_atom txt)
+          Erlast.Pattern_match (Erlast.Lit_atom (longident_to_atom txt))
 
       | Tpat_construct ({ txt }, _, patterns) ->
-          let tag = Erlast.Pattern_match (longident_to_atom txt) in
+          let tag = Erlast.Pattern_match (Erlast.Lit_atom (longident_to_atom txt)) in
           let values = (List.map build_pattern patterns) in
           Erlast.Pattern_tuple (tag :: values)
 
       | Tpat_variant (label, None, _) ->
-          Erlast.Pattern_match (atom_of_string label)
+          Erlast.Pattern_match (Erlast.Lit_atom (atom_of_string label))
 
       | Tpat_variant (label, Some expr, _) ->
-          let tag = Erlast.Pattern_match (atom_of_string label) in
+          let tag = Erlast.Pattern_match (Erlast.Lit_atom (atom_of_string label)) in
           let value = build_pattern expr in
           Erlast.Pattern_tuple [tag; value]
+
+      | Tpat_constant const ->
+          Erlast.Pattern_match (const_to_literal const)
+
 
       (* NOTE: here's where the translation of pattern
        * matching at the function level should happen. *)
@@ -216,15 +232,7 @@ let build_functions:
     and build_expression exp ~var_names =
       match exp.exp_desc with
       | Texp_constant constant ->
-          let v = match constant with
-          | Const_int int -> Erlast.Lit_integer (string_of_int int)
-          | Const_char char -> Erlast.Lit_char (String.make 1 char)
-          | Const_string (string, _, _) -> Erlast.Lit_binary string
-          | Const_float string -> Erlast.Lit_float string
-          | Const_int32 int32 -> Erlast.Lit_integer (Int32.to_string int32)
-          | Const_int64 int64 -> Erlast.Lit_integer (Int64.to_string int64)
-          | Const_nativeint nativeint -> Erlast.Lit_integer (Nativeint.to_string nativeint)
-          in
+          let v = const_to_literal constant  in
           Some (Erlast.Expr_literal v)
 
       | Texp_ident (_, {txt}, _) when longident_to_atom txt = "__MODULE__" ->
@@ -334,14 +342,14 @@ let build_functions:
       | Texp_ifthenelse (if_cond, if_true, if_false) ->
           let expr = build_expression ~var_names if_cond |> maybe_unsupported in
           let if_true =
-            Erlast.{ cb_pattern = Erlast.Pattern_match "true";
+            Erlast.{ cb_pattern = Erlast.Pattern_match (Erlast.Lit_atom "true");
                      cb_expr = build_expression ~var_names if_true
                                |> maybe_unsupported }
           in
           let if_false =
             match if_false with
             | Some if_false ->
-                [Erlast.{ cb_pattern = Erlast.Pattern_match "false";
+                [Erlast.{ cb_pattern = Erlast.Pattern_match (Erlast.Lit_atom "false");
                          cb_expr = build_expression ~var_names if_false
                                    |> maybe_unsupported }]
             | None -> []

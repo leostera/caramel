@@ -28,6 +28,7 @@ and literal =
   | Lit_char of string
   | Lit_binary of string
   | Lit_float of string
+  | Lit_atom of string
 
 and expr =
   | Expr_let of let_binding * expr
@@ -42,13 +43,14 @@ and expr =
   | Expr_tuple of expr list
   | Expr_fun of fun_decl
 
+
 and pattern =
   | Pattern_ignore
   | Pattern_binding of atom
   | Pattern_tuple of pattern list
   | Pattern_list of pattern list
   | Pattern_map of (atom * pattern) list
-  | Pattern_match of atom
+  | Pattern_match of literal
 
 and fun_apply = {
   fa_name: expr;

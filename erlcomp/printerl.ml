@@ -3,10 +3,17 @@ open Erlast
 exception Undefined_function_reference of string
 exception Function_without_cases of string
 exception Type_constructors_must_be_atoms_or_qualified_names of Erlast.name
+exception Invalid_case_expresion_without_branches
 
 module H = struct
   let pad n = String.make n ' '
 end
+
+let print_atom ppf atom = Format.fprintf ppf "%s" (String.lowercase_ascii atom)
+
+(*
+ * Pretty printing functions
+ *)
 
 let pp_exports ppf exports =
   let (fn_exports, type_exports) = exports
@@ -132,7 +139,7 @@ let rec pp_pattern_match ppf pm =
 
   | Pattern_binding name -> Format.fprintf ppf "%s" name;
 
-  | Pattern_match name -> Format.fprintf ppf "%s" name;
+  | Pattern_match lit -> pp_literal ppf lit;
 
   | Pattern_tuple [] -> Format.fprintf ppf "ok";
 
@@ -183,14 +190,13 @@ let rec pp_pattern_match ppf pm =
       Format.fprintf ppf " }";
   end
 
-let pp_literal ppf lit =
-  let str = match lit with
-  | Lit_integer string -> string
-  | Lit_char string -> "'" ^ string ^ "'"
-  | Lit_binary string -> "<<\"" ^ (String.escaped string) ^ "\">>"
-  | Lit_float string -> string
-  in
-  Format.fprintf ppf "%s" str
+and pp_literal ppf lit =
+  match lit with
+  | Lit_float str
+  | Lit_integer str -> Format.fprintf ppf "%s" str
+  | Lit_char str -> Format.fprintf ppf "'%s'" str
+  | Lit_binary str -> Format.fprintf ppf "<<\"%s\">>" (String.escaped str)
+  | Lit_atom atom -> print_atom ppf atom
 
 let rec pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
@@ -199,7 +205,7 @@ let rec pp_expression prefix ppf expr ~module_ =
       Format.fprintf ppf "%s" (String.capitalize_ascii name);
 
   | Expr_name (Atom_name name) ->
-      Format.fprintf ppf "%s" (String.lowercase_ascii name);
+      print_atom ppf name;
 
   | Expr_name (Macro_name name) ->
       Format.fprintf ppf "?%s" name;
@@ -303,7 +309,7 @@ let rec pp_expression prefix ppf expr ~module_ =
       pp_expression "" ppf expr ~module_;
       Format.fprintf ppf " of";
       begin match branches with
-      | [] -> ()
+      | [] -> raise Invalid_case_expresion_without_branches
       | Erlast.{ cb_pattern; cb_expr } :: bs -> begin
           let prefix = prefix ^ "  " in
           Format.fprintf ppf "\n%s" prefix;

@@ -8,9 +8,9 @@
 -export([add_slow/2]).
 -export([ignore/1]).
 
--type ignore() :: fun((unit()) -> unit()).
+-type ignore() :: fun((ok) -> ok).
 
--type defer(A) :: fun((unit()) -> A).
+-type defer(A) :: fun((ok) -> A).
 
 ignore(_X, ok) -> ok.
 

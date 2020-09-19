@@ -1,10 +1,10 @@
 % Source code generated with Caramel.
 -module(names).
 
--export([run_local/0]).
--export([run_macros/0]).
--export([run_nested/0]).
--export([run_nested_ambiguous/0]).
+-export([run_local/1]).
+-export([run_macros/1]).
+-export([run_nested/1]).
+-export([run_nested_ambiguous/1]).
 
 run_local() ->
   X = fun run_local/1,

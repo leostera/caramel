@@ -1,11 +1,11 @@
 % Source code generated with Caramel.
 -module(let_bindings).
 
--export([let_ignore/0]).
--export([let_many/0]).
+-export([let_ignore/1]).
+-export([let_many/1]).
 -export([let_nested/3]).
--export([let_one/0]).
--export([let_rec/0]).
+-export([let_one/1]).
+-export([let_rec/1]).
 
 let_one() ->
   A = 1,

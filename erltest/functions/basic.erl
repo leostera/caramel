@@ -2,7 +2,7 @@
 -module(basic).
 
 -export([combine/2]).
--export([ignore/0]).
+-export([ignore/1]).
 -export([pair/2]).
 
 pair(X, Y) -> {X, Y}.

@@ -2,14 +2,14 @@
 -module(match).
 -export_type([int_pair/0]).
 
--export([match_atoms/0]).
--export([match_ignore/0]).
--export([match_int/0]).
--export([match_list/0]).
--export([match_record/0]).
--export([match_str/0]).
--export([match_tuples/0]).
--export([match_unit/0]).
+-export([match_atoms/1]).
+-export([match_ignore/1]).
+-export([match_int/1]).
+-export([match_list/1]).
+-export([match_record/1]).
+-export([match_str/1]).
+-export([match_tuples/1]).
+-export([match_unit/1]).
 
 -type int_pair() :: #{ fst => integer()
                      , snd => integer()
@@ -27,47 +27,49 @@ match_ignore() ->
 
 match_int() ->
   case 1 of
-    _ -> true
+    1 -> true
   end.
 
 match_str() ->
   case <<"hello">> of
-    _ -> true;
-    _ -> true;
-    _ -> true;
-    _ -> true;
-    _ -> true;
-    _ -> true
+    <<"xavier">> -> true;
+    <<"remy">> -> true;
+    <<"gal">> -> true;
+    <<"mike">> -> true;
+    <<"robert">> -> true;
+    <<"joe">> -> true
   end.
 
 match_record() ->
   case #{ fst => 0
  , snd => 1
  } of
-    #{ fst := _, snd := _ } -> true;
-    #{ fst := _ } -> true;
-    #{ snd := _ } -> true
+    #{ fst := 10, snd := 10 } -> true;
+    #{ fst := 0 } -> true;
+    #{ snd := 1 } -> true
   end.
 
 match_list() ->
   case [0 | [1 | []]] of
     [] -> true;
-    [_ | _] -> true;
-    [_ | []] -> true;
-    [_ | [_ | _]] -> true;
-    [_ | [_ | []]] -> true
+    [1 | Xs] -> true;
+    [1 | []] -> true;
+    [0 | [1 | _]] -> true;
+    [0 | [1 | []]] -> true
   end.
 
 match_tuples() ->
   case {1, true, <<"hello">>} of
-    {_, _, _} -> true;
-    {_, true, _} -> true;
-    {_, true, _} -> true
+    {1, _, _} -> true;
+    {1, true, _} -> true;
+    {1, true, <<"hello">>} -> true
   end.
 
 match_atoms() ->
   case hello of
-    joe -> true
+    xavier -> true;
+    joe -> true;
+    _ -> false
   end.
 
 
