@@ -474,7 +474,7 @@ let build_types:
 
       | Ttyp_object _
       | Ttyp_class _
-      | Ttyp_package _ -> 
+      | Ttyp_package _ ->
           Printtyped.core_type 0 Format.std_formatter core_type;
           raise Unsupported_feature
     in
@@ -563,7 +563,7 @@ let build_exports:
     let rec collect_args = fun value args ->
       match value.desc with
       | Tarrow (_, arg, next, _) -> collect_args next (arg :: args)
-      | Tlink t -> collect_args t args
+      | Tlink t -> collect_args (Btype.repr t) args
       | _ -> args
     in
 
@@ -580,10 +580,11 @@ let build_exports:
           let name = (atom_of_ident name) in
           let args = collect_args vd.val_type [] in
           let args = match args with
-          | ({ desc = Tconstr (path, _, _)} :: rest)  when Path.last path = "unit" -> rest
+          | ({ desc = Tconstr (p, _, _)} :: rest) when Path.same p Predef.path_unit -> rest
           | _ -> args
           in
           let arity = (List.length args) in
+          Format.fprintf Format.std_formatter "%s/%d\n" name arity;
           Some (Erlast.make_fn_export name arity)
       | Sig_type (name, td, _, Exported) ->
           Some (Erlast.make_type_export (atom_of_ident name) td.type_arity)
