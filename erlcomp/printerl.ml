@@ -16,15 +16,16 @@ end
 
 let print_atom ppf atom = Format.fprintf ppf "%s" (String.lowercase_ascii atom)
 
-let is_caramel_support { fa_name; } =
+let is_caramel_support { fa_name } =
   match fa_name with
-  | Expr_name (Qualified_name { n_mod = "caramel"; n_name = "binary_concat" }) -> true
+  | Expr_name (Qualified_name { n_mod = "caramel"; n_name = "binary_concat" })
+    ->
+      true
   | _ -> false
 
 (*
  * Pretty printing functions
  *)
-
 
 let pp_exports ppf exports =
   let fn_exports, type_exports =
@@ -44,15 +45,15 @@ let pp_exports ppf exports =
   ()
 
 let rec pp_caramel_support_function _prefix ppf { fa_name; fa_args } ~module_ =
-  match fa_name, fa_args with
-  | Expr_name (Qualified_name { n_mod = "caramel"; n_name = "binary_concat" }), [ lhs; rhs ] ->
+  match (fa_name, fa_args) with
+  | ( Expr_name (Qualified_name { n_mod = "caramel"; n_name = "binary_concat" }),
+      [ lhs; rhs ] ) ->
       Format.fprintf ppf "<< ";
       pp_expression "" ppf lhs ~module_;
       Format.fprintf ppf "/binary, ";
       pp_expression "" ppf rhs ~module_;
-      Format.fprintf ppf "/binary >>";
-  | _, _ ->
-      raise Unknown_support_function
+      Format.fprintf ppf "/binary >>"
+  | _, _ -> raise Unknown_support_function
 
 and pp_variant_constructor prefix ppf vc =
   match vc with
@@ -246,7 +247,7 @@ and pp_expression prefix ppf expr ~module_ =
       | None -> ()
       | Some { fd_arity } -> Format.fprintf ppf "fun %s/%d" name fd_arity )
   | Expr_apply apply when is_caramel_support apply ->
-      pp_caramel_support_function prefix ppf apply ~module_;
+      pp_caramel_support_function prefix ppf apply ~module_
   | Expr_apply { fa_name; fa_args } -> (
       pp_expression "" ppf fa_name ~module_;
       match fa_args with

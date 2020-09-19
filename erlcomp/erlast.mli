@@ -91,13 +91,20 @@ and t = {
   functions : fun_decl list;
 }
 
-val make: name : string -> ocaml_name : string -> exports : export list -> types : type_decl list -> functions : fun_decl list -> t
+val make :
+  name:string ->
+  ocaml_name:string ->
+  exports:export list ->
+  types:type_decl list ->
+  functions:fun_decl list ->
+  t
 
 val make_fn_export : atom -> int -> export
 
 val make_type_export : atom -> int -> export
 
-val make_named_type : atom -> atom list -> type_kind -> type_visibility -> type_decl
+val make_named_type :
+  atom -> atom list -> type_kind -> type_visibility -> type_decl
 
 val type_any : type_kind
 

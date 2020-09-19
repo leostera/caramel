@@ -17,10 +17,7 @@ let maybe e x = match x with Some v -> v | None -> raise e
 
 let maybe_unsupported x = maybe Unsupported_feature x
 
-let safe_atom u =
-      match (String.get u 0) with
-      | 'a' .. 'z' -> u
-      | _ -> ("'" ^ u ^ "'")
+let safe_atom u = match u.[0] with 'a' .. 'z' -> u | _ -> "'" ^ u ^ "'"
 
 let rec varname_of_string s =
   let name = s |> String.capitalize_ascii in
@@ -80,7 +77,8 @@ let to_erl_op t =
 let ocaml_to_erlang_primitive_op t =
   match t with
   | "!" | "++" | "-" | "--" | "/" | "<" | ">" | "*" | "+" -> to_erl_op t
-  | "^" -> Erlast.(Qualified_name { n_mod = "caramel"; n_name = "binary_concat" })
+  | "^" ->
+      Erlast.(Qualified_name { n_mod = "caramel"; n_name = "binary_concat" })
   | "<>" -> to_erl_op "=/="
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="
