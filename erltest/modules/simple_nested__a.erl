@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(simple_nested__a).
 
--export([f/1]).
+-export([f/0]).
 
 f() -> 0.
 

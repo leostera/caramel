@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(hello_joe).
 
--export([hello/1]).
+-export([hello/0]).
 
 hello() ->
   Text = <<"hello, joe!">>,

@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(sequencing).
 
--export([run/1]).
+-export([run/0]).
 
 run() ->
   A = 1,

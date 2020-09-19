@@ -2,10 +2,10 @@
 -module(binding_on_match).
 -export_type([int_pair/0]).
 
--export([match_atoms/1]).
--export([match_list/1]).
--export([match_record/1]).
--export([match_tuples/1]).
+-export([match_atoms/0]).
+-export([match_list/0]).
+-export([match_record/0]).
+-export([match_tuples/0]).
 
 -type int_pair() :: #{ fst => integer()
                      , snd => integer()

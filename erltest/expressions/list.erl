@@ -4,7 +4,7 @@
 -export([at_2/1]).
 -export([concat/2]).
 -export([cons/2]).
--export([empty/1]).
+-export([empty/0]).
 -export([head/1]).
 -export([pair/1]).
 -export([tail/1]).

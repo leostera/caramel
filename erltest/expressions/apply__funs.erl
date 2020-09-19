@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(apply__funs).
 
--export([apply_fun/1]).
+-export([apply_fun/0]).
 
 apply_fun() ->
   A = fun

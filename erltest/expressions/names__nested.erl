@@ -1,8 +1,8 @@
 % Source code generated with Caramel.
 -module(names__nested).
 
--export([w/1]).
--export([x/1]).
+-export([w/0]).
+-export([x/0]).
 
 x() -> {compiler, <<"caramel">>}.
 

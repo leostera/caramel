@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(holder).
 
--export([do_work/1]).
+-export([do_work/0]).
 -export([handle_message/2]).
 -export([loop/2]).
 -export([start/1]).

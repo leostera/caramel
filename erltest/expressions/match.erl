@@ -2,14 +2,14 @@
 -module(match).
 -export_type([int_pair/0]).
 
--export([match_atoms/1]).
--export([match_ignore/1]).
--export([match_int/1]).
--export([match_list/1]).
--export([match_record/1]).
--export([match_str/1]).
--export([match_tuples/1]).
--export([match_unit/1]).
+-export([match_atoms/0]).
+-export([match_ignore/0]).
+-export([match_int/0]).
+-export([match_list/0]).
+-export([match_record/0]).
+-export([match_str/0]).
+-export([match_tuples/0]).
+-export([match_unit/0]).
 
 -type int_pair() :: #{ fst => integer()
                      , snd => integer()

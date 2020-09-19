@@ -2,7 +2,7 @@
 -module(include).
 
 -export([f/0]).
--export([run/1]).
+-export([run/0]).
 
 run() -> f().
 

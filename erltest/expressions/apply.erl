@@ -6,7 +6,7 @@
 -export([f2/2]).
 -export([f3/3]).
 -export([f4/4]).
--export([run/1]).
+-export([run/0]).
 
 f(X) -> f(X).
 

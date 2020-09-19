@@ -4,7 +4,7 @@
 -export([a_loop/3]).
 -export([b_loop/3]).
 -export([c_loop/3]).
--export([run/1]).
+-export([run/0]).
 
 a_loop(Pid, Recv, I) ->
   case Recv(infinity) of

@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(functors).
 
--export([run/1]).
+-export([run/0]).
 
 run() ->
   Zero = empty(),

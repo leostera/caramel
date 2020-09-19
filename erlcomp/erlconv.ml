@@ -572,19 +572,24 @@ let build_exports:
       | Some x -> x
     in
 
+    let rec is_unit (t : Types.type_expr) =
+      match t.desc with
+      | Tconstr (p, _, _) -> Path.same p Predef.path_unit
+      | Tlink t' -> is_unit (Btype.repr t')
+      | _ -> false
+    in
+
     signature |> (List.filter_map (fun sig_item ->
       match sig_item  with
       | Sig_value (_, { val_kind = Val_prim _  }, Exported) ->
           None
       | Sig_value (name, vd, Exported) ->
           let name = (atom_of_ident name) in
-          let args = collect_args vd.val_type [] in
-          let args = match args with
-          | ({ desc = Tconstr (p, _, _)} :: rest) when Path.same p Predef.path_unit -> rest
-          | _ -> args
+          let args = match collect_args vd.val_type [] with
+          | (t :: rest) when is_unit t -> rest
+          | args -> args
           in
           let arity = (List.length args) in
-          Format.fprintf Format.std_formatter "%s/%d\n" name arity;
           Some (Erlast.make_fn_export name arity)
       | Sig_type (name, td, _, Exported) ->
           Some (Erlast.make_type_export (atom_of_ident name) td.type_arity)
