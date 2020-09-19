@@ -20,9 +20,6 @@ let match_str () =
   | "robert" -> true
   | "joe" -> true
 
-(* FIXME: none of the cases below that have a literal in the list
- * are generated appropriately. All of them become _
- *)
 type int_pair = { fst: int; snd: int }
 let match_record () =
   match { fst=0; snd=1 } with
@@ -30,9 +27,6 @@ let match_record () =
   | {fst=0} -> true
   | {snd=1} -> true
 
-(* FIXME: none of the cases below that have a literal in the list
- * are generated appropriately. All of them become _
- *)
 let match_list () =
   match [0; 1] with
   | [] -> true
@@ -41,9 +35,6 @@ let match_list () =
   | 0 :: 1 :: _ -> true
   | [0; 1] -> true
 
-(* FIXME: none of the cases below that have a literal in the list
- * are generated appropriately. All of them become _
- *)
 let match_tuples () =
   match 1, true, "hello" with
   | 1, _, _ -> true
