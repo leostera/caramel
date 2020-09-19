@@ -10,66 +10,6 @@ let let_many () =
   a + b + c + d
 
 
-(* FIXME: Erlang doesn't have let scopes like OCaml does, so we can work
-   around this by flatten it out the expressions from the inside out and
-   reverting the order.
-
-     let a =
-       let b =
-         let c = 1 in
-         c + 1
-       in b + 1
-     in f a
-
-   would be come:
-
-     C = 1,
-     B = C + 1,
-     A = B + 1,
-     F(A)
-
-   However, this does not guarantee that we will preserve the semantics
-   because in between things, side effects could lurk:
-
-     let a =
-       g (); <-- a wild side-effect appears! D:
-       let b =
-         h (); <-- this one actually _depends_ on g having run! D:
-         let c = 1 in
-         c + 1
-       in b + 1
-     in f a
-
-    This would translate to:
-
-    H(),
-    C = 1,
-    B = C + 1
-    G(),
-    A = B + 1,
-    F(A)
-
-    So there's that. Might be a good idea to only allow more let's in the right
-    hand side, as this would force you to write a function instead.
-
-    The last option here would be to automatically turn a let binding into a
-    arity 0 function that is immediately invoked.
-
-
-  FIXME: for now this should generate the following code:
-
-    A = (fun () ->
-      G(),
-      B = (fun () ->
-        H(),
-        C = 1,
-        C + 1
-      end)(),
-      B + 1
-    end)(),
-    F(A)
-
- *)
 let let_nested f g h =
   let a =
     g (); (* <-- a wild side-effect appears! D: *)

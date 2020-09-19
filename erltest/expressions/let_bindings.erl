@@ -23,16 +23,19 @@ let_many() ->
   erlang:'+'(erlang:'+'(erlang:'+'(A, B), C), D).
 
 let_nested(F, G, H) ->
-  A = G(),
-B = H(),
-C = 1,
-erlang:'+'(C, 1),
-erlang:'+'(B, 1),
+  A = fun () ->
+  G(),
+  B = fun () ->
+  H(),
+  C = 1,
+  erlang:'+'(C, 1)
+end(),
+  erlang:'+'(B, 1)
+end(),
   F(A).
 
 let_rec() ->
-  F = fun
-  (X) -> f(erlang:'+'(X, 1))
+  F = fun (X) -> f(erlang:'+'(X, 1))
 end,
   F(0).
 

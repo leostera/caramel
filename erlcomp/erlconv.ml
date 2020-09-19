@@ -223,10 +223,21 @@ let build_functions:
     and build_bindings vbs ~var_names =
       match vbs with
       | vb :: [] ->
-          Erlast.{
-            lb_lhs = build_pattern vb.vb_pat ;
-            lb_rhs = build_expression vb.vb_expr ~var_names |> maybe_unsupported;
-          }
+          let lb_lhs = build_pattern vb.vb_pat in
+          let lb_rhs = build_expression vb.vb_expr ~var_names |> maybe_unsupported in
+          let lb_rhs = match lb_rhs with
+            | Erlast.Expr_let ({ lb_lhs = Erlast.Pattern_ignore }, _) ->
+                Erlast.Expr_apply {
+                  fa_name = Erlast.Expr_fun { fd_name = "anonymous";
+                              fd_arity = 0;
+                              fd_cases = [
+                                { fc_lhs = [];
+                                  fc_guards = [];
+                                  fc_rhs = lb_rhs; }]};
+                fa_args = [] }
+            | _ -> lb_rhs
+          in
+          Erlast.{ lb_lhs; lb_rhs }
       | _ ->
           List.iter (Printtyped.value_binding 0 Format.std_formatter) vbs;
           Format.fprintf Format.std_formatter "Caramel does not support \"let and\" bindings!\n";
@@ -398,7 +409,7 @@ let build_functions:
           let let_binding = Erlast.{
             lb_lhs = Erlast.Pattern_ignore;
             lb_rhs = build_expression this ~var_names |> maybe_unsupported;
-          } in 
+          } in
           let let_expr = build_expression ~var_names next |> maybe_unsupported in
           Some (Erlast.Expr_let (let_binding, let_expr))
 
