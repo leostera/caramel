@@ -7,7 +7,6 @@
 -type triplet(A, B) :: {A, A, B}.
 
 -type phantom(_A) :: phantom
-                   | {phantom_with_value, integer()}
                    .
 
 

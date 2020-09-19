@@ -5,8 +5,8 @@
 -export([start/1]).
 
 loop(T, Recv) ->
-  _ = io:format(<<"~p\n">>, [T | []]),
-  _ = timer:sleep(T),
+  io:format(<<"~p\n">>, [T | []]),
+  timer:sleep(T),
   loop(erlang:'*'(T, 2), Recv).
 
 start(T) -> process:make(fun

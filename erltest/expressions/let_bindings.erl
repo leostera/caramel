@@ -12,7 +12,7 @@ let_one() ->
   A.
 
 let_ignore() ->
-  _ = 1,
+  1,
   2.
 
 let_many() ->
@@ -23,8 +23,8 @@ let_many() ->
   erlang:'+'(erlang:'+'(erlang:'+'(A, B), C), D).
 
 let_nested(F, G, H) ->
-  A = _ = G(),
-B = _ = H(),
+  A = G(),
+B = H(),
 C = 1,
 erlang:'+'(C, 1),
 erlang:'+'(B, 1),

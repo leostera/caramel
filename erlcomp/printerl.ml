@@ -226,10 +226,14 @@ let rec pp_expression prefix ppf expr ~module_ =
     end;
     Format.fprintf ppf "\n%send" prefix;
 
+
   | Expr_let (binding, expr) ->
-      (* NOTE: we can optimize away the binding if the name is _ *)
-      pp_pattern_match ppf binding.lb_lhs;
-      Format.fprintf ppf " = ";
+      begin match binding.lb_lhs with
+      | Pattern_ignore -> ()
+      | _ ->
+        pp_pattern_match ppf binding.lb_lhs;
+        Format.fprintf ppf " = ";
+      end;
       pp_expression "" ppf binding.lb_rhs ~module_;
       Format.fprintf ppf ",\n";
       pp_expression prefix ppf expr ~module_;

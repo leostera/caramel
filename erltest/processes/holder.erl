@@ -1,7 +1,7 @@
 % Source code generated with Caramel.
 -module(holder).
 
--export([do_work/0]).
+-export([do_work/1]).
 -export([handle_message/2]).
 -export([loop/2]).
 -export([start/1]).
@@ -16,7 +16,7 @@ handle_message(State, Msg) ->
   end.
 
 loop(Recv, State) ->
-  _ = io:format(<<"current_state: ~p\n">>, [State | []]),
+  io:format(<<"current_state: ~p\n">>, [State | []]),
   Msg = Recv({bounded, 5000}),
   State2 = handle_message(State, Msg),
   loop(Recv, State2).

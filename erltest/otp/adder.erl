@@ -30,7 +30,7 @@ init(X) -> {ok, X}.
 handle_cast(_, State) -> {no_reply, State}.
 
 handle_call(Message, _Pid, State) ->
-  _ = timer:sleep(1000),
+  timer:sleep(1000),
   case Message of
     {add, I} -> {reply, State, erlang:'+'(State, I)}
   end.

@@ -16,7 +16,7 @@ run_macros() ->
   Z.
 
 run_nested() ->
-  _ = names__nested:x(),
+  names__nested:x(),
   names__nested:w().
 
 run_nested_ambiguous() ->
