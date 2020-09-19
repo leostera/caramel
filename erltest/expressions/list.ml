@@ -1,6 +1,6 @@
 let empty () = []
 
-let pair x = [x; x]
+let pair x = [ x; x ]
 
 let cons x y = x :: y
 

@@ -1,4 +1,3 @@
-
 let add x = x
 
 let double f x = f (f x)
@@ -6,10 +5,7 @@ let double f x = f (f x)
 let add_twice x = double add x
 
 module Nested = struct
-  let f x () =
-    match x with
-    | true -> ()
-    | false -> ()
+  let f x () = match x with true -> () | false -> ()
 end
 
 let call_nested x = Nested.f x ()

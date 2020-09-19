@@ -1,4 +1,3 @@
-
 let rec run_local () =
   let x = run_local in
   let y = `Atom in
@@ -10,8 +9,10 @@ let rec run_macros () =
 
 module Nested = struct
   let x () = `compiler "caramel"
+
   let w () = `version `delicious
 end
+
 let rec run_nested () =
   Nested.x ();
   Nested.w ()

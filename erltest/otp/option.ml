@@ -1,4 +1,1 @@
-type 'a t =
-  | None
-  | Some of 'a
-
+type 'a t = None | Some of 'a

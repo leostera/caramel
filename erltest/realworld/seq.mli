@@ -31,11 +31,11 @@ type 'a t = unit -> 'a node
     not a [lazy] block, which means it might be recomputed every time
     we access it. *)
 
-and +'a node =
-  | Nil
-  | Cons of 'a * 'a t (**)
 (** A fully-evaluated list node, either empty or containing an element
     and a delayed tail. *)
+and +'a node = Nil | Cons of 'a * 'a t
+
+(***)
 
 val empty : 'a t
 (** The empty sequence, containing no elements. *)

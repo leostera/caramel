@@ -8,4 +8,3 @@ type opaque = string
 
  *)
 type hidden
-
