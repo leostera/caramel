@@ -78,7 +78,9 @@ and fun_decl = {
 
 and record_field = { rf_name: atom; rf_type: type_kind }
 
-and variant_constructor = { vc_name: atom; vc_args: type_kind list }
+and variant_constructor =
+  | Constructor of { vc_name: atom; vc_args: type_kind list }
+  | Extension of type_kind
 
 and type_constr = { tc_name: name; tc_args: type_kind list }
 
@@ -159,7 +161,9 @@ let make_named_type typ_name typ_params typ_kind =
 
       | Type_variant { constructors } ->
           constructors
-          |> List.concat_map (fun { vc_args } -> vc_args )
+          |> List.concat_map (function
+              | (Constructor { vc_args }) -> vc_args
+              | _ -> [] )
           |> List.concat_map (collect_params [])
       in
       [flat_args; acc] |> List.concat

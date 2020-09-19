@@ -31,10 +31,11 @@ let pp_exports ppf exports =
   Format.fprintf ppf "\n";
   ()
 
-let rec pp_variant_constructor prefix ppf c =
-  begin match c.vc_args with
-  | [] -> Format.fprintf ppf "%s" c.vc_name;
-  | _ ->
+let rec pp_variant_constructor prefix ppf vc =
+  begin match vc with
+  | Extension t -> pp_type_kind prefix ppf t;
+  | Constructor { vc_name; vc_args = [] } -> Format.fprintf ppf "%s" vc_name;
+  | Constructor c ->
       let tag = Format.sprintf "{%s" c.vc_name in
       Format.fprintf ppf "%s" tag;
       c.vc_args

@@ -7,6 +7,8 @@ exception Unsupported_expression
 exception Unsupported_empty_identifier
 exception Unsupported_naming
 
+let debug = Format.fprintf Format.std_formatter
+
 let maybe e x = match x with
   | Some v -> v
   | None -> raise e
@@ -467,12 +469,17 @@ let build_types:
           let rec all_rows rs acc =  match rs with
             | [] -> acc |> List.rev
             | r :: rs' -> match r.rf_desc with
-              | Tinherit _ctype -> all_rows rs' acc
               | Ttag ( {txt}, _, core_types) ->
                   let vc_name = txt |> atom_of_string in
                   let vc_args = (core_types |> List.filter_map build_type_kind) in
-                  let variant = Erlast.{ vc_name; vc_args } in
+                  let variant = Erlast.Constructor { vc_name; vc_args } in
                   all_rows rs' (variant :: acc)
+              | Tinherit { ctyp_desc =(Ttyp_constr (_, {txt}, _)) } ->
+                  let tc_name = longident_to_type_name txt in
+                  let t = Erlast.Extension (Type_constr { tc_name; tc_args = [] }) in
+                  all_rows rs' (t :: acc)
+              | _ ->
+                  all_rows rs' acc
           in
           let constructors = all_rows rows [] in
           Some (Erlast.Type_variant {constructors})
@@ -482,8 +489,12 @@ let build_types:
        *
        * The second one `Ttyp_poly (strings, core_typ)` seemed to appear in records.
        *)
-      | Ttyp_alias (follow, _)
-      | Ttyp_poly (_, follow) -> build_type_kind follow
+      | Ttyp_poly (names, follow) ->
+          debug "Ttyp_poly names: %s" (String.concat ", " names);
+          build_type_kind follow
+
+      | Ttyp_alias (follow, _) ->
+          build_type_kind follow
 
       | Ttyp_object _
       | Ttyp_class _
@@ -545,7 +556,7 @@ let build_types:
                 | Cstr_tuple core_types -> core_types |> List.filter_map build_type_kind
                 | Cstr_record labels -> [build_record labels]
               in
-              Erlast.{ vc_name = atom_of_ident cd_id; vc_args } )
+              Erlast.Constructor { vc_name = atom_of_ident cd_id; vc_args } )
           in Some (Erlast.make_named_type name params (Erlast.Type_variant {constructors}))
 
       | _ -> None
