@@ -40,5 +40,5 @@ open IntAdd
 let run () =
   let zero = empty () in
   let one = concat zero 1 in
-  let two = IntAdd.(<+>) one 1 in
+  let two = IntAdd.( <+> ) one 1 in
   two
