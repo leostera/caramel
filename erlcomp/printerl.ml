@@ -366,26 +366,22 @@ and pp_fun_args ppf args =
         pp_pattern_match ppf pat );
 
 and pp_fun_case _prefix ppf { fc_lhs; fc_rhs } ~module_ =
-  begin match fc_lhs with
-  | [] -> Format.fprintf ppf "()"
-  | args ->
-      Format.fprintf ppf "(";
-      pp_fun_args ppf args;
-      Format.fprintf ppf ") ->";
-      let prefix = (begin match fc_rhs with
-      | Expr_map _
-      | Expr_let _
-      | Expr_case _ -> Format.fprintf ppf "\n";  "  "
-      | Expr_fun _
-      | Expr_apply _
-      | Expr_fun_ref _
-      | Expr_list _
-      | Expr_tuple _
-      | Expr_literal _
-      | Expr_name _ -> " ";
-      end) in
-      pp_expression prefix ppf fc_rhs ~module_;
-  end
+  Format.fprintf ppf "(";
+  pp_fun_args ppf fc_lhs;
+  Format.fprintf ppf ") ->";
+  let prefix = (begin match fc_rhs with
+  | Expr_map _
+  | Expr_let _
+  | Expr_case _ -> Format.fprintf ppf "\n";  "  "
+  | Expr_fun _
+  | Expr_apply _
+  | Expr_fun_ref _
+  | Expr_list _
+  | Expr_tuple _
+  | Expr_literal _
+  | Expr_name _ -> " ";
+  end) in
+  pp_expression prefix ppf fc_rhs ~module_
 
 let pp_fun_cases prefix ppf fd_name fd_cases ~module_ =
   begin match fd_cases with
