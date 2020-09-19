@@ -325,6 +325,19 @@ let build_functions:
             Erlast.{ mf_name = field.lbl_name; mf_value = value }
           )))
 
+      | Texp_field (expr, _, { lbl_name }) ->
+          let fa_name =
+            let n_mod = "maps" in
+            let n_name = "get" in
+            Erlast.Expr_name (Qualified_name {n_mod; n_name})
+          in
+          let fa_args = [
+            Erlast.Expr_name (Atom_name lbl_name);
+            (build_expression ~var_names expr) |> maybe_unsupported;
+          ]
+          in
+          Some (Erlast.Expr_apply { fa_name; fa_args })
+
       | Texp_tuple exprs ->
           Some (Erlast.Expr_tuple (exprs |> List.filter_map (build_expression ~var_names)))
 
