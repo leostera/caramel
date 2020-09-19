@@ -1,5 +1,9 @@
-type poly = [ `poly_a | `poly_b of int ]
+type plain = [ `poly_zero ]
 
-type poly_ext = [ | poly | `poly_c of string ]
+type 'a poly = [ | plain | `poly_a of 'a | `poly_b of int ]
 
-type poly_ext_2 = [ | poly | poly_ext | `poly_d ]
+type 'a poly_ext = [ | 'a poly | `poly_c of string ]
+
+type poly_ext_fixed = [ | int poly | `poly_c of string ]
+
+type 'a poly_ext_phantom = [ | int poly | `poly_c of string ]

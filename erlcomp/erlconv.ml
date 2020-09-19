@@ -474,9 +474,10 @@ let build_types:
                   let vc_args = (core_types |> List.filter_map build_type_kind) in
                   let variant = Erlast.Constructor { vc_name; vc_args } in
                   all_rows rs' (variant :: acc)
-              | Tinherit { ctyp_desc =(Ttyp_constr (_, {txt}, _)) } ->
+              | Tinherit { ctyp_desc =(Ttyp_constr (_, {txt}, args)) } ->
                   let tc_name = longident_to_type_name txt in
-                  let t = Erlast.Extension (Type_constr { tc_name; tc_args = [] }) in
+                  let tc_args = args |> List.filter_map build_type_kind in
+                  let t = Erlast.Extension (Type_constr { tc_name; tc_args }) in
                   all_rows rs' (t :: acc)
               | _ ->
                   all_rows rs' acc

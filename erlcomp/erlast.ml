@@ -162,9 +162,10 @@ let make_named_type typ_name typ_params typ_kind =
       | Type_variant { constructors } ->
           constructors
           |> List.concat_map (function
-              | (Constructor { vc_args }) -> vc_args
-              | _ -> [] )
-          |> List.concat_map (collect_params [])
+              | (Constructor { vc_args }) ->
+                  List.concat_map (collect_params []) vc_args
+              | (Extension ext) ->
+                  collect_params [] ext )
       in
       [flat_args; acc] |> List.concat
     in
