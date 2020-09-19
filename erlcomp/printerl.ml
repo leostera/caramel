@@ -8,15 +8,23 @@ exception Type_constructors_must_be_atoms_or_qualified_names of Erlast.name
 
 exception Invalid_case_expresion_without_branches
 
+exception Unknown_support_function
+
 module H = struct
   let pad n = String.make n ' '
 end
 
 let print_atom ppf atom = Format.fprintf ppf "%s" (String.lowercase_ascii atom)
 
+let is_caramel_support { fa_name; } =
+  match fa_name with
+  | Expr_name (Qualified_name { n_mod = "caramel"; n_name = "binary_concat" }) -> true
+  | _ -> false
+
 (*
  * Pretty printing functions
  *)
+
 
 let pp_exports ppf exports =
   let fn_exports, type_exports =
@@ -35,7 +43,18 @@ let pp_exports ppf exports =
   Format.fprintf ppf "\n";
   ()
 
-let rec pp_variant_constructor prefix ppf vc =
+let rec pp_caramel_support_function _prefix ppf { fa_name; fa_args } ~module_ =
+  match fa_name, fa_args with
+  | Expr_name (Qualified_name { n_mod = "caramel"; n_name = "binary_concat" }), [ lhs; rhs ] ->
+      Format.fprintf ppf "<< ";
+      pp_expression "" ppf lhs ~module_;
+      Format.fprintf ppf "/binary, ";
+      pp_expression "" ppf rhs ~module_;
+      Format.fprintf ppf "/binary >>";
+  | _, _ ->
+      raise Unknown_support_function
+
+and pp_variant_constructor prefix ppf vc =
   match vc with
   | Extension t -> pp_type_kind prefix ppf t
   | Constructor { vc_name; vc_args = [] } -> Format.fprintf ppf "%s" vc_name
@@ -129,7 +148,7 @@ and pp_type_kind prefix ppf typ_kind =
       pp_type_kind prefix ppf return;
       Format.fprintf ppf ")"
 
-let rec pp_pattern_match ppf pm =
+and pp_pattern_match ppf pm =
   match pm with
   | Pattern_ignore -> Format.fprintf ppf "_"
   | Pattern_binding name -> Format.fprintf ppf "%s" name
@@ -181,7 +200,7 @@ and pp_literal ppf lit =
   | Lit_binary str -> Format.fprintf ppf "<<\"%s\">>" (String.escaped str)
   | Lit_atom atom -> print_atom ppf atom
 
-let rec pp_expression prefix ppf expr ~module_ =
+and pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
   match expr with
   | Expr_name (Var_name name) ->
@@ -226,6 +245,8 @@ let rec pp_expression prefix ppf expr ~module_ =
       match Erlast.find_fun_by_name ~module_ name with
       | None -> ()
       | Some { fd_arity } -> Format.fprintf ppf "fun %s/%d" name fd_arity )
+  | Expr_apply apply when is_caramel_support apply ->
+      pp_caramel_support_function prefix ppf apply ~module_;
   | Expr_apply { fa_name; fa_args } -> (
       pp_expression "" ppf fa_name ~module_;
       match fa_args with

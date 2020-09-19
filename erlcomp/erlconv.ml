@@ -9,8 +9,6 @@ exception Unsupported_expression
 
 exception Unsupported_empty_identifier
 
-exception Unsupported_naming
-
 (*
 let _debug = Format.fprintf Format.std_formatter
 *)
@@ -18,6 +16,11 @@ let _debug = Format.fprintf Format.std_formatter
 let maybe e x = match x with Some v -> v | None -> raise e
 
 let maybe_unsupported x = maybe Unsupported_feature x
+
+let safe_atom u =
+      match (String.get u 0) with
+      | 'a' .. 'z' -> u
+      | _ -> ("'" ^ u ^ "'")
 
 let rec varname_of_string s =
   let name = s |> String.capitalize_ascii in
@@ -44,6 +47,7 @@ let longident_to_name x =
   | [ x ] -> Erlast.(Var_name x)
   | n_name :: mods ->
       let n_mod = mods |> List.rev |> String.concat "__" in
+      let n_name = safe_atom n_name in
       Erlast.(Qualified_name { n_mod; n_name })
 
 let ocaml_to_erlang_type t =
@@ -53,7 +57,7 @@ let ocaml_to_erlang_type t =
   | "bool" -> Atom_name "boolean"
   | "option" -> Qualified_name { n_mod = "option"; n_name = "t" }
   | "result" -> Qualified_name { n_mod = "result"; n_name = "t" }
-  | u -> Atom_name u
+  | u -> Atom_name (safe_atom u)
 
 let longident_to_type_name x =
   match x |> Longident.flatten |> List.rev with
@@ -63,6 +67,7 @@ let longident_to_type_name x =
       let n_mod =
         mods |> List.rev |> String.concat "__" |> String.lowercase_ascii
       in
+      let n_name = safe_atom n_name in
       match (n_mod, n_name) with
       | _, x when x = "option" || x = "result" ->
           Erlast.(Qualified_name { n_mod = x; n_name = "t" })
@@ -75,11 +80,12 @@ let to_erl_op t =
 let ocaml_to_erlang_primitive_op t =
   match t with
   | "!" | "++" | "-" | "--" | "/" | "<" | ">" | "*" | "+" -> to_erl_op t
+  | "^" -> Erlast.(Qualified_name { n_mod = "caramel"; n_name = "binary_concat" })
   | "<>" -> to_erl_op "=/="
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="
   | "@" -> to_erl_op "++"
-  | u -> Erlast.Atom_name u
+  | u -> Erlast.Atom_name (safe_atom u)
 
 let const_to_literal const =
   let open Asttypes in
