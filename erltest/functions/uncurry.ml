@@ -3,8 +3,10 @@ type ignore = unit -> unit
 (* FIXME: this should compile to
  *
  *  ignore(_X) -> fun() -> ok end.
- *)
+*)
+
 let ignore _x () = ()
+
 
 type 'a defer = unit -> 'a
 

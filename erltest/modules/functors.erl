@@ -6,7 +6,7 @@
 run() ->
   Zero = empty(),
   One = concat(Zero, 1),
-  Two = <+>(One, 1),
+  Two = intadd:'<+>'(One, 1),
   Two.
 
 

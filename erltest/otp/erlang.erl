@@ -3,6 +3,6 @@
 -export_type([process/1]).
 
 
--type process(_Message) :: reference().
+-opaque process(_Message) :: reference().
 
 

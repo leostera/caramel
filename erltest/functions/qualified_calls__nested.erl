@@ -3,7 +3,7 @@
 
 -export([f/1]).
 
-f(X, ok) ->
+f(X) ->
   case X of
     true -> ok;
     false -> ok

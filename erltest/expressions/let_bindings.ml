@@ -47,7 +47,6 @@ let let_nested f g h =
 
      F = caramel:letrec1(fun (F, X) -> F(X + 1) end)
 
-
  *)
 let let_rec () =
   let rec f x = f (x + 1) in

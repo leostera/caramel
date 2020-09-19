@@ -106,7 +106,7 @@ BYTECOMP_CMI=
 ERLCOMP=erlcomp/erlast.cmo erlcomp/erlconv.cmo erlcomp/printerl.cmo \
 				erlcomp/erlgen.cmo \
 				driver/erlcompile.cmo driver/erlmaindriver.cmo
-ERLCOMP_CMI=erlcomp/erlgen.cmi
+ERLCOMP_CMI=erlcomp/erlgen.cmi erlcomp/erlast.cmi erlcomp/erlconv.cmi
 
 INTEL_ASM=\
   asmcomp/x86_proc.cmo \
