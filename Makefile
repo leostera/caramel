@@ -36,10 +36,9 @@ include stdlib/StdlibModules
 CAMLC=$(BOOT_OCAMLC) -g -nostdlib -I boot -use-prims runtime/primitives
 CAMLOPT=$(CAMLRUN) ./ocamlopt$(EXE) -g -nostdlib -I stdlib -I otherlibs/dynlink
 ARCHES=amd64 i386 arm arm64 power s390x riscv
-INCLUDES=-I utils -I parsing -I typing -I bytecomp -I file_formats \
+INCLUDES=-I utils -I parsing -I typing -I bytecomp -I erlcomp -I file_formats \
         -I lambda -I middle_end -I middle_end/closure \
         -I middle_end/flambda -I middle_end/flambda/base_types \
-				-I erlcomp \
         -I asmcomp -I asmcomp/debug \
         -I driver -I toplevel
 
@@ -63,6 +62,8 @@ OCAMLDOC_OPT=$(WITH_OCAMLDOC:=.opt)
 OCAMLTEST_OPT=$(WITH_OCAMLTEST:=.opt)
 
 BYTESTART=driver/main.cmo
+
+ERLSTART=driver/erlmain.cmo
 
 OPTSTART=driver/optmain.cmo
 
@@ -591,8 +592,8 @@ clean:: partialclean
 # The bytecode compiler
 
 ocamlc$(EXE): compilerlibs/ocamlcommon.cma \
-              compilerlibs/ocamlerlcomp.cma \
-              compilerlibs/ocamlbytecomp.cma $(BYTESTART)
+              compilerlibs/ocamlbytecomp.cma \
+							$(BYTESTART)
 	$(CAMLC) $(LINKFLAGS) -compat-32 -o $@ $^
 
 partialclean::
@@ -607,6 +608,17 @@ ocamlopt$(EXE): compilerlibs/ocamlcommon.cma compilerlibs/ocamloptcomp.cma \
 partialclean::
 	rm -f ocamlopt$(EXE)
 
+# The erlang compiler
+
+caramelc$(EXE): compilerlibs/ocamlcommon.cma \
+              compilerlibs/ocamlbytecomp.cma \
+              compilerlibs/ocamlerlcomp.cma\
+							$(ERLSTART)
+	$(CAMLC) $(LINKFLAGS) -compat-32 -o $@ $^
+
+partialclean::
+	rm -rf ocamlc$(EXE)
+
 # The toplevel
 
 ocaml_dependencies := \
@@ -620,10 +632,6 @@ ocaml.tmp: $(ocaml_dependencies)
 
 ocaml$(EXE): $(expunge) ocaml.tmp
 	- $(CAMLRUN) $^ $@ $(PERVASIVES)
-
-.PHONY: caramel
-caramel: ocamlc
-	cp ocamlc caramelc
 
 partialclean::
 	rm -f ocaml$(EXE)

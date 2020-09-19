@@ -82,7 +82,8 @@ COMP=\
   bytecomp/bytesections.cmo bytecomp/dll.cmo \
   bytecomp/symtable.cmo \
   driver/pparse.cmo driver/compenv.cmo \
-  driver/main_args.cmo driver/compmisc.cmo \
+  driver/main_args.cmo driver/erl_main_args.cmo \
+	driver/compmisc.cmo \
   driver/makedepend.cmo \
   driver/compile_common.cmo
 COMP_CMI=\
@@ -103,7 +104,8 @@ BYTECOMP=bytecomp/instruct.cmo bytecomp/bytegen.cmo \
 BYTECOMP_CMI=
 
 ERLCOMP=erlcomp/erlast.cmo erlcomp/erlconv.cmo erlcomp/printerl.cmo \
-				erlcomp/erlgen.cmo driver/compile.cmo driver/maindriver.cmo
+				erlcomp/erlgen.cmo \
+				driver/erlcompile.cmo driver/erlmaindriver.cmo
 ERLCOMP_CMI=erlcomp/erlgen.cmi
 
 INTEL_ASM=\

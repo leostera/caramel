@@ -11,7 +11,9 @@ exception Unsupported_empty_identifier
 
 exception Unsupported_naming
 
-let debug = Format.fprintf Format.std_formatter
+(*
+let _debug = Format.fprintf Format.std_formatter
+*)
 
 let maybe e x = match x with Some v -> v | None -> raise e
 
@@ -235,7 +237,6 @@ let build_functions :
         in
         Erlast.{ lb_lhs; lb_rhs }
     | _ ->
-        List.iter (Printtyped.value_binding 0 Format.std_formatter) vbs;
         Format.fprintf Format.std_formatter
           "Caramel does not support \"let and\" bindings!\n";
         raise Unsupported_feature
@@ -315,12 +316,10 @@ let build_functions :
                       | Kept _ ->
                           Format.fprintf Format.std_formatter
                             "record overrides unsupported yet!";
-                          Printtyped.expression 0 Format.std_formatter exp;
                           raise Unsupported_feature
                       | Overridden (_, exp) -> (
                           match build_expression exp ~var_names with
                           | None ->
-                              Printtyped.expression 0 Format.std_formatter exp;
                               raise Unsupported_feature
                           | Some v -> v )
                     in
@@ -410,7 +409,6 @@ let build_functions :
         let let_expr = build_expression ~var_names next |> maybe_unsupported in
         Some (Erlast.Expr_let (let_binding, let_expr))
     | _ ->
-        Printtyped.expression 0 Format.std_formatter exp;
         raise Unsupported_expression
   in
 
@@ -492,12 +490,10 @@ let build_types : Typedtree.structure -> Erlast.type_decl list =
      *
      * The second one `Ttyp_poly (strings, core_typ)` seemed to appear in records.
      *)
-    | Ttyp_poly (names, follow) ->
-        debug "Ttyp_poly names: %s" (String.concat ", " names);
+    | Ttyp_poly (_names, follow) ->
         build_type_kind follow
     | Ttyp_alias (follow, _) -> build_type_kind follow
     | Ttyp_object _ | Ttyp_class _ | Ttyp_package _ ->
-        Printtyped.core_type 0 Format.std_formatter core_type;
         raise Unsupported_feature
   in
 

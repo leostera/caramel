@@ -16,7 +16,7 @@
 open Misc
 open Compile_common
 
-let tool_name = "ocamlc"
+let tool_name = "caramelc"
 
 let with_info =
   Compile_common.with_info ~native:false ~tool_name
@@ -54,10 +54,22 @@ let emit_bytecode i (bytecode, required_globals) =
          (Emitcode.to_file oc i.module_name cmofile ~required_globals);
     )
 
+let read_signature info =
+  let module_name = info.module_name in
+  let cmi_file = module_name ^ ".cmi" in
+  try begin
+    let intf_file = Load_path.find_uncap cmi_file in
+    let sign = Env.read_signature module_name intf_file  in
+    Some sign
+  end
+    with Not_found -> None
+
 let implementation ~source_file ~output_prefix =
   let backend info typed =
     let bytecode = to_bytecode info typed in
-    emit_bytecode info bytecode
+    let _ = emit_bytecode info bytecode in
+    let signature = read_signature info in
+    Erlgen.generate_sources info typed signature
   in
   with_info ~source_file ~output_prefix ~dump_ext:"cmo" @@ fun info ->
     Compile_common.implementation info ~backend
