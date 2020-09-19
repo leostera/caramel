@@ -622,11 +622,8 @@ ocaml$(EXE): $(expunge) ocaml.tmp
 	- $(CAMLRUN) $^ $@ $(PERVASIVES)
 
 .PHONY: caramel
-caramel: cleanerl ocamlc
-
-cleanerl:
-	rm -rf erlcomp/*.cm*
-
+caramel: ocamlc
+	cp ocamlc caramelc
 
 partialclean::
 	rm -f ocaml$(EXE)
