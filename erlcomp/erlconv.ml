@@ -579,7 +579,11 @@ let build_types :
           (Erlast.make_named_type name params
              (Erlast.Type_variant { constructors })
              Visible)
-    | _ -> None
+    | Ttype_open ->
+        Some
+          (Erlast.make_named_type name params
+             (Erlast.Type_constr { tc_name = Atom_name "any"; tc_args = [] })
+             Visible)
   in
   typedtree.str_items
   |> List.concat_map (fun item ->
