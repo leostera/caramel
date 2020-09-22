@@ -1,0 +1,65 @@
+module 'binding_on_match' ['match_atoms'/0,
+			   'match_list'/0,
+			   'match_record'/0,
+			   'match_tuples'/0,
+			   'module_info'/0,
+			   'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[98|[105|[110|[100|[105|[110|[103|[95|[111|[110|[95|[109|[97|[116|[99|[104|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'int_pair',0}],
+		%% Line 10
+		'type' =
+		    %% Line 10
+		    [{'int_pair',{'type',10,'map',[{'type',10,'map_field_assoc',[{'atom',10,'fst'}|[{'type',10,'integer',[]}]]}|[{'type',11,'map_field_assoc',[{'atom',11,'snd'}|[{'type',11,'integer',[]}]]}]]},[]}]]
+'match_record'/0 =
+    %% Line 14
+    ( fun () ->
+	  %% Line 15
+	  case ~{'fst'=>0,'snd'=>1}~ of
+	    %% Line 18
+	    <~{'fst':=Fst,'snd':=Snd}~> when 'true' ->
+		'true'
+	    %% Line 19
+	    <~{'fst':=X}~> when 'true' ->
+		'true'
+	    ( <_0> when 'true' ->
+		  primop 'match_fail'
+		      ({'case_clause',_0})
+	      -| ['compiler_generated'] )
+	  end
+      -| [{'function',{'match_record',0}}] )
+'match_list'/0 =
+    %% Line 22
+    ( fun () ->
+	  %% Line 26
+	  'true'
+      -| [{'function',{'match_list',0}}] )
+'match_tuples'/0 =
+    %% Line 29
+    ( fun () ->
+	  %% Line 31
+	  'true'
+      -| [{'function',{'match_tuples',0}}] )
+'match_atoms'/0 =
+    %% Line 36
+    ( fun () ->
+	  %% Line 38
+	  'true'
+      -| [{'function',{'match_atoms',0}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('binding_on_match')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('binding_on_match', ( _0
+				     -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

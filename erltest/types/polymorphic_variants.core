@@ -1,0 +1,58 @@
+module 'polymorphic_variants' ['module_info'/0,
+			       'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[112|[111|[108|[121|[109|[111|[114|[112|[104|[105|[99|[95|[118|[97|[114|[105|[97|[110|[116|[115|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'plain',0}],
+		%% Line 4
+		'export_type' =
+		    %% Line 4
+		    [{'poly',1}],
+		%% Line 5
+		'export_type' =
+		    %% Line 5
+		    [{'poly_ext',1}],
+		%% Line 6
+		'export_type' =
+		    %% Line 6
+		    [{'poly_ext_fixed',0}],
+		%% Line 7
+		'export_type' =
+		    %% Line 7
+		    [{'poly_ext_phantom',1}],
+		%% Line 10
+		'type' =
+		    %% Line 10
+		    [{'plain',{'atom',10,'poly_zero'},[]}],
+		%% Line 13
+		'type' =
+		    %% Line 13
+		    [{'poly',{'type',13,'union',[{'user_type',13,'plain',[]}|[{'type',14,'tuple',[{'atom',14,'poly_a'}|[{'var',14,'A'}]]}|[{'type',15,'tuple',[{'atom',15,'poly_b'}|[{'type',15,'integer',[]}]]}]]]},[{'var',13,'A'}]}],
+		%% Line 18
+		'type' =
+		    %% Line 18
+		    [{'poly_ext',{'type',18,'union',[{'user_type',18,'poly',[{'var',18,'A'}]}|[{'type',19,'tuple',[{'atom',19,'poly_c'}|[{'type',19,'string',[]}]]}]]},[{'var',18,'A'}]}],
+		%% Line 22
+		'type' =
+		    %% Line 22
+		    [{'poly_ext_fixed',{'type',22,'union',[{'user_type',22,'poly',[{'type',22,'integer',[]}]}|[{'type',23,'tuple',[{'atom',23,'poly_c'}|[{'type',23,'string',[]}]]}]]},[]}],
+		%% Line 26
+		'type' =
+		    %% Line 26
+		    [{'poly_ext_phantom',{'type',26,'union',[{'user_type',26,'poly',[{'type',26,'integer',[]}]}|[{'type',27,'tuple',[{'atom',27,'poly_c'}|[{'type',27,'string',[]}]]}]]},[{'var',26,'_A'}]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('polymorphic_variants')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('polymorphic_variants', ( _0
+					 -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

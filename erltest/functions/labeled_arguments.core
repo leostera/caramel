@@ -1,0 +1,65 @@
+module 'labeled_arguments' ['concat'/2,
+			    'module_info'/0,
+			    'module_info'/1,
+			    'run'/0]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[108|[97|[98|[101|[108|[101|[100|[95|[97|[114|[103|[117|[109|[101|[110|[116|[115|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]]]],1}]]
+'concat'/2 =
+    %% Line 7
+    ( fun (_0,_1) ->
+	  #{#<_0>(( 'all'
+		    -| ['compiler_generated'] ),8,'binary',['unsigned'|['big']]),
+	    #<_1>(( 'all'
+		    -| ['compiler_generated'] ),8,'binary',['unsigned'|['big']])}#
+      -| [{'function',{'concat',2}}] )
+'run'/0 =
+    %% Line 9
+    ( fun () ->
+	  let <S1> =
+	      apply %% Line 10
+		    'concat'/2
+		  (%% Line 10
+		   #{#<111>(8,1,'integer',['unsigned'|['big']]),
+		     #<99>(8,1,'integer',['unsigned'|['big']]),
+		     #<97>(8,1,'integer',['unsigned'|['big']]),
+		     #<109>(8,1,'integer',['unsigned'|['big']]),
+		     #<108>(8,1,'integer',['unsigned'|['big']])}#, %% Line 10
+								   #{#<101>(8,1,'integer',['unsigned'|['big']]),
+								     #<114>(8,1,'integer',['unsigned'|['big']]),
+								     #<108>(8,1,'integer',['unsigned'|['big']]),
+								     #<97>(8,1,'integer',['unsigned'|['big']]),
+								     #<110>(8,1,'integer',['unsigned'|['big']]),
+								     #<103>(8,1,'integer',['unsigned'|['big']])}#)
+	  in  let <S2> =
+		  apply %% Line 11
+			'concat'/2
+		      (%% Line 11
+		       #{#<101>(8,1,'integer',['unsigned'|['big']]),
+			 #<114>(8,1,'integer',['unsigned'|['big']]),
+			 #<108>(8,1,'integer',['unsigned'|['big']]),
+			 #<97>(8,1,'integer',['unsigned'|['big']]),
+			 #<110>(8,1,'integer',['unsigned'|['big']]),
+			 #<103>(8,1,'integer',['unsigned'|['big']])}#, %% Line 11
+								       #{#<111>(8,1,'integer',['unsigned'|['big']]),
+									 #<99>(8,1,'integer',['unsigned'|['big']]),
+									 #<97>(8,1,'integer',['unsigned'|['big']]),
+									 #<109>(8,1,'integer',['unsigned'|['big']]),
+									 #<108>(8,1,'integer',['unsigned'|['big']])}#)
+	      in  %% Line 12
+		  call 'erlang':'=:='
+		      (S1, S2)
+      -| [{'function',{'run',0}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('labeled_arguments')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('labeled_arguments', ( _0
+				      -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

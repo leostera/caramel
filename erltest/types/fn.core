@@ -1,0 +1,74 @@
+module 'fn' ['module_info'/0,
+	     'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[102|[110|[46|[101|[114|[108]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'add',0}],
+		%% Line 4
+		'export_type' =
+		    %% Line 4
+		    [{'defer',1}],
+		%% Line 5
+		'export_type' =
+		    %% Line 5
+		    [{'f',2}],
+		%% Line 6
+		'export_type' =
+		    %% Line 6
+		    [{'f_with_tuples',2}],
+		%% Line 7
+		'export_type' =
+		    %% Line 7
+		    [{'nested',0}],
+		%% Line 8
+		'export_type' =
+		    %% Line 8
+		    [{'predicate',1}],
+		%% Line 9
+		'export_type' =
+		    %% Line 9
+		    [{'r',1}],
+		%% Line 12
+		'type' =
+		    %% Line 12
+		    [{'defer',{'type',12,'fun',[{'type',12,'product',[{'atom',12,'ok'}]}|[{'var',12,'A'}]]},[{'var',12,'A'}]}],
+		%% Line 14
+		'type' =
+		    %% Line 14
+		    [{'predicate',{'type',14,'fun',[{'type',14,'product',[{'var',14,'A'}]}|[{'type',14,'boolean',[]}]]},[{'var',14,'A'}]}],
+		%% Line 16
+		'type' =
+		    %% Line 16
+		    [{'add',{'type',16,'fun',[{'type',16,'product',[{'type',16,'integer',[]}|[{'type',16,'integer',[]}]]}|[{'type',16,'integer',[]}]]},[]}],
+		%% Line 18
+		'type' =
+		    %% Line 18
+		    [{'f',{'type',18,'fun',[{'type',18,'product',[{'var',18,'A'}|[{'var',18,'B'}]]}|[{'type',18,'boolean',[]}]]},[{'var',18,'A'}|[{'var',18,'B'}]]}],
+		%% Line 20
+		'type' =
+		    %% Line 20
+		    [{'nested',{'type',20,'fun',[{'type',20,'product',[{'atom',20,'ok'}|[{'type',20,'fun',[{'type',20,'product',[{'type',20,'integer',[]}]}|[{'type',20,'boolean',[]}]]}]]}|[{'type',20,'string',[]}]]},[]}],
+		%% Line 22
+		'type' =
+		    %% Line 22
+		    [{'f_with_tuples',{'type',22,'fun',[{'type',22,'product',[{'type',22,'tuple',[{'var',22,'A'}|[{'var',22,'B'}]]}|[{'atom',22,'ok'}]]}|[{'type',22,'boolean',[]}]]},[{'var',22,'A'}|[{'var',22,'B'}]]}],
+		%% Line 24
+		'type' =
+		    %% Line 24
+		    [{'r',{'type',24,'map',[{'type',24,'map_field_assoc',[{'atom',24,'f'}|[{'type',24,'fun',[{'type',24,'product',[{'atom',24,'ok'}]}|[{'type',24,'tuple',[{'var',24,'A'}|[{'type',24,'integer',[]}]]}]]}]]}]},[{'var',24,'A'}]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('fn')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('fn', ( _0
+		       -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

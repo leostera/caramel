@@ -1,0 +1,26 @@
+module 'abstract' ['module_info'/0,
+		   'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[97|[98|[115|[116|[114|[97|[99|[116|[46|[101|[114|[108]]]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'t',0}],
+		%% Line 6
+		'opaque' =
+		    %% Line 6
+		    [{'t',{'type',6,'reference',[]},[]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('abstract')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('abstract', ( _0
+			     -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

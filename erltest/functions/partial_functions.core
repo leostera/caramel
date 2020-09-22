@@ -1,0 +1,93 @@
+module 'partial_functions' ['at_2'/1,
+			    'at_3'/1,
+			    'head'/1,
+			    'module_info'/0,
+			    'module_info'/1,
+			    'one_el'/1,
+			    'tail'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[112|[97|[114|[116|[105|[97|[108|[95|[102|[117|[110|[99|[116|[105|[111|[110|[115|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]]]],1}]]
+'head'/1 =
+    %% Line 10
+    ( fun (_0) ->
+	  ( case ( _0
+		   -| [{'function',{'head',1}}] ) of
+	      <[X|_2]> when 'true' ->
+		  X
+	      ( <_1> when 'true' ->
+		    primop 'match_fail'
+			({'function_clause',_1})
+		-| ['compiler_generated'] )
+	    end
+	    -| [{'function',{'head',1}}] )
+      -| [{'function',{'head',1}}] )
+'tail'/1 =
+    %% Line 12
+    ( fun (_0) ->
+	  ( case ( _0
+		   -| [{'function',{'tail',1}}] ) of
+	      <[_2|Xs]> when 'true' ->
+		  Xs
+	      ( <_1> when 'true' ->
+		    primop 'match_fail'
+			({'function_clause',_1})
+		-| ['compiler_generated'] )
+	    end
+	    -| [{'function',{'tail',1}}] )
+      -| [{'function',{'tail',1}}] )
+'one_el'/1 =
+    %% Line 14
+    ( fun (_0) ->
+	  ( case ( _0
+		   -| [{'function',{'one_el',1}}] ) of
+	      <[X|[]]> when 'true' ->
+		  X
+	      ( <_1> when 'true' ->
+		    primop 'match_fail'
+			({'function_clause',_1})
+		-| ['compiler_generated'] )
+	    end
+	    -| [{'function',{'one_el',1}}] )
+      -| [{'function',{'one_el',1}}] )
+'at_2'/1 =
+    %% Line 16
+    ( fun (_0) ->
+	  ( case ( _0
+		   -| [{'function',{'at_2',1}}] ) of
+	      <[_2|[X|_3]]> when 'true' ->
+		  X
+	      ( <_1> when 'true' ->
+		    primop 'match_fail'
+			({'function_clause',_1})
+		-| ['compiler_generated'] )
+	    end
+	    -| [{'function',{'at_2',1}}] )
+      -| [{'function',{'at_2',1}}] )
+'at_3'/1 =
+    %% Line 18
+    ( fun (_0) ->
+	  ( case ( _0
+		   -| [{'function',{'at_3',1}}] ) of
+	      <[_2|[_3|[X|_4]]]> when 'true' ->
+		  X
+	      ( <_1> when 'true' ->
+		    primop 'match_fail'
+			({'function_clause',_1})
+		-| ['compiler_generated'] )
+	    end
+	    -| [{'function',{'at_3',1}}] )
+      -| [{'function',{'at_3',1}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('partial_functions')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('partial_functions', ( _0
+				      -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

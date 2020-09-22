@@ -1,0 +1,26 @@
+module 'result' ['module_info'/0,
+		 'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[114|[101|[115|[117|[108|[116|[46|[101|[114|[108]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'result',2}],
+		%% Line 6
+		'type' =
+		    %% Line 6
+		    [{'result',{'type',6,'union',[{'type',6,'tuple',[{'atom',6,'ok'}|[{'var',6,'Ok'}]]}|[{'type',7,'tuple',[{'atom',7,'error'}|[{'var',7,'Err'}]]}]]},[{'var',6,'Ok'}|[{'var',6,'Err'}]]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('result')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('result', ( _0
+			   -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

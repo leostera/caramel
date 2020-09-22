@@ -1,0 +1,26 @@
+module 'qualified_names' ['module_info'/0,
+			  'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[113|[117|[97|[108|[105|[102|[105|[101|[100|[95|[110|[97|[109|[101|[115|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'compound',0}],
+		%% Line 6
+		'type' =
+		    %% Line 6
+		    [{'compound',{'type',6,'map',[{'type',6,'map_field_assoc',[{'atom',6,'c_a'}|[{'remote_type',6,[{'atom',6,'record'}|[{'atom',6,'inlined_record'}|[[]]]]}]]}|[{'type',7,'map_field_assoc',[{'atom',7,'c_b'}|[{'remote_type',7,[{'atom',7,'type_args'}|[{'atom',7,'phantom'}|[[{'type',7,'boolean',[]}]]]]}]]}|[{'type',8,'map_field_assoc',[{'atom',8,'c_c'}|[{'remote_type',8,[{'atom',8,'type_args'}|[{'atom',8,'triplet'}|[[{'type',8,'integer',[]}|[{'type',8,'boolean',[]}]]]]]}]]}|[{'type',9,'map_field_assoc',[{'atom',9,'c_d'}|[{'remote_type',9,[{'atom',9,'record'}|[{'atom',9,'large_record'}|[[]]]]}]]}|[{'type',10,'map_field_assoc',[{'atom',10,'c_fn'}|[{'type',10,'tuple',[{'remote_type',10,[{'atom',10,'record'}|[{'atom',10,'small_record'}|[[]]]]}|[{'remote_type',10,[{'atom',10,'fn'}|[{'atom',10,'defer'}|[[{'type',10,'integer',[]}]]]]}]]}]]}]]]]]},[]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('qualified_names')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('qualified_names', ( _0
+				    -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

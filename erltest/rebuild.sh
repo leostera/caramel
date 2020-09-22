@@ -12,6 +12,7 @@ for d in expressions ffi functions modules types otp processes; do
     ${CARAMELC} -c $(${CARAMELC} -depend -sort *.mli *.ml)
 
     erlc *.erl || true
+    erlc +to_core *.erl || true
 
     echo -e "\n\n"
 

@@ -1,0 +1,24 @@
+module 'qualified_calls_helper' ['f'/1,
+				 'module_info'/0,
+				 'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[113|[117|[97|[108|[105|[102|[105|[101|[100|[95|[99|[97|[108|[108|[115|[95|[104|[101|[108|[112|[101|[114|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]]]]]]]]],1}]]
+'f'/1 =
+    %% Line 6
+    ( fun (_0) ->
+	  'ok'
+      -| [{'function',{'f',1}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('qualified_calls_helper')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('qualified_calls_helper', ( _0
+					   -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

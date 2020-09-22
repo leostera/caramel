@@ -1,0 +1,34 @@
+module 'variants' ['module_info'/0,
+		   'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[118|[97|[114|[105|[97|[110|[116|[115|[46|[101|[114|[108]]]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'option',1}],
+		%% Line 4
+		'export_type' =
+		    %% Line 4
+		    [{'result',2}],
+		%% Line 7
+		'type' =
+		    %% Line 7
+		    [{'option',{'type',7,'union',[{'type',7,'tuple',[{'atom',7,'some'}|[{'var',7,'A'}]]}|[{'atom',8,'none'}]]},[{'var',7,'A'}]}],
+		%% Line 11
+		'type' =
+		    %% Line 11
+		    [{'result',{'type',11,'union',[{'type',11,'tuple',[{'atom',11,'ok'}|[{'var',11,'A'}]]}|[{'type',12,'tuple',[{'atom',12,'error'}|[{'var',12,'B'}]]}]]},[{'var',11,'A'}|[{'var',11,'B'}]]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('variants')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('variants', ( _0
+			     -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

@@ -1,0 +1,50 @@
+module 'record' ['module_info'/0,
+		 'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[114|[101|[99|[111|[114|[100|[46|[101|[114|[108]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'inlined_record',0}],
+		%% Line 4
+		'export_type' =
+		    %% Line 4
+		    [{'large_record',0}],
+		%% Line 5
+		'export_type' =
+		    %% Line 5
+		    [{'record',1}],
+		%% Line 6
+		'export_type' =
+		    %% Line 6
+		    [{'small_record',0}],
+		%% Line 9
+		'type' =
+		    %% Line 9
+		    [{'record',{'type',9,'map',[{'type',9,'map_field_assoc',[{'atom',9,'author'}|[{'type',9,'list',[{'var',9,'A'}]}]]}|[{'type',10,'map_field_assoc',[{'atom',10,'year'}|[{'type',10,'integer',[]}]]}|[{'type',11,'map_field_assoc',[{'atom',11,'related'}|[{'remote_type',11,[{'atom',11,'option'}|[{'atom',11,'t'}|[[{'user_type',11,'record',[{'var',11,'A'}]}]]]]}]]}]]]},[{'var',9,'A'}]}],
+		%% Line 14
+		'type' =
+		    %% Line 14
+		    [{'inlined_record',{'type',14,'union',[{'type',14,'tuple',[{'atom',14,'simpler'}|[{'type',14,'boolean',[]}]]}|[{'type',15,'tuple',[{'atom',15,'many'}|[{'type',15,'boolean',[]}|[{'type',15,'boolean',[]}]]]}|[{'type',16,'tuple',[{'atom',16,'compound'}|[{'type',16,'map',[{'type',16,'map_field_assoc',[{'atom',16,'ir_a'}|[{'type',16,'float',[]}]]}|[{'type',17,'map_field_assoc',[{'atom',17,'ir_b'}|[{'type',17,'boolean',[]}]]}]]}]]}]]]},[]}],
+		%% Line 21
+		'type' =
+		    %% Line 21
+		    [{'small_record',{'type',21,'map',[{'type',21,'map_field_assoc',[{'atom',21,'a'}|[{'type',21,'string',[]}]]}]},[]}],
+		%% Line 23
+		'type' =
+		    %% Line 23
+		    [{'large_record',{'type',23,'map',[{'type',23,'map_field_assoc',[{'atom',23,'lr_a'}|[{'type',23,'string',[]}]]}|[{'type',24,'map_field_assoc',[{'atom',24,'lr_b'}|[{'type',24,'string',[]}]]}|[{'type',25,'map_field_assoc',[{'atom',25,'lr_c'}|[{'type',25,'string',[]}]]}|[{'type',26,'map_field_assoc',[{'atom',26,'lr_d'}|[{'type',26,'string',[]}]]}]]]]},[]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('record')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('record', ( _0
+			   -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

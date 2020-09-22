@@ -1,0 +1,109 @@
+module 'adder' ['add'/2,
+		'handle_call'/3,
+		'handle_cast'/2,
+		'init'/1,
+		'module_info'/0,
+		'module_info'/1,
+		'start_link'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[97|[100|[100|[101|[114|[46|[101|[114|[108]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'call_response',0}],
+		%% Line 4
+		'export_type' =
+		    %% Line 4
+		    [{'init_args',0}],
+		%% Line 5
+		'export_type' =
+		    %% Line 5
+		    [{'message',0}],
+		%% Line 6
+		'export_type' =
+		    %% Line 6
+		    [{'reply',0}],
+		%% Line 7
+		'export_type' =
+		    %% Line 7
+		    [{'state',0}],
+		%% Line 15
+		'type' =
+		    %% Line 15
+		    [{'init_args',{'type',15,'integer',[]},[]}],
+		%% Line 17
+		'type' =
+		    %% Line 17
+		    [{'message',{'type',17,'tuple',[{'atom',17,'add'}|[{'type',17,'integer',[]}]]},[]}],
+		%% Line 20
+		'type' =
+		    %% Line 20
+		    [{'reply',{'type',20,'integer',[]},[]}],
+		%% Line 22
+		'type' =
+		    %% Line 22
+		    [{'state',{'type',22,'integer',[]},[]}],
+		%% Line 24
+		'type' =
+		    %% Line 24
+		    [{'call_response',{'type',24,'union',[{'type',24,'tuple',[{'atom',24,'reply'}|[{'user_type',24,'reply',[]}|[{'user_type',24,'state',[]}]]]}|[{'type',25,'tuple',[{'atom',25,'no_reply'}|[{'user_type',25,'state',[]}]]}]]},[]}]]
+'init'/1 =
+    %% Line 28
+    ( fun (_0) ->
+	  {'ok',( _0
+		  -| [{'function',{'init',1}}] )}
+      -| [{'function',{'init',1}}] )
+'handle_cast'/2 =
+    %% Line 30
+    ( fun (_0,_1) ->
+	  {'no_reply',_1}
+      -| [{'function',{'handle_cast',2}}] )
+'handle_call'/3 =
+    %% Line 32
+    ( fun (_0,_1,_2) ->
+	  do  %% Line 33
+	      call 'timer':'sleep'
+		  (1000)
+	      %% Line 34
+	      case _0 of
+		%% Line 35
+		<{'add',I}> when 'true' ->
+		    let <_3> =
+			call 'erlang':'+'
+			    (_2, I)
+		    in  {'reply',_2,_3}
+		( <_4> when 'true' ->
+		      primop 'match_fail'
+			  ({'case_clause',_4})
+		  -| ['compiler_generated'] )
+	      end
+      -| [{'function',{'handle_call',3}}] )
+'add'/2 =
+    %% Line 38
+    ( fun (_0,_1) ->
+	  let <_2> =
+	      call 'gen_server':'call'
+		  (_0, _1)
+	  in  {'ok',_2}
+      -| [{'function',{'add',2}}] )
+'start_link'/1 =
+    %% Line 40
+    ( fun (_0) ->
+	  call 'gen_server':'start_link'
+	      ('adder', ( _0
+			  -| [{'function',{'start_link',1}}] ), [])
+      -| [{'function',{'start_link',1}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('adder')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('adder', ( _0
+			  -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

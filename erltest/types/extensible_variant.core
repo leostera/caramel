@@ -1,0 +1,26 @@
+module 'extensible_variant' ['module_info'/0,
+			     'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[101|[120|[116|[101|[110|[115|[105|[98|[108|[101|[95|[118|[97|[114|[105|[97|[110|[116|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'t',0}],
+		%% Line 6
+		'type' =
+		    %% Line 6
+		    [{'t',{'type',6,'any',[]},[]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('extensible_variant')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('extensible_variant', ( _0
+				       -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

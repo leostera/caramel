@@ -1,0 +1,60 @@
+module 'ignored_arguments' ['fst'/1,
+			    'left'/2,
+			    'module_info'/0,
+			    'module_info'/1,
+			    'right'/2,
+			    'snd'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[105|[103|[110|[111|[114|[101|[100|[95|[97|[114|[103|[117|[109|[101|[110|[116|[115|[46|[101|[114|[108]]]]]]]]]]]]]]]]]]]]],1}]]
+'left'/2 =
+    %% Line 9
+    ( fun (_0,_1) ->
+	  _0
+      -| [{'function',{'left',2}}] )
+'right'/2 =
+    %% Line 11
+    ( fun (_0,_1) ->
+	  _1
+      -| [{'function',{'right',2}}] )
+'fst'/1 =
+    %% Line 13
+    ( fun (_0) ->
+	  ( case ( _0
+		   -| [{'function',{'fst',1}}] ) of
+	      <{A,_2}> when 'true' ->
+		  A
+	      ( <_1> when 'true' ->
+		    primop 'match_fail'
+			({'function_clause',_1})
+		-| ['compiler_generated'] )
+	    end
+	    -| [{'function',{'fst',1}}] )
+      -| [{'function',{'fst',1}}] )
+'snd'/1 =
+    %% Line 15
+    ( fun (_0) ->
+	  ( case ( _0
+		   -| [{'function',{'snd',1}}] ) of
+	      <{_2,B}> when 'true' ->
+		  B
+	      ( <_1> when 'true' ->
+		    primop 'match_fail'
+			({'function_clause',_1})
+		-| ['compiler_generated'] )
+	    end
+	    -| [{'function',{'snd',1}}] )
+      -| [{'function',{'snd',1}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('ignored_arguments')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('ignored_arguments', ( _0
+				      -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

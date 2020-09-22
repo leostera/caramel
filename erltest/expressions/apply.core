@@ -1,0 +1,75 @@
+module 'apply' ['f'/1,
+		'f1'/1,
+		'f2'/2,
+		'f3'/3,
+		'f4'/4,
+		'module_info'/0,
+		'module_info'/1,
+		'run'/0]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[97|[112|[112|[108|[121|[46|[101|[114|[108]]]]]]]]],1}]]
+'f'/1 =
+    %% Line 11
+    ( fun (_0) ->
+	  apply 'f'/1
+	      (( _0
+		 -| [{'function',{'f',1}}] ))
+      -| [{'function',{'f',1}}] )
+'f1'/1 =
+    %% Line 13
+    ( fun (_0) ->
+	  apply 'f'/1
+	      ([( _0
+		  -| [{'function',{'f1',1}}] )|[]])
+      -| [{'function',{'f1',1}}] )
+'f2'/2 =
+    %% Line 15
+    ( fun (_0,_1) ->
+	  apply 'f'/1
+	      ([_0|[_1|[]]])
+      -| [{'function',{'f2',2}}] )
+'f3'/3 =
+    %% Line 17
+    ( fun (_0,_1,_2) ->
+	  apply 'f'/1
+	      ([_0|[_1|[_2|[]]]])
+      -| [{'function',{'f3',3}}] )
+'f4'/4 =
+    %% Line 19
+    ( fun (_0,_1,_2,_3) ->
+	  apply 'f'/1
+	      ([_0|[_1|[_2|[_3|[]]]]])
+      -| [{'function',{'f4',4}}] )
+'run'/0 =
+    %% Line 21
+    ( fun () ->
+	  do  %% Line 22
+	      apply 'f1'/1
+		  (1)
+	      do  %% Line 23
+		  apply 'f2'/2
+		      (1, 2)
+		  do  %% Line 24
+		      apply 'f3'/3
+			  (1, 2, 3)
+		      do  %% Line 25
+			  apply 'f4'/4
+			      (1, 2, 3, 4)
+			  %% Line 26
+			  call 'apply__funs':'apply_fun'
+			      ()
+      -| [{'function',{'run',0}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('apply')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('apply', ( _0
+			  -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end
