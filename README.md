@@ -1,13 +1,26 @@
 # Caramel
 > :candy: An Erlang backend to the OCaml compiler
 
-Core idea here is to grab a subset of OCaml, and turn it into valid, idiomatic
-Erlang that you'd otherwise written by hand.
+Read more about the OCaml to Erlang compiler here: [`./erlcomp`](./erlcomp).
 
-See: [./erlcomp/README.md](./erlcomp/README.md)
+## Getting started
 
-and: [./erlcomp/ROADMAP.md](./erlcomp/ROADMAP.md)
+You can bootstrap the system by running:
 
-Check [./erltest](./erltest) for some examples of how the sources are being
-compiled to erlang.
+```sh
+caramel $ ./configure
+caramel $ make
+caramel $ make caramelc
+```
+
+After that you should have a `caramelc` binary to play around with. For the time
+being it has the same interface as `ocamlc`, which means that you need to 
+pass it in `.ml` and `.mli` files _in the right order_.
+
+You can use `caramelc -depent -sort *.ml *.mli` to get a sorted list or just run
+this (assuming `caramelc` is in your `PATH`):
+
+```sh
+my_project $ caramelc -c $(caramelc -depend -sort *.ml *.mli)
+```
 
