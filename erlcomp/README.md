@@ -150,5 +150,9 @@ Other OCaml values are mapped like this:
 * records into maps, so `{ hello="world"; }` becomes `#{ hello => <<"world">> }`
 * variants into atoms or tagged tuples, so that: `None` becomes `none`, and
   `Some 1` becomes `{some, 1}`
-* polymorphic variants into atoms or tagged tuples, so that `\`Tag` becomes
-  `tag` and `\`Tag 1` becomes `{tag, 1}`
+* polymorphic variants into atoms or tagged tuples, so that:
+
+```ocaml
+`Tag     becomes   tag
+`Tag 1   becomes   {tag, 1}
+```
