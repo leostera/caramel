@@ -43,11 +43,10 @@ The signature of a module, will regulate what functions are exported from that
 module. If something does not appear on the signature, it will be kept
 unexported.
 
-### Values
+#### Module Values
 
-#### Module Functions
-
-Functions at the module level will be translated to function declarations. So that
+*Functions* at the module level will be translated to function declarations.
+So that
 
 ```ocaml
 let f x = x + 1
@@ -59,9 +58,7 @@ Becomes:
 f(X) -> X + 1.
 ```
 
-#### Module Values
-
-Values that are not functions will not be supported at the module level, as
+*Values* that are not functions will not be supported at the module level, as
 there are no similar construct that can preserve the semantics.
 
 As an example, take:
