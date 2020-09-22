@@ -146,6 +146,7 @@ OCaml primitive values are mapped like this:
 
 Other OCaml values are mapped like this:
 
+* lists into lists, so `[1; 2]` becomes `[1, 2]` (or equivalent)
 * tuples into tuples, so `(1, 2)` becomes `{1, 2}`
 * records into maps, so `{ hello="world"; }` becomes `#{ hello => <<"world">> }`
 * variants into atoms or tagged tuples, so that: `None` becomes `none`, and
@@ -155,4 +156,110 @@ Other OCaml values are mapped like this:
 ```ocaml
 `Tag     becomes   tag
 `Tag 1   becomes   {tag, 1}
+```
+
+### Expressions
+
+The following expressions are supported:
+
+#### Identifiers
+
+```erlang
+% x when it is a variable
+X
+
+% Module.f () when it is called
+module:f()
+
+% Module.Nested.f () when it is called
+module__nested:f()
+
+% f when it is a function passed in as a reference and has arity 0
+fun f/0
+```
+
+### Constructors
+
+```erlang
+% [] - empty list
+[]
+
+% () - empty tuple
+{}
+
+% (1, 2) - non-empty tuple
+{1, 2}
+
+% x :: xs - list consing
+[X | XS]
+
+% `Tag - polymorphic variant constructors
+tag
+
+% `Tag x - polymorphic variant constructor with parameter
+{tag, X}
+
+% Tag - variant constructor
+tag
+
+% Tag x - variant constructor with parameter
+{tag, X}
+
+% { a = 1; } - record construction
+#{ a => 1 }
+
+% { a= 1; }.a - record access
+maps:get(a, #{ a => 1})
+```
+
+### Function
+
+```erlang
+% (fun x -> x + 1) -- lambdas
+fun (X) -> X + 1 end
+
+% f () -- function application
+f()
+
+% (get_f ()) () -- application of a value
+(get_fn())()
+```
+
+### Control Flow
+
+```erlang
+
+% match x with | <pattern> -> <expr>      - pattern matching
+case X of
+| <pattern> -> <expr>
+end
+
+
+% if x then y else z   - if then else
+case X of
+| true -> Y;
+| false -> Z
+end
+
+
+% let x = 1 in y    - let binding
+X = 1,
+Y
+
+% let x =
+%     let y = 2 in
+%     y + 2
+% in z
+%
+% - nested let binding
+X = (fun () ->
+  Y = 2,
+  Y+2
+)(),
+Z
+
+% x; y; z    - sequencing
+X,
+Y,
+Z
 ```
