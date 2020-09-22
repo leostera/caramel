@@ -630,6 +630,7 @@ let process_action
 
 let action_of_file name =
   if Filename.check_suffix name ".ml"
+  || Filename.check_suffix name ".erl"
   || Filename.check_suffix name ".mlt" then
     ProcessImplementation name
   else if Filename.check_suffix name !Config.interface_suffix then

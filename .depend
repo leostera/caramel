@@ -1,3 +1,22 @@
+erlparser/erlparser.cmo : \
+    parsing/camlinternalMenhirLib.cmi \
+    erlparser/erlparser.cmi
+erlparser/erlparser.cmx : \
+    parsing/camlinternalMenhirLib.cmx \
+    erlparser/erlparser.cmi
+erlparser/erlparser.cmi : \
+    parsing/location.cmi \
+    parsing/camlinternalMenhirLib.cmi
+erlparser/erllexer.cmo : \
+    erlparser/erlparser.cmi \
+    utils/misc.cmi \
+    erlparser/erllexer.cmi
+erlparser/erllexer.cmx : \
+    erlparser/erlparser.cmx \
+    utils/misc.cmx \
+    erlparser/erllexer.cmi
+erlparser/erllexer.cmi : \
+    erlparser/erlparser.cmi
 utils/arg_helper.cmo : \
     utils/arg_helper.cmi
 utils/arg_helper.cmx : \

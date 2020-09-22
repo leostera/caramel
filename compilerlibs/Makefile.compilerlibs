@@ -40,7 +40,8 @@ PARSING=parsing/location.cmo parsing/longident.cmo \
   parsing/camlinternalMenhirLib.cmo parsing/parser.cmo \
   parsing/lexer.cmo parsing/parse.cmo parsing/printast.cmo \
   parsing/ast_mapper.cmo parsing/ast_iterator.cmo parsing/attr_helper.cmo \
-  parsing/builtin_attributes.cmo parsing/ast_invariants.cmo parsing/depend.cmo
+  parsing/builtin_attributes.cmo parsing/ast_invariants.cmo parsing/depend.cmo \
+	erlparser/erlparser.cmo erlparser/erllexer.cmo erlparser/erlparse.cmo
 PARSING_CMI=\
   parsing/asttypes.cmi \
   parsing/parsetree.cmi
@@ -103,8 +104,14 @@ BYTECOMP=bytecomp/instruct.cmo bytecomp/bytegen.cmo \
   driver/errors.cmo driver/compile.cmo driver/maindriver.cmo
 BYTECOMP_CMI=
 
-ERLCOMP=erlcomp/erlast.cmo erlcomp/erlconv.cmo erlcomp/printerl.cmo \
+ERLCOMP=erlcomp/erlast.cmo \
+				erlcomp/erlconv.cmo \
+				erlcomp/printerl.cmo \
 				erlcomp/erlgen.cmo \
+				erlcorecomp/erlcoreast.cmo \
+				erlcorecomp/erlcoreconv.cmo \
+				erlcorecomp/printcore.cmo \
+				erlcorecomp/erlcoregen.cmo \
 				driver/erlcompile.cmo driver/erlmaindriver.cmo
 ERLCOMP_CMI=erlcomp/erlgen.cmi erlcomp/erlast.cmi erlcomp/erlconv.cmi
 

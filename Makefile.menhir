@@ -81,6 +81,15 @@ promote-menhir: parsing/parser.mly
 	  rm parsing/$$f; \
 	done
 
+.PHONY: caramel-menhir
+caramel-menhir: erlparser/erlparser.mly
+	ocamllex erlparser/erllexer.mll
+	$(MENHIR) $(MENHIRFLAGS) erlparser/erlparser.mly
+	@ for f in $(addprefix erlparser/erlparser.,ml mli) ; do \
+     sed 's/require_20200211/require_20190924/g' -i $$f; \
+     sed 's/MenhirLib/CamlinternalMenhirLib/g' -i $$f; \
+	done
+
 # The import-menhirLib invocation in promote-menhir ensures that each
 # update of the boot/ parser is paired with an update of the imported
 # menhirLib; otherwise it would be easy to generate a parser and keep

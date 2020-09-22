@@ -9,3 +9,8 @@ parsing/parser.cmx : parsing/syntaxerr.cmx parsing/parsetree.cmi \
 parsing/parser.cmi : parsing/parsetree.cmi parsing/location.cmi \
     parsing/docstrings.cmi
 parsing/parser.ml parsing/parser.mli: parsing/ast_helper.cmi parsing/asttypes.cmi utils/clflags.cmi parsing/docstrings.cmi parsing/location.cmi parsing/longident.cmi parsing/parsetree.cmi parsing/syntaxerr.cmi
+
+erlparser/erlparser.cmo : erlparser/erlparser.cmi
+erlparser/erlparser.cmx : erlparser/erlparser.cmi
+erlparser/erlparser.cmi :
+erlparser/erlparser.ml erlparser/erlparser.mli:

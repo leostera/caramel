@@ -23,4 +23,3 @@ this (assuming `caramelc` is in your `PATH`):
 ```sh
 my_project $ caramelc -c $(caramelc -depend -sort *.ml *.mli)
 ```
-

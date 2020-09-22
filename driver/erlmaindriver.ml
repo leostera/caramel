@@ -31,7 +31,7 @@ let main argv ppf =
     begin try
       Compenv.process_deferred_actions
         (ppf,
-         Erlcompile.implementation,
+         Erlcompile.ml_to_erlang,
          Erlcompile.interface,
          ".cmo",
          ".cma");
