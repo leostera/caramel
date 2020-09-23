@@ -1,0 +1,63 @@
+module 'looper' ['do_work'/0,
+		 'loop'/1,
+		 'module_info'/0,
+		 'module_info'/1,
+		 'start'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[108|[111|[111|[112|[101|[114|[46|[101|[114|[108]]]]]]]]]],1}]]
+'loop'/1 =
+    %% Line 8
+    ( fun (_0) ->
+	  let <_1> =
+	      call %% Line 9
+		   'erlang':%% Line 9
+			    'self'
+		  ()
+	  in  do  %% Line 9
+		  call 'io':'format'
+		      (#{#<126>(8,1,'integer',['unsigned'|['big']]),
+			 #<112>(8,1,'integer',['unsigned'|['big']]),
+			 #<10>(8,1,'integer',['unsigned'|['big']])}#, [_1|[]])
+		  %% Line 10
+		  apply 'loop'/1
+		      (( _0
+			 -| [{'function',{'loop',1}}] ))
+      -| [{'function',{'loop',1}}] )
+'start'/1 =
+    %% Line 12
+    ( fun (_0) ->
+	  let <_1> =
+	      fun () ->
+		  %% Line 13
+		  apply 'loop'/1
+		      (( _0
+			 -| [{'function',{'start',1}}] ))
+	  in  call 'erlang':'spawn'
+		  (_1)
+      -| [{'function',{'start',1}}] )
+'do_work'/0 =
+    %% Line 16
+    ( fun () ->
+	  let <Pid> =
+	      apply %% Line 17
+		    'start'/1
+		  (%% Line 17
+		   1)
+	  in  %% Line 18
+	      call 'erlang':'send'
+		  (Pid, 2112)
+      -| [{'function',{'do_work',0}}] )
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('looper')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('looper', ( _0
+			   -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end

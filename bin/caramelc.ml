@@ -21,7 +21,7 @@ module Compile = struct
   let run sources = Caramel_compiler.Compiler.compile { sources }
 
   let args =
-    let sources = Arg.(non_empty & pos_all file [] & info [] ~docv:"SOURCES") in
+    let sources = Arg.(non_empty & pos_all string [] & info [] ~docv:"SOURCES") in
     sources
 
   let cmd = (Term.(pure run $ args), info)
@@ -37,7 +37,9 @@ module Sort_deps = struct
   let info = Info.make ~name ~doc ~description
 
   let run sources =
-    Caramel_compiler.Dependency_sorter.print_sorted_files sources
+    sources
+    |> List.filter( fun x -> String.contains x '*' )
+    |> Caramel_compiler.Dependency_sorter.print_sorted_files
 
   let args =
     let sources = Arg.(non_empty & pos_all file [] & info [] ~docv:"SOURCES") in

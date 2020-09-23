@@ -1,0 +1,26 @@
+module 'erlang' ['module_info'/0,
+		 'module_info'/1]
+    attributes [%% Line 1
+		'file' =
+		    %% Line 1
+		    [{[101|[114|[108|[97|[110|[103|[46|[101|[114|[108]]]]]]]]]],1}],
+		%% Line 3
+		'export_type' =
+		    %% Line 3
+		    [{'process',1}],
+		%% Line 6
+		'opaque' =
+		    %% Line 6
+		    [{'process',{'type',6,'reference',[]},[{'var',6,'_Message'}]}]]
+'module_info'/0 =
+    ( fun () ->
+	  call 'erlang':'get_module_info'
+	      ('erlang')
+      -| [{'function',{'module_info',0}}] )
+'module_info'/1 =
+    ( fun (_0) ->
+	  call 'erlang':'get_module_info'
+	      ('erlang', ( _0
+			   -| [{'function',{'module_info',1}}] ))
+      -| [{'function',{'module_info',1}}] )
+end
