@@ -1,25 +1,22 @@
 # Caramel
 > :candy: An Erlang backend to the OCaml compiler
 
-Read more about the OCaml to Erlang compiler here: [`./erlcomp`](./erlcomp).
-
 ## Getting started
 
 You can bootstrap the system by running:
 
 ```sh
-caramel $ ./configure
-caramel $ make
-caramel $ make caramelc
+caramel $ make deps build
 ```
 
-After that you should have a `caramelc` binary to play around with. For the time
-being it has the same interface as `ocamlc`, which means that you need to 
-pass it in `.ml` and `.mli` files _in the right order_.
+It relies on `opam` being installed, and `make deps` will take care of
+installing all the necessary `opam` dependencies.
 
-You can use `caramelc -depent -sort *.ml *.mli` to get a sorted list or just run
-this (assuming `caramelc` is in your `PATH`):
+After `make` you should have a `caramelc` binary to play around with. 
 
-```sh
-my_project $ caramelc -c $(caramelc -depend -sort *.ml *.mli)
-```
+## Hacking
+
+The target `make watch` will start the Dune build watcher, and recompile the
+project as you save files.
+
+You can run tests with `make test`, and reformat the source code with `make fmt`.

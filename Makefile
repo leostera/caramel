@@ -1,6 +1,14 @@
-.PHONY: all
-all:
+.PHONY: build
+build:
 	dune build @install @default -j $(shell nproc)
+
+.PHONY: watch
+watch:
+	dune build @all --watch -j $(shell nproc)
+
+.PHONY: install
+install:
+	dune install
 
 .PHONY: deps
 deps:
