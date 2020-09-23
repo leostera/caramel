@@ -12,7 +12,7 @@ install:
 
 .PHONY: deps
 deps:
-	opam install dune menhir ocaml-compiler-libs cmdliner
+	opam install dune menhir ocaml-compiler-libs cmdliner patdiff
 
 .PHONY: test
 test:
