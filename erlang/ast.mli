@@ -81,11 +81,21 @@ and export_type = Export_function | Export_type
 
 and export = { exp_type : export_type; exp_name : atom; exp_arity : int }
 
+and attribute = { atr_name : atom; atr_value : expr }
+
+and module_item =
+  | Module_attribute of attribute
+  | Type_decl of type_decl
+  | Function_decl of fun_decl
+
+and module_ = module_item list
+
 and t = {
   file_name : string;
   behaviour : atom option;
   module_name : atom;
   ocaml_name : atom;
+  attributes : attribute list;
   exports : export list;
   types : type_decl list;
   functions : fun_decl list;
@@ -97,6 +107,7 @@ val make :
   exports:export list ->
   types:type_decl list ->
   functions:fun_decl list ->
+  attributes:attribute list ->
   t
 
 val make_fn_export : atom -> int -> export

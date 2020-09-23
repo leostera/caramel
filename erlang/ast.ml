@@ -1,5 +1,7 @@
 type atom = string [@@deriving sexp]
 
+and var_name = string [@@deriving sexp]
+
 and guard = unit [@@deriving sexp]
 
 and name =
@@ -85,7 +87,7 @@ and type_decl = {
   typ_kind : type_kind;
   typ_visibility : type_visibility;
   typ_name : atom;
-  typ_params : atom list;
+  typ_params : var_name list;
 }
 [@@deriving sexp]
 
@@ -99,11 +101,21 @@ and export_type = Export_function | Export_type [@@deriving sexp]
 and export = { exp_type : export_type; exp_name : atom; exp_arity : int }
 [@@deriving sexp]
 
+and attribute = { atr_name : atom; atr_value : expr }
+
+and module_item =
+  | Module_attribute of attribute
+  | Type_decl of type_decl
+  | Function_decl of fun_decl
+
+and module_ = module_item list
+
 and t = {
   file_name : string;
   behaviour : atom option;
   module_name : atom;
   ocaml_name : atom;
+  attributes : attribute list;
   exports : export list;
   types : type_decl list;
   functions : fun_decl list;
@@ -115,12 +127,13 @@ and t = {
       http://erlang.org/doc/reference_manual/modules.html
  *)
 
-let make ~name ~ocaml_name ~exports ~types ~functions =
+let make ~name ~ocaml_name ~exports ~types ~functions ~attributes =
   {
     file_name = name ^ ".erl";
     behaviour = None;
     module_name = name;
     ocaml_name;
+    attributes;
     exports;
     types;
     functions;
