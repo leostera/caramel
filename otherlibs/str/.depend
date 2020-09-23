@@ -1,0 +1,5 @@
+str.cmo : \
+    str.cmi
+str.cmx : \
+    str.cmi
+str.cmi :

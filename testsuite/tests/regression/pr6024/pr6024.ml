@@ -1,0 +1,3 @@
+(* TEST *)
+
+Format.printf "@[%@-@@-@]@.";;
