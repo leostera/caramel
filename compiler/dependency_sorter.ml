@@ -430,40 +430,46 @@ let sort_files_by_dependencies files =
   let h = Hashtbl.create 31 in
   let worklist = ref [] in
 
-(* Init Hashtbl with all defined modules *)
-  let files = List.map (fun (file, file_kind, deps, pp_deps) ->
-    let modname =
-      String.capitalize_ascii (Filename.chop_extension (Filename.basename file))
-    in
-    let key = (modname, file_kind) in
-    let new_deps = ref [] in
-    Hashtbl.add h key (file, new_deps);
-    worklist := key :: !worklist;
-    (modname, file_kind, deps, new_deps, pp_deps)
-  ) files in
+  (* Init Hashtbl with all defined modules *)
+  let files =
+    List.map
+      (fun (file, file_kind, deps, pp_deps) ->
+        let modname =
+          String.capitalize_ascii
+            (Filename.chop_extension (Filename.basename file))
+        in
+        let key = (modname, file_kind) in
+        let new_deps = ref [] in
+        Hashtbl.add h key (file, new_deps);
+        worklist := key :: !worklist;
+        (modname, file_kind, deps, new_deps, pp_deps))
+      files
+  in
 
-(* Keep only dependencies to defined modules *)
-  List.iter (fun (modname, file_kind, deps, new_deps, _pp_deps) ->
-    let add_dep modname kind =
-      new_deps := (modname, kind) :: !new_deps;
-    in
-    String.Set.iter (fun modname ->
-      match file_kind with
-          ML -> (* ML depends both on ML and MLI *)
-            if Hashtbl.mem h (modname, MLI) then add_dep modname MLI;
-            if Hashtbl.mem h (modname, ML) then add_dep modname ML
-        | MLI -> (* MLI depends on MLI if exists, or ML otherwise *)
-          if Hashtbl.mem h (modname, MLI) then add_dep modname MLI
-          else if Hashtbl.mem h (modname, ML) then add_dep modname ML
-    ) deps;
-    if file_kind = ML then (* add dep from .ml to .mli *)
-      if Hashtbl.mem h (modname, MLI) then add_dep modname MLI
-  ) files;
+  (* Keep only dependencies to defined modules *)
+  List.iter
+    (fun (modname, file_kind, deps, new_deps, _pp_deps) ->
+      let add_dep modname kind = new_deps := (modname, kind) :: !new_deps in
+      String.Set.iter
+        (fun modname ->
+          match file_kind with
+          | ML ->
+              (* ML depends both on ML and MLI *)
+              if Hashtbl.mem h (modname, MLI) then add_dep modname MLI;
+              if Hashtbl.mem h (modname, ML) then add_dep modname ML
+          | MLI ->
+              (* MLI depends on MLI if exists, or ML otherwise *)
+              if Hashtbl.mem h (modname, MLI) then add_dep modname MLI
+              else if Hashtbl.mem h (modname, ML) then add_dep modname ML)
+        deps;
+      if file_kind = ML then
+        (* add dep from .ml to .mli *)
+        if Hashtbl.mem h (modname, MLI) then add_dep modname MLI)
+    files;
 
-(* Print and remove all files with no remaining dependency. Iterate
-   until all files have been removed (worklist is empty) or
-   no file was removed during a turn (cycle). *)
-
+  (* Print and remove all files with no remaining dependency. Iterate
+     until all files have been removed (worklist is empty) or
+     no file was removed during a turn (cycle). *)
   let sorted_dependencies = ref [] in
 
   let printed = ref true in
@@ -471,23 +477,23 @@ let sort_files_by_dependencies files =
     let files = !worklist in
     worklist := [];
     printed := false;
-    List.iter (fun key ->
-      let (file, deps) = Hashtbl.find h key in
-      let set = !deps in
-      deps := [];
-      List.iter (fun key ->
-        if Hashtbl.mem h key then deps := key :: !deps
-      ) set;
-      if !deps = [] then begin
-        printed := true;
-        sorted_dependencies := file :: !sorted_dependencies;
-        Hashtbl.remove h key;
-      end else
-        worklist := key :: !worklist
-    ) files
+    List.iter
+      (fun key ->
+        let file, deps = Hashtbl.find h key in
+        let set = !deps in
+        deps := [];
+        List.iter
+          (fun key -> if Hashtbl.mem h key then deps := key :: !deps)
+          set;
+        if !deps = [] then (
+          printed := true;
+          sorted_dependencies := file :: !sorted_dependencies;
+          Hashtbl.remove h key )
+        else worklist := key :: !worklist)
+      files
   done;
 
-  if !worklist <> [] then begin
+  if !worklist <> [] then (
     Location.error "cycle in dependencies. End of list is not sorted."
     |> Location.print_report Format.err_formatter;
     let sorted_deps =
@@ -495,16 +501,18 @@ let sort_files_by_dependencies files =
       Hashtbl.iter (fun _ file_deps -> li := file_deps :: !li) h;
       List.sort (fun (file1, _) (file2, _) -> String.compare file1 file2) !li
     in
-    List.iter (fun (file, deps) ->
-      Format.fprintf Format.err_formatter "\t@[%s: " file;
-      List.iter (fun (modname, kind) ->
-        Format.fprintf Format.err_formatter "%s.%s " modname
-          (if kind=ML then "ml" else "mli");
-      ) !deps;
-      Format.fprintf Format.err_formatter "@]@.";
-      Printf.printf "%s " file) sorted_deps;
-    Error_occurred.set ()
-  end;
+    List.iter
+      (fun (file, deps) ->
+        Format.fprintf Format.err_formatter "\t@[%s: " file;
+        List.iter
+          (fun (modname, kind) ->
+            Format.fprintf Format.err_formatter "%s.%s " modname
+              (if kind = ML then "ml" else "mli"))
+          !deps;
+        Format.fprintf Format.err_formatter "@]@.";
+        Printf.printf "%s " file)
+      sorted_deps;
+    Error_occurred.set () );
 
   !sorted_dependencies
 
@@ -582,14 +590,12 @@ let print_version_num () =
 let sorted_files source_files =
   Compenv.readenv ppf Before_args;
   source_files
-  |> List.map (fun n -> (Src (n, None)))
+  |> List.map (fun n -> Src (n, None))
   |> List.rev |> process_dep_args;
   Compenv.readenv ppf Before_link;
-  sort_files_by_dependencies !files
-  |> List.rev
+  sort_files_by_dependencies !files |> List.rev
 
 let print_sorted_files files =
-  files
-  |> sorted_files
-  |> List.iter (fun f -> Format.fprintf Format.std_formatter "%s " f );
+  files |> sorted_files
+  |> List.iter (fun f -> Format.fprintf Format.std_formatter "%s " f);
   Format.fprintf Format.std_formatter "\n%!"

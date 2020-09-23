@@ -36,7 +36,8 @@ module Sort_deps = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources = Caramel_compiler.Dependency_sorter.print_sorted_files sources
+  let run sources =
+    Caramel_compiler.Dependency_sorter.print_sorted_files sources
 
   let args =
     let sources = Arg.(non_empty & pos_all file [] & info [] ~docv:"SOURCES") in
