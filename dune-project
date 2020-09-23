@@ -1,2 +1,3 @@
-(lang dune 1.3)
-(using experimental_building_ocaml_compiler_with_dune 0.1)
+(lang dune 2.2)
+(name caramel)
+(using menhir 2.1)

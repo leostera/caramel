@@ -1,0 +1,4 @@
+(library
+ (name core_erlang)
+ (public_name caramel.core_erlang)
+ (libraries compiler-libs))

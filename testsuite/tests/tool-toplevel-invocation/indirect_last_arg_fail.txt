@@ -1,2 +1,0 @@
--args
-last_arg_fail.txt

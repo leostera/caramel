@@ -1,0 +1,18 @@
+opam-version: "2.0"
+maintainer:   "leandro@ostera.io"
+authors:      "Leandro Ostera"
+bug-reports:  "https://github.com/AbstractMachinesLab/caramel/issues"
+homepage:     "https://github.com/AbstractMachinesLab/caramel"
+dev-repo:     "git+https://github.com/AbstractMachinesLab/caramel.git"
+synopsis:     "Compiler bridging OCaml and Erlang"
+
+build: [["dune" "build" "-p" name "-j" jobs]]
+
+depends: [
+  "cmdliner"
+  "dune" {>= "2.5"}
+  "menhir"
+  "ocaml" {>= "4.10.0"}
+  "ocaml-compiler-libs"
+  "ppx_expect" {with-test & >= "v0.12.0"}
+]

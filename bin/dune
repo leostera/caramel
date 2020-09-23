@@ -1,0 +1,7 @@
+(executable
+ (name caramelc)
+ (public_name caramelc)
+ (package caramel)
+ (libraries cmdliner caramel.compiler)
+ (flags
+  (:standard -safe-string)))

@@ -1,1 +1,0 @@
-${program} | LC_ALL=C ${SORT} > ${output} 2>&1

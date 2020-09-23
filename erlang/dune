@@ -1,0 +1,9 @@
+(library
+ (name erlang)
+ (public_name caramel.erlang)
+ (libraries compiler-libs))
+
+(ocamllex lexer)
+
+(menhir
+ (modules parser))
