@@ -9,8 +9,9 @@ existing Erlang code.
 
 ## Rationale: why would you want this?
 
-OCaml is a much safer language than Erlang, capable of preventing runtime errors 
-by means of strict type checks. This means the language is also a lot more restricted.
+OCaml is a much safer language than Erlang, capable of preventing runtime
+errors by means of strict type checks. This means the language is also a lot
+more restricted.
 
 There's a subset of OCaml that compiles just fine to the functional parts of
 Erlang, making it an ideal language for defining the behavior of individual
