@@ -68,7 +68,7 @@ and pp_variant_constructor prefix ppf vc =
       |> List.iter (fun arg ->
              Format.fprintf ppf ", ";
              pp_type_kind (prefix ^ tag) ppf arg);
-      Format.fprintf ppf "; _}"
+      Format.fprintf ppf "}"
 
 and pp_type_kind prefix ppf typ_kind =
   match typ_kind with
@@ -104,16 +104,16 @@ and pp_type_kind prefix ppf typ_kind =
       |> List.iter (fun p ->
              Format.fprintf ppf ", ";
              pp_type_kind prefix ppf p);
-      Format.fprintf ppf "; _}"
+      Format.fprintf ppf "}"
   | Type_record { fields; _ } -> (
       let padding = H.pad (String.length prefix + 1) in
       match fields with
-      | [] -> Format.fprintf ppf "#{; _}"
+      | [] -> Format.fprintf ppf "#{}"
       | Ast.{ rf_name; rf_type; _ } :: fs -> (
           Format.fprintf ppf "#{ %s => " rf_name;
           pp_type_kind prefix ppf rf_type;
           match fs with
-          | [] -> Format.fprintf ppf " ; _}"
+          | [] -> Format.fprintf ppf " }"
           | fs ->
               Format.fprintf ppf "\n";
               fs
@@ -121,7 +121,7 @@ and pp_type_kind prefix ppf typ_kind =
                      Format.fprintf ppf "%s, %s => " padding rf_name;
                      pp_type_kind prefix ppf rf_type;
                      Format.fprintf ppf "\n");
-              Format.fprintf ppf "%s; _}" padding ) )
+              Format.fprintf ppf "%s}" padding ) )
   | Type_variant { constructors; _ } ->
       let padding = H.pad (String.length prefix - 2) in
       let c = List.hd constructors in
@@ -160,7 +160,7 @@ and pp_pattern_match ppf pm =
   | Pattern_tuple [ p ] ->
       Format.fprintf ppf "{";
       pp_pattern_match ppf p;
-      Format.fprintf ppf "; _}"
+      Format.fprintf ppf "}"
   | Pattern_tuple (p :: ps) ->
       Format.fprintf ppf "{";
       pp_pattern_match ppf p;
@@ -168,7 +168,7 @@ and pp_pattern_match ppf pm =
       |> List.iter (fun p ->
              Format.fprintf ppf ", ";
              pp_pattern_match ppf p);
-      Format.fprintf ppf "; _}"
+      Format.fprintf ppf "}"
   | Pattern_list [] -> Format.fprintf ppf "[]"
   | Pattern_list [ p ] ->
       Format.fprintf ppf "[";
@@ -182,11 +182,11 @@ and pp_pattern_match ppf pm =
              Format.fprintf ppf " | ";
              pp_pattern_match ppf p);
       Format.fprintf ppf "]"
-  | Pattern_map [] -> Format.fprintf ppf "#{; _}"
+  | Pattern_map [] -> Format.fprintf ppf "#{}"
   | Pattern_map [ (name, pat) ] ->
       Format.fprintf ppf "#{ %s := " name;
       pp_pattern_match ppf pat;
-      Format.fprintf ppf " ; _}"
+      Format.fprintf ppf " }"
   | Pattern_map ((name, pat) :: ps) ->
       Format.fprintf ppf "#{ %s := " name;
       pp_pattern_match ppf pat;
@@ -194,7 +194,7 @@ and pp_pattern_match ppf pm =
       |> List.iter (fun (name, p) ->
              Format.fprintf ppf ", %s := " name;
              pp_pattern_match ppf p);
-      Format.fprintf ppf " ; _}"
+      Format.fprintf ppf " }"
 
 and pp_literal ppf lit =
   match lit with
@@ -240,7 +240,7 @@ and pp_expression prefix ppf expr ~module_ =
       pp_expression prefix ppf expr ~module_
   | Expr_fun_ref "__caramel_recv" ->
       Format.fprintf ppf "fun (T) -> ";
-      Format.fprintf ppf "receive X -> {some, X; _} ";
+      Format.fprintf ppf "receive X -> {some, X} ";
       Format.fprintf ppf "after T -> none ";
       Format.fprintf ppf "end ";
       Format.fprintf ppf "end"
@@ -267,7 +267,7 @@ and pp_expression prefix ppf expr ~module_ =
   | Expr_tuple [ e ] ->
       Format.fprintf ppf "{";
       pp_expression prefix ppf e ~module_;
-      Format.fprintf ppf "; _}"
+      Format.fprintf ppf "}"
   | Expr_tuple (e :: es) ->
       Format.fprintf ppf "{";
       pp_expression "" ppf e ~module_;
@@ -275,7 +275,7 @@ and pp_expression prefix ppf expr ~module_ =
       |> List.iter (fun e ->
              Format.fprintf ppf ", ";
              pp_expression "" ppf e ~module_);
-      Format.fprintf ppf "; _}"
+      Format.fprintf ppf "}"
   | Expr_list [] -> Format.fprintf ppf "[]"
   | Expr_list [ e ] ->
       Format.fprintf ppf "[";
@@ -314,12 +314,12 @@ and pp_expression prefix ppf expr ~module_ =
   | Expr_map fields -> (
       let padding = H.pad (String.length prefix + 1) in
       match fields with
-      | [] -> Format.fprintf ppf "#{; _}"
+      | [] -> Format.fprintf ppf "#{}"
       | Ast.{ mf_name; mf_value; _ } :: fs -> (
           Format.fprintf ppf "#{ %s => " mf_name;
           pp_expression "" ppf mf_value ~module_;
           match fs with
-          | [] -> Format.fprintf ppf " ; _}"
+          | [] -> Format.fprintf ppf " }"
           | fs ->
               Format.fprintf ppf "\n";
               fs
@@ -327,7 +327,7 @@ and pp_expression prefix ppf expr ~module_ =
                      Format.fprintf ppf "%s, %s => " padding mf_name;
                      pp_expression "" ppf mf_value ~module_;
                      Format.fprintf ppf "\n");
-              Format.fprintf ppf "%s; _}" padding ) )
+              Format.fprintf ppf "%s}" padding ) )
 
 and pp_fun_args ppf args =
   match args with
@@ -400,3 +400,22 @@ let pp ppf ({ module_name; exports; types; functions; _ } as m) =
       pp_types ppf types;
       pp_functions ppf functions ~module_:m;
       ()
+
+let to_source_file erlmod =
+  let _ = print_string ("Compiling " ^ erlmod.file_name ^ "\t") in
+  let erlfile = erlmod.file_name in
+  let oc = open_out_bin erlfile in
+  Misc.try_finally
+    ~always:(fun () ->
+      print_string "OK\n";
+      close_out oc)
+    ~exceptionally:(fun () -> Misc.remove_file erlfile)
+    (fun () ->
+      let f = Format.formatter_of_out_channel oc in
+      Format.fprintf f "%% Source code generated with Caramel.\n";
+      Format.fprintf f "%a@\n%!" pp erlmod)
+
+let to_sources erlmods =
+  erlmods
+  |> List.filter (fun { exports; _ } -> exports <> [])
+  |> List.iter to_source_file
