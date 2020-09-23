@@ -19,4 +19,5 @@ After `make` you should have a `caramelc` binary to play around with.
 The target `make watch` will start the Dune build watcher, and recompile the
 project as you save files.
 
-You can run tests with `make test`, and reformat the source code with `make fmt`.
+You can run tests with `make test`, and reformat the source code with `make
+fmt`.
