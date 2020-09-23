@@ -1,18 +1,19 @@
-type atom = string
+type atom = string [@@deriving sexp]
 
-and guard = unit
+and guard = unit [@@deriving sexp]
 
 and name =
   | Var_name of atom
   | Atom_name of atom
   | Macro_name of atom
   | Qualified_name of { n_mod : atom; n_name : atom }
+[@@deriving sexp]
 
-and map_field = { mf_name : atom; mf_value : expr }
+and map_field = { mf_name : atom; mf_value : expr } [@@deriving sexp]
 
-and case_branch = { cb_pattern : pattern; cb_expr : expr }
+and case_branch = { cb_pattern : pattern; cb_expr : expr } [@@deriving sexp]
 
-and let_binding = { lb_lhs : pattern; lb_rhs : expr }
+and let_binding = { lb_lhs : pattern; lb_rhs : expr } [@@deriving sexp]
 
 and literal =
   | Lit_integer of string
@@ -20,6 +21,7 @@ and literal =
   | Lit_binary of string
   | Lit_float of string
   | Lit_atom of string
+[@@deriving sexp]
 
 and expr =
   | Expr_let of let_binding * expr
@@ -33,6 +35,7 @@ and expr =
   | Expr_case of expr * case_branch list
   | Expr_tuple of expr list
   | Expr_fun of fun_decl
+[@@deriving sexp]
 
 and pattern =
   | Pattern_ignore
@@ -41,12 +44,15 @@ and pattern =
   | Pattern_list of pattern list
   | Pattern_map of (atom * pattern) list
   | Pattern_match of literal
+[@@deriving sexp]
 
-and fun_apply = { fa_name : expr; fa_args : expr list }
+and fun_apply = { fa_name : expr; fa_args : expr list } [@@deriving sexp]
 
 and fun_case = { fc_lhs : pattern list; fc_guards : guard list; fc_rhs : expr }
+[@@deriving sexp]
 
 and fun_decl = { fd_name : atom; fd_arity : int; fd_cases : fun_case list }
+[@@deriving sexp]
 
 (** A type declaration in an Erlang module. This follows what is currently
     representable by Dialyzer.
@@ -55,13 +61,14 @@ and fun_decl = { fd_name : atom; fd_arity : int; fd_cases : fun_case list }
       http://erlang.org/doc/reference_manual/typespec.html
  *)
 
-and record_field = { rf_name : atom; rf_type : type_kind }
+and record_field = { rf_name : atom; rf_type : type_kind } [@@deriving sexp]
 
 and variant_constructor =
   | Constructor of { vc_name : atom; vc_args : type_kind list }
   | Extension of type_kind
+[@@deriving sexp]
 
-and type_constr = { tc_name : name; tc_args : type_kind list }
+and type_constr = { tc_name : name; tc_args : type_kind list } [@@deriving sexp]
 
 and type_kind =
   | Type_function of type_kind list
@@ -70,8 +77,9 @@ and type_kind =
   | Type_tuple of type_kind list
   | Type_record of { fields : record_field list }
   | Type_variant of { constructors : variant_constructor list }
+[@@deriving sexp]
 
-and type_visibility = Opaque | Visible
+and type_visibility = Opaque | Visible [@@deriving sexp]
 
 and type_decl = {
   typ_kind : type_kind;
@@ -79,15 +87,17 @@ and type_decl = {
   typ_name : atom;
   typ_params : atom list;
 }
+[@@deriving sexp]
 
 (** An exported symbol in an Erlang module. This could be a function or a type.
     See:
       http://erlang.org/doc/reference_manual/modules.html for missing fields.
       http://erlang.org/doc/reference_manual/typespec.html
  *)
-and export_type = Export_function | Export_type
+and export_type = Export_function | Export_type [@@deriving sexp]
 
 and export = { exp_type : export_type; exp_name : atom; exp_arity : int }
+[@@deriving sexp]
 
 and t = {
   file_name : string;
@@ -98,6 +108,8 @@ and t = {
   types : type_decl list;
   functions : fun_decl list;
 }
+[@@deriving sexp]
+
 (** The type of an Erlang module. Intentionally incomplete for now.
     See:
       http://erlang.org/doc/reference_manual/modules.html
