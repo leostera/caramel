@@ -2,7 +2,7 @@ open Compile_common
 
 exception Cannot_compile_file
 
-type compilation = { sources : string list; dump_ast: bool }
+type compilation = { sources : string list; dump_ast : bool }
 
 let to_bytecode i lambda =
   lambda
@@ -76,7 +76,8 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
   let erlang_ast =
     match Erlang.Parse.from_file i.source_file with
     | exception exc ->
-        Format.fprintf Format.std_formatter "Unhandled parsing error: %s" (Printexc.to_string exc);
+        Format.fprintf Format.std_formatter "Unhandled parsing error: %s"
+          (Printexc.to_string exc);
         exit 1
     | Ok ast -> ast
     | Error `Module_item_list_was_empty ->
@@ -97,10 +98,9 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
         Format.fprintf Format.std_formatter "Parser_error: %s" msg;
         exit 1
   in
-  if opts.dump_ast
-  then
-    Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter (Erlang.Ast.sexp_of_t erlang_ast)
-  ;
+  if opts.dump_ast then
+    Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
+      (Erlang.Ast.sexp_of_t erlang_ast);
   let parsetree = Erlang_to_ocaml.to_parsetree erlang_ast in
   let typedtree =
     parsetree

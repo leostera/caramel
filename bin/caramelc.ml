@@ -18,17 +18,17 @@ module Compile = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources dump_ast = Caramel_compiler.Compiler.compile { sources; dump_ast }
+  let run sources dump_ast =
+    Caramel_compiler.Compiler.compile { sources; dump_ast }
 
   let cmd =
     let sources =
       Arg.(non_empty & pos_all string [] & info [] ~docv:"SOURCES")
     in
     let dump_ast =
-      Arg.(value & flag & info ["d"; "dump-ast"] ~docv:"DUMP_AST")
+      Arg.(value & flag & info [ "d"; "dump-ast" ] ~docv:"DUMP_AST")
     in
-    Term.(pure run $ sources $ dump_ast), info
-
+    (Term.(pure run $ sources $ dump_ast), info)
 end
 
 module Sort_deps = struct
