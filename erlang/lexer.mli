@@ -1,6 +1,4 @@
-type error =
-  | Unterminated_string
-  | Invalid_literal of string
+type error = Unterminated_string | Invalid_literal of string
 
 exception Error of error * Location.t
 

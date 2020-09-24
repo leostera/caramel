@@ -106,8 +106,7 @@ and export_type = Export_function | Export_type [@@deriving sexp]
 and export = { exp_type : export_type; exp_name : atom; exp_arity : int }
 [@@deriving sexp]
 
-and attribute = { atr_name : atom; atr_value : expr }
-[@@deriving sexp]
+and attribute = { atr_name : atom; atr_value : expr } [@@deriving sexp]
 
 and module_item =
   | Module_attribute of attribute
@@ -172,45 +171,47 @@ let rec item_list_to_module items acc =
               atr_value = Expr_literal (Lit_atom behavior);
             } ->
             { acc with behaviours = behavior :: acc.behaviours }
-        | Module_attribute
-            {
-              atr_name = "export";
-              atr_value =
-                Expr_tuple
-                  [
-                    Expr_literal (Lit_atom exp_name);
-                    Expr_literal (Lit_integer exp_arity);
-                  ];
-            } ->
+        | Module_attribute { atr_name = "export"; atr_value = Expr_list attrs }
+          ->
             {
               acc with
               exports =
-                {
-                  exp_type = Export_type;
-                  exp_name;
-                  exp_arity = int_of_string exp_arity;
-                }
-                :: acc.exports;
+                ( attrs
+                |> List.filter_map (function
+                     | Expr_tuple
+                         [
+                           Expr_literal (Lit_atom exp_name);
+                           Expr_literal (Lit_integer exp_arity);
+                         ] ->
+                         Some
+                           {
+                             exp_type = Export_function;
+                             exp_name;
+                             exp_arity = int_of_string exp_arity;
+                           }
+                     | _ -> None) )
+                @ acc.exports;
             }
         | Module_attribute
-            {
-              atr_name = "export_type";
-              atr_value =
-                Expr_tuple
-                  [
-                    Expr_literal (Lit_atom exp_name);
-                    Expr_literal (Lit_integer exp_arity);
-                  ];
-            } ->
+            { atr_name = "export_type"; atr_value = Expr_list attrs } ->
             {
               acc with
               exports =
-                {
-                  exp_type = Export_type;
-                  exp_name;
-                  exp_arity = int_of_string exp_arity;
-                }
-                :: acc.exports;
+                ( attrs
+                |> List.filter_map (function
+                     | Expr_tuple
+                         [
+                           Expr_literal (Lit_atom exp_name);
+                           Expr_literal (Lit_integer exp_arity);
+                         ] ->
+                         Some
+                           {
+                             exp_type = Export_type;
+                             exp_name;
+                             exp_arity = int_of_string exp_arity;
+                           }
+                     | _ -> None) )
+                @ acc.exports;
             }
         | Module_attribute atr ->
             { acc with attributes = atr :: acc.attributes }
