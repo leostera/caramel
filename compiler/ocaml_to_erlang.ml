@@ -170,10 +170,11 @@ let build_functions :
                    | _ -> raise (Function_without_body c.c_rhs) )
              in
 
+             let fc_name = fd_name in
              let fc_lhs = params case [] in
              let fc_rhs = body case (var_names @ collect_var_names fc_lhs) in
              let fc_guards = [] in
-             Erlang.Ast.{ fc_lhs; fc_guards; fc_rhs })
+             Erlang.Ast.{ fc_name; fc_lhs; fc_guards; fc_rhs })
     in
     Some Erlang.Ast.{ fd_name; fd_arity; fd_cases }
   (* NOTE: We need a universally quantified k here because this function will
@@ -238,7 +239,14 @@ let build_functions :
                         fd_name = "anonymous";
                         fd_arity = 0;
                         fd_cases =
-                          [ { fc_lhs = []; fc_guards = []; fc_rhs = lb_rhs } ];
+                          [
+                            {
+                              fc_name = "anonymous";
+                              fc_lhs = [];
+                              fc_guards = [];
+                              fc_rhs = lb_rhs;
+                            };
+                          ];
                       };
                   fa_args = [];
                 }
@@ -496,9 +504,9 @@ let build_types :
           | r :: rs' -> (
               match r.rf_desc with
               | Ttag ({ txt; _ }, _, core_types) ->
-                  let vc_name = txt |> atom_of_string in
-                  let vc_args = core_types |> List.filter_map build_type_kind in
-                  let variant = Erlang.Ast.Constructor { vc_name; vc_args } in
+                  let tc_name = Erlang.Ast.Atom_name (txt |> atom_of_string) in
+                  let tc_args = core_types |> List.filter_map build_type_kind in
+                  let variant = Erlang.Ast.Constructor { tc_name; tc_args } in
                   all_rows rs' (variant :: acc)
               | Tinherit { ctyp_desc = Ttyp_constr (_, { txt; _ }, args); _ } ->
                   let tc_name = longident_to_type_name txt in
@@ -577,14 +585,17 @@ let build_types :
         let constructors =
           constructors
           |> List.map (fun Typedtree.{ cd_id; cd_args; _ } ->
-                 let vc_args =
+                 let tc_args =
                    match cd_args with
                    | Cstr_tuple core_types ->
                        core_types |> List.filter_map build_type_kind
                    | Cstr_record labels -> [ build_record labels ]
                  in
                  Erlang.Ast.Constructor
-                   { vc_name = atom_of_ident cd_id; vc_args })
+                   {
+                     tc_name = Erlang.Ast.Atom_name (atom_of_ident cd_id);
+                     tc_args;
+                   })
         in
         Some
           (Erlang.Ast.make_named_type name params
@@ -666,7 +677,8 @@ let build_module :
   let exports = build_exports ~name typedtree signature in
   let types = build_types typedtree signature in
   let functions = build_functions ~module_name:name ~modules typedtree in
-  Erlang.Ast.make ~name ~ocaml_name ~exports ~types ~functions
+  let attributes = [] in
+  Erlang.Ast.make ~name ~ocaml_name ~exports ~types ~functions ~attributes
 
 (** Navigate a [Typedtree.structure] and recursively collect all module definitions,
     building up the right prefixed names.
