@@ -6,11 +6,11 @@
 - [X] Example of type-safe process
 - [ ] fully inferred message type in processes experiments
   - [X] passing a recv function for the unification to work from the inside out
-  - [ ] hack "receive" expression into the language
+  - [ ] ~~hack "receive" expression into the language~~ 
 - [ ] Type Safe Send & Receive:
   - [X] ~~try universally quantified message types~~ -- nope, too permissive,
         got runtime crashes!
-  - [ ] try hiding the message type altogether in a GADT
+  - [ ] ~~try hiding the message type altogether in a GADT~~
   - [X] try fixing the type of the receiver pid's message instead -- needs a
         additional layering over process (contramap) to turn them into the
         current processes' acceptable message type
@@ -47,7 +47,7 @@ indicate the usage of the code that was generated. A decision neeeds to be made
 as to whether we'll add a little overhead to make some of these typed
 representations (specially the ones with phantom types), runtime safe too.
 
-- [ ] Opaque Types
+- [X] Opaque Types
 - [x] Phantom Types
 - [x] Variants | Union Types
 - [x] Polymorphic variant types
@@ -56,7 +56,7 @@ representations (specially the ones with phantom types), runtime safe too.
 - [x] Function Types
 - [ ] Automatic Function Specs
 - [x] Control Exports via Interfaces
-- [ ] Support qualified type constructor names
+- [X] Support qualified type constructor names
 
 ### Functions
 
@@ -80,7 +80,7 @@ Valid expressions in the Erlang language that are supported off the bad, or tran
 - [x] Let Bindings
 - [x] Variables
   - [ ] Make sure all variable names translate to valid Erlang variable names
-- [ ] Lambdas
+- [X] Lambdas
 - [x] Function Reference
 - [x] Function Calls
   - [x] Proper resolution of local nested modules
