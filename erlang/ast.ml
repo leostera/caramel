@@ -1,3 +1,5 @@
+open Sexplib.Std
+
 type atom = string [@@deriving sexp]
 
 and var_name = string [@@deriving sexp]
@@ -105,11 +107,13 @@ and export = { exp_type : export_type; exp_name : atom; exp_arity : int }
 [@@deriving sexp]
 
 and attribute = { atr_name : atom; atr_value : expr }
+[@@deriving sexp]
 
 and module_item =
   | Module_attribute of attribute
   | Type_decl of type_decl
   | Function_decl of fun_decl
+[@@deriving sexp]
 
 and t = {
   file_name : string;

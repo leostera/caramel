@@ -1,10 +1,14 @@
-(* Entry points in the parser *)
-
-(* Skip tokens to the end of the phrase *)
-
-let last_token = ref Parser.EOF
-
-let token lexbuf =
-  let token = Lexer.token lexbuf in
-  last_token := token;
-  token
+let from_file source_file =
+  let ic = open_in_bin source_file in
+  let lexbuf = Lexing.from_channel ic in
+  match Parser.module_file Lexer.token lexbuf
+  with
+  | exception Lexer.Error (err, loc) ->
+      Error (`Lexer_error (err, loc))
+  | exception Parser.Error ->
+      let msg = Printf.sprintf "At offset %d: syntax error.\n%!" (Lexing.lexeme_start lexbuf) in
+      Error (`Parser_error msg)
+  | exception exc ->
+      let msg = Printf.sprintf "At offset %d: syntax error.\n  %s%!" (Lexing.lexeme_start lexbuf) (Printexc.to_string exc) in
+      Error (`Parser_error msg)
+  | x -> x

@@ -4,28 +4,54 @@ open Ast
 
 type parse_error =
   | Unknown_type_visibility of string
-  | Functions_must_have_clauses 
+  | Functions_must_have_clauses
+  | Expression_is_invalid_pattern of expr
 
 exception Parse_error of parse_error
+exception Error
 
-let throw x = raise (Parse_error x)
+let throw x =
+  begin match x with
+  | Unknown_type_visibility v ->
+      Format.fprintf Format.std_formatter "Unknown_type_visibility: %s" v
+  | Functions_must_have_clauses ->
+      Format.fprintf Format.std_formatter "Functions_must_have_clauses"
+  | Expression_is_invalid_pattern expr ->
+      Format.fprintf Format.std_formatter "Expression_is_invalid_pattern: \n";
+      Printer.pp_expression "" Format.std_formatter expr ~module_:Ast.empty
+  end;
+  Format.fprintf Format.std_formatter "%!";
+  raise (Parse_error x)
+
+let rec expr_to_pattern expr =
+  match expr with
+  | Expr_name (Var_name name) -> Pattern_binding name
+  | Expr_name (Atom_name atom) -> Pattern_match (Lit_atom atom)
+  | Expr_literal literal -> Pattern_match literal
+  | Expr_list exprs -> Pattern_list (List.map expr_to_pattern exprs)
+  | Expr_tuple exprs -> Pattern_tuple (List.map expr_to_pattern exprs)
+  | _ -> throw (Expression_is_invalid_pattern expr)
 
 %}
 
 /* Tokens */
 
+%token <string> ATOM
+%token <string> CHAR
+%token <string> NUMBER
+%token <string> STRING
+%token <string> VARIABLE
 %token ARROW
 %token BINARY_CLOSE
 %token BINARY_OPEN
 %token CASE
 %token COLON
-%token EQUAL
 %token COLON_COLON
 %token COMMA
 %token DASH
 %token DOT
 %token END
-%token EQUAL_ARROW
+%token EQUAL
 %token FUN
 %token LEFT_BRACE
 %token LEFT_BRACKET
@@ -37,15 +63,8 @@ let throw x = raise (Parse_error x)
 %token RIGHT_PARENS
 %token SEMICOLON
 %token SLASH
-%token <string> NUMBER
-%token <string> STRING
-%token <string> CHAR
-%token <string> ATOM
-%token <string> BINARY_STRING
-%token <string> VARIABLE
 
 %token EOF
-%token EOL
 
 /* Entry points */
 
@@ -54,112 +73,93 @@ let throw x = raise (Parse_error x)
 %%
 
 (* An .erl file. *)
-module_file: separated_list(EOL, module_item) EOF { Ast.of_module_items $1 };
+let module_file :=
+  is = module_item+; EOF;
+  { Ast.of_module_items is }
 
-module_item:
-| module_attribute { Module_attribute $1 }
-| type_decl { Type_decl $1 }
-| fun_decl { Function_decl $1 }
-;
+let module_item :=
+  | ~ = module_attribute; { Module_attribute module_attribute }
+  | ~ = type_decl; { Type_decl type_decl }
+  | ~ = fun_decl; { Function_decl fun_decl }
 
 (** Module Attributes *)
-name_with_arity:
-  atom SLASH number
-    { Expr_tuple [ Expr_literal (Lit_atom $1);
-                   Expr_literal (Lit_integer $3)] }
-;
+let name_with_arity :=
+  | name = atom; SLASH; arity = number;
+    { Expr_tuple [ Expr_literal (Lit_atom name);
+                   Expr_literal (Lit_integer arity)] }
 
-module_attribute:
-  DASH atom parens(module_attribute_value) DOT
-    { { atr_name = $2 ; atr_value = $3 } }
-;
+let module_attribute :=
+  | DASH; atr_name = atom; atr_value = parens(module_attribute_value); DOT;
+    { { atr_name; atr_value} }
 
-module_attribute_value:
-| LEFT_BRACE atom COMMA list(name_with_arity) RIGHT_BRACE
-    { Expr_tuple [ Expr_literal (Lit_atom $2); Expr_list $4 ] }
+let module_attribute_value :=
+  | LEFT_BRACE; name = atom; COMMA; els = list(name_with_arity); RIGHT_BRACE;
+    { Expr_tuple [ Expr_literal (Lit_atom name); Expr_list els ] }
 
-| list(name_with_arity)
-    { Expr_list $1 }
+  | els = list(name_with_arity); { Expr_list els }
 
-| atom
-    { Expr_literal (Lit_atom $1) }
-
-| list(atom)
-    { Expr_list (List.map (fun x -> Expr_literal (Lit_atom x)) $1) }
-;
+  | ~ = atom; { Expr_literal (Lit_atom atom) }
 
 (** Type Language *)
-type_decl:
-| DASH type_visibility atom parlist(VARIABLE) COLON_COLON type_kind
-  {
-      { typ_visibility = $2
-      ; typ_name = $3
-      ; typ_params = $4
-      ; typ_kind = $6
-      }
-  }
-;
+let type_decl :=
+  | DASH;
+    typ_visibility = type_visibility;
+    typ_name = atom;
+    typ_params = parlist(VARIABLE); COLON_COLON;
+    typ_kind = type_kind;
+    { { typ_visibility
+      ; typ_name
+      ; typ_params
+      ; typ_kind
+      } }
 
-type_visibility:
-  atom {
-    match $1 with
+let type_visibility :=
+  | ~ = atom; {
+    match atom with
     | "opaque" -> Opaque
     | "type" -> Visible
-    | _ -> throw (Unknown_type_visibility $1)
+    | _ -> throw (Unknown_type_visibility atom)
   }
-;
 
-type_kind:
-| type_expr_fun { $1 }
-| type_expr_tuple { $1 }
-| type_expr_variant { $1 }
-;
+let type_kind :=
+  | t = type_expr_fun ; { t }
+  | t = type_expr_tuple ; { t }
+  | t = type_expr_variant ; { t }
 
-type_expr:
-| type_expr_fun { $1 }
-| type_expr_constr { $1 }
-| type_expr_var { $1 }
-| type_expr_tuple { $1 }
-;
+let type_expr :=
+  | t = type_expr_fun; { t }
+  | t = type_expr_constr; { t }
+  | t = type_expr_var; { t }
+  | t = type_expr_tuple; { t }
 
-type_expr_fun:
-  parlist(type_expr)
-  COLON_COLON
-  type_expr
-  { Type_function ($1 @ [$3]) }
-;
+let type_expr_fun :=
+  | args = parlist(type_expr); COLON_COLON; ret = type_expr;
+    { Type_function (args @ [ret]) }
 
-type_expr_constr:
-  name parlist(type_expr) {
-    Type_constr { tc_name = $1 ; tc_args = $2 }
-  }
-;
+let type_expr_constr :=
+  | tc_name = name; tc_args = parlist(type_expr);
+    { Type_constr { tc_name; tc_args } }
 
-type_expr_var:
-  n = VARIABLE { Type_variable n }
-;
+let type_expr_var :=
+  | n = VARIABLE; { Type_variable n }
 
-type_expr_tuple:
-  tuple(type_expr) { Type_tuple $1 }
-;
+let type_expr_tuple :=
+  | t = tuple(type_expr); { Type_tuple t }
 
-type_expr_variant:
-  separated_list(PIPE, type_expr) {
-    let constructors = $1
+let type_expr_variant :=
+  | constructors = separated_list(PIPE, type_expr); {
+    let constructors = constructors
     |> List.map (function
       | Type_constr constr -> Constructor constr
       | x -> Extension x )
     in
     Type_variant { constructors; }
   }
-;
 
 (** Function Declarations *)
-fun_decl:
-  separated_list(SEMICOLON, fun_case)
-  DOT
-  {
-    let main, cases = match $1 with
+let fun_decl :=
+  | cases = separated_list(SEMICOLON, fun_case); DOT; {
+    let main, cases = match cases with
       | [] -> throw Functions_must_have_clauses
       | x :: xs -> x, xs
     in
@@ -168,135 +168,96 @@ fun_decl:
     ; fd_cases = main :: cases
     }
   }
-;
 
-fun_case:
-  ATOM parlist(pattern) ARROW expr_let
-  { { fc_name = $1
-    ; fc_lhs = $2
-    ; fc_guards = []
-    ; fc_rhs = $4
+let fun_case :=
+  | fc_name = ATOM; fc_lhs = parlist(expr); ARROW; fc_rhs = expr; {
+      { fc_name
+      ; fc_lhs = List.map expr_to_pattern fc_lhs
+      ; fc_guards = []
+      ; fc_rhs
+      }
     }
-  }
-;
-
-(**
- * Patterns
- *)
-pattern:
-| name = VARIABLE {
-    match name with
-    | "_" -> Pattern_ignore
-    | _ -> Pattern_binding name
-  }
-| tuple(pattern) {
-    Pattern_tuple $1
-  }
-| list(pattern) { Pattern_list $1 }
-| atom { Pattern_match (Lit_atom $1) }
-;
 
 (**
  * Expressions
  *)
 
-expr:
-| expr_let { $1 }
-| expr_name { $1 }
-| expr_literal { $1 }
-| expr_fun_ref { $1 }
-| expr_apply { $1 }
-| expr_list { $1 }
-| expr_case { $1 }
-| expr_tuple { $1 }
-| expr_fun { $1 }
-;
+let expr :=
+  | e = expr_apply; { e }
+  | e = expr_let; { e }
+  | e = expr_name; { e }
+  | e = expr_literal; { e }
+  | e = expr_fun_ref; { e }
+  | e = expr_list; { e }
+  | e = expr_case; { e }
+  | e = expr_tuple; { e }
+  | e = expr_fun; { e }
 
-expr_let:
-| pattern EQUAL expr COMMA expr
-    { Expr_let ({ lb_lhs = $1; lb_rhs = $3 }, $5) }
-;
+let expr_let :=
+  | lb_lhs = expr; EQUAL; lb_rhs = expr; COMMA; next = expr;
+    { Expr_let ({ lb_lhs = expr_to_pattern lb_lhs; lb_rhs}, next) }
 
-expr_name :
-  n = name
-    { Expr_name n }
-;
+let expr_name  :=
+  | n = name; { Expr_name n }
 
-expr_literal:
-  literal
-    { Expr_literal $1 }
-;
+let expr_literal :=
+  | ~ = literal; { Expr_literal literal }
 
 (* NOTE: this should be `name` instead of `atom` and the arity should be
  * captured here as well. *)
-expr_fun_ref:
-  FUN atom SLASH NUMBER
-    { Expr_fun_ref $2 }
-;
+let expr_fun_ref :=
+  | FUN; name = atom; SLASH; NUMBER; { Expr_fun_ref name }
 
-expr_apply:
-  expr parlist(expr)
-    { Expr_apply { fa_name = $1; fa_args = $2 } }
-;
+let expr_apply :=
+  | ~ = apply_name; fa_args = parlist(expr);
+    { Expr_apply { fa_name = Expr_name apply_name; fa_args } }
 
-expr_list:
-  list(expr)
-    { Expr_list $1 }
-;
+let expr_list := l = list(expr); { Expr_list l }
 
-expr_tuple:
-  tuple(expr)
-    { Expr_tuple $1 }
-;
+let expr_tuple := t = tuple(expr); { Expr_tuple t }
 
-expr_case:
-  CASE expr OF
-  separated_list(SEMICOLON, case_branch)
-  END
-  { Expr_case ($2, $4) }
-;
+let expr_case :=
+  CASE; ~ = expr; OF;
+  cases = separated_list(SEMICOLON, case_branch);
+  END;
+  { Expr_case (expr, cases) }
 
-case_branch:
-  pattern ARROW expr
-    { { cb_pattern = $1; cb_expr = $3 } }
-;
+let case_branch :=
+  pat = expr; ARROW; cb_expr = expr;
+    { { cb_pattern = expr_to_pattern pat; cb_expr; } }
 
-expr_fun: fun_decl { Expr_fun $1 };
+let expr_fun :=
+  | FUN; ~ = fun_decl; END; { Expr_fun fun_decl }
 
 (**
  * Constructors
  *)
-list(a):
-  LEFT_BRACKET separated_list(COMMA, a) RIGHT_BRACKET
-    { $2 }
-;
-
-tuple(a):
-  LEFT_BRACE separated_list(COMMA, a) RIGHT_BRACE
-    { $2 }
-;
+let list(a) := LEFT_BRACKET; els = separated_list(COMMA, a); RIGHT_BRACKET; { els }
+let tuple(a) := LEFT_BRACE; els = separated_list(COMMA, a); RIGHT_BRACE; { els }
 
 (**
  * Terminals
  *)
 
-literal:
-| c = CHAR { Lit_char c }
-| BINARY_OPEN s = STRING BINARY_CLOSE { Lit_binary s }
-| n = NUMBER { Lit_integer n }
-| a = atom { Lit_atom a }
+let literal :=
+  | c = CHAR; { Lit_char c }
+  | BINARY_OPEN; s = STRING; BINARY_CLOSE; { Lit_binary s }
+  | n = NUMBER; { Lit_integer n }
+  | a = atom; { Lit_atom a }
 
-name:
-| n = VARIABLE { Var_name n}
-| atom { Atom_name $1 }
-| atom COLON atom { Qualified_name { n_mod = $1; n_name = $3 } }
-;
+let name :=
+  | n = VARIABLE; { Var_name n}
+  | n = apply_name; { n }
 
-number: n = NUMBER { n };
-atom: name = ATOM { name };
+let apply_name :=
+  | ~ = atom; { Atom_name atom }
+  | n_mod = atom; COLON; n_name = atom; { Qualified_name { n_mod; n_name } }
+
+let number := n = NUMBER; { n }
+let atom := name = ATOM; { name }
 
 (**
  * Helpers
  *)
-parens(t): LEFT_PARENS t RIGHT_PARENS { $2 } ;
-parlist(t): parens(separated_list(COMMA, t)) { $1 };
+let parens(t) := LEFT_PARENS; els = t; RIGHT_PARENS; { els }
+let parlist(t) := els = parens(separated_list(COMMA, t)); { els }

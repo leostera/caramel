@@ -1,9 +1,19 @@
 (library
  (name erlang)
  (public_name caramel.erlang)
- (libraries compiler-libs.common compiler-libs.bytecomp))
+ (preprocess (pps ppx_sexp_conv))
+ (libraries compiler-libs.common compiler-libs.bytecomp sexplib))
 
 (ocamllex lexer)
 
 (menhir
- (modules parser))
+ (modules parser)
+ (flags --explain --dump))
+
+(rule
+  (deps parser.messages)
+  (action (with-stdout-to parser_messages.ml
+    (run menhir
+      %{dep:parser.mly}
+      --compile-errors %{dep:parser.messages}
+    ))))

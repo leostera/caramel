@@ -102,6 +102,10 @@ and t = {
   functions : fun_decl list;
 }
 
+val sexp_of_t : t -> Sexplib.Sexp.t
+
+val empty : t
+
 val of_module_items :
   module_item list ->
   ( t,
