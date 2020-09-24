@@ -43,15 +43,18 @@ and pattern =
 
 and fun_apply = { fa_name : expr; fa_args : expr list }
 
-and fun_case = { fc_lhs : pattern list; fc_guards : guard list; fc_rhs : expr }
+and fun_case = {
+  fc_name : atom;
+  fc_lhs : pattern list;
+  fc_guards : guard list;
+  fc_rhs : expr;
+}
 
 and fun_decl = { fd_name : atom; fd_arity : int; fd_cases : fun_case list }
 
 and record_field = { rf_name : atom; rf_type : type_kind }
 
-and variant_constructor =
-  | Constructor of { vc_name : atom; vc_args : type_kind list }
-  | Extension of type_kind
+and variant_constructor = Constructor of type_constr | Extension of type_kind
 
 and type_constr = { tc_name : name; tc_args : type_kind list }
 
@@ -88,11 +91,9 @@ and module_item =
   | Type_decl of type_decl
   | Function_decl of fun_decl
 
-and module_ = module_item list
-
 and t = {
   file_name : string;
-  behaviour : atom option;
+  behaviours : atom list;
   module_name : atom;
   ocaml_name : atom;
   attributes : attribute list;
@@ -100,6 +101,13 @@ and t = {
   types : type_decl list;
   functions : fun_decl list;
 }
+
+val of_module_items :
+  module_item list ->
+  ( t,
+    [> `Module_item_list_was_empty | `Single_module_item_was_not_a_module_name ]
+  )
+  result
 
 val make :
   name:string ->

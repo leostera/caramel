@@ -16,6 +16,14 @@ end
 
 let print_atom ppf atom = Format.fprintf ppf "%s" (String.lowercase_ascii atom)
 
+let name_to_string name =
+  match name with
+  | Var_name name -> String.capitalize_ascii name
+  | Atom_name name -> name
+  | Macro_name name -> Format.sprintf "?%s" name
+  | Qualified_name { n_mod; n_name; _ } ->
+      Format.sprintf "%s:%s" (String.lowercase_ascii n_mod) n_name
+
 let is_caramel_support { fa_name; _ } =
   match fa_name with
   | Expr_name
@@ -60,11 +68,11 @@ let rec pp_caramel_support_function _prefix ppf { fa_name; fa_args; _ } ~module_
 and pp_variant_constructor prefix ppf vc =
   match vc with
   | Extension t -> pp_type_kind prefix ppf t
-  | Constructor { vc_name; vc_args = []; _ } -> Format.fprintf ppf "%s" vc_name
+  | Constructor { tc_name; tc_args = []; _ } -> pp_name ppf tc_name
   | Constructor c ->
-      let tag = Format.sprintf "{%s" c.vc_name in
+      let tag = Format.sprintf "{%s" (name_to_string c.tc_name) in
       Format.fprintf ppf "%s" tag;
-      c.vc_args
+      c.tc_args
       |> List.iter (fun arg ->
              Format.fprintf ppf ", ";
              pp_type_kind (prefix ^ tag) ppf arg);
@@ -203,19 +211,22 @@ and pp_literal ppf lit =
   | Lit_binary str -> Format.fprintf ppf "<<\"%s\">>" (String.escaped str)
   | Lit_atom atom -> print_atom ppf atom
 
-and pp_expression prefix ppf expr ~module_ =
-  Format.fprintf ppf "%s" prefix;
-  match expr with
-  | Expr_name (Var_name name) ->
-      Format.fprintf ppf "%s" (String.capitalize_ascii name)
-  | Expr_name (Atom_name name) -> print_atom ppf name
-  | Expr_name (Macro_name name) -> Format.fprintf ppf "?%s" name
-  | Expr_name (Qualified_name { n_mod; n_name; _ }) ->
+and pp_name ppf name =
+  match name with
+  | Var_name name -> Format.fprintf ppf "%s" (String.capitalize_ascii name)
+  | Atom_name name -> print_atom ppf name
+  | Macro_name name -> Format.fprintf ppf "?%s" name
+  | Qualified_name { n_mod; n_name; _ } ->
       (* TODO: lookup n_mod and n_name in a global table of symbols to
        * figure out what it actually translates to since it could be a external
        * call!
        *)
       Format.fprintf ppf "%s:%s" (String.lowercase_ascii n_mod) n_name
+
+and pp_expression prefix ppf expr ~module_ =
+  Format.fprintf ppf "%s" prefix;
+  match expr with
+  | Expr_name name -> pp_name ppf name
   | Expr_literal lit -> pp_literal ppf lit
   | Expr_fun { fd_name; fd_cases; _ } ->
       Format.fprintf ppf "fun\n  %s" prefix;

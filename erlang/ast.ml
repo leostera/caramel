@@ -50,7 +50,12 @@ and pattern =
 
 and fun_apply = { fa_name : expr; fa_args : expr list } [@@deriving sexp]
 
-and fun_case = { fc_lhs : pattern list; fc_guards : guard list; fc_rhs : expr }
+and fun_case = {
+  fc_name : atom;
+  fc_lhs : pattern list;
+  fc_guards : guard list;
+  fc_rhs : expr;
+}
 [@@deriving sexp]
 
 and fun_decl = { fd_name : atom; fd_arity : int; fd_cases : fun_case list }
@@ -65,9 +70,7 @@ and fun_decl = { fd_name : atom; fd_arity : int; fd_cases : fun_case list }
 
 and record_field = { rf_name : atom; rf_type : type_kind } [@@deriving sexp]
 
-and variant_constructor =
-  | Constructor of { vc_name : atom; vc_args : type_kind list }
-  | Extension of type_kind
+and variant_constructor = Constructor of type_constr | Extension of type_kind
 [@@deriving sexp]
 
 and type_constr = { tc_name : name; tc_args : type_kind list } [@@deriving sexp]
@@ -108,11 +111,9 @@ and module_item =
   | Type_decl of type_decl
   | Function_decl of fun_decl
 
-and module_ = module_item list
-
 and t = {
   file_name : string;
-  behaviour : atom option;
+  behaviours : atom list;
   module_name : atom;
   ocaml_name : atom;
   attributes : attribute list;
@@ -127,10 +128,112 @@ and t = {
       http://erlang.org/doc/reference_manual/modules.html
  *)
 
+let empty =
+  {
+    file_name = "empty.erl";
+    behaviours = [];
+    module_name = "empty";
+    ocaml_name = "empty";
+    attributes = [];
+    exports = [];
+    types = [];
+    functions = [];
+  }
+
+let rec item_list_to_module items acc =
+  match items with
+  | [] -> acc
+  | x :: xs ->
+      item_list_to_module xs
+        ( match x with
+        | Module_attribute
+            {
+              atr_name = "module";
+              atr_value = Expr_literal (Lit_atom module_name);
+            } ->
+            {
+              acc with
+              module_name;
+              file_name = module_name ^ ".erl";
+              ocaml_name = String.capitalize_ascii module_name;
+            }
+        | Module_attribute
+            {
+              atr_name = "behavior";
+              atr_value = Expr_literal (Lit_atom behavior);
+            }
+        | Module_attribute
+            {
+              atr_name = "behaviour";
+              atr_value = Expr_literal (Lit_atom behavior);
+            } ->
+            { acc with behaviours = behavior :: acc.behaviours }
+        | Module_attribute
+            {
+              atr_name = "export";
+              atr_value =
+                Expr_tuple
+                  [
+                    Expr_literal (Lit_atom exp_name);
+                    Expr_literal (Lit_integer exp_arity);
+                  ];
+            } ->
+            {
+              acc with
+              exports =
+                {
+                  exp_type = Export_type;
+                  exp_name;
+                  exp_arity = int_of_string exp_arity;
+                }
+                :: acc.exports;
+            }
+        | Module_attribute
+            {
+              atr_name = "export_type";
+              atr_value =
+                Expr_tuple
+                  [
+                    Expr_literal (Lit_atom exp_name);
+                    Expr_literal (Lit_integer exp_arity);
+                  ];
+            } ->
+            {
+              acc with
+              exports =
+                {
+                  exp_type = Export_type;
+                  exp_name;
+                  exp_arity = int_of_string exp_arity;
+                }
+                :: acc.exports;
+            }
+        | Module_attribute atr ->
+            { acc with attributes = atr :: acc.attributes }
+        | Type_decl td -> { acc with types = td :: acc.types }
+        | Function_decl fd -> { acc with functions = fd :: acc.functions } )
+
+let of_module_items items =
+  match items with
+  | [] -> Error `Module_item_list_was_empty
+  | [
+   Module_attribute
+     { atr_name = "module"; atr_value = Expr_literal (Lit_atom module_name) };
+  ] ->
+      Ok
+        {
+          empty with
+          module_name;
+          file_name = module_name ^ ".erl";
+          ocaml_name = String.capitalize_ascii module_name;
+        }
+  | [ _ ] -> Error `Single_module_item_was_not_a_module_name
+  | xs -> Ok (item_list_to_module xs empty)
+
 let make ~name ~ocaml_name ~exports ~types ~functions ~attributes =
   {
     file_name = name ^ ".erl";
-    behaviour = None;
+    behaviours = [];
     module_name = name;
     ocaml_name;
     attributes;
@@ -162,8 +265,8 @@ let make_named_type typ_name typ_params typ_kind typ_visibility =
         | Type_variant { constructors } ->
             constructors
             |> List.concat_map (function
-                 | Constructor { vc_args; _ } ->
-                     List.concat_map (collect_params []) vc_args
+                 | Constructor { tc_args; _ } ->
+                     List.concat_map (collect_params []) tc_args
                  | Extension ext -> collect_params [] ext)
       in
       [ flat_args; acc ] |> List.concat
