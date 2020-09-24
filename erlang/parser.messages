@@ -1,0 +1,8 @@
+#-------------------------------------------------------------------------------
+
+module_file: EOF
+
+You're trying to read an empty .erl file.
+The smallest valid Erlang module will still include a
+module name definition:
+  -module(some_name).
