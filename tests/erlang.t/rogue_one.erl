@@ -1,5 +1,7 @@
 -module(rogue_one).
 
+-author(abstract_machines).
+
 -behavior(gen_server).
 -behavior(test_beh).
 

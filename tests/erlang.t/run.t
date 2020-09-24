@@ -1,6 +1,8 @@
   $ cat rogue_one.erl
   -module(rogue_one).
   
+  -author(abstract_machines).
+  
   -behavior(gen_server).
   -behavior(test_beh).
   
@@ -13,7 +15,10 @@
   g(0) -> rogue_one:f(err).
   $ caramelc compile --dump-ast rogue_one.erl
   ((file_name rogue_one.erl) (behaviours (test_beh gen_server))
-    (module_name rogue_one) (ocaml_name Rogue_one) (attributes ())
+    (module_name rogue_one) (ocaml_name Rogue_one)
+    (attributes
+      (((atr_name author)
+         (atr_value (Expr_literal (Lit_atom abstract_machines))))))
     (exports
       (((exp_type Export_function) (exp_name f) (exp_arity 0))
         ((exp_type Export_type) (exp_name t) (exp_arity 0))))
