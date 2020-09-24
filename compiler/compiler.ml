@@ -2,7 +2,7 @@ open Compile_common
 
 exception Cannot_compile_file
 
-type compilation = { sources : string list }
+type compilation = { sources : string list; dump_ast: bool }
 
 let to_bytecode i lambda =
   lambda
@@ -45,7 +45,7 @@ let initialize_compiler () =
 
 (** Actual compilation chains *)
 
-let ml_to_erlang ~source_file ~output_prefix =
+let ml_to_erlang ~source_file ~output_prefix ~opts:_ =
   let backend info (typed, coercion) =
     let lambda = to_lambda info (typed, coercion) in
     let bytecode = to_bytecode info lambda in
@@ -58,13 +58,13 @@ let ml_to_erlang ~source_file ~output_prefix =
     ~output_prefix ~dump_ext:"cmo"
   @@ fun info -> Compile_common.implementation info ~backend
 
-let mli_to_erlang ~source_file ~output_prefix =
+let mli_to_erlang ~source_file ~output_prefix ~opts:_ =
   Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
     ~output_prefix ~dump_ext:"cmi"
   @@ Compile_common.interface
 
 (* Entrypoint to typecheck Erlang *)
-let erl_to_cmi ~source_file ~output_prefix =
+let erl_to_cmi ~source_file ~output_prefix ~opts =
   let backend info typed =
     let lambda = to_lambda info typed in
     let bytecode = to_bytecode info lambda in
@@ -73,9 +73,35 @@ let erl_to_cmi ~source_file ~output_prefix =
   Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
     ~output_prefix ~dump_ext:"cmo"
   @@ fun i ->
-  let ic = open_in_bin i.source_file in
-  let lexbuf = Lexing.from_channel ic in
-  let parsetree = Erlang.Parser.implementation Erlang.Lexer.token lexbuf in
+  let erlang_ast =
+    match Erlang.Parse.from_file i.source_file with
+    | exception exc ->
+        Format.fprintf Format.std_formatter "Unhandled parsing error: %s" (Printexc.to_string exc);
+        exit 1
+    | Ok ast -> ast
+    | Error `Module_item_list_was_empty ->
+        Format.fprintf Format.std_formatter
+          "This module was empty: %s, did you remove the file in the meantime?"
+          i.source_file;
+        exit 1
+    | Error `Single_module_item_was_not_a_module_name ->
+        Format.fprintf Format.std_formatter
+          "This module had a single attribute that was not a -module(name). \
+           attribute: %s"
+          i.source_file;
+        exit 1
+    | Error (`Lexer_error (err, _loc)) ->
+        Erlang.Lexer.pp_err Format.std_formatter err;
+        exit 1
+    | Error (`Parser_error msg) ->
+        Format.fprintf Format.std_formatter "Parser_error: %s" msg;
+        exit 1
+  in
+  if opts.dump_ast
+  then
+    Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter (Erlang.Ast.sexp_of_t erlang_ast)
+  ;
+  let parsetree = Erlang_to_ocaml.to_parsetree erlang_ast in
   let typedtree =
     parsetree
     |> Profile.(record typing)
@@ -84,7 +110,7 @@ let erl_to_cmi ~source_file ~output_prefix =
   in
   backend i typedtree
 
-let compile_one source =
+let compile_one source ~opts =
   let fn, source_file =
     match source with
     | `Ml file -> (ml_to_erlang, file)
@@ -92,7 +118,7 @@ let compile_one source =
     | `Erl file -> (erl_to_cmi, file)
     | `Unsupported_file_type _ -> raise Cannot_compile_file
   in
-  fn ~source_file ~output_prefix:(Filename.chop_extension source_file)
+  fn ~source_file ~output_prefix:(Filename.chop_extension source_file) ~opts
 
 let tag_source filename =
   match Filename.extension filename with
@@ -101,7 +127,7 @@ let tag_source filename =
   | ".erl" -> `Erl filename
   | ext -> `Unsupported_file_type (filename, ext)
 
-let compile { sources; _ } =
+let compile ({ sources; _ } as opts) =
   match
     initialize_compiler ();
 
@@ -129,7 +155,7 @@ let compile { sources; _ } =
       |> List.filter_map (function `Erl f -> Some (`Erl f) | _ -> None)
     in
 
-    List.iter compile_one (ml_sources @ erlang_sources)
+    List.iter (compile_one ~opts) (ml_sources @ erlang_sources)
   with
   | exception Env.Error err -> Env.report_error Format.std_formatter err
   | exception exc ->

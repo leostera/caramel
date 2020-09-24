@@ -1,7 +1,7 @@
 (library
  (name caramel_compiler)
  (public_name caramel.compiler)
- (libraries compiler-libs.common caramel.core_erlang caramel.erlang))
+ (libraries compiler-libs.common caramel.core_erlang caramel.erlang sexplib))
 
 (rule
  (targets compiler_version.ml)
