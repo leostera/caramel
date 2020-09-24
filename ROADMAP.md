@@ -1,4 +1,7 @@
-# To dos (in some order)
+# Roadmap
+
+These are some things I intend to work on in the near future,
+somewhat ordered:
 
 comp(ml,erl): generate function signatures
 
