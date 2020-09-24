@@ -4,6 +4,7 @@
   -behavior(gen_server).
   -behavior(test_beh).
   
+  -export_type([t/0]).
   -export([f/0]).
   
   f() -> print_int(<<"hello">>).
@@ -12,14 +13,11 @@
   g(0) -> rogue_one:f(err).
   $ caramelc compile --dump-ast rogue_one.erl
   ((file_name rogue_one.erl) (behaviours (test_beh gen_server))
-    (module_name rogue_one) (ocaml_name Rogue_one)
-    (attributes
-      (((atr_name export)
-         (atr_value
-           (Expr_list
-             ((Expr_tuple
-                ((Expr_literal (Lit_atom f)) (Expr_literal (Lit_integer 0))))))))))
-    (exports ()) (types ())
+    (module_name rogue_one) (ocaml_name Rogue_one) (attributes ())
+    (exports
+      (((exp_type Export_function) (exp_name f) (exp_arity 0))
+        ((exp_type Export_type) (exp_name t) (exp_arity 0))))
+    (types ())
     (functions
       (((fd_name g) (fd_arity 1)
          (fd_cases
