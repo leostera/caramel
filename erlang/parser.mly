@@ -76,7 +76,7 @@ let rec expr_to_pattern expr =
 (* An .erl file. *)
 let module_file :=
   is = module_item+; EOF;
-  { Ast.of_module_items is }
+  { Ast.of_module_items (List.rev is) }
 
 let module_item :=
   | ~ = module_attribute; { Module_attribute module_attribute }
