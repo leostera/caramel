@@ -188,7 +188,103 @@
             (((fc_name fun_arg_var_ignore_in_cons)
                (fc_lhs
                  ((Pattern_cons ((Pattern_binding A)) (Pattern_binding _))))
-               (fc_guards ()) (fc_rhs (Expr_name (Var_name A))))))))))
+               (fc_guards ()) (fc_rhs (Expr_name (Var_name A)))))))
+        ((fd_name fun_args) (fd_arity 2)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs ((Pattern_binding A) (Pattern_binding B)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B)))))))))
+        ((fd_name fun_args) (fd_arity 3)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B))
+                     (Expr_name (Var_name C)))))))))
+        ((fd_name fun_args) (fd_arity 4)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
+                   (Pattern_binding D)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B))
+                     (Expr_name (Var_name C)) (Expr_name (Var_name D)))))))))
+        ((fd_name fun_args) (fd_arity 5)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
+                   (Pattern_binding D) (Pattern_binding E)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B))
+                     (Expr_name (Var_name C)) (Expr_name (Var_name D))
+                     (Expr_name (Var_name E)))))))))
+        ((fd_name fun_args) (fd_arity 6)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
+                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B))
+                     (Expr_name (Var_name C)) (Expr_name (Var_name D))
+                     (Expr_name (Var_name E)) (Expr_name (Var_name F)))))))))
+        ((fd_name fun_args) (fd_arity 7)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
+                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)
+                   (Pattern_binding G)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B))
+                     (Expr_name (Var_name C)) (Expr_name (Var_name D))
+                     (Expr_name (Var_name E)) (Expr_name (Var_name F))
+                     (Expr_name (Var_name G)))))))))
+        ((fd_name fun_args) (fd_arity 8)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
+                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)
+                   (Pattern_binding G) (Pattern_binding H)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B))
+                     (Expr_name (Var_name C)) (Expr_name (Var_name D))
+                     (Expr_name (Var_name E)) (Expr_name (Var_name F))
+                     (Expr_name (Var_name G)) (Expr_name (Var_name H)))))))))
+        ((fd_name fun_args) (fd_arity 9)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
+                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)
+                   (Pattern_binding G) (Pattern_binding H) (Pattern_binding I)))
+               (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_name (Var_name A)) (Expr_name (Var_name B))
+                     (Expr_name (Var_name C)) (Expr_name (Var_name D))
+                     (Expr_name (Var_name E)) (Expr_name (Var_name F))
+                     (Expr_name (Var_name G)) (Expr_name (Var_name H))
+                     (Expr_name (Var_name I))))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes

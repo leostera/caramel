@@ -36,3 +36,12 @@ fun_arg_var_ignore(_) -> ok.
 fun_arg_var_ignore_in_tuple({A, _}) -> A.
 fun_arg_var_ignore_in_list([_, B]) -> A.
 fun_arg_var_ignore_in_cons([A | _]) -> A.
+
+fun_args(A, B) -> {A, B}.
+fun_args(A, B, C) -> {A, B, C}.
+fun_args(A, B, C, D) -> {A, B, C, D}.
+fun_args(A, B, C, D, E) -> {A, B, C, D, E}.
+fun_args(A, B, C, D, E, F) -> {A, B, C, D, E, F}.
+fun_args(A, B, C, D, E, F, G) -> {A, B, C, D, E, F, G}.
+fun_args(A, B, C, D, E, F, G, H) -> {A, B, C, D, E, F, G, H}.
+fun_args(A, B, C, D, E, F, G, H, I) -> {A, B, C, D, E, F, G, H, I}.
