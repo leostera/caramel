@@ -96,15 +96,15 @@ and mk_pattern pattern =
   | Pattern_match literal -> Pat.constant (mk_constant literal)
   | _ -> raise Unsupported_pattern
 
-and join_patterns pats =
+and mk_fun_args pats =
   match pats with
   | [] -> Pat.construct (mk_lid "()") None
   | [x] -> x
-  | x :: xs -> List.fold_left (Pat.or_) x xs
+  | xs -> Pat.tuple xs
 
 and mk_fun_case { fc_lhs; fc_rhs; _ } =
   Exp.case
-    (join_patterns (List.map mk_pattern fc_lhs))
+    (mk_fun_args (List.map mk_pattern fc_lhs))
     (mk_expression fc_rhs)
 
 and mk_fun { fd_cases; _ } =
