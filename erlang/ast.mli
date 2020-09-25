@@ -21,10 +21,7 @@ and literal =
   | Lit_float of string
   | Lit_atom of string
 
-and recv = {
-  rcv_cases: case_branch list;
-  rcv_after: case_branch option;
-}
+and recv = { rcv_cases : case_branch list; rcv_after : case_branch option }
 
 and expr =
   | Expr_let of let_binding * expr

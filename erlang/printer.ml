@@ -183,14 +183,15 @@ and pp_pattern_match ppf pm =
       Format.fprintf ppf "}"
   | Pattern_cons (l, r) ->
       Format.fprintf ppf "[";
-      begin match l with
+      ( match l with
       | [] -> raise Invalid_cons_with_no_left_hand_side
       | x :: xs ->
-        pp_pattern_match ppf x;
-        List.iter (fun e ->
-          Format.fprintf ppf ", ";
-          pp_pattern_match ppf e) xs;
-      end;
+          pp_pattern_match ppf x;
+          List.iter
+            (fun e ->
+              Format.fprintf ppf ", ";
+              pp_pattern_match ppf e)
+            xs );
       Format.fprintf ppf " | ";
       pp_pattern_match ppf r;
       Format.fprintf ppf "]"
@@ -243,22 +244,21 @@ and pp_name ppf name =
 and pp_case_branches prefix ppf branches ~module_ =
   match branches with
   | [] -> raise Invalid_receive_expresion_without_branches
-  | Ast.{ cb_pattern; cb_expr } :: bs ->
-       let prefix = prefix ^ "  " in
-       Format.fprintf ppf "\n%s" prefix;
-       pp_pattern_match ppf cb_pattern;
-       Format.fprintf ppf " -> ";
-       pp_expression "" ppf cb_expr ~module_;
-       begin match bs with
-       | [] -> ()
-       | bs ->
-           bs
-           |> List.iter (fun Ast.{ cb_pattern; cb_expr; _ } ->
-                  Format.fprintf ppf ";\n%s" prefix;
-                  pp_pattern_match ppf cb_pattern;
-                  Format.fprintf ppf " -> ";
-                  pp_expression "" ppf cb_expr ~module_);
-       end
+  | Ast.{ cb_pattern; cb_expr } :: bs -> (
+      let prefix = prefix ^ "  " in
+      Format.fprintf ppf "\n%s" prefix;
+      pp_pattern_match ppf cb_pattern;
+      Format.fprintf ppf " -> ";
+      pp_expression "" ppf cb_expr ~module_;
+      match bs with
+      | [] -> ()
+      | bs ->
+          bs
+          |> List.iter (fun Ast.{ cb_pattern; cb_expr; _ } ->
+                 Format.fprintf ppf ";\n%s" prefix;
+                 pp_pattern_match ppf cb_pattern;
+                 Format.fprintf ppf " -> ";
+                 pp_expression "" ppf cb_expr ~module_) )
 
 and pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
@@ -331,14 +331,15 @@ and pp_expression prefix ppf expr ~module_ =
       Format.fprintf ppf "]"
   | Expr_cons (l, r) ->
       Format.fprintf ppf "[";
-      begin match l with
+      ( match l with
       | [] -> raise Invalid_cons_with_no_left_hand_side
       | x :: xs ->
-        pp_expression "" ppf x ~module_;
-        List.iter (fun e ->
-          Format.fprintf ppf ", ";
-          pp_expression "" ppf e ~module_) xs;
-      end;
+          pp_expression "" ppf x ~module_;
+          List.iter
+            (fun e ->
+              Format.fprintf ppf ", ";
+              pp_expression "" ppf e ~module_)
+            xs );
       Format.fprintf ppf " | ";
       pp_expression "" ppf r ~module_;
       Format.fprintf ppf "]"
@@ -353,12 +354,11 @@ and pp_expression prefix ppf expr ~module_ =
   | Expr_recv { rcv_cases; rcv_after } ->
       Format.fprintf ppf "receive";
       pp_case_branches prefix ppf rcv_cases ~module_;
-      begin match rcv_after with
-      | None -> ();
+      ( match rcv_after with
+      | None -> ()
       | Some cb ->
           Format.fprintf ppf "after";
-          pp_case_branches prefix ppf [cb] ~module_;
-      end;
+          pp_case_branches prefix ppf [ cb ] ~module_ );
       Format.fprintf ppf "end"
   | Expr_case (expr, branches) ->
       Format.fprintf ppf "case ";
@@ -405,8 +405,7 @@ and pp_fun_case _prefix ppf { fc_lhs; fc_rhs; _ } ~module_ =
         Format.fprintf ppf "\n";
         "  "
     | Expr_fun _ | Expr_apply _ | Expr_fun_ref _ | Expr_list _ | Expr_tuple _
-    | Expr_cons _ 
-    | Expr_literal _ | Expr_name _ ->
+    | Expr_cons _ | Expr_literal _ | Expr_name _ ->
         " "
   in
   pp_expression prefix ppf fc_rhs ~module_

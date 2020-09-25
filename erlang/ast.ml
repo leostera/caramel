@@ -27,10 +27,7 @@ and literal =
   | Lit_atom of string
 [@@deriving sexp]
 
-and recv = {
-  rcv_cases: case_branch list;
-  rcv_after: case_branch option;
-}
+and recv = { rcv_cases : case_branch list; rcv_after : case_branch option }
 [@@deriving sexp]
 
 and expr =
