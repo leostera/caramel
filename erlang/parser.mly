@@ -160,7 +160,7 @@ let type_expr_variant :=
 
 (** Function Declarations *)
 let fun_decl :=
-  | cases = separated_list(SEMICOLON, fun_case); DOT; {
+  | cases = separated_list(SEMICOLON, named_fun_case); DOT; {
     let main, cases = match cases with
       | [] -> throw Functions_must_have_clauses
       | x :: xs -> x, xs
@@ -171,9 +171,18 @@ let fun_decl :=
     }
   }
 
-let fun_case :=
+let named_fun_case :=
   | fc_name = ATOM; fc_lhs = parlist(expr); ARROW; fc_rhs = expr; {
       { fc_name
+      ; fc_lhs = List.map expr_to_pattern fc_lhs
+      ; fc_guards = []
+      ; fc_rhs
+      }
+    }
+
+let fun_case :=
+  | fc_lhs = parlist(expr); ARROW; fc_rhs = expr; {
+      { fc_name = "anonymous"
       ; fc_lhs = List.map expr_to_pattern fc_lhs
       ; fc_guards = []
       ; fc_rhs
@@ -213,8 +222,8 @@ let expr_fun_ref :=
   | FUN; name = ATOM; SLASH; INTEGER; { Expr_fun_ref name }
 
 let expr_apply :=
-  | ~ = apply_name; fa_args = parlist(expr);
-    { Expr_apply { fa_name = Expr_name apply_name; fa_args } }
+  | ~ = name; fa_args = parlist(expr);
+    { Expr_apply { fa_name = Expr_name name; fa_args } }
 
 let expr_list := l = list(expr); { l }
 
@@ -231,7 +240,17 @@ let case_branch :=
     { { cb_pattern = expr_to_pattern pat; cb_expr; } }
 
 let expr_fun :=
-  | FUN; ~ = fun_decl; END; { Expr_fun fun_decl }
+  | FUN; cases = separated_list(SEMICOLON, fun_case); END;
+    {
+      let main, cases = match cases with
+        | [] -> throw Functions_must_have_clauses
+        | x :: xs -> x, xs
+      in
+      Expr_fun { fd_name = main.fc_name
+               ; fd_arity = main.fc_lhs |> List.length
+               ; fd_cases = main :: cases
+               }
+    }
 
 (**
  * Constructors
@@ -261,9 +280,6 @@ let literal :=
 
 let name :=
   | n = VARIABLE; { Var_name n}
-  | n = apply_name; { n }
-
-let apply_name :=
   | atom = ATOM; { Atom_name atom }
   | n_mod = ATOM; COLON; n_name = ATOM; { Qualified_name { n_mod; n_name } }
 
