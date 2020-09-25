@@ -34,14 +34,16 @@
                       (cb_expr
                         (Expr_apply
                           ((fa_name (Expr_name (Atom_name print_string)))
-                            (fa_args ((Expr_name (Var_name B)))))))))))))))
+                            (fa_args ((Expr_name (Var_name B))))))))))))))
+         (fd_spec ()))
         ((fd_name g) (fd_arity 0)
           (fd_cases
             (((fc_name g) (fc_lhs ()) (fc_guards ())
                (fc_rhs
                  (Expr_apply
                    ((fa_name (Expr_name (Atom_name f)))
-                     (fa_args ((Expr_literal (Lit_integer 1))))))))))))))
+                     (fa_args ((Expr_literal (Lit_integer 1))))))))))
+          (fd_spec ())))))
   
   module Case_test =
     struct

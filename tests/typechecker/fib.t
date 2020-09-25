@@ -45,14 +45,16 @@
                                          (n_name -))))
                                     (fa_args
                                       ((Expr_name (Var_name N))
-                                        (Expr_literal (Lit_integer 2)))))))))))))))))))
+                                        (Expr_literal (Lit_integer 2))))))))))))))))))
+         (fd_spec ()))
         ((fd_name fib) (fd_arity 0)
           (fd_cases
             (((fc_name fib) (fc_lhs ()) (fc_guards ())
                (fc_rhs
                  (Expr_apply
                    ((fa_name (Expr_name (Atom_name fib)))
-                     (fa_args ((Expr_literal (Lit_atom no))))))))))))))
+                     (fa_args ((Expr_literal (Lit_atom no))))))))))
+          (fd_spec ())))))
   
   module Fib =
     struct
@@ -60,10 +62,11 @@
         function
         | 0 -> 0
         | 1 -> 1
-        | n -> Stdlib.(+) (fib (Stdlib.(-) n 1)) (fib (Stdlib.(-) n 2))
+        | n ->
+            Stdlib.(+) ((fib (Stdlib.(-) (n, 1))), (fib (Stdlib.(-) (n, 2))))
       let rec fib () = fib `no
     end
   
   File "_none_", line 1:
-  Error: This expression has type [> `no ]
-         but an expression was expected of type unit
+  Error: This expression has type 'a * 'b
+         but an expression was expected of type int

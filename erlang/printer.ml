@@ -4,6 +4,8 @@ exception Undefined_function_reference of string
 
 exception Function_without_cases of string
 
+exception Function_spec_with_less_than_2_parts of string
+
 exception Type_constructors_must_be_atoms_or_qualified_names of Ast.name
 
 exception Invalid_case_expresion_without_branches
@@ -421,8 +423,30 @@ let pp_fun_cases prefix ppf fd_name fd_cases ~module_ =
              Format.fprintf ppf ";\n%s" fd_name;
              pp_fun_case prefix ppf case ~module_)
 
-let pp_function ppf { fd_name; fd_cases; _ } ~module_ =
+let pp_fun_spec prefix ppf name spec =
+  match List.rev spec with
+  | x :: zs ->
+      let args = List.rev zs in
+      let ret = x in
+      Format.fprintf ppf "-spec %s(" name;
+      ( match args with
+      | [] -> ()
+      | x :: xs ->
+          pp_type_kind prefix ppf x;
+          xs
+          |> List.iter (fun arg ->
+                 Format.fprintf ppf ", ";
+                 pp_type_kind prefix ppf arg) );
+      Format.fprintf ppf ") :: ";
+      pp_type_kind prefix ppf ret;
+      Format.fprintf ppf ".\n"
+  | _ -> raise (Function_spec_with_less_than_2_parts name)
+
+let pp_function ppf { fd_name; fd_cases; fd_spec; _ } ~module_ =
   let prefix = Format.sprintf "%s" fd_name in
+  ( match fd_spec with
+  | Some (Type_function spec) -> pp_fun_spec prefix ppf fd_name spec
+  | _ -> () );
   Format.fprintf ppf "%s" prefix;
   pp_fun_cases prefix ppf fd_name fd_cases ~module_;
   Format.fprintf ppf ".\n\n"

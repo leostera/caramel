@@ -17,9 +17,11 @@
         ((exp_type Export_function) (exp_name start) (exp_arity 0))))
     (types ())
     (functions
-      (((fd_name loop) (fd_arity 1)
+      (((fd_name loop) (fd_arity 2)
          (fd_cases
-           (((fc_name loop) (fc_lhs ((Pattern_binding S))) (fc_guards ())
+           (((fc_name loop)
+              (fc_lhs ((Pattern_binding Recv) (Pattern_binding S)))
+              (fc_guards ())
               (fc_rhs
                 (Expr_recv
                   ((rcv_cases
@@ -30,7 +32,9 @@
                         (cb_expr
                           (Expr_apply
                             ((fa_name (Expr_name (Atom_name loop)))
-                              (fa_args ((Expr_name (Var_name X))))))))
+                              (fa_args
+                                ((Expr_name (Var_name Recv))
+                                  (Expr_name (Var_name X))))))))
                        ((cb_pattern (Pattern_match (Lit_atom print)))
                          (cb_expr
                            (Expr_let
@@ -41,8 +45,11 @@
                                      (fa_args ((Expr_name (Var_name S))))))))
                              (Expr_apply
                                ((fa_name (Expr_name (Atom_name loop)))
-                                 (fa_args ((Expr_name (Var_name S)))))))))))
-                    (rcv_after ()))))))))
+                                 (fa_args
+                                   ((Expr_name (Var_name Recv))
+                                     (Expr_name (Var_name S)))))))))))
+                    (rcv_after ())))))))
+         (fd_spec ()))
         ((fd_name spawn_int) (fd_arity 1)
           (fd_cases
             (((fc_name spawn_int) (fc_lhs ((Pattern_binding S))) (fc_guards ())
@@ -59,7 +66,9 @@
                                  (fc_rhs
                                    (Expr_apply
                                      ((fa_name (Expr_name (Atom_name loop)))
-                                       (fa_args ((Expr_name (Var_name S)))))))))))))))))))))
+                                       (fa_args ((Expr_name (Var_name S))))))))))
+                            (fd_spec ())))))))))))
+          (fd_spec ()))
         ((fd_name start) (fd_arity 0)
           (fd_cases
             (((fc_name start) (fc_lhs ()) (fc_guards ())
@@ -73,4 +82,17 @@
                             (fa_args ((Expr_literal (Lit_integer 0))))))
                          (Expr_tuple
                            ((Expr_literal (Lit_atom replace))
-                             (Expr_literal (Lit_atom yes))))))))))))))))
+                             (Expr_literal (Lit_atom yes))))))))))))
+          (fd_spec ())))))
+  
+  module Typed_process =
+    struct
+      let rec loop (recv, s) =
+        match recv () with
+        | `replace x -> loop (recv, x)
+        | `print -> let _ = print_int s in loop (recv, s)
+      let rec spawn_int s = Erlang.spawn (fun recv -> loop (recv, s))
+      let rec start () = Erlang.send ((spawn_int 0), (`replace `yes))
+    end
+  
+  Unbound module Erlang

@@ -66,7 +66,12 @@ and fun_case = {
 }
 [@@deriving sexp]
 
-and fun_decl = { fd_name : atom; fd_arity : int; fd_cases : fun_case list }
+and fun_decl = {
+  fd_name : atom;
+  fd_arity : int;
+  fd_cases : fun_case list;
+  fd_spec : type_kind option;
+}
 [@@deriving sexp]
 
 (** A type declaration in an Erlang module. This follows what is currently

@@ -28,6 +28,7 @@
   
   -export([run/0]).
   
+  -spec run() :: intadd.t().
   run() ->
     Zero = empty(),
     One = concat(Zero, 1),
@@ -41,6 +42,7 @@
   -export([f/0]).
   -export([run/0]).
   
+  -spec run() :: int().
   run() -> f().
   
   
@@ -49,6 +51,7 @@
   
   -export([f/0]).
   
+  -spec f() :: int().
   f() -> 0.
   
   
@@ -57,6 +60,7 @@
   
   -export([f/0]).
   
+  -spec f() :: int().
   f() -> 0.
   
   
@@ -65,6 +69,7 @@
   
   -export([a/0]).
   
+  -spec a() :: bool().
   a() -> true.
   
   
@@ -73,8 +78,10 @@
   
   -export([c/0]).
   
+  -spec c() :: bool().
   c() -> true.
   
+  -spec internal_c() :: bool().
   internal_c() -> true.
   
   
@@ -83,6 +90,7 @@
   
   -export([b/2]).
   
+  -spec b() :: fun(() -> bool()).
   b(X, Y) -> '&&'(X, Y).
   
   
@@ -91,10 +99,13 @@
   
   -export([inc/1]).
   
+  -spec inc() :: int().
   inc(X) -> erlang:'+'(X, 1).
   
+  -spec hidden() :: ok.
   hidden() -> ok.
   
+  -spec secret() :: ok.
   secret() -> ok.
   
   
@@ -103,6 +114,7 @@
   
   -export([run/0]).
   
+  -spec run() :: int().
   run() -> erlang:'+'(simple_nested__a:f(), simple_nested__b:f()).
   
   
@@ -111,6 +123,7 @@
   
   -export([f/0]).
   
+  -spec f() :: int().
   f() -> 0.
   
   
@@ -119,8 +132,10 @@
   
   -export([f/0]).
   
+  -spec f() :: int().
   f() -> 2.
   
+  -spec g() :: ok.
   g() -> ok.
   
   

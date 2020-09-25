@@ -16,7 +16,8 @@
               (fc_rhs
                 (Expr_apply
                   ((fa_name (Expr_name (Atom_name print_int)))
-                    (fa_args ((Expr_literal (Lit_binary "Hello world!"))))))))))))))
+                    (fa_args ((Expr_literal (Lit_binary "Hello world!"))))))))))
+         (fd_spec ())))))
   
   module Hello_world =
     struct let rec hello_world () = print_int "Hello world!" end

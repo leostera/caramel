@@ -68,10 +68,13 @@
   -export([ignore/0]).
   -export([pair/2]).
   
+  -spec pair() :: fun(() -> {_, _}).
   pair(X, Y) -> {X, Y}.
   
+  -spec combine() :: fun(() -> {{_, _}, {_, _}}).
   combine({A, B}, {C, D}) -> {{A, C}, {B, D}}.
   
+  -spec ignore() :: ok.
   ignore() -> ok.
   
   
@@ -80,6 +83,7 @@
   
   -export([hello/0]).
   
+  -spec hello() :: ok.
   hello() ->
     Text = <<"hello, joe!">>,
     io:format(<<"~p">>, [Text | []]).
@@ -93,12 +97,16 @@
   -export([right/2]).
   -export([snd/1]).
   
+  -spec left() :: fun(() -> _).
   left(L, _) -> L.
   
+  -spec right() :: fun(() -> _).
   right(_, R) -> R.
   
+  -spec fst() :: _.
   fst({A, _}) -> A.
   
+  -spec snd() :: _.
   snd({_, B}) -> B.
   
   
@@ -108,8 +116,10 @@
   -export([concat/2]).
   -export([run/0]).
   
+  -spec concat() :: fun(() -> string()).
   concat(A, B) -> << A/binary, B/binary >>.
   
+  -spec run() :: bool().
   run() ->
     S1 = concat(<<"ocaml">>, <<"erlang">>),
     S2 = concat(<<"erlang">>, <<"ocaml">>),
@@ -124,17 +134,21 @@
   -export([iff_using_if/3]).
   -export([iff_using_match/3]).
   
+  -spec iff_using_headers() :: fun(() -> fun(() -> _)).
   iff_using_headers(true, F, _) -> F.
   
+  -spec iff_using_function() :: _.
   iff_using_function({false, _, F}) -> F;
   iff_using_function({true, F, _}) -> F.
   
+  -spec iff_using_if() :: fun(() -> fun(() -> _)).
   iff_using_if(Cond, T, F) ->
     case Cond of
       true -> T();
       false -> F()
     end.
   
+  -spec iff_using_match() :: fun(() -> fun(() -> _)).
   iff_using_match(T, F, G) ->
     case T of
       true -> F;
@@ -151,14 +165,19 @@
   -export([one_el/1]).
   -export([tail/1]).
   
+  -spec head() :: _.
   head([X | _]) -> X.
   
+  -spec tail() :: list(_).
   tail([_ | Xs]) -> Xs.
   
+  -spec one_el() :: _.
   one_el([X | []]) -> X.
   
+  -spec at_2() :: _.
   at_2([_ | [X | _]]) -> X.
   
+  -spec at_3() :: _.
   at_3([_ | [_ | [X | _]]]) -> X.
   
   
@@ -172,16 +191,22 @@
   -export([call_other_nested/1]).
   -export([double/2]).
   
+  -spec add() :: _.
   add(X) -> X.
   
+  -spec double() :: fun(() -> _).
   double(F, X) -> F(F(X)).
   
+  -spec add_twice() :: _.
   add_twice(X) -> double(fun add/1, X).
   
+  -spec call_nested() :: ok.
   call_nested(X) -> qualified_calls__nested:f(X).
   
+  -spec call_other() :: ok.
   call_other(X) -> qualified_calls_helper:f(X).
   
+  -spec call_other_nested() :: ok.
   call_other_nested(X) -> qualified_calls_helper__nested:f(X).
   
   
@@ -190,6 +215,7 @@
   
   -export([f/1]).
   
+  -spec f() :: ok.
   f(X) ->
     case X of
       true -> ok;
@@ -202,6 +228,7 @@
   
   -export([f/1]).
   
+  -spec f() :: ok.
   f(_X) -> ok.
   
   
@@ -210,6 +237,7 @@
   
   -export([f/1]).
   
+  -spec f() :: ok.
   f(_X) -> ok.
   
   
@@ -218,6 +246,7 @@
   
   -export([run/0]).
   
+  -spec run() :: ok.
   run() ->
     A = 1,
     B = 2,
@@ -241,12 +270,16 @@
   
   -type defer(A) :: fun((ok) -> A).
   
+  -spec ignore() :: fun(() -> ok).
   ignore(_X, ok) -> ok.
   
+  -spec add() :: fun(() -> int()).
   add(X, Y) -> erlang:'+'(X, X).
   
+  -spec add_slow() :: fun(() -> fun(() -> int())).
   add_slow(X, Y, ok) -> erlang:'+'(X, Y).
   
+  -spec add_really_slow() :: fun(() -> fun(() -> fun(() -> int()))).
   add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
   
   

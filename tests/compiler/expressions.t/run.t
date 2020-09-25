@@ -135,7 +135,20 @@
          ^^^^^^^^^^
   Warning 21: this statement never returns (or has an unsound type.)
   Compiling records.erl	OK
-  Compiling names__nested.erl	OK
+  Unsupported Type Expression:
+  val x : unit -> [> `compiler of string ]Unsupported Type Expression:
+  
+  val w : unit -> [> `version of [> `delicious ] ]Unsupported Type Expression:
+  
+  val run_local : unit -> [> `Atom ]Unsupported Type Expression:
+  val run_nested :
+                                                                   unit ->
+                                                                   [> `version of
+                                                                      [> 
+                                                                      `delicious
+                                                                      ] ]Unsupported Type Expression:
+  
+  val run_nested_ambiguous :Compiling names__nested.erl	OK
   Compiling names.erl	OK
   Compiling match.erl	OK
   Compiling literals.erl	OK
@@ -146,6 +159,7 @@
   Compiling binding_on_match.erl	OK
   Compiling apply__funs.erl	OK
   Compiling apply.erl	OK
+   unit -> [> `compiler of string ]
   $ cat *.erl
   % Source code generated with Caramel.
   -module(apply).
@@ -157,16 +171,22 @@
   -export([f4/4]).
   -export([run/0]).
   
+  -spec f() :: _.
   f(X) -> f(X).
   
+  -spec f1() :: _.
   f1(X) -> f([X | []]).
   
+  -spec f2() :: fun(() -> _).
   f2(X, Y) -> f([X | [Y | []]]).
   
+  -spec f3() :: fun(() -> fun(() -> _)).
   f3(X, Y, Z) -> f([X | [Y | [Z | []]]]).
   
+  -spec f4() :: fun(() -> fun(() -> fun(() -> _))).
   f4(W, X, Y, Z) -> f([W | [X | [Y | [Z | []]]]]).
   
+  -spec run() :: int().
   run() ->
     f1(1),
     f2(1, 2),
@@ -180,6 +200,7 @@
   
   -export([apply_fun/0]).
   
+  -spec apply_fun() :: int().
   apply_fun() ->
     A = fun
     () -> 1
@@ -208,6 +229,7 @@
                        , snd => integer()
                        }.
   
+  -spec match_record() :: bool().
   match_record() ->
     case #{ fst => 0
    , snd => 1
@@ -216,6 +238,7 @@
       #{ fst := X } -> true
     end.
   
+  -spec match_list() :: bool().
   match_list() ->
     case [0 | [1 | []]] of
       [] -> true;
@@ -223,6 +246,7 @@
       [X | Xs] -> true
     end.
   
+  -spec match_tuples() :: bool().
   match_tuples() ->
     case {1, true, <<"hello">>} of
       {X, Y, Z} -> true;
@@ -230,6 +254,7 @@
       X -> true
     end.
   
+  -spec match_atoms() :: bool().
   match_atoms() ->
     case hello of
       X -> true
@@ -244,12 +269,16 @@
   -export([do_add/2]).
   -export([do_nested_add/2]).
   
+  -spec add() :: fun(() -> int()).
   add(X, Y) -> erlang:'+'(X, Y).
   
+  -spec call_op_2() :: fun(() -> fun(() -> _)).
   call_op_2(F, X, Y) -> F(X, Y).
   
+  -spec do_add() :: fun(() -> int()).
   do_add(X, Y) -> call_op_2(fun add/2, X, Y).
   
+  -spec do_nested_add() :: fun(() -> int()).
   do_nested_add(X, Y) -> call_op_2(funref__nested:add, X, Y).
   
   
@@ -258,6 +287,7 @@
   
   -export([add/2]).
   
+  -spec add() :: fun(() -> int()).
   add(X, Y) -> erlang:'+'(X, Y).
   
   
@@ -270,14 +300,17 @@
   -export([let_one/0]).
   -export([let_rec/0]).
   
+  -spec let_one() :: int().
   let_one() ->
     A = 1,
     A.
   
+  -spec let_ignore() :: int().
   let_ignore() ->
     1,
     2.
   
+  -spec let_many() :: int().
   let_many() ->
     A = 1,
     B = 2,
@@ -285,6 +318,7 @@
     D = 4,
     erlang:'+'(erlang:'+'(erlang:'+'(A, B), C), D).
   
+  -spec let_nested() :: fun(() -> fun(() -> _)).
   let_nested(F, G, H) ->
     A = fun
     () ->
@@ -299,6 +333,7 @@
   end(),
     F(A).
   
+  -spec let_rec() :: _.
   let_rec() ->
     F = fun
     (X) -> f(erlang:'+'(X, 1))
@@ -317,18 +352,25 @@
   -export([pair/1]).
   -export([tail/1]).
   
+  -spec empty() :: list(_).
   empty() -> [].
   
+  -spec pair() :: list(_).
   pair(X) -> [X | [X | []]].
   
+  -spec cons() :: fun(() -> list(_)).
   cons(X, Y) -> [X | Y].
   
+  -spec head() :: _.
   head([X | _]) -> X.
   
+  -spec tail() :: list(_).
   tail([_ | X]) -> X.
   
+  -spec at_2() :: _.
   at_2([_ | [X | _]]) -> X.
   
+  -spec concat() :: fun(() -> list(_)).
   concat(A, B) -> erlang:'++'(A, B).
   
   
@@ -342,16 +384,22 @@
   -export([integer/0]).
   -export([string/0]).
   
+  -spec integer() :: int().
   integer() -> 1.
   
+  -spec float() :: float().
   float() -> 1.0.
   
+  -spec character() :: char().
   character() -> 'c'.
   
+  -spec string() :: string().
   string() -> <<"hello">>.
   
+  -spec bool_true() :: bool().
   bool_true() -> true.
   
+  -spec bool_false() :: bool().
   bool_false() -> true.
   
   
@@ -372,21 +420,25 @@
                        , snd => integer()
                        }.
   
+  -spec match_unit() :: bool().
   match_unit() ->
     case ok of
       ok -> true
     end.
   
+  -spec match_ignore() :: bool().
   match_ignore() ->
     case ok of
       _ -> true
     end.
   
+  -spec match_int() :: bool().
   match_int() ->
     case 1 of
       1 -> true
     end.
   
+  -spec match_str() :: bool().
   match_str() ->
     case <<"hello">> of
       <<"xavier">> -> true;
@@ -397,6 +449,7 @@
       <<"joe">> -> true
     end.
   
+  -spec match_record() :: bool().
   match_record() ->
     case #{ fst => 0
    , snd => 1
@@ -406,6 +459,7 @@
       #{ snd := 1 } -> true
     end.
   
+  -spec match_list() :: bool().
   match_list() ->
     case [0 | [1 | []]] of
       [] -> true;
@@ -415,6 +469,7 @@
       [0 | [1 | []]] -> true
     end.
   
+  -spec match_tuples() :: bool().
   match_tuples() ->
     case {1, true, <<"hello">>} of
       {1, _, _} -> true;
@@ -422,6 +477,7 @@
       {1, true, <<"hello">>} -> true
     end.
   
+  -spec match_atoms() :: bool().
   match_atoms() ->
     case hello of
       xavier -> true;
@@ -443,6 +499,7 @@
     Y = atom,
     Y.
   
+  -spec run_macros() :: string().
   run_macros() ->
     Z = ,
     Z.
@@ -485,30 +542,37 @@
                     , snd => A
                     }.
   
+  -spec pair() :: fun(() -> pair(_)).
   pair(X, Y) ->
     #{ fst => X
      , snd => Y
      }.
   
+  -spec fst() :: _.
   fst(#{ fst := Fst }) -> Fst.
   
+  -spec snd() :: _.
   snd(#{ snd := Snd }) -> Snd.
   
+  -spec swap() :: pair(_).
   swap(P) ->
     #{ fst => maps:get(snd, P)
      , snd => maps:get(fst, P)
      }.
   
+  -spec map() :: fun(() -> fun(() -> pair(_))).
   map(F, G, #{ fst := Fst, snd := Snd }) ->
     #{ fst => F(Fst)
      , snd => G(Snd)
      }.
   
+  -spec swap_from_expr() :: fun(() -> pair(_)).
   swap_from_expr(P, F) ->
     #{ fst => maps:get(snd, F(P))
      , snd => maps:get(fst, F(P))
      }.
   
+  -spec flatten_first() :: pair(_).
   flatten_first(P) ->
     #{ fst => maps:get(fst, maps:get(fst, maps:get(fst, P)))
      , snd => maps:get(snd, maps:get(fst, maps:get(fst, P)))

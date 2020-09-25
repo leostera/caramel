@@ -171,6 +171,7 @@ let fun_decl :=
     { fd_name = main.fc_name
     ; fd_arity = main.fc_lhs |> List.length
     ; fd_cases = main :: cases
+    ; fd_spec = None
     }
   }
 
@@ -273,6 +274,7 @@ let expr_fun :=
       Expr_fun { fd_name = main.fc_name
                ; fd_arity = main.fc_lhs |> List.length
                ; fd_cases = main :: cases
+               ; fd_spec = None
                }
     }
 

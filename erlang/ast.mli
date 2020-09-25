@@ -55,7 +55,12 @@ and fun_case = {
   fc_rhs : expr;
 }
 
-and fun_decl = { fd_name : atom; fd_arity : int; fd_cases : fun_case list }
+and fun_decl = {
+  fd_name : atom;
+  fd_arity : int;
+  fd_cases : fun_case list;
+  fd_spec : type_kind option;
+}
 
 and record_field = { rf_name : atom; rf_type : type_kind }
 
