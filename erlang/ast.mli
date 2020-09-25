@@ -21,12 +21,18 @@ and literal =
   | Lit_float of string
   | Lit_atom of string
 
+and recv = {
+  rcv_cases: case_branch list;
+  rcv_after: case_branch option;
+}
+
 and expr =
   | Expr_let of let_binding * expr
   | Expr_name of name
   | Expr_literal of literal
   | Expr_fun_ref of atom
   | Expr_apply of fun_apply
+  | Expr_recv of recv
   | Expr_map of map_field list
   | Expr_list of expr list
   | Expr_cons of expr list * expr

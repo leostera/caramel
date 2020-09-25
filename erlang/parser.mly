@@ -43,6 +43,7 @@ let rec expr_to_pattern expr =
 %token <string> INTEGER
 %token <string> STRING
 %token <string> VARIABLE
+%token AFTER
 %token ARROW
 %token BANG
 %token BINARY_CLOSE
@@ -61,6 +62,7 @@ let rec expr_to_pattern expr =
 %token LEFT_PARENS
 %token OF
 %token PIPE
+%token RECEIVE
 %token RIGHT_BRACE
 %token RIGHT_BRACKET
 %token RIGHT_PARENS
@@ -196,6 +198,7 @@ let fun_case :=
 
 let expr :=
   | e = expr_send; { e }
+  | e = expr_recv; { e }
   | e = expr_apply; { e }
   | e = expr_let; { e }
   | e = expr_name; { e }
@@ -205,6 +208,17 @@ let expr :=
   | e = expr_case; { e }
   | e = expr_tuple; { e }
   | e = expr_fun; { e }
+
+let expr_recv :=
+  | RECEIVE; rcv_cases = separated_list(SEMICOLON, case_branch); END;
+    { Expr_recv { rcv_cases; rcv_after = None } }
+
+  | RECEIVE;
+      rcv_cases = separated_list(SEMICOLON, case_branch);
+    AFTER;
+      rcv_after = case_branch;
+    END;
+    { Expr_recv { rcv_cases; rcv_after = Some rcv_after } }
 
 let expr_send :=
   | pid = expr; BANG; msg = expr;

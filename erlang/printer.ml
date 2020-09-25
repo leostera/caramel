@@ -8,6 +8,8 @@ exception Type_constructors_must_be_atoms_or_qualified_names of Ast.name
 
 exception Invalid_case_expresion_without_branches
 
+exception Invalid_receive_expresion_without_branches
+
 exception Unknown_support_function
 
 exception Invalid_cons_with_no_left_hand_side
@@ -238,6 +240,26 @@ and pp_name ppf name =
        *)
       Format.fprintf ppf "%s:%s" (String.lowercase_ascii n_mod) n_name
 
+and pp_case_branches prefix ppf branches ~module_ =
+  match branches with
+  | [] -> raise Invalid_receive_expresion_without_branches
+  | Ast.{ cb_pattern; cb_expr } :: bs ->
+       let prefix = prefix ^ "  " in
+       Format.fprintf ppf "\n%s" prefix;
+       pp_pattern_match ppf cb_pattern;
+       Format.fprintf ppf " -> ";
+       pp_expression "" ppf cb_expr ~module_;
+       begin match bs with
+       | [] -> ()
+       | bs ->
+           bs
+           |> List.iter (fun Ast.{ cb_pattern; cb_expr; _ } ->
+                  Format.fprintf ppf ";\n%s" prefix;
+                  pp_pattern_match ppf cb_pattern;
+                  Format.fprintf ppf " -> ";
+                  pp_expression "" ppf cb_expr ~module_);
+       end
+
 and pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
   match expr with
@@ -328,28 +350,22 @@ and pp_expression prefix ppf expr ~module_ =
              Format.fprintf ppf " | ";
              pp_expression "" ppf e ~module_);
       Format.fprintf ppf "]"
-  | Expr_case (expr, branches) -> (
+  | Expr_recv { rcv_cases; rcv_after } ->
+      Format.fprintf ppf "receive";
+      pp_case_branches prefix ppf rcv_cases ~module_;
+      begin match rcv_after with
+      | None -> ();
+      | Some cb ->
+          Format.fprintf ppf "after";
+          pp_case_branches prefix ppf [cb] ~module_;
+      end;
+      Format.fprintf ppf "end"
+  | Expr_case (expr, branches) ->
       Format.fprintf ppf "case ";
       pp_expression "" ppf expr ~module_;
       Format.fprintf ppf " of";
-      match branches with
-      | [] -> raise Invalid_case_expresion_without_branches
-      | Ast.{ cb_pattern; cb_expr; _ } :: bs ->
-          (let prefix = prefix ^ "  " in
-           Format.fprintf ppf "\n%s" prefix;
-           pp_pattern_match ppf cb_pattern;
-           Format.fprintf ppf " -> ";
-           pp_expression "" ppf cb_expr ~module_;
-           match bs with
-           | [] -> ()
-           | bs ->
-               bs
-               |> List.iter (fun Ast.{ cb_pattern; cb_expr; _ } ->
-                      Format.fprintf ppf ";\n%s" prefix;
-                      pp_pattern_match ppf cb_pattern;
-                      Format.fprintf ppf " -> ";
-                      pp_expression "" ppf cb_expr ~module_));
-          Format.fprintf ppf "\n%send" prefix )
+      pp_case_branches prefix ppf branches ~module_;
+      Format.fprintf ppf "\n%send" prefix
   | Expr_map fields -> (
       let padding = H.pad (String.length prefix + 1) in
       match fields with
@@ -385,7 +401,7 @@ and pp_fun_case _prefix ppf { fc_lhs; fc_rhs; _ } ~module_ =
   Format.fprintf ppf ") ->";
   let prefix =
     match fc_rhs with
-    | Expr_map _ | Expr_let _ | Expr_case _ ->
+    | Expr_map _ | Expr_let _ | Expr_case _ | Expr_recv _ ->
         Format.fprintf ppf "\n";
         "  "
     | Expr_fun _ | Expr_apply _ | Expr_fun_ref _ | Expr_list _ | Expr_tuple _

@@ -34,6 +34,8 @@ let keyword_table =
   let h = Hashtbl.create 32 in
   List.iter (fun (s,f) -> Hashtbl.add h s f ) [
     "case", CASE;
+    "receive", RECEIVE;
+    "after", AFTER;
     "of", OF;
     "end", END;
     "fun", FUN;

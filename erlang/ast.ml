@@ -27,6 +27,12 @@ and literal =
   | Lit_atom of string
 [@@deriving sexp]
 
+and recv = {
+  rcv_cases: case_branch list;
+  rcv_after: case_branch option;
+}
+[@@deriving sexp]
+
 and expr =
   | Expr_let of let_binding * expr
   | Expr_name of name
@@ -34,6 +40,7 @@ and expr =
   (* NOTE: function references will be resolved at print time for now :( *)
   | Expr_fun_ref of atom
   | Expr_apply of fun_apply
+  | Expr_recv of recv
   | Expr_map of map_field list
   | Expr_list of expr list
   | Expr_cons of expr list * expr
