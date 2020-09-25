@@ -48,3 +48,11 @@ fun_args(A, B, C, D, E, F, G, H, I) -> {A, B, C, D, E, F, G, H, I}.
 
 f() -> A = 1.
 f() -> A = 1, A.
+
+negate(A) ->
+  case A of
+    true -> false;
+    {true} -> false;
+    [false] -> true;
+    false -> true
+  end.
