@@ -11,8 +11,8 @@
   > 
   > EOF
   $ caramelc compile --dump-ast case_test.erl
-  ((file_name case_test.erl) (behaviours ()) (module_name case_test) (ocaml_name case_test)
-    (attributes ())
+  ((file_name case_test.erl) (behaviours ()) (module_name case_test)
+    (ocaml_name Case_test) (attributes ())
     (exports (((exp_type Export_function) (exp_name f) (exp_arity 1))))
     (types ())
     (functions
@@ -43,7 +43,7 @@
                    ((fa_name (Expr_name (Atom_name f)))
                      (fa_args ((Expr_literal (Lit_integer 1))))))))))))))
   
-  module case_test =
+  module Case_test =
     struct
       let rec f =
         function
