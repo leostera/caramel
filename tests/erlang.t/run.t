@@ -1,29 +1,18 @@
   $ caramelc compile --dump-ast *.erl
-  ((file_name rogue_one.erl) (behaviours (test_beh gen_server))
-    (module_name rogue_one) (ocaml_name Rogue_one)
-    (attributes
-      (((atr_name author)
-         (atr_value (Expr_literal (Lit_atom abstract_machines))))))
+  ((file_name empty.erl) (behaviours ()) (module_name empty) (ocaml_name Empty)
+    (attributes ()) (exports ()) (types ()) (functions ()))
+  ((file_name function_declaration.erl) (behaviours ())
+    (module_name function_declaration) (ocaml_name Function_declaration)
+    (attributes ()) (exports ()) (types ()) (functions ()))
+  ((file_name module_attributes.erl) (behaviours (another_behavior gen_server))
+    (module_name module_attributes) (ocaml_name Module_attributes)
+    (attributes ())
     (exports
       (((exp_type Export_function) (exp_name f) (exp_arity 0))
-        ((exp_type Export_type) (exp_name t) (exp_arity 0))))
-    (types ())
-    (functions
-      (((fd_name g) (fd_arity 1)
-         (fd_cases
-           (((fc_name g) (fc_lhs ((Pattern_match (Lit_integer 1))))
-              (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))
-             ((fc_name g) (fc_lhs ((Pattern_match (Lit_integer 0))))
-               (fc_guards ())
-               (fc_rhs
-                 (Expr_apply
-                   ((fa_name
-                      (Expr_name (Qualified_name (n_mod rogue_one) (n_name f))))
-                     (fa_args ((Expr_literal (Lit_atom err)))))))))))
-        ((fd_name f) (fd_arity 0)
-          (fd_cases
-            (((fc_name f) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
-                 (Expr_apply
-                   ((fa_name (Expr_name (Atom_name print_int)))
-                     (fa_args ((Expr_literal (Lit_binary hello))))))))))))))
+        ((exp_type Export_function) (exp_name g) (exp_arity 2))
+        ((exp_type Export_type) (exp_name t) (exp_arity 0))
+        ((exp_type Export_type) (exp_name opt) (exp_arity 2))))
+    (types ()) (functions ()))
+  ((file_name type_declaration.erl) (behaviours ())
+    (module_name type_declaration) (ocaml_name Type_declaration)
+    (attributes ()) (exports ()) (types ()) (functions ()))
