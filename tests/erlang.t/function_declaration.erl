@@ -56,3 +56,5 @@ case_expr(A) ->
     [false] -> true;
     false -> true
   end.
+
+fun_ref() -> fun f/0.

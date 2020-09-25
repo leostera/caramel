@@ -315,7 +315,11 @@
                         (Pattern_list ((Pattern_match (Lit_atom false)))))
                        (cb_expr (Expr_literal (Lit_atom true))))
                      ((cb_pattern (Pattern_match (Lit_atom false)))
-                       (cb_expr (Expr_literal (Lit_atom true))))))))))))))
+                       (cb_expr (Expr_literal (Lit_atom true)))))))))))
+        ((fd_name fun_ref) (fd_arity 0)
+          (fd_cases
+            (((fc_name fun_ref) (fc_lhs ()) (fc_guards ())
+               (fc_rhs (Expr_fun_ref f)))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes
