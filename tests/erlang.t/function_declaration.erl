@@ -91,3 +91,9 @@ fun_cases(_) -> false.
 fib(0) -> 0;
 fib(1) -> 1;
 fib(N) -> erlang:'+'(fib(erlang:'-'(N,1)), fib(erlang:'-'(N,2))).
+
+sequence() ->
+  _ = print_string(<<"hello">>),
+  A = fib(2),
+  _ = print_int(A),
+  ok.

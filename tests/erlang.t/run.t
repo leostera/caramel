@@ -497,7 +497,30 @@
                                           (n_name -))))
                                      (fa_args
                                        ((Expr_name (Var_name N))
-                                         (Expr_literal (Lit_integer 2))))))))))))))))))))))
+                                         (Expr_literal (Lit_integer 2)))))))))))))))))))
+        ((fd_name sequence) (fd_arity 0)
+          (fd_cases
+            (((fc_name sequence) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding _))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name print_string)))
+                           (fa_args ((Expr_literal (Lit_binary hello))))))))
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding A))
+                       (lb_rhs
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name fib)))
+                             (fa_args ((Expr_literal (Lit_integer 2))))))))
+                     (Expr_let
+                       ((lb_lhs (Pattern_binding _))
+                         (lb_rhs
+                           (Expr_apply
+                             ((fa_name (Expr_name (Atom_name print_int)))
+                               (fa_args ((Expr_name (Var_name A))))))))
+                       (Expr_literal (Lit_atom ok)))))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes

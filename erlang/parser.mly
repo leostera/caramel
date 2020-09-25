@@ -17,10 +17,10 @@ let throw x =
   | Functions_must_have_clauses ->
       Format.fprintf Format.std_formatter "Functions_must_have_clauses"
   | Expression_is_invalid_pattern expr ->
-      Format.fprintf Format.std_formatter "Expression_is_invalid_pattern: \n";
+      Format.fprintf Format.std_formatter "Expression_is_invalid_pattern: ";
       Printer.pp_expression "" Format.std_formatter expr ~module_:Ast.empty
   end;
-  Format.fprintf Format.std_formatter "%!";
+  Format.fprintf Format.std_formatter "\n%!";
   raise (Parse_error x)
 
 let rec expr_to_pattern expr =
@@ -209,6 +209,12 @@ let expr :=
   | e = expr_tuple; { e }
   | e = expr_fun; { e }
 
+let expr_let :=
+  | lb_lhs = expr; EQUAL; lb_rhs = expr; COMMA; next = expr;
+    { Expr_let ({ lb_lhs = expr_to_pattern lb_lhs; lb_rhs}, next) }
+  | lb_lhs = expr; EQUAL; lb_rhs = expr;
+    { Expr_let ({ lb_lhs = expr_to_pattern lb_lhs; lb_rhs}, lb_lhs) }
+
 let expr_recv :=
   | RECEIVE; rcv_cases = separated_list(SEMICOLON, case_branch); END;
     { Expr_recv { rcv_cases; rcv_after = None } }
@@ -227,12 +233,6 @@ let expr_send :=
       fa_args = [ pid; msg ]
     } 
   }
-
-let expr_let :=
-  | lb_lhs = expr; EQUAL; lb_rhs = expr; COMMA; next = expr;
-    { Expr_let ({ lb_lhs = expr_to_pattern lb_lhs; lb_rhs}, next) }
-  | lb_lhs = expr; EQUAL; lb_rhs = expr;
-    { Expr_let ({ lb_lhs = expr_to_pattern lb_lhs; lb_rhs}, lb_lhs) }
 
 let expr_name  :=
   | n = name; { Expr_name n }
