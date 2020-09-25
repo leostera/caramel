@@ -39,11 +39,12 @@ let rec expr_to_pattern expr =
 
 %token <string> ATOM
 %token <string> CHAR
-%token <string> INTEGER
 %token <string> FLOAT
+%token <string> INTEGER
 %token <string> STRING
 %token <string> VARIABLE
 %token ARROW
+%token BANG
 %token BINARY_CLOSE
 %token BINARY_OPEN
 %token CASE
@@ -194,6 +195,7 @@ let fun_case :=
  *)
 
 let expr :=
+  | e = expr_send; { e }
   | e = expr_apply; { e }
   | e = expr_let; { e }
   | e = expr_name; { e }
@@ -203,6 +205,14 @@ let expr :=
   | e = expr_case; { e }
   | e = expr_tuple; { e }
   | e = expr_fun; { e }
+
+let expr_send :=
+  | pid = expr; BANG; msg = expr;
+  { Expr_apply {
+      fa_name = Expr_name (Qualified_name { n_mod="erlang"; n_name="send" });
+      fa_args = [ pid; msg ]
+    } 
+  }
 
 let expr_let :=
   | lb_lhs = expr; EQUAL; lb_rhs = expr; COMMA; next = expr;

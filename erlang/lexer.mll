@@ -64,6 +64,7 @@ rule token = parse
   | blank + { token lexbuf }
   | float as float { FLOAT float }
   | number as number { INTEGER number }
+  | "!" { BANG }
   | "." { DOT }
   | "," { COMMA }
   | ":" { COLON }
