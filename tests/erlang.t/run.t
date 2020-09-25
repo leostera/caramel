@@ -5,13 +5,49 @@
     (module_name function_declaration) (ocaml_name Function_declaration)
     (attributes ()) (exports ()) (types ())
     (functions
-      (((fd_name literal_list) (fd_arity 0)
+      (((fd_name list_filled) (fd_arity 0)
          (fd_cases
-           (((fc_name literal_list) (fc_lhs ()) (fc_guards ())
-              (fc_rhs (Expr_list ()))))))
-        ((fd_name literal_tuple) (fd_arity 0)
+           (((fc_name list_filled) (fc_lhs ()) (fc_guards ())
+              (fc_rhs
+                (Expr_list
+                  ((Expr_literal (Lit_atom ok))
+                    (Expr_list
+                      ((Expr_literal (Lit_atom error))
+                        (Expr_literal (Lit_binary hello))
+                        (Expr_literal (Lit_integer 1))))
+                    (Expr_apply
+                      ((fa_name (Expr_name (Atom_name list_empty)))
+                        (fa_args ()))))))))))
+        ((fd_name list_nested) (fd_arity 0)
           (fd_cases
-            (((fc_name literal_tuple) (fc_lhs ()) (fc_guards ())
+            (((fc_name list_nested) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_list ((Expr_list ()) (Expr_list ((Expr_list ()))))))))))
+        ((fd_name list_empty) (fd_arity 0)
+          (fd_cases
+            (((fc_name list_empty) (fc_lhs ()) (fc_guards ())
+               (fc_rhs (Expr_list ()))))))
+        ((fd_name tuple_filled) (fd_arity 0)
+          (fd_cases
+            (((fc_name tuple_filled) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple
+                   ((Expr_literal (Lit_atom ok))
+                     (Expr_tuple
+                       ((Expr_literal (Lit_atom error))
+                         (Expr_literal (Lit_binary hello))
+                         (Expr_literal (Lit_integer 1))))
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name tuple_empty)))
+                         (fa_args ()))))))))))
+        ((fd_name tuple_nested) (fd_arity 0)
+          (fd_cases
+            (((fc_name tuple_nested) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_tuple ((Expr_tuple ()) (Expr_tuple ((Expr_tuple ()))))))))))
+        ((fd_name tuple_empty) (fd_arity 0)
+          (fd_cases
+            (((fc_name tuple_empty) (fc_lhs ()) (fc_guards ())
                (fc_rhs (Expr_tuple ()))))))
         ((fd_name literal_float) (fd_arity 0)
           (fd_cases
