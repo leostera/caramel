@@ -83,8 +83,12 @@ and mk_pattern pattern =
   match pattern with
   | Pattern_ignore -> Pat.any ()
   | Pattern_binding name -> Pat.var { txt = (String.lowercase_ascii name); loc = Location.none }
+  | Pattern_tuple [] -> Pat.construct (mk_lid "()") None
+  | Pattern_tuple ((Pattern_match (Lit_atom tag)) :: []) ->
+      Pat.variant tag None
   | Pattern_tuple ((Pattern_match (Lit_atom tag)) :: pats) ->
       Pat.variant tag (Some (mk_pattern (Pattern_tuple pats)))
+  | Pattern_tuple [x] -> mk_pattern x
   | Pattern_tuple pats -> Pat.tuple (List.map mk_pattern pats)
   | Pattern_list xs -> mk_list_pat (List.map mk_pattern xs)
   | Pattern_cons (lhs, xs) -> mk_list_pat ((List.map mk_pattern lhs) @ [mk_pattern xs])
@@ -117,4 +121,6 @@ let to_parsetree : Erlang.Ast.t -> Parsetree.structure =
     let str = List.map mk_fun_value functions in
     let me = Mod.structure str in
     let mb = Mb.mk module_name me in
-    [ Str.module_ mb ]
+    let ast = [ Str.module_ mb ] in
+    Ast_invariants.structure ast;
+    ast
