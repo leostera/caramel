@@ -198,6 +198,8 @@ let expr :=
 let expr_let :=
   | lb_lhs = expr; EQUAL; lb_rhs = expr; COMMA; next = expr;
     { Expr_let ({ lb_lhs = expr_to_pattern lb_lhs; lb_rhs}, next) }
+  | lb_lhs = expr; EQUAL; lb_rhs = expr;
+    { Expr_let ({ lb_lhs = expr_to_pattern lb_lhs; lb_rhs}, lb_lhs) }
 
 let expr_name  :=
   | n = name; { Expr_name n }

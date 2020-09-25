@@ -67,6 +67,7 @@ rule token = parse
   | "." { DOT }
   | "," { COMMA }
   | ":" { COLON }
+  | "=" { EQUAL }
   | "::" { COLON_COLON }
   | ";" { SEMICOLON }
   | "-" { DASH }
