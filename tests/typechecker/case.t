@@ -45,11 +45,9 @@
   
   module Case_test =
     struct
-      let rec f =
-        function
-        | a ->
-            (match a with | `int i -> print_int i | `str b -> print_string b)
-      let rec g = function | () -> f 1
+      let rec f a =
+        match a with | `int i -> print_int i | `str b -> print_string b
+      let rec g () = f 1
     end
   
   File "_none_", line 1:

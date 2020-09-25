@@ -19,7 +19,7 @@
                     (fa_args ((Expr_literal (Lit_binary "Hello world!"))))))))))))))
   
   module Hello_world =
-    struct let rec hello_world = function | () -> print_int "Hello world!" end
+    struct let rec hello_world () = print_int "Hello world!" end
   
   File "_none_", line 1:
   Error: This expression has type string but an expression was expected of type

@@ -61,7 +61,7 @@
         | 0 -> 0
         | 1 -> 1
         | n -> Stdlib.(+) (fib (Stdlib.(-) n 1)) (fib (Stdlib.(-) n 2))
-      let rec fib = function | () -> fib `no
+      let rec fib () = fib `no
     end
   
   File "_none_", line 1:

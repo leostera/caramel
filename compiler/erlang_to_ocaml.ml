@@ -2,7 +2,7 @@ open Erlang.Ast
 open Ast_helper
 open Asttypes
 
-exception Cannot_join_no_patterns
+exception Function_without_cases
 exception Unsupported_constant
 exception Unsupported_pattern
 exception Unsupported_expression
@@ -118,7 +118,11 @@ and mk_fun_case { fc_lhs; fc_rhs; _ } =
     (mk_expression fc_rhs)
 
 and mk_fun { fd_cases; _ } =
-  Exp.function_ (List.map mk_fun_case fd_cases)
+  match fd_cases with
+  | [] -> raise Function_without_cases
+  | [{ fc_lhs; fc_rhs; _ }] ->
+      Exp.fun_ Nolabel None (mk_fun_args (List.map mk_pattern fc_lhs)) (mk_expression fc_rhs)
+  | _ -> Exp.function_ (List.map mk_fun_case fd_cases)
 
 and mk_fun_value ({ fd_name; _ } as f) =
   let pat = Pat.var { txt = fd_name; loc = Location.none } in
