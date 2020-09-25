@@ -1,6 +1,7 @@
 -module(function_declaration).
 
 literal_atom() -> ok.
+literal_quoted_atom() -> 'What.is_going:on!'.
 literal_integer() -> 1.
 literal_float() -> 1.0.
 

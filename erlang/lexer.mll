@@ -79,9 +79,27 @@ rule token = parse
   | "->" { ARROW }
   | "<<" { BINARY_OPEN }
   | ">>" { BINARY_CLOSE }
+  | "\'" { read_atom (Buffer.create 1024) lexbuf }
   | "\"" { read_string (Buffer.create 1024) lexbuf }
   | atom as atom { (Hashtbl.find_opt keyword_table atom) |> or_else (ATOM atom) }
   | eof { EOF }
+
+(* NOTE: this is naively copied from read_string and hsould be restricted to
+ * valid atom characters *)
+and read_atom buf = parse
+  | '''       { ATOM (Buffer.contents buf) }
+  | '\\' '/'  { Buffer.add_char buf '/'; read_atom buf lexbuf }
+  | '\\' '\\' { Buffer.add_char buf '\\'; read_atom buf lexbuf }
+  | '\\' 'b'  { Buffer.add_char buf '\b'; read_atom buf lexbuf }
+  | '\\' 'f'  { Buffer.add_char buf '\012'; read_atom buf lexbuf }
+  | '\\' 'n'  { Buffer.add_char buf '\n'; read_atom buf lexbuf }
+  | '\\' 'r'  { Buffer.add_char buf '\r'; read_atom buf lexbuf }
+  | '\\' 't'  { Buffer.add_char buf '\t'; read_atom buf lexbuf }
+  | [^ ''' '\\']+ {
+    Buffer.add_string buf (Lexing.lexeme lexbuf); read_atom buf lexbuf }
+  | _ { error lexbuf (Invalid_literal ("Illegal atom character: " ^ Lexing.lexeme lexbuf)) }
+  | eof { error lexbuf Unterminated_string }
+
 
 and read_string buf = parse
   | '"'       { STRING (Buffer.contents buf) }

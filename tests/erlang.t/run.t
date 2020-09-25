@@ -67,6 +67,10 @@
           (fd_cases
             (((fc_name literal_integer) (fc_lhs ()) (fc_guards ())
                (fc_rhs (Expr_literal (Lit_integer 1)))))))
+        ((fd_name literal_quoted_atom) (fd_arity 0)
+          (fd_cases
+            (((fc_name literal_quoted_atom) (fc_lhs ()) (fc_guards ())
+               (fc_rhs (Expr_literal (Lit_atom What.is_going:on!)))))))
         ((fd_name literal_atom) (fd_arity 0)
           (fd_cases
             (((fc_name literal_atom) (fc_lhs ()) (fc_guards ())
