@@ -314,6 +314,16 @@
                      ((cb_pattern
                         (Pattern_list ((Pattern_match (Lit_atom false)))))
                        (cb_expr (Expr_literal (Lit_atom true))))
+                     ((cb_pattern
+                        (Pattern_cons ((Pattern_match (Lit_atom false)))
+                          (Pattern_binding _)))
+                       (cb_expr (Expr_literal (Lit_atom true))))
+                     ((cb_pattern
+                        (Pattern_cons
+                          ((Pattern_match (Lit_atom false))
+                            (Pattern_binding B))
+                          (Pattern_binding T)))
+                       (cb_expr (Expr_literal (Lit_atom true))))
                      ((cb_pattern (Pattern_match (Lit_atom false)))
                        (cb_expr (Expr_literal (Lit_atom true)))))))))))
         ((fd_name fun_ref) (fd_arity 0)

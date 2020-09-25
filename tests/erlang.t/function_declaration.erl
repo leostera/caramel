@@ -54,6 +54,8 @@ case_expr(A) ->
     true -> false;
     {true} -> false;
     [false] -> true;
+    [false|_] -> true;
+    [false, B | T ] -> true;
     false -> true
   end.
 
