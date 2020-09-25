@@ -367,7 +367,32 @@
                                 (fc_rhs (Expr_name (Var_name A))))))))))
                    (Expr_apply
                      ((fa_name (Expr_name (Var_name F)))
-                       (fa_args ((Expr_literal (Lit_integer 1)))))))))))))))
+                       (fa_args ((Expr_literal (Lit_integer 1))))))))))))
+        ((fd_name send) (fd_arity 0)
+          (fd_cases
+            (((fc_name send) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_apply
+                   ((fa_name
+                      (Expr_name (Qualified_name (n_mod erlang) (n_name send))))
+                     (fa_args
+                       ((Expr_name (Var_name A)) (Expr_name (Var_name A)))))))))))
+        ((fd_name send) (fd_arity 0)
+          (fd_cases
+            (((fc_name send) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_apply
+                   ((fa_name
+                      (Expr_name (Qualified_name (n_mod erlang) (n_name send))))
+                     (fa_args
+                       ((Expr_name (Var_name A))
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name (n_mod erlang) (n_name send))))
+                             (fa_args
+                               ((Expr_name (Var_name A))
+                                 (Expr_name (Var_name A))))))))))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes

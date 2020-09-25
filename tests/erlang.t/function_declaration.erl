@@ -63,3 +63,6 @@ lambda() -> fun () -> ok end.
 lambda_with_args() -> fun (A) -> A end.
 lambda_in_var() -> F = fun (A) -> A end.
 lambda_var_call() -> F = fun (A) -> A end, F(1).
+
+send() -> A ! A.
+send() -> A ! A ! A.
