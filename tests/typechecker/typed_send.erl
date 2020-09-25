@@ -10,5 +10,4 @@ loop(Recv, S) ->
 
 spawn_int(S) -> erlang:spawn(fun () -> loop(S) end).
 
-start() ->
-  spawn_int(0) ! {replace, <<"wrong value">>}.
+start() -> spawn_int(0) ! {replace, <<"wrong value">>}.

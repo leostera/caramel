@@ -105,8 +105,7 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
   let parsetree = Erlang_to_ocaml.to_parsetree erlang_ast in
   if opts.dump_ast then (
     Pprintast.structure Format.std_formatter parsetree;
-    Format.fprintf Format.std_formatter "\n\n%!"
-  );
+    Format.fprintf Format.std_formatter "\n\n%!" );
   let typedtree =
     parsetree
     |> Profile.(record typing)
@@ -162,12 +161,13 @@ let compile ({ sources; _ } as opts) =
 
     List.iter (compile_one ~opts) (ml_sources @ erlang_sources);
 
-    Warnings.check_fatal ();
+    Warnings.check_fatal ()
   with
   | exception Env.Error err -> Env.report_error Format.std_formatter err
-  | exception exc ->
-      begin match (Location.error_of_exn exc) with
+  | exception exc -> (
+      match Location.error_of_exn exc with
       | Some (`Ok error) -> Location.print_report Format.std_formatter error
-      | _ -> Format.fprintf Format.std_formatter "ERROR: %s" (Printexc.to_string exc)
-      end
+      | _ ->
+          Format.fprintf Format.std_formatter "ERROR: %s"
+            (Printexc.to_string exc) )
   | _ -> ()
