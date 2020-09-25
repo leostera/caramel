@@ -74,8 +74,10 @@ recv() -> receive X -> X after infinity -> ok end.
 recv() ->
   receive
     true -> false;
-    {true, A} -> false;
+    {true} -> false;
     [false] -> true;
+    [false|_] -> true;
+    [false, B | T ] -> true;
     false -> true
   after
     infinity -> ok

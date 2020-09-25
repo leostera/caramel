@@ -432,12 +432,20 @@
                       (((cb_pattern (Pattern_match (Lit_atom true)))
                          (cb_expr (Expr_literal (Lit_atom false))))
                         ((cb_pattern
-                           (Pattern_tuple
-                             ((Pattern_match (Lit_atom true))
-                               (Pattern_binding A))))
+                           (Pattern_tuple ((Pattern_match (Lit_atom true)))))
                           (cb_expr (Expr_literal (Lit_atom false))))
                         ((cb_pattern
                            (Pattern_list ((Pattern_match (Lit_atom false)))))
+                          (cb_expr (Expr_literal (Lit_atom true))))
+                        ((cb_pattern
+                           (Pattern_cons ((Pattern_match (Lit_atom false)))
+                             (Pattern_binding _)))
+                          (cb_expr (Expr_literal (Lit_atom true))))
+                        ((cb_pattern
+                           (Pattern_cons
+                             ((Pattern_match (Lit_atom false))
+                               (Pattern_binding B))
+                             (Pattern_binding T)))
                           (cb_expr (Expr_literal (Lit_atom true))))
                         ((cb_pattern (Pattern_match (Lit_atom false)))
                           (cb_expr (Expr_literal (Lit_atom true))))))
