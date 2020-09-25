@@ -5,16 +5,89 @@
     (module_name function_declaration) (ocaml_name Function_declaration)
     (attributes ()) (exports ()) (types ())
     (functions
-      (((fd_name list_cons) (fd_arity 0)
+      (((fd_name fun_args) (fd_arity 1)
          (fd_cases
-           (((fc_name list_cons) (fc_lhs ()) (fc_guards ())
-              (fc_rhs
-                (Expr_list
-                  ((Expr_literal (Lit_atom a))
-                    (Expr_tuple
-                      ((Expr_literal (Lit_atom b)) (Expr_literal (Lit_atom c))))
-                    (Expr_apply
-                      ((fa_name (Expr_name (Atom_name f))) (fa_args ()))))))))))
+           (((fc_name fun_args)
+              (fc_lhs
+                ((Pattern_list
+                   ((Pattern_match (Lit_atom a))
+                     (Pattern_tuple
+                       ((Pattern_match (Lit_atom b))
+                         (Pattern_match (Lit_atom c))))
+                     (Pattern_match (Lit_atom f))))))
+              (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_list
+                    ((Pattern_match (Lit_atom ok))
+                      (Pattern_list
+                        ((Pattern_match (Lit_atom error))
+                          (Pattern_match (Lit_binary hello))
+                          (Pattern_match (Lit_integer 1))))))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_list
+                    ((Pattern_list ()) (Pattern_list ((Pattern_list ())))))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args) (fc_lhs ((Pattern_list ()))) (fc_guards ())
+               (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_tuple
+                    ((Pattern_match (Lit_atom ok))
+                      (Pattern_tuple
+                        ((Pattern_match (Lit_atom error))
+                          (Pattern_match (Lit_binary hello))
+                          (Pattern_match (Lit_integer 1))))))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs
+                 ((Pattern_tuple
+                    ((Pattern_tuple ()) (Pattern_tuple ((Pattern_tuple ())))))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args) (fc_lhs ((Pattern_tuple ()))) (fc_guards ())
+               (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args) (fc_lhs ((Pattern_match (Lit_float 1.0))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args) (fc_lhs ((Pattern_match (Lit_integer 1))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args)
+               (fc_lhs ((Pattern_match (Lit_atom What.is_going:on!))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args) (fc_lhs ((Pattern_match (Lit_atom ok))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name list_cons) (fd_arity 0)
+          (fd_cases
+            (((fc_name list_cons) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_list
+                   ((Expr_literal (Lit_atom a))
+                     (Expr_tuple
+                       ((Expr_literal (Lit_atom b))
+                         (Expr_literal (Lit_atom c))))
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name f))) (fa_args ()))))))))))
         ((fd_name list_filled) (fd_arity 0)
           (fd_cases
             (((fc_name list_filled) (fc_lhs ()) (fc_guards ())
