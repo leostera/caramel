@@ -31,6 +31,16 @@ let mk_name name =
   | Macro_name _ -> raise (Unsupported_name name)
   | Var_name name -> Exp.ident (mk_lid (String.lowercase_ascii name))
   | Atom_name name -> Exp.ident (mk_lid name)
+  | Qualified_name {n_mod="erlang"; n_name="spawn"} ->
+      begin match Longident.unflatten ["Erlang"; "spawn"] with
+      | None -> raise (Invalid_name name)
+      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none }
+      end
+  | Qualified_name {n_mod="erlang"; n_name="send"} ->
+      begin match Longident.unflatten ["Erlang"; "send"] with
+      | None -> raise (Invalid_name name)
+      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none }
+      end
   | Qualified_name {n_mod="erlang"; n_name} ->
       begin match Longident.unflatten ["Stdlib"; n_name] with
       | None -> raise (Invalid_name name)
@@ -53,21 +63,55 @@ let rec mk_expression expr =
         Nonrecursive
         [Vb.mk (mk_pattern lb_lhs) (mk_expression lb_rhs)]
         (mk_expression expr)
+
   | Expr_apply {fa_name; fa_args = []} ->
       Exp.apply (mk_expression fa_name) [Nolabel, Exp.construct (mk_lid "()") None]
+
+  (* Spawn call *)
+  | Expr_apply { fa_name = Expr_name (Qualified_name { n_mod = "erlang"
+                                                     ; n_name = "spawn" })
+               ; fa_args = [Expr_fun { fd_cases = [ case ]; _}]} ->
+      mk_spawn case
+
+  | Expr_apply {fa_name; fa_args=[arg]} ->
+      Exp.apply (mk_expression fa_name) [Nolabel, mk_expression arg]
+
   | Expr_apply {fa_name; fa_args} ->
-      Exp.apply (mk_expression fa_name)
-        (List.map (fun arg -> (Nolabel, mk_expression arg)) fa_args)
+      Exp.apply (mk_expression fa_name) [Nolabel, (Exp.tuple (List.map mk_expression fa_args))]
+
   | Expr_list xs -> mk_list_expr (List.map mk_expression xs)
   | Expr_cons (lhs, xs) -> mk_list_expr ((List.map mk_expression lhs) @ [mk_expression xs])
   | Expr_case (expr, branches) ->
       Exp.match_ (mk_expression expr) (List.map mk_match_case branches)
+
   | Expr_tuple [] -> Exp.construct (mk_lid "()") None
+  | Expr_tuple ((Expr_literal (Lit_atom tag)) :: []) ->
+      Exp.variant tag None
+  | Expr_tuple ((Expr_literal (Lit_atom tag)) :: pats) ->
+      Exp.variant tag (Some (mk_expression (Expr_tuple pats)))
   | Expr_tuple [x] -> mk_expression x
   | Expr_tuple els -> Exp.tuple (List.map mk_expression els)
+
   | Expr_fun fun_decl -> mk_fun fun_decl
   | Expr_recv recv -> mk_recv recv
   | _ -> raise Unsupported_expression
+
+and mk_spawn fn_case =
+  Exp.apply
+    (mk_name (Qualified_name { n_mod="Erlang"; n_name="spawn" }))
+    [
+      (Nolabel, Exp.fun_
+        Nolabel
+        None
+        (Pat.var { txt = "recv"; loc = Location.none })
+        (begin match  fn_case.fc_rhs with
+         | Expr_apply { fa_name; fa_args = [ arg ]} ->
+           Expr_apply { fa_name;
+                        fa_args = [Expr_tuple [(Expr_name (Var_name "Recv")); arg]] }
+         | rhs ->  rhs
+         end |> mk_expression)
+      )
+    ]
 
 and mk_recv { rcv_cases; _ } =
   Exp.match_
@@ -132,7 +176,10 @@ and mk_fun_value ({ fd_name; _ } as f) =
 let to_parsetree : Erlang.Ast.t -> Parsetree.structure =
   fun { ocaml_name; functions; _ } ->
     let module_name = { txt = (Some ocaml_name); loc = Location.none } in
-    let str = List.map mk_fun_value functions in
+    (* NOTE: not ideal! we are traversing the module twice to thread the
+     * receive function in the functions that are actually run as processes
+     *)
+    let str = functions |> List.map mk_fun_value in
     let me = Mod.structure str in
     let mb = Mb.mk module_name me in
     let ast = [ Str.module_ mb ] in

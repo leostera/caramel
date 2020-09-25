@@ -59,7 +59,7 @@ let float = number '.' number
 
 let atom = lowercase ['A'-'Z' 'a'-'z' '_' '0'-'9' '@']*
 
-let variable = ['_' 'A'-'Z'] (lowercase uppercase digit '_')*
+let variable = ['_' 'A'-'Z'] ['A'-'Z' 'a'-'z' '_' '0'-'9' ]*
 
 rule token = parse
   | newline { update_loc lexbuf ~line:1 ~absolute:false 0; token lexbuf }
