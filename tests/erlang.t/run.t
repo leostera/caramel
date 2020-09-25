@@ -1,19 +1,4 @@
-  $ cat rogue_one.erl
-  -module(rogue_one).
-  
-  -author(abstract_machines).
-  
-  -behavior(gen_server).
-  -behavior(test_beh).
-  
-  -export_type([t/0]).
-  -export([f/0]).
-  
-  f() -> print_int(<<"hello">>).
-  
-  g(1) -> ok;
-  g(0) -> rogue_one:f(err).
-  $ caramelc compile --dump-ast rogue_one.erl
+  $ caramelc compile --dump-ast *.erl
   ((file_name rogue_one.erl) (behaviours (test_beh gen_server))
     (module_name rogue_one) (ocaml_name Rogue_one)
     (attributes

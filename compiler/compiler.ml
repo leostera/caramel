@@ -98,9 +98,11 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
         Format.fprintf Format.std_formatter "Parser_error: %s" msg;
         exit 1
   in
-  if opts.dump_ast then
+  if opts.dump_ast then begin
     Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
       (Erlang.Ast.sexp_of_t erlang_ast);
+    Format.fprintf Format.std_formatter "\n%!"
+  end;
   let parsetree = Erlang_to_ocaml.to_parsetree erlang_ast in
   let typedtree =
     parsetree
