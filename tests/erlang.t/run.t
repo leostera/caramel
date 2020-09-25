@@ -392,7 +392,48 @@
                                 (Qualified_name (n_mod erlang) (n_name send))))
                              (fa_args
                                ((Expr_name (Var_name A))
-                                 (Expr_name (Var_name A))))))))))))))))))
+                                 (Expr_name (Var_name A)))))))))))))))
+        ((fd_name recv) (fd_arity 0)
+          (fd_cases
+            (((fc_name recv) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_recv
+                   ((rcv_cases
+                      (((cb_pattern (Pattern_binding X))
+                         (cb_expr (Expr_name (Var_name X))))))
+                     (rcv_after ()))))))))
+        ((fd_name recv) (fd_arity 0)
+          (fd_cases
+            (((fc_name recv) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_recv
+                   ((rcv_cases
+                      (((cb_pattern (Pattern_binding X))
+                         (cb_expr (Expr_name (Var_name X))))))
+                     (rcv_after
+                       (((cb_pattern (Pattern_match (Lit_atom infinity)))
+                          (cb_expr (Expr_literal (Lit_atom ok)))))))))))))
+        ((fd_name recv) (fd_arity 0)
+          (fd_cases
+            (((fc_name recv) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_recv
+                   ((rcv_cases
+                      (((cb_pattern (Pattern_match (Lit_atom true)))
+                         (cb_expr (Expr_literal (Lit_atom false))))
+                        ((cb_pattern
+                           (Pattern_tuple
+                             ((Pattern_match (Lit_atom true))
+                               (Pattern_binding A))))
+                          (cb_expr (Expr_literal (Lit_atom false))))
+                        ((cb_pattern
+                           (Pattern_list ((Pattern_match (Lit_atom false)))))
+                          (cb_expr (Expr_literal (Lit_atom true))))
+                        ((cb_pattern (Pattern_match (Lit_atom false)))
+                          (cb_expr (Expr_literal (Lit_atom true))))))
+                     (rcv_after
+                       (((cb_pattern (Pattern_match (Lit_atom infinity)))
+                          (cb_expr (Expr_literal (Lit_atom ok))))))))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes

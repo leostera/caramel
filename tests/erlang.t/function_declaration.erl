@@ -66,3 +66,15 @@ lambda_var_call() -> F = fun (A) -> A end, F(1).
 
 send() -> A ! A.
 send() -> A ! A ! A.
+
+recv() -> receive X -> X end.
+recv() -> receive X -> X after infinity -> ok end.
+recv() ->
+  receive
+    true -> false;
+    {true, A} -> false;
+    [false] -> true;
+    false -> true
+  after
+    infinity -> ok
+  end.
