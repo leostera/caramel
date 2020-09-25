@@ -29,6 +29,7 @@ let rec expr_to_pattern expr =
   | Expr_name (Atom_name atom) -> Pattern_match (Lit_atom atom)
   | Expr_literal literal -> Pattern_match literal
   | Expr_list exprs -> Pattern_list (List.map expr_to_pattern exprs)
+  | Expr_cons (lhs, rhs) -> Pattern_cons (List.map expr_to_pattern lhs, expr_to_pattern rhs)
   | Expr_tuple exprs -> Pattern_tuple (List.map expr_to_pattern exprs)
   | _ -> throw (Expression_is_invalid_pattern expr)
 
@@ -95,9 +96,9 @@ let module_attribute :=
 
 let module_attribute_value :=
   | LEFT_BRACE; name = ATOM; COMMA; els = list(name_with_arity); RIGHT_BRACE;
-    { Expr_tuple [ Expr_literal (Lit_atom name); Expr_list els ] }
+    { Expr_tuple [ Expr_literal (Lit_atom name); els ] }
 
-  | els = list(name_with_arity); { Expr_list els }
+  | els = list(name_with_arity); { els }
 
   | atom = ATOM; { Expr_literal (Lit_atom atom) }
 
@@ -213,7 +214,7 @@ let expr_apply :=
   | ~ = apply_name; fa_args = parlist(expr);
     { Expr_apply { fa_name = Expr_name apply_name; fa_args } }
 
-let expr_list := l = list(expr); { Expr_list l }
+let expr_list := l = list(expr); { l }
 
 let expr_tuple := t = tuple(expr); { Expr_tuple t }
 
@@ -234,9 +235,15 @@ let expr_fun :=
  * Constructors
  *)
 let list(a) :=
-  | LEFT_BRACKET; els = separated_list(COMMA, a); RIGHT_BRACKET; { els }
-  | LEFT_BRACKET; el1 = separated_list(COMMA, a); PIPE; el2 = list(a); RIGHT_BRACKET;
-      { el1 @ el2 }
+  (* NOTE: matches [1,2,3] *)
+  | LEFT_BRACKET; els = separated_list(COMMA, a); RIGHT_BRACKET;
+    { Expr_list els }
+
+    (* NOTE: matches [1,2 | Rest] *)
+  | LEFT_BRACKET; el1 = separated_list(COMMA, a); PIPE; el2 = a; RIGHT_BRACKET;
+    { Expr_cons (el1, el2) }
+
+
 let tuple(a) := LEFT_BRACE; els = separated_list(COMMA, a); RIGHT_BRACE; { els }
 
 (**

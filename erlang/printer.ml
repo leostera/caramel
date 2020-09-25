@@ -10,6 +10,8 @@ exception Invalid_case_expresion_without_branches
 
 exception Unknown_support_function
 
+exception Invalid_cons_with_no_left_hand_side
+
 module H = struct
   let pad n = String.make n ' '
 end
@@ -177,6 +179,19 @@ and pp_pattern_match ppf pm =
              Format.fprintf ppf ", ";
              pp_pattern_match ppf p);
       Format.fprintf ppf "}"
+  | Pattern_cons (l, r) ->
+      Format.fprintf ppf "[";
+      begin match l with
+      | [] -> raise Invalid_cons_with_no_left_hand_side
+      | x :: xs ->
+        pp_pattern_match ppf x;
+        List.iter (fun e ->
+          Format.fprintf ppf ", ";
+          pp_pattern_match ppf e) xs;
+      end;
+      Format.fprintf ppf " | ";
+      pp_pattern_match ppf r;
+      Format.fprintf ppf "]"
   | Pattern_list [] -> Format.fprintf ppf "[]"
   | Pattern_list [ p ] ->
       Format.fprintf ppf "[";
@@ -292,6 +307,19 @@ and pp_expression prefix ppf expr ~module_ =
       Format.fprintf ppf "[";
       pp_expression prefix ppf e ~module_;
       Format.fprintf ppf "]"
+  | Expr_cons (l, r) ->
+      Format.fprintf ppf "[";
+      begin match l with
+      | [] -> raise Invalid_cons_with_no_left_hand_side
+      | x :: xs ->
+        pp_expression "" ppf x ~module_;
+        List.iter (fun e ->
+          Format.fprintf ppf ", ";
+          pp_expression "" ppf e ~module_) xs;
+      end;
+      Format.fprintf ppf " | ";
+      pp_expression "" ppf r ~module_;
+      Format.fprintf ppf "]"
   | Expr_list (e :: es) ->
       Format.fprintf ppf "[";
       pp_expression "" ppf e ~module_;
@@ -361,6 +389,7 @@ and pp_fun_case _prefix ppf { fc_lhs; fc_rhs; _ } ~module_ =
         Format.fprintf ppf "\n";
         "  "
     | Expr_fun _ | Expr_apply _ | Expr_fun_ref _ | Expr_list _ | Expr_tuple _
+    | Expr_cons _ 
     | Expr_literal _ | Expr_name _ ->
         " "
   in

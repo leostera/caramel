@@ -57,6 +57,8 @@ let float = number '.' number
 
 let atom = lowercase ['A'-'Z' 'a'-'z' '_' '0'-'9' '@']*
 
+let variable = ['_' 'A'-'Z'] (lowercase uppercase digit '_')*
+
 rule token = parse
   | newline { update_loc lexbuf ~line:1 ~absolute:false 0; token lexbuf }
   | blank + { token lexbuf }
@@ -82,6 +84,7 @@ rule token = parse
   | "\'" { read_atom (Buffer.create 1024) lexbuf }
   | "\"" { read_string (Buffer.create 1024) lexbuf }
   | atom as atom { (Hashtbl.find_opt keyword_table atom) |> or_else (ATOM atom) }
+  | variable as variable { VARIABLE variable }
   | eof { EOF }
 
 (* NOTE: this is naively copied from read_string and hsould be restricted to

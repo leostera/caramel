@@ -36,6 +36,7 @@ and expr =
   | Expr_apply of fun_apply
   | Expr_map of map_field list
   | Expr_list of expr list
+  | Expr_cons of expr list * expr
   | Expr_case of expr * case_branch list
   | Expr_tuple of expr list
   | Expr_fun of fun_decl
@@ -46,6 +47,7 @@ and pattern =
   | Pattern_binding of atom
   | Pattern_tuple of pattern list
   | Pattern_list of pattern list
+  | Pattern_cons of pattern list * pattern
   | Pattern_map of (atom * pattern) list
   | Pattern_match of literal
 [@@deriving sexp]

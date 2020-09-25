@@ -1,8 +1,7 @@
 (library
  (name erlang)
  (public_name caramel.erlang)
- (preprocess
-  (pps ppx_sexp_conv))
+ (preprocess (pps ppx_sexp_conv))
  (libraries compiler-libs.common compiler-libs.bytecomp sexplib))
 
 (ocamllex lexer)
