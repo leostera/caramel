@@ -284,7 +284,23 @@
                      (Expr_name (Var_name C)) (Expr_name (Var_name D))
                      (Expr_name (Var_name E)) (Expr_name (Var_name F))
                      (Expr_name (Var_name G)) (Expr_name (Var_name H))
-                     (Expr_name (Var_name I))))))))))))
+                     (Expr_name (Var_name I)))))))))
+        ((fd_name f) (fd_arity 0)
+          (fd_cases
+            (((fc_name f) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding A))
+                     (lb_rhs (Expr_literal (Lit_integer 1))))
+                   (Expr_name (Var_name A))))))))
+        ((fd_name f) (fd_arity 0)
+          (fd_cases
+            (((fc_name f) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding A))
+                     (lb_rhs (Expr_literal (Lit_integer 1))))
+                   (Expr_name (Var_name A)))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes

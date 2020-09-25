@@ -45,3 +45,6 @@ fun_args(A, B, C, D, E, F) -> {A, B, C, D, E, F}.
 fun_args(A, B, C, D, E, F, G) -> {A, B, C, D, E, F, G}.
 fun_args(A, B, C, D, E, F, G, H) -> {A, B, C, D, E, F, G, H}.
 fun_args(A, B, C, D, E, F, G, H, I) -> {A, B, C, D, E, F, G, H, I}.
+
+f() -> A = 1.
+f() -> A = 1, A.
