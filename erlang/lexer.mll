@@ -53,12 +53,15 @@ let uppercase = ['A'-'Z']
 let digit = [ '0'-'9' ]
 let number = digit digit*
 
+let float = number '.' number
+
 let atom = lowercase ['A'-'Z' 'a'-'z' '_' '0'-'9' '@']*
 
 rule token = parse
   | newline { update_loc lexbuf ~line:1 ~absolute:false 0; token lexbuf }
   | blank + { token lexbuf }
-  | number as number { NUMBER number }
+  | float as float { FLOAT float }
+  | number as number { INTEGER number }
   | "." { DOT }
   | "," { COMMA }
   | ":" { COLON }

@@ -5,10 +5,26 @@
     (module_name function_declaration) (ocaml_name Function_declaration)
     (attributes ()) (exports ()) (types ())
     (functions
-      (((fd_name f) (fd_arity 0)
+      (((fd_name literal_list) (fd_arity 0)
          (fd_cases
-           (((fc_name f) (fc_lhs ()) (fc_guards ())
-              (fc_rhs (Expr_literal (Lit_atom ok))))))))))
+           (((fc_name literal_list) (fc_lhs ()) (fc_guards ())
+              (fc_rhs (Expr_list ()))))))
+        ((fd_name literal_tuple) (fd_arity 0)
+          (fd_cases
+            (((fc_name literal_tuple) (fc_lhs ()) (fc_guards ())
+               (fc_rhs (Expr_tuple ()))))))
+        ((fd_name literal_float) (fd_arity 0)
+          (fd_cases
+            (((fc_name literal_float) (fc_lhs ()) (fc_guards ())
+               (fc_rhs (Expr_literal (Lit_float 1.0)))))))
+        ((fd_name literal_integer) (fd_arity 0)
+          (fd_cases
+            (((fc_name literal_integer) (fc_lhs ()) (fc_guards ())
+               (fc_rhs (Expr_literal (Lit_integer 1)))))))
+        ((fd_name literal_atom) (fd_arity 0)
+          (fd_cases
+            (((fc_name literal_atom) (fc_lhs ()) (fc_guards ())
+               (fc_rhs (Expr_literal (Lit_atom ok))))))))))
   ((file_name module_attributes.erl) (behaviours (another_behavior gen_server))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes

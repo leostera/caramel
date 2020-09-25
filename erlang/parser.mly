@@ -38,7 +38,8 @@ let rec expr_to_pattern expr =
 
 %token <string> ATOM
 %token <string> CHAR
-%token <string> NUMBER
+%token <string> INTEGER
+%token <string> FLOAT
 %token <string> STRING
 %token <string> VARIABLE
 %token ARROW
@@ -84,27 +85,27 @@ let module_item :=
 
 (** Module Attributes *)
 let name_with_arity :=
-  | name = atom; SLASH; arity = number;
+  | name = ATOM; SLASH; arity = INTEGER;
     { Expr_tuple [ Expr_literal (Lit_atom name);
                    Expr_literal (Lit_integer arity)] }
 
 let module_attribute :=
-  | DASH; atr_name = atom; atr_value = parens(module_attribute_value); DOT;
+  | DASH; atr_name = ATOM; atr_value = parens(module_attribute_value); DOT;
     { { atr_name; atr_value} }
 
 let module_attribute_value :=
-  | LEFT_BRACE; name = atom; COMMA; els = list(name_with_arity); RIGHT_BRACE;
+  | LEFT_BRACE; name = ATOM; COMMA; els = list(name_with_arity); RIGHT_BRACE;
     { Expr_tuple [ Expr_literal (Lit_atom name); Expr_list els ] }
 
   | els = list(name_with_arity); { Expr_list els }
 
-  | ~ = atom; { Expr_literal (Lit_atom atom) }
+  | atom = ATOM; { Expr_literal (Lit_atom atom) }
 
 (** Type Language *)
 let type_decl :=
   | DASH;
     typ_visibility = type_visibility;
-    typ_name = atom;
+    typ_name = ATOM;
     typ_params = parlist(VARIABLE); COLON_COLON;
     typ_kind = type_kind;
     { { typ_visibility
@@ -114,7 +115,7 @@ let type_decl :=
       } }
 
 let type_visibility :=
-  | ~ = atom; {
+  | atom = ATOM; {
     match atom with
     | "opaque" -> Opaque
     | "type" -> Visible
@@ -206,7 +207,7 @@ let expr_literal :=
 (* NOTE: this should be `name` instead of `atom` and the arity should be
  * captured here as well. *)
 let expr_fun_ref :=
-  | FUN; name = atom; SLASH; NUMBER; { Expr_fun_ref name }
+  | FUN; name = ATOM; SLASH; INTEGER; { Expr_fun_ref name }
 
 let expr_apply :=
   | ~ = apply_name; fa_args = parlist(expr);
@@ -242,19 +243,17 @@ let tuple(a) := LEFT_BRACE; els = separated_list(COMMA, a); RIGHT_BRACE; { els }
 let literal :=
   | c = CHAR; { Lit_char c }
   | BINARY_OPEN; s = STRING; BINARY_CLOSE; { Lit_binary s }
-  | n = NUMBER; { Lit_integer n }
-  | a = atom; { Lit_atom a }
+  | n = INTEGER; { Lit_integer n }
+  | n = FLOAT; { Lit_float n }
+  | a = ATOM; { Lit_atom a }
 
 let name :=
   | n = VARIABLE; { Var_name n}
   | n = apply_name; { n }
 
 let apply_name :=
-  | ~ = atom; { Atom_name atom }
-  | n_mod = atom; COLON; n_name = atom; { Qualified_name { n_mod; n_name } }
-
-let number := n = NUMBER; { n }
-let atom := name = ATOM; { name }
+  | atom = ATOM; { Atom_name atom }
+  | n_mod = ATOM; COLON; n_name = ATOM; { Qualified_name { n_mod; n_name } }
 
 (**
  * Helpers
