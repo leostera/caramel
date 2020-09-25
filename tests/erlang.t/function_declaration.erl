@@ -15,16 +15,16 @@ list_filled() -> [ok, [error, <<"hello">>, 1], list_empty()].
 
 list_cons() -> [a | [{b, c} | [f() | []]]].
 
-fun_args(ok) -> ok.
-fun_args('What.is_going:on!') -> ok.
-fun_args(1) -> ok.
-fun_args(1.0) -> ok.
+fun_args_atom(ok) -> ok.
+fun_args_quoted_atom('What.is_going:on!') -> ok.
+fun_args_integer(1) -> ok.
+fun_args_float(1.0) -> ok.
 
-fun_args({}) -> ok.
-fun_args({{}, {{}}}) -> ok.
-fun_args({ok, {error, <<"hello">>, 1}}) -> ok.
+fun_args_tuple_empty({}) -> ok.
+fun_args_tuple_nested({{}, {{}}}) -> ok.
+fun_args_tuple_filled({ok, {error, <<"hello">>, 1}}) -> ok.
 
-fun_args([]) -> ok.
-fun_args([[], [[]]]) -> ok.
-fun_args([ok, [error, <<"hello">>, 1]]) -> ok.
-fun_args([a | [{b, c} | [f | []]]]) -> ok.
+fun_args_list_empty([]) -> ok.
+fun_args_list_nested([[], [[]]]) -> ok.
+fun_args_list_filled([ok, [error, <<"hello">>, 1]]) -> ok.
+fun_args_list_cons([a | [{b, c} | [f | []]]]) -> ok.

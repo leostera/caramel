@@ -69,44 +69,48 @@
           (fd_cases
             (((fc_name list_cons) (fc_lhs ()) (fc_guards ())
                (fc_rhs
-                 (Expr_list
-                   ((Expr_literal (Lit_atom a))
-                     (Expr_tuple
-                       ((Expr_literal (Lit_atom b))
-                         (Expr_literal (Lit_atom c))))
-                     (Expr_apply
-                       ((fa_name (Expr_name (Atom_name f))) (fa_args ()))))))))))
-        ((fd_name fun_args) (fd_arity 1)
+                 (Expr_cons ((Expr_literal (Lit_atom a)))
+                   (Expr_cons
+                     ((Expr_tuple
+                        ((Expr_literal (Lit_atom b))
+                          (Expr_literal (Lit_atom c)))))
+                     (Expr_cons
+                       ((Expr_apply
+                          ((fa_name (Expr_name (Atom_name f))) (fa_args ()))))
+                       (Expr_list ())))))))))
+        ((fd_name fun_args_atom) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args) (fc_lhs ((Pattern_match (Lit_atom ok))))
+            (((fc_name fun_args_atom) (fc_lhs ((Pattern_match (Lit_atom ok))))
                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+        ((fd_name fun_args_quoted_atom) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args)
+            (((fc_name fun_args_quoted_atom)
                (fc_lhs ((Pattern_match (Lit_atom What.is_going:on!))))
                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+        ((fd_name fun_args_integer) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args) (fc_lhs ((Pattern_match (Lit_integer 1))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
-          (fd_cases
-            (((fc_name fun_args) (fc_lhs ((Pattern_match (Lit_float 1.0))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
-          (fd_cases
-            (((fc_name fun_args) (fc_lhs ((Pattern_tuple ()))) (fc_guards ())
+            (((fc_name fun_args_integer)
+               (fc_lhs ((Pattern_match (Lit_integer 1)))) (fc_guards ())
                (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+        ((fd_name fun_args_float) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args)
+            (((fc_name fun_args_float)
+               (fc_lhs ((Pattern_match (Lit_float 1.0)))) (fc_guards ())
+               (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args_tuple_empty) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args_tuple_empty) (fc_lhs ((Pattern_tuple ())))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args_tuple_nested) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_args_tuple_nested)
                (fc_lhs
                  ((Pattern_tuple
                     ((Pattern_tuple ()) (Pattern_tuple ((Pattern_tuple ())))))))
                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+        ((fd_name fun_args_tuple_filled) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args)
+            (((fc_name fun_args_tuple_filled)
                (fc_lhs
                  ((Pattern_tuple
                     ((Pattern_match (Lit_atom ok))
@@ -115,20 +119,20 @@
                           (Pattern_match (Lit_binary hello))
                           (Pattern_match (Lit_integer 1))))))))
                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+        ((fd_name fun_args_list_empty) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args) (fc_lhs ((Pattern_list ()))) (fc_guards ())
-               (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+            (((fc_name fun_args_list_empty) (fc_lhs ((Pattern_list ())))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_args_list_nested) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args)
+            (((fc_name fun_args_list_nested)
                (fc_lhs
                  ((Pattern_list
                     ((Pattern_list ()) (Pattern_list ((Pattern_list ())))))))
                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+        ((fd_name fun_args_list_filled) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args)
+            (((fc_name fun_args_list_filled)
                (fc_lhs
                  ((Pattern_list
                     ((Pattern_match (Lit_atom ok))
@@ -137,16 +141,17 @@
                           (Pattern_match (Lit_binary hello))
                           (Pattern_match (Lit_integer 1))))))))
                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
-        ((fd_name fun_args) (fd_arity 1)
+        ((fd_name fun_args_list_cons) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args)
+            (((fc_name fun_args_list_cons)
                (fc_lhs
-                 ((Pattern_list
-                    ((Pattern_match (Lit_atom a))
-                      (Pattern_tuple
-                        ((Pattern_match (Lit_atom b))
-                          (Pattern_match (Lit_atom c))))
-                      (Pattern_match (Lit_atom f))))))
+                 ((Pattern_cons ((Pattern_match (Lit_atom a)))
+                    (Pattern_cons
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom b))
+                           (Pattern_match (Lit_atom c)))))
+                      (Pattern_cons ((Pattern_match (Lit_atom f)))
+                        (Pattern_list ()))))))
                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
