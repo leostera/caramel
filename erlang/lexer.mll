@@ -68,17 +68,17 @@ rule token = parse
   | "::" { COLON_COLON }
   | ";" { SEMICOLON }
   | "-" { DASH }
-  | "->" { ARROW }
+  | "|" { PIPE }
   | "/" { SLASH }
-  | "<<" { BINARY_OPEN }
-  | ">>" { BINARY_CLOSE }
   | "(" { LEFT_PARENS }
   | ")" { RIGHT_PARENS }
   | "[" { LEFT_BRACKET }
   | "]" { RIGHT_BRACKET }
   | "{" { LEFT_BRACE }
   | "}" { RIGHT_BRACE }
-  | "|" { PIPE }
+  | "->" { ARROW }
+  | "<<" { BINARY_OPEN }
+  | ">>" { BINARY_CLOSE }
   | "\"" { read_string (Buffer.create 1024) lexbuf }
   | atom as atom { (Hashtbl.find_opt keyword_table atom) |> or_else (ATOM atom) }
   | eof { EOF }

@@ -5,19 +5,29 @@
     (module_name function_declaration) (ocaml_name Function_declaration)
     (attributes ()) (exports ()) (types ())
     (functions
-      (((fd_name list_filled) (fd_arity 0)
+      (((fd_name list_cons) (fd_arity 0)
          (fd_cases
-           (((fc_name list_filled) (fc_lhs ()) (fc_guards ())
+           (((fc_name list_cons) (fc_lhs ()) (fc_guards ())
               (fc_rhs
                 (Expr_list
-                  ((Expr_literal (Lit_atom ok))
-                    (Expr_list
-                      ((Expr_literal (Lit_atom error))
-                        (Expr_literal (Lit_binary hello))
-                        (Expr_literal (Lit_integer 1))))
+                  ((Expr_literal (Lit_atom a))
+                    (Expr_tuple
+                      ((Expr_literal (Lit_atom b)) (Expr_literal (Lit_atom c))))
                     (Expr_apply
-                      ((fa_name (Expr_name (Atom_name list_empty)))
-                        (fa_args ()))))))))))
+                      ((fa_name (Expr_name (Atom_name f))) (fa_args ()))))))))))
+        ((fd_name list_filled) (fd_arity 0)
+          (fd_cases
+            (((fc_name list_filled) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_list
+                   ((Expr_literal (Lit_atom ok))
+                     (Expr_list
+                       ((Expr_literal (Lit_atom error))
+                         (Expr_literal (Lit_binary hello))
+                         (Expr_literal (Lit_integer 1))))
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name list_empty)))
+                         (fa_args ()))))))))))
         ((fd_name list_nested) (fd_arity 0)
           (fd_cases
             (((fc_name list_nested) (fc_lhs ()) (fc_guards ())

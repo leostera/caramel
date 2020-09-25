@@ -233,7 +233,10 @@ let expr_fun :=
 (**
  * Constructors
  *)
-let list(a) := LEFT_BRACKET; els = separated_list(COMMA, a); RIGHT_BRACKET; { els }
+let list(a) :=
+  | LEFT_BRACKET; els = separated_list(COMMA, a); RIGHT_BRACKET; { els }
+  | LEFT_BRACKET; el1 = separated_list(COMMA, a); PIPE; el2 = list(a); RIGHT_BRACKET;
+      { el1 @ el2 }
 let tuple(a) := LEFT_BRACE; els = separated_list(COMMA, a); RIGHT_BRACE; { els }
 
 (**

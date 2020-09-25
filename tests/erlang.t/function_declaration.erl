@@ -11,3 +11,5 @@ tuple_filled() -> {ok, {error, <<"hello">>, 1}, tuple_empty()}.
 list_empty() -> [].
 list_nested() -> [[], [[]]].
 list_filled() -> [ok, [error, <<"hello">>, 1], list_empty()].
+
+list_cons() -> [a | [{b, c} | [f() | []]]].
