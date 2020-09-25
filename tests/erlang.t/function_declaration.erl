@@ -13,7 +13,7 @@ list_empty() -> [].
 list_nested() -> [[], [[]]].
 list_filled() -> [ok, [error, <<"hello">>, 1], list_empty()].
 
-list_cons() -> [a | [{b, c} | [f() | []]]].
+list_cons() -> [a | [{b, c} | [list_empty() | []]]].
 
 fun_args_atom(ok) -> ok.
 fun_args_quoted_atom('What.is_going:on!') -> ok.
@@ -34,7 +34,7 @@ fun_arg_var_in_list([A]) -> A.
 fun_arg_var(A) -> A.
 fun_arg_var_ignore(_) -> ok.
 fun_arg_var_ignore_in_tuple({A, _}) -> A.
-fun_arg_var_ignore_in_list([_, B]) -> A.
+fun_arg_var_ignore_in_list([_, B]) -> B.
 fun_arg_var_ignore_in_cons([A | _]) -> A.
 
 fun_args(A, B) -> {A, B}.
@@ -59,19 +59,19 @@ case_expr(A) ->
     false -> true
   end.
 
-fun_ref() -> fun f/0.
+fun_ref() -> fun fun_ref/0.
 
 lambda() -> fun () -> ok end.
 lambda_with_args() -> fun (A) -> A end.
 lambda_in_var() -> F = fun (A) -> A end.
 lambda_var_call() -> F = fun (A) -> A end, F(1).
 
-send() -> A ! A.
-send() -> A ! A ! A.
+send(A) -> A ! A.
+send_chain(A) -> A ! A ! A.
 
 recv() -> receive X -> X end.
-recv() -> receive X -> X after infinity -> ok end.
-recv() ->
+recv_with_after() -> receive X -> X after infinity -> ok end.
+recv_selectively() ->
   receive
     true -> false;
     {true} -> false;
@@ -87,3 +87,7 @@ fun_cases(1) -> ok;
 fun_cases(2) -> ok;
 fun_cases(3) -> ok;
 fun_cases(_) -> false.
+
+fib(0) -> 0;
+fib(1) -> 1;
+fib(N) -> erlang:'+'(fib(erlang:'-'(N,1)), fib(erlang:'-'(N,2))).
