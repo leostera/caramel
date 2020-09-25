@@ -58,3 +58,8 @@ case_expr(A) ->
   end.
 
 fun_ref() -> fun f/0.
+
+lambda() -> fun () -> ok end.
+lambda_with_args() -> fun (A) -> A end.
+lambda_in_var() -> F = fun (A) -> A end.
+lambda_var_call() -> F = fun (A) -> A end, F(1).

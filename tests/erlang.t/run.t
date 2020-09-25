@@ -319,7 +319,55 @@
         ((fd_name fun_ref) (fd_arity 0)
           (fd_cases
             (((fc_name fun_ref) (fc_lhs ()) (fc_guards ())
-               (fc_rhs (Expr_fun_ref f)))))))))
+               (fc_rhs (Expr_fun_ref f))))))
+        ((fd_name lambda) (fd_arity 0)
+          (fd_cases
+            (((fc_name lambda) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_fun
+                   ((fd_name anonymous) (fd_arity 0)
+                     (fd_cases
+                       (((fc_name anonymous) (fc_lhs ()) (fc_guards ())
+                          (fc_rhs (Expr_literal (Lit_atom ok)))))))))))))
+        ((fd_name lambda_with_args) (fd_arity 0)
+          (fd_cases
+            (((fc_name lambda_with_args) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_fun
+                   ((fd_name anonymous) (fd_arity 1)
+                     (fd_cases
+                       (((fc_name anonymous) (fc_lhs ((Pattern_binding A)))
+                          (fc_guards ()) (fc_rhs (Expr_name (Var_name A)))))))))))))
+        ((fd_name lambda_in_var) (fd_arity 0)
+          (fd_cases
+            (((fc_name lambda_in_var) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding F))
+                     (lb_rhs
+                       (Expr_fun
+                         ((fd_name anonymous) (fd_arity 1)
+                           (fd_cases
+                             (((fc_name anonymous)
+                                (fc_lhs ((Pattern_binding A))) (fc_guards ())
+                                (fc_rhs (Expr_name (Var_name A))))))))))
+                   (Expr_name (Var_name F))))))))
+        ((fd_name lambda_var_call) (fd_arity 0)
+          (fd_cases
+            (((fc_name lambda_var_call) (fc_lhs ()) (fc_guards ())
+               (fc_rhs
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding F))
+                     (lb_rhs
+                       (Expr_fun
+                         ((fd_name anonymous) (fd_arity 1)
+                           (fd_cases
+                             (((fc_name anonymous)
+                                (fc_lhs ((Pattern_binding A))) (fc_guards ())
+                                (fc_rhs (Expr_name (Var_name A))))))))))
+                   (Expr_apply
+                     ((fa_name (Expr_name (Var_name F)))
+                       (fa_args ((Expr_literal (Lit_integer 1)))))))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes
