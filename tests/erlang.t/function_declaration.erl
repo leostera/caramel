@@ -28,3 +28,11 @@ fun_args_list_empty([]) -> ok.
 fun_args_list_nested([[], [[]]]) -> ok.
 fun_args_list_filled([ok, [error, <<"hello">>, 1]]) -> ok.
 fun_args_list_cons([a | [{b, c} | [f | []]]]) -> ok.
+
+fun_arg_var_in_tuple({A}) -> A.
+fun_arg_var_in_list([A]) -> A.
+fun_arg_var(A) -> A.
+fun_arg_var_ignore(_) -> ok.
+fun_arg_var_ignore_in_tuple({A, _}) -> A.
+fun_arg_var_ignore_in_list([_, B]) -> A.
+fun_arg_var_ignore_in_cons([A | _]) -> A.

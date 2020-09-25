@@ -152,7 +152,43 @@
                            (Pattern_match (Lit_atom c)))))
                       (Pattern_cons ((Pattern_match (Lit_atom f)))
                         (Pattern_list ()))))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_arg_var_in_tuple) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_arg_var_in_tuple)
+               (fc_lhs ((Pattern_tuple ((Pattern_binding A))))) (fc_guards ())
+               (fc_rhs (Expr_name (Var_name A)))))))
+        ((fd_name fun_arg_var_in_list) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_arg_var_in_list)
+               (fc_lhs ((Pattern_list ((Pattern_binding A))))) (fc_guards ())
+               (fc_rhs (Expr_name (Var_name A)))))))
+        ((fd_name fun_arg_var) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_arg_var) (fc_lhs ((Pattern_binding A)))
+               (fc_guards ()) (fc_rhs (Expr_name (Var_name A)))))))
+        ((fd_name fun_arg_var_ignore) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_arg_var_ignore) (fc_lhs ((Pattern_binding _)))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok)))))))
+        ((fd_name fun_arg_var_ignore_in_tuple) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_arg_var_ignore_in_tuple)
+               (fc_lhs
+                 ((Pattern_tuple ((Pattern_binding A) (Pattern_binding _)))))
+               (fc_guards ()) (fc_rhs (Expr_name (Var_name A)))))))
+        ((fd_name fun_arg_var_ignore_in_list) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_arg_var_ignore_in_list)
+               (fc_lhs
+                 ((Pattern_list ((Pattern_binding _) (Pattern_binding B)))))
+               (fc_guards ()) (fc_rhs (Expr_name (Var_name A)))))))
+        ((fd_name fun_arg_var_ignore_in_cons) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_arg_var_ignore_in_cons)
+               (fc_lhs
+                 ((Pattern_cons ((Pattern_binding A)) (Pattern_binding _))))
+               (fc_guards ()) (fc_rhs (Expr_name (Var_name A))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes
