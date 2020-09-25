@@ -285,25 +285,25 @@
                      (Expr_name (Var_name E)) (Expr_name (Var_name F))
                      (Expr_name (Var_name G)) (Expr_name (Var_name H))
                      (Expr_name (Var_name I)))))))))
-        ((fd_name f) (fd_arity 0)
+        ((fd_name binding_return) (fd_arity 0)
           (fd_cases
-            (((fc_name f) (fc_lhs ()) (fc_guards ())
+            (((fc_name binding_return) (fc_lhs ()) (fc_guards ())
                (fc_rhs
                  (Expr_let
                    ((lb_lhs (Pattern_binding A))
                      (lb_rhs (Expr_literal (Lit_integer 1))))
                    (Expr_name (Var_name A))))))))
-        ((fd_name f) (fd_arity 0)
+        ((fd_name binding_and_return) (fd_arity 0)
           (fd_cases
-            (((fc_name f) (fc_lhs ()) (fc_guards ())
+            (((fc_name binding_and_return) (fc_lhs ()) (fc_guards ())
                (fc_rhs
                  (Expr_let
                    ((lb_lhs (Pattern_binding A))
                      (lb_rhs (Expr_literal (Lit_integer 1))))
                    (Expr_name (Var_name A))))))))
-        ((fd_name negate) (fd_arity 1)
+        ((fd_name case_expr) (fd_arity 1)
           (fd_cases
-            (((fc_name negate) (fc_lhs ((Pattern_binding A))) (fc_guards ())
+            (((fc_name case_expr) (fc_lhs ((Pattern_binding A))) (fc_guards ())
                (fc_rhs
                  (Expr_case (Expr_name (Var_name A))
                    (((cb_pattern (Pattern_match (Lit_atom true)))
