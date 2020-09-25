@@ -101,8 +101,12 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
   if opts.dump_ast then (
     Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
       (Erlang.Ast.sexp_of_t erlang_ast);
-    Format.fprintf Format.std_formatter "\n%!" );
+    Format.fprintf Format.std_formatter "\n\n%!" );
   let parsetree = Erlang_to_ocaml.to_parsetree erlang_ast in
+  if opts.dump_ast then (
+    Pprintast.structure Format.std_formatter parsetree;
+    Format.fprintf Format.std_formatter "\n\n%!"
+  );
   let typedtree =
     parsetree
     |> Profile.(record typing)
@@ -156,9 +160,14 @@ let compile ({ sources; _ } as opts) =
       |> List.filter_map (function `Erl f -> Some (`Erl f) | _ -> None)
     in
 
-    List.iter (compile_one ~opts) (ml_sources @ erlang_sources)
+    List.iter (compile_one ~opts) (ml_sources @ erlang_sources);
+
+    Warnings.check_fatal ();
   with
   | exception Env.Error err -> Env.report_error Format.std_formatter err
   | exception exc ->
-      Format.fprintf Format.std_formatter "ERROR: %s" (Printexc.to_string exc)
+      begin match (Location.error_of_exn exc) with
+      | Some (`Ok error) -> Location.print_report Format.std_formatter error
+      | _ -> Format.fprintf Format.std_formatter "ERROR: %s" (Printexc.to_string exc)
+      end
   | _ -> ()
