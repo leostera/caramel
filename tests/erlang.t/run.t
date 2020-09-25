@@ -451,7 +451,17 @@
                           (cb_expr (Expr_literal (Lit_atom true))))))
                      (rcv_after
                        (((cb_pattern (Pattern_match (Lit_atom infinity)))
-                          (cb_expr (Expr_literal (Lit_atom ok))))))))))))))))
+                          (cb_expr (Expr_literal (Lit_atom ok)))))))))))))
+        ((fd_name fun_cases) (fd_arity 1)
+          (fd_cases
+            (((fc_name fun_cases) (fc_lhs ((Pattern_match (Lit_integer 1))))
+               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))
+              ((fc_name fun_cases) (fc_lhs ((Pattern_match (Lit_integer 2))))
+                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))
+              ((fc_name fun_cases) (fc_lhs ((Pattern_match (Lit_integer 3))))
+                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))
+              ((fc_name fun_cases) (fc_lhs ((Pattern_binding _)))
+                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom false))))))))))
   ((file_name module_attributes.erl) (behaviours (gen_server another_behavior))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes

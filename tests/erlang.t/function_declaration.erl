@@ -82,3 +82,8 @@ recv() ->
   after
     infinity -> ok
   end.
+
+fun_cases(1) -> ok;
+fun_cases(2) -> ok;
+fun_cases(3) -> ok;
+fun_cases(_) -> false.
