@@ -31,10 +31,16 @@ let mk_name name =
   | Macro_name _ -> raise (Unsupported_name name)
   | Var_name name -> Exp.ident (mk_lid (String.lowercase_ascii name))
   | Atom_name name -> Exp.ident (mk_lid name)
-  | Qualified_name {n_mod; n_name} ->
-      match Longident.unflatten [String.capitalize_ascii n_mod; n_name] with
+  | Qualified_name {n_mod="erlang"; n_name} ->
+      begin match Longident.unflatten ["Stdlib"; n_name] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none }
+      end
+  | Qualified_name {n_mod; n_name} ->
+      begin match Longident.unflatten [String.capitalize_ascii n_mod; n_name] with
+      | None -> raise (Invalid_name name)
+      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none }
+      end
 
 let rec mk_expression expr =
   match expr with
@@ -47,6 +53,8 @@ let rec mk_expression expr =
         Nonrecursive
         [Vb.mk (mk_pattern lb_lhs) (mk_expression lb_rhs)]
         (mk_expression expr)
+  | Expr_apply {fa_name; fa_args = []} ->
+      Exp.apply (mk_expression fa_name) [Nolabel, Exp.construct (mk_lid "()") None]
   | Expr_apply {fa_name; fa_args} ->
       Exp.apply (mk_expression fa_name)
         (List.map (fun arg -> (Nolabel, mk_expression arg)) fa_args)
@@ -54,6 +62,8 @@ let rec mk_expression expr =
   | Expr_cons (lhs, xs) -> mk_list_expr ((List.map mk_expression lhs) @ [mk_expression xs])
   | Expr_case (expr, branches) ->
       Exp.match_ (mk_expression expr) (List.map mk_match_case branches)
+  | Expr_tuple [] -> Exp.construct (mk_lid "()") None
+  | Expr_tuple [x] -> mk_expression x
   | Expr_tuple els -> Exp.tuple (List.map mk_expression els)
   | Expr_fun fun_decl -> mk_fun fun_decl
   | Expr_recv recv -> mk_recv recv
