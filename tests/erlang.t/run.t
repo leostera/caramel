@@ -6,7 +6,12 @@
     (attributes ()) (exports ()) (types ()) (functions ()))
   ((file_name module_attributes.erl) (behaviours (another_behavior gen_server))
     (module_name module_attributes) (ocaml_name Module_attributes)
-    (attributes ())
+    (attributes
+      (((atr_name on_load)
+         (atr_value
+           (Expr_list
+             ((Expr_tuple
+                ((Expr_literal (Lit_atom pre)) (Expr_literal (Lit_integer 0))))))))))
     (exports
       (((exp_type Export_function) (exp_name f) (exp_arity 0))
         ((exp_type Export_function) (exp_name g) (exp_arity 2))
