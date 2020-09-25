@@ -41,3 +41,5 @@ comp(ml,core): Brainstorm ways to verify the semantics have not changed from
 comp(ml,core): Figure out what type information is available at Lambda stage
   and if it makes sense to use that, or pull in the Signature to decore the
   Core AST
+
+erl(parser): do not allow tuples of 1 element
