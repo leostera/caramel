@@ -3,7 +3,12 @@
     (attributes ()) (exports ()) (types ()) (functions ()))
   ((file_name function_declaration.erl) (behaviours ())
     (module_name function_declaration) (ocaml_name Function_declaration)
-    (attributes ()) (exports ()) (types ()) (functions ()))
+    (attributes ()) (exports ()) (types ())
+    (functions
+      (((fd_name f) (fd_arity 0)
+         (fd_cases
+           (((fc_name f) (fc_lhs ()) (fc_guards ())
+              (fc_rhs (Expr_literal (Lit_atom ok))))))))))
   ((file_name module_attributes.erl) (behaviours (another_behavior gen_server))
     (module_name module_attributes) (ocaml_name Module_attributes)
     (attributes
