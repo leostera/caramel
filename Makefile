@@ -1,10 +1,10 @@
 .PHONY: build
 build:
-	dune build @install @default -j $(shell nproc)
+	dune build @install @default -j8
 
 .PHONY: watch
 watch:
-	dune build @all --watch -j $(shell nproc)
+	dune build @all --watch -j8
 
 .PHONY: install
 install:
