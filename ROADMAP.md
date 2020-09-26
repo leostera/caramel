@@ -3,8 +3,6 @@
 These are some things I intend to work on in the near future,
 somewhat ordered:
 
-comp(ml,erl): generate function signatures
-
 comp(ml,erl): refactor fun refs to resolve arity at compile time
 
 comp(ml,erl): investigate how to flatten out functors
@@ -21,8 +19,6 @@ comp(ml,erl): support for guards:
 
 erl(parser): Extend Erlang parser to parse some OTP modules
 
-comp(erl,ml): sketch out Ast -> Parsetree translation
-
 core(parser): figure out overlap with erlang parser, steal it!
 
 core(printer): Finish pretty printer of Core AST
@@ -36,7 +32,7 @@ comp(ml,core): Scout out what parts of Lambda are not compileable to Core (e.g, 
 comp(ml,core): Finish mapping from Lambda
 
 comp(ml,core): Brainstorm ways to verify the semantics have not changed from
-  `erlc +to_core` to `caramelc -to_core`
+  `erlc +to_core` to `caramelc compile --to-core`
 
 comp(ml,core): Figure out what type information is available at Lambda stage
   and if it makes sense to use that, or pull in the Signature to decore the
