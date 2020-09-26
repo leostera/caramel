@@ -16,4 +16,4 @@ let from_file source_file =
           (Printexc.to_string exc)
       in
       Error (`Parser_error msg)
-  | x -> x
+  | x -> Ok x
