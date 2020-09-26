@@ -23,6 +23,8 @@
   Compiling extensible_variant.erl	OK
   Compiling abstract.erl	OK
   Compiling qualified_names.erl	OK
+  $ echo $?
+  0
   $ cat *.erl
   % Source code generated with Caramel.
   -module(abstract).

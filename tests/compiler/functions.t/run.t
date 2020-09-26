@@ -60,6 +60,8 @@
   Compiling hello_joe.erl	OK
   Compiling basic.erl	OK
   Compiling sequencing.erl	OK
+  $ echo $?
+  0
   $ cat *.erl
   % Source code generated with Caramel.
   -module(basic).
@@ -172,7 +174,7 @@
   tail([_ | Xs]) -> Xs.
   
   -spec one_el(list(A)) -> A.
-  one_el([X | '[]']) -> X.
+  one_el([X | []]) -> X.
   
   -spec at_2(list(A)) -> A.
   at_2([_ | [X | _]]) -> X.

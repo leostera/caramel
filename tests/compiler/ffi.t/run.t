@@ -3,6 +3,8 @@
   using_io.ml
   $ caramelc compile *.ml
   Compiling using_io.erl	OK
+  $ echo $?
+  0
   $ cat *.erl
   % Source code generated with Caramel.
   -module(using_io).

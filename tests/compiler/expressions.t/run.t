@@ -146,6 +146,8 @@
   Compiling binding_on_match.erl	OK
   Compiling apply__funs.erl	OK
   Compiling apply.erl	OK
+  $ echo $?
+  0
   $ cat *.erl
   % Source code generated with Caramel.
   -module(apply).
@@ -227,8 +229,8 @@
   -spec match_list() -> boolean().
   match_list() ->
     case [0 | [1 | []]] of
-      '[]' -> true;
-      [X | '[]'] -> true;
+      [] -> true;
+      [X | []] -> true;
       [X | Xs] -> true
     end.
   
@@ -448,11 +450,11 @@
   -spec match_list() -> boolean().
   match_list() ->
     case [0 | [1 | []]] of
-      '[]' -> true;
+      [] -> true;
       [1 | Xs] -> true;
-      [1 | '[]'] -> true;
+      [1 | []] -> true;
       [0 | [1 | _]] -> true;
-      [0 | [1 | '[]']] -> true
+      [0 | [1 | []]] -> true
     end.
   
   -spec match_tuples() -> boolean().

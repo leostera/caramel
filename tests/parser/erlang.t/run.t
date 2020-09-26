@@ -667,3 +667,5 @@
   File "_none_", line 1:
   Error: This expression has type 'a list
          but an expression was expected of type [> `ok ]
+  $ echo $?
+  0

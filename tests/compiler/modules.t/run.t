@@ -22,6 +22,8 @@
   Compiling include__a.erl	OK
   Compiling include.erl	OK
   Compiling functors.erl	OK
+  $ echo $?
+  0
   $ cat *.erl
   % Source code generated with Caramel.
   -module(functors).
