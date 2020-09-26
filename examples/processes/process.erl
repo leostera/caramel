@@ -14,7 +14,7 @@
 
 -type recv(Message) :: fun((after_time()) -> option:t(Message)).
 
--spec recv(after_time()) :: option:t(any()).
+-spec recv(after_time()) :: option:t(A).
 recv(Timeout) ->
   F = fun (T) -> receive X -> {some, X} after T -> none end end,
   case Timeout of

@@ -6,9 +6,9 @@
 -export([c_loop/3]).
 -export([run/0]).
 
--spec a_loop(any(), fun((process:after_time()) -> option:t({call, {erlang:pid(integer()), integer()}}
+-spec a_loop(A, fun((process:after_time()) -> option:t({call, {erlang:pid(integer()), integer()}}
     | noop
-    )), integer()) :: any().
+    )), integer()) :: B.
 a_loop(Pid, Recv, I) ->
   case Recv(infinity) of
     none -> a_loop(Pid, Recv, I);
@@ -17,7 +17,7 @@ a_loop(Pid, Recv, I) ->
 a_loop(Pid, Recv, erlang:'+'(I, Msg))
   end.
 
--spec b_loop(any(), fun((process:after_time()) -> option:t(integer())), erlang:pid({call, {any(), integer()}}
+-spec b_loop(A, fun((process:after_time()) -> option:t(integer())), erlang:pid({call, {A, integer()}}
     )) :: ok.
 b_loop(Pid, Recv, A) ->
   timer:sleep(1000),

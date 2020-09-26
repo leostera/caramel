@@ -16,7 +16,7 @@ name() -> worker_pool.
 -spec where_is() :: option:t(t()).
 where_is() -> proc_registry:where_is(name()).
 
--spec a_loop(any(), fun((process:after_time()) -> option:t(integer())), integer()) :: any().
+-spec a_loop(A, fun((process:after_time()) -> option:t(integer())), integer()) :: B.
 a_loop(Pid, Recv, I) ->
   case Recv(infinity) of
     none -> a_loop(Pid, Recv, I);

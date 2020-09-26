@@ -22,7 +22,7 @@ handle_message(State, Msg) ->
 -spec loop(fun((process:after_time()) -> option:t({add, integer()}
   | {hello, binary()}
   | reset
-  )), {binary(), integer()}) :: any().
+  )), {binary(), integer()}) :: A.
 loop(Recv, State) ->
   io:format(<<"current_state: ~p\n">>, [State | []]),
   Msg = Recv({bounded, 5000}),

@@ -5,12 +5,12 @@
 -export([loop/1]).
 -export([start/1]).
 
--spec loop(any()) :: any().
+-spec loop(A) :: B.
 loop(X) ->
   io:format(<<"~p\n">>, [erlang:self() | []]),
   loop(X).
 
--spec start(any()) :: erlang:pid(any()).
+-spec start(A) :: erlang:pid(B).
 start(X) -> erlang:spawn(fun
   () -> loop(X)
 end).

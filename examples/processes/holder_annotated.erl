@@ -16,16 +16,16 @@
 -type state() :: {binary(), integer()}.
 
 -spec handle_message(state(), option:t(msg())) :: state().
-handle_message(_, _) ->
-  {X, Y} = ,
-  case  of
+handle_message(State, Msg) ->
+  {X, Y} = State,
+  case Msg of
     {some, reset} -> {<<"">>, 0};
     {some, {add, Z}} -> {X, Z};
     {some, {hello, N}} -> {N, Y};
-    none -> 
+    none -> State
   end.
 
--spec loop(fun((process:after_time()) -> option:t(msg())), state()) :: any().
+-spec loop(fun((process:after_time()) -> option:t(msg())), state()) :: A.
 loop(Recv, State) ->
   io:format(<<"current_state: ~p\n">>, [State | []]),
   Msg = Recv({bounded, 5000}),

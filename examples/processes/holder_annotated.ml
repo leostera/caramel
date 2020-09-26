@@ -2,7 +2,8 @@ type msg = [ `Reset | `Add of int | `Hello of string ]
 
 type state = string * int
 
-let handle_message (state : state) (msg : msg option) =
+let handle_message : state -> msg option -> state =
+ fun state msg ->
   let x, y = state in
   match msg with
   | Some `Reset -> ("", 0)

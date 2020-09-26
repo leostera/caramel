@@ -11,7 +11,7 @@
 
 -type registry() :: list(name()).
 
--spec where_is(fun((name()) -> option:t(any()))) :: option:t(any()).
+-spec where_is(fun((name()) -> option:t(A))) :: option:t(A).
 where_is(F) ->
   Where_is' = fun
   (Ns) ->
@@ -25,7 +25,7 @@ end
 end,
   Where_is'(maps:get(contents, )).
 
--spec register(fun((name()) -> option:t(any())), name(), any()) :: result:t(ok, binary()).
+-spec register(fun((name()) -> option:t(A)), name(), B) :: result:t(ok, binary()).
 register(F, N, Pid) ->
   case where_is(F) of
     {some, _} -> {error, <<"process already registered">>};
