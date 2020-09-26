@@ -13,7 +13,8 @@ module Fun = struct
             let return = build_type_kind return in
             Type.fun_ ~args ~return
         | `Not_a_function ->
-            Format.fprintf Format.std_formatter "Tried to uncurry a non-function type!\n%!";
+            Format.fprintf Format.std_formatter
+              "Tried to uncurry a non-function type!\n%!";
             Printtyp.type_expr Format.std_formatter type_expr;
             Format.fprintf Format.std_formatter "\n%!";
             raise Error.Unsupported_feature )
@@ -31,11 +32,12 @@ module Fun = struct
     | Tnil -> Type.apply ~name:(Name.atom "list") ~args:[]
     | Tvariant { row_fields; _ } ->
         let row_field_to_type_kind = function
-          | Rpresent (Some texpr) -> [build_type_kind texpr]
+          | Rpresent (Some texpr) -> [ build_type_kind texpr ]
           | Rpresent None -> []
           | Reither (_, args, _, _) -> List.map build_type_kind args
           | _ ->
-              Format.fprintf Format.std_formatter "Tried to build a type kind for an odd variant constructor!\n%!";
+              Format.fprintf Format.std_formatter
+                "Tried to build a type kind for an odd variant constructor!\n%!";
               Printtyp.type_expr Format.std_formatter type_expr;
               Format.fprintf Format.std_formatter "\n%!";
               Printtyp.raw_type_expr Format.std_formatter type_expr;

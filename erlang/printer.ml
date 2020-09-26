@@ -22,7 +22,9 @@ exception Unknown_support_function
 exception Invalid_cons_with_no_left_hand_side
 
 module H = struct
-  let pad n = let n = if n < 0 then 0 else n in String.make n ' '
+  let pad n =
+    let n = if n < 0 then 0 else n in
+    String.make n ' '
 end
 
 let pp_atom ppf (Atom atom) =
