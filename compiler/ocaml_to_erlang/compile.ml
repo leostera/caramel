@@ -58,10 +58,10 @@ let rec find_modules :
                         _mod_type_constr,
                         _mod_type_coerc ) ->
                       (module_name, typedtree, Some signature)
-                      :: find_modules ~prefix typedtree
+                      :: find_modules ~prefix:module_name typedtree
                   | Tmod_structure typedtree ->
                       (module_name, typedtree, None)
-                      :: find_modules ~prefix typedtree
+                      :: find_modules ~prefix:module_name typedtree
                   | _ -> [])
          in
          List.concat [ mbs; acc ])
