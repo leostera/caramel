@@ -7,12 +7,16 @@
 -export([start/0]).
 -export([where_is/0]).
 
--type t() :: erlang:pid().
+-type t() :: erlang:pid(integer()).
 
+-spec name() :: worker_pool
+  .
 name() -> worker_pool.
 
+-spec where_is() :: option:t(t()).
 where_is() -> proc_registry:where_is(name()).
 
+-spec a_loop(any(), fun((process:after_time()) -> option:t(integer())), integer()) :: any().
 a_loop(Pid, Recv, I) ->
   case Recv(infinity) of
     none -> a_loop(Pid, Recv, I);
@@ -20,6 +24,7 @@ a_loop(Pid, Recv, I) ->
 a_loop(Pid, Recv, erlang:'+'(I, J))
   end.
 
+-spec start() :: result:t(erlang:pid(integer()), binary()).
 start() ->
   Loop = fun
   (Pid, Recv) -> a_loop(Pid, Recv, 0)

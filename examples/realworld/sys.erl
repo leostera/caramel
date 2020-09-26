@@ -6,9 +6,10 @@
 
 -type backend_type() :: native
                       | bytecode
-                      | {other, string()}
+                      | {other, binary()}
                       .
 
+-spec backend_type() :: backend_type().
 backend_type() -> {other, <<"BEAM">>}.
 
 

@@ -3,6 +3,7 @@
 
 -export([run/0]).
 
+-spec run() :: ok.
 run() ->
   case registered_process_name__proc:start() of
     {ok, Pid} -> case registered_process_name__proc:where_is() of

@@ -4,6 +4,7 @@
 -export([register/2]).
 -export([where_is/1]).
 
+-spec where_is(A) :: option:t(erlang:pid(Message)).
 where_is(Name) ->
   Pid = erlang:whereis(Name),
   Is_pid = erlang:is_pid(Pid),
@@ -12,6 +13,7 @@ where_is(Name) ->
     _ -> none
   end.
 
+-spec register(A, erlang:pid(Message)) :: result:t(erlang:pid(Message), binary()).
 register(Name, Pid) ->
   case where_is(Name) of
     {some, _} -> {error, <<"process already registered">>};

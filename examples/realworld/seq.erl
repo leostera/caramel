@@ -21,24 +21,30 @@
 
 -type t(A) :: fun((ok) -> node(A)).
 
+-spec empty() :: node(any()).
 empty() -> nil.
 
+-spec return(any(), ok) :: node(any()).
 return(X, ok) -> {cons, X, fun empty/1}.
 
+-spec cons(any(), t(any()), ok) :: node(any()).
 cons(X, Next, ok) -> {cons, X, Next}.
 
+-spec append(t(any()), fun(() -> node(any()))) :: t(any()).
 append(Seq1, Seq2, ok) ->
   case Seq1() of
     nil -> Seq2();
     {cons, X, Next} -> {cons, X, append(Next, Seq2)}
   end.
 
+-spec map(fun((any()) -> any()), t(any())) :: t(any()).
 map(F, Seq, ok) ->
   case Seq() of
     nil -> nil;
     {cons, X, Next} -> {cons, F(X), map(F, Next)}
   end.
 
+-spec filter_map(fun((any()) -> option:t(any())), t(any())) :: t(any()).
 filter_map(F, Seq, ok) ->
   case Seq() of
     nil -> nil;
@@ -48,6 +54,7 @@ filter_map(F, Seq, ok) ->
 end
   end.
 
+-spec filter(fun((any()) -> boolean()), t(any())) :: t(any()).
 filter(F, Seq, ok) ->
   case Seq() of
     nil -> nil;
@@ -57,18 +64,21 @@ filter(F, Seq, ok) ->
 end
   end.
 
+-spec flat_map_app(fun((any()) -> t(any())), t(any()), t(any())) :: t(any()).
 flat_map_app(F, Seq, Tail, ok) ->
   case Seq() of
     nil -> flat_map(F, Tail, ok);
     {cons, X, Next} -> {cons, X, flat_map_app(F, Next, Tail)}
   end.
 
+-spec flat_map(fun((any()) -> t(any())), t(any()), ok) :: node(any()).
 flat_map(F, Seq, ok) ->
   case Seq() of
     nil -> nil;
     {cons, X, Next} -> flat_map_app(F, F(X), Next, ok)
   end.
 
+-spec fold_left(fun((any(), any()) -> any()), any(), t(any())) :: any().
 fold_left(F, Acc, Seq) ->
   Aux = fun
   (F, Acc, Seq) ->
@@ -80,6 +90,7 @@ aux(F, Acc, Next)
 end,
   Aux(F, Acc, Seq).
 
+-spec iter(fun((any()) -> any()), t(any())) :: ok.
 iter(F, Seq) ->
   Aux = fun
   (Seq) ->
@@ -91,6 +102,7 @@ aux(Next)
 end,
   Aux(Seq).
 
+-spec unfold(fun((any()) -> option:t({any(), any()})), any()) :: t(any()).
 unfold(F, U, ok) ->
   case F(U) of
     none -> nil;

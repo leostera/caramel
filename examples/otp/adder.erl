@@ -25,18 +25,24 @@
                        | {no_reply, state()}
                        .
 
+-spec init(any()) :: result:t(any(), any()).
 init(X) -> {ok, X}.
 
+-spec handle_cast(any(), state()) :: call_response().
 handle_cast(_, State) -> {no_reply, State}.
 
-handle_call(Message, _Pid, State) ->
+-spec handle_call(message(), any(), reply()) :: call_response().
+handle_call(Message, _pid, State) ->
   timer:sleep(1000),
   case Message of
     {add, I} -> {reply, State, erlang:'+'(State, I)}
   end.
 
+-spec add(erlang:pid(message()), message()) :: {ok, any()}
+ .
 add(Pid, X) -> {ok, gen_server:call(Pid, X)}.
 
+-spec start_link(init_args()) :: erlang:pid(message()).
 start_link(Args) -> gen_server:start_link(adder, Args, []).
 
 

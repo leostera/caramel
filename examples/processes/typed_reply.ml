@@ -1,6 +1,7 @@
 let rec a_loop pid recv i =
   match recv ~timeout:Process.Infinity with
   | None -> a_loop pid recv i
+  | Some `Noop  -> a_loop pid recv i
   | Some (`Call (cb, msg)) ->
       Erlang.send cb i;
       a_loop pid recv (i + msg)

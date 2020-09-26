@@ -14,6 +14,7 @@
 
 -type recv(Message) :: fun((after_time()) -> option:t(Message)).
 
+-spec recv(after_time()) :: option:t(any()).
 recv(Timeout) ->
   F = fun (T) -> receive X -> {some, X} after T -> none end end,
   case Timeout of
@@ -21,16 +22,19 @@ recv(Timeout) ->
     {bounded, T} -> F(T)
   end.
 
+-spec make(fun((erlang:pid(Message), recv(Message)) -> A)) :: erlang:pid(Message).
 make(F) -> erlang:spawn(fun
   () ->
   Pid = erlang:self(),
   F(Pid, fun recv/1)
 end).
 
+-spec send(erlang:pid(Message), Message) :: ok.
 send(Proc, Msg) -> erlang:send(Proc, Msg).
 
+-spec contramap(fun((B) -> A), erlang:pid(A)) :: erlang:pid(B).
 contramap(F, Pid) -> make(fun
-  (_Self, Recv) ->
+  (_self, Recv) ->
   case Recv(infinity) of
     {some, A} -> send(Pid, F(A));
     none -> ok
