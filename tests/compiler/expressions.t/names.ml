@@ -5,12 +5,6 @@ let rec run_local () =
   let y = `Atom in
   y
 
-(* FIXME: __MODULE__ is not being found, and ends up as an empty string
-*)
-let rec run_macros () =
-  let z = __MODULE__ in
-  z
-
 module Nested = struct
   let x () = `compiler "caramel"
 

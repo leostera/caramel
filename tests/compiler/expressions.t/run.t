@@ -9,16 +9,16 @@
   names.ml
   records.ml
   $ caramelc compile *.ml
-  File "names.ml", line 21, characters 2-13:
-  21 |   Nested.x ();
+  File "names.ml", line 15, characters 2-13:
+  15 |   Nested.x ();
          ^^^^^^^^^^^
   Warning 10: this expression should have type unit.
   File "names.ml", line 4, characters 6-7:
   4 |   let x = run_local in
             ^
   Warning 26: unused variable x.
-  File "names.ml", line 27, characters 6-7:
-  27 |   let x () = 1 in
+  File "names.ml", line 21, characters 6-7:
+  21 |   let x () = 1 in
              ^
   Warning 26: unused variable x.
   File "match.ml", line 5, characters 19-41:
@@ -476,7 +476,6 @@
   -module(names).
   
   -export([run_local/0]).
-  -export([run_macros/0]).
   -export([run_nested/0]).
   -export([run_nested_ambiguous/0]).
   
@@ -486,11 +485,6 @@
     X = fun run_local/1,
     Y = atom,
     Y.
-  
-  -spec run_macros() :: binary().
-  run_macros() ->
-    Z = ,
-    Z.
   
   -spec run_nested() :: {version, kind_of_working
                   }
