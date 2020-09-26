@@ -42,7 +42,6 @@ module Sort_deps = struct
 
   let run sources =
     sources
-    |> List.filter (fun x -> String.contains x '*')
     |> Caramel_compiler.Dependency_sorter.print_sorted_files
 
   let args =
