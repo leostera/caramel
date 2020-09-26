@@ -68,10 +68,10 @@
   -export([ignore/0]).
   -export([pair/2]).
   
-  -spec pair() :: fun(() -> {_, _}).
+  -spec pair(any(), any()) :: {any(), any()}.
   pair(X, Y) -> {X, Y}.
   
-  -spec combine() :: fun(() -> {{_, _}, {_, _}}).
+  -spec combine({any(), any()}, {any(), any()}) :: {{any(), any()}, {any(), any()}}.
   combine({A, B}, {C, D}) -> {{A, C}, {B, D}}.
   
   -spec ignore() :: ok.
@@ -97,16 +97,16 @@
   -export([right/2]).
   -export([snd/1]).
   
-  -spec left() :: fun(() -> _).
+  -spec left(any(), any()) :: any().
   left(L, _) -> L.
   
-  -spec right() :: fun(() -> _).
+  -spec right(any(), any()) :: any().
   right(_, R) -> R.
   
-  -spec fst() :: _.
+  -spec fst({any(), any()}) :: any().
   fst({A, _}) -> A.
   
-  -spec snd() :: _.
+  -spec snd({any(), any()}) :: any().
   snd({_, B}) -> B.
   
   
@@ -116,7 +116,7 @@
   -export([concat/2]).
   -export([run/0]).
   
-  -spec concat() :: fun(() -> string()).
+  -spec concat(string(), string()) :: string().
   concat(A, B) -> << A/binary, B/binary >>.
   
   -spec run() :: bool().
@@ -134,21 +134,21 @@
   -export([iff_using_if/3]).
   -export([iff_using_match/3]).
   
-  -spec iff_using_headers() :: fun(() -> fun(() -> _)).
+  -spec iff_using_headers(bool(), any(), any()) :: any().
   iff_using_headers(true, F, _) -> F.
   
-  -spec iff_using_function() :: _.
+  -spec iff_using_function({bool(), any(), any()}) :: any().
   iff_using_function({false, _, F}) -> F;
   iff_using_function({true, F, _}) -> F.
   
-  -spec iff_using_if() :: fun(() -> fun(() -> _)).
+  -spec iff_using_if(bool(), fun(() -> any()), fun(() -> any())) :: any().
   iff_using_if(Cond, T, F) ->
     case Cond of
       true -> T();
       false -> F()
     end.
   
-  -spec iff_using_match() :: fun(() -> fun(() -> _)).
+  -spec iff_using_match(bool(), any(), any()) :: any().
   iff_using_match(T, F, G) ->
     case T of
       true -> F;
@@ -165,19 +165,19 @@
   -export([one_el/1]).
   -export([tail/1]).
   
-  -spec head() :: _.
+  -spec head(list(any())) :: any().
   head([X | _]) -> X.
   
-  -spec tail() :: list(_).
+  -spec tail(list(any())) :: list(any()).
   tail([_ | Xs]) -> Xs.
   
-  -spec one_el() :: _.
-  one_el([X | []]) -> X.
+  -spec one_el(list(any())) :: any().
+  one_el([X | '[]']) -> X.
   
-  -spec at_2() :: _.
+  -spec at_2(list(any())) :: any().
   at_2([_ | [X | _]]) -> X.
   
-  -spec at_3() :: _.
+  -spec at_3(list(any())) :: any().
   at_3([_ | [_ | [X | _]]]) -> X.
   
   
@@ -191,22 +191,22 @@
   -export([call_other_nested/1]).
   -export([double/2]).
   
-  -spec add() :: _.
+  -spec add(any()) :: any().
   add(X) -> X.
   
-  -spec double() :: fun(() -> _).
+  -spec double(fun((any()) -> any()), any()) :: any().
   double(F, X) -> F(F(X)).
   
-  -spec add_twice() :: _.
+  -spec add_twice(any()) :: any().
   add_twice(X) -> double(fun add/1, X).
   
-  -spec call_nested() :: ok.
+  -spec call_nested(bool()) :: ok.
   call_nested(X) -> qualified_calls__nested:f(X).
   
-  -spec call_other() :: ok.
+  -spec call_other(any()) :: ok.
   call_other(X) -> qualified_calls_helper:f(X).
   
-  -spec call_other_nested() :: ok.
+  -spec call_other_nested(any()) :: ok.
   call_other_nested(X) -> qualified_calls_helper__nested:f(X).
   
   
@@ -215,7 +215,7 @@
   
   -export([f/1]).
   
-  -spec f() :: ok.
+  -spec f(bool()) :: ok.
   f(X) ->
     case X of
       true -> ok;
@@ -228,8 +228,8 @@
   
   -export([f/1]).
   
-  -spec f() :: ok.
-  f(_X) -> ok.
+  -spec f(any()) :: ok.
+  f(_x) -> ok.
   
   
   % Source code generated with Caramel.
@@ -237,8 +237,8 @@
   
   -export([f/1]).
   
-  -spec f() :: ok.
-  f(_X) -> ok.
+  -spec f(any()) :: ok.
+  f(_x) -> ok.
   
   
   % Source code generated with Caramel.
@@ -270,16 +270,16 @@
   
   -type defer(A) :: fun((ok) -> A).
   
-  -spec ignore() :: fun(() -> ok).
-  ignore(_X, ok) -> ok.
+  -spec ignore(any(), ok) :: ok.
+  ignore(_x, ok) -> ok.
   
-  -spec add() :: fun(() -> int()).
+  -spec add(int(), any()) :: int().
   add(X, Y) -> erlang:'+'(X, X).
   
-  -spec add_slow() :: fun(() -> fun(() -> int())).
+  -spec add_slow(int(), int(), ok) :: int().
   add_slow(X, Y, ok) -> erlang:'+'(X, Y).
   
-  -spec add_really_slow() :: fun(() -> fun(() -> fun(() -> int()))).
+  -spec add_really_slow(int(), ok, int(), ok) :: int().
   add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
   
   

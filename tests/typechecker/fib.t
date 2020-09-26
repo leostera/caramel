@@ -7,53 +7,55 @@
   > fib() -> fib(no).
   > EOF
   $ caramelc compile --dump-ast fib.erl
-  ((file_name fib.erl) (behaviours ()) (module_name fib) (ocaml_name Fib)
-    (attributes ())
-    (exports (((exp_type Export_function) (exp_name fib) (exp_arity 1))))
+  ((file_name fib.erl) (behaviours ()) (module_name (Atom fib)) (attributes ())
+    (exports
+      (((exp_type Export_function) (exp_name (Atom fib)) (exp_arity 1))))
     (types ())
     (functions
-      (((fd_name fib) (fd_arity 1)
+      (((fd_name (Atom fib)) (fd_arity 1)
          (fd_cases
-           (((fc_name fib) (fc_lhs ((Pattern_match (Lit_integer 0))))
-              (fc_guards ()) (fc_rhs (Expr_literal (Lit_integer 0))))
-             ((fc_name fib) (fc_lhs ((Pattern_match (Lit_integer 1))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_integer 1))))
-             ((fc_name fib) (fc_lhs ((Pattern_binding N))) (fc_guards ())
-               (fc_rhs
+           (((c_lhs ((Pattern_match (Lit_integer 0)))) (c_guard ())
+              (c_rhs (Expr_literal (Lit_integer 0))))
+             ((c_lhs ((Pattern_match (Lit_integer 1)))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_integer 1))))
+             ((c_lhs ((Pattern_binding (Var_name N)))) (c_guard ())
+               (c_rhs
                  (Expr_apply
                    ((fa_name
-                      (Expr_name (Qualified_name (n_mod erlang) (n_name +))))
+                      (Expr_name
+                        (Qualified_name (n_mod (Atom erlang))
+                          (n_name (Atom +)))))
                      (fa_args
                        ((Expr_apply
-                          ((fa_name (Expr_name (Atom_name fib)))
+                          ((fa_name (Expr_name (Atom_name (Atom fib))))
                             (fa_args
                               ((Expr_apply
                                  ((fa_name
                                     (Expr_name
-                                      (Qualified_name (n_mod erlang)
-                                        (n_name -))))
+                                      (Qualified_name (n_mod (Atom erlang))
+                                        (n_name (Atom -)))))
                                    (fa_args
                                      ((Expr_name (Var_name N))
                                        (Expr_literal (Lit_integer 1))))))))))
                          (Expr_apply
-                           ((fa_name (Expr_name (Atom_name fib)))
+                           ((fa_name (Expr_name (Atom_name (Atom fib))))
                              (fa_args
                                ((Expr_apply
                                   ((fa_name
                                      (Expr_name
-                                       (Qualified_name (n_mod erlang)
-                                         (n_name -))))
+                                       (Qualified_name (n_mod (Atom erlang))
+                                         (n_name (Atom -)))))
                                     (fa_args
                                       ((Expr_name (Var_name N))
                                         (Expr_literal (Lit_integer 2))))))))))))))))))
          (fd_spec ()))
-        ((fd_name fib) (fd_arity 0)
+        ((fd_name (Atom fib)) (fd_arity 0)
           (fd_cases
-            (((fc_name fib) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_apply
-                   ((fa_name (Expr_name (Atom_name fib)))
-                     (fa_args ((Expr_literal (Lit_atom no))))))))))
+                   ((fa_name (Expr_name (Atom_name (Atom fib))))
+                     (fa_args ((Expr_literal (Lit_atom (Atom no)))))))))))
           (fd_spec ())))))
   
   module Fib =

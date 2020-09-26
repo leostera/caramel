@@ -1,324 +1,313 @@
   $ caramelc compile --dump-ast *.erl
-  ((file_name empty.erl) (behaviours ()) (module_name empty) (ocaml_name Empty)
+  ((file_name empty.erl) (behaviours ()) (module_name (Atom empty))
     (attributes ()) (exports ()) (types ()) (functions ()))
   
   module Empty = struct  end
   
   ((file_name function_declaration.erl) (behaviours ())
-    (module_name function_declaration) (ocaml_name Function_declaration)
-    (attributes ()) (exports ()) (types ())
+    (module_name (Atom function_declaration)) (attributes ()) (exports ())
+    (types ())
     (functions
-      (((fd_name literal_atom) (fd_arity 0)
+      (((fd_name (Atom literal_atom)) (fd_arity 0)
          (fd_cases
-           (((fc_name literal_atom) (fc_lhs ()) (fc_guards ())
-              (fc_rhs (Expr_literal (Lit_atom ok))))))
+           (((c_lhs ()) (c_guard ())
+              (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
          (fd_spec ()))
-        ((fd_name literal_quoted_atom) (fd_arity 0)
+        ((fd_name (Atom literal_quoted_atom)) (fd_arity 0)
           (fd_cases
-            (((fc_name literal_quoted_atom) (fc_lhs ()) (fc_guards ())
-               (fc_rhs (Expr_literal (Lit_atom What.is_going:on!))))))
+            (((c_lhs ()) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom what.is_going:on!)))))))
           (fd_spec ()))
-        ((fd_name literal_integer) (fd_arity 0)
+        ((fd_name (Atom literal_integer)) (fd_arity 0)
           (fd_cases
-            (((fc_name literal_integer) (fc_lhs ()) (fc_guards ())
-               (fc_rhs (Expr_literal (Lit_integer 1))))))
+            (((c_lhs ()) (c_guard ()) (c_rhs (Expr_literal (Lit_integer 1))))))
           (fd_spec ()))
-        ((fd_name literal_float) (fd_arity 0)
+        ((fd_name (Atom literal_float)) (fd_arity 0)
           (fd_cases
-            (((fc_name literal_float) (fc_lhs ()) (fc_guards ())
-               (fc_rhs (Expr_literal (Lit_float 1.0))))))
+            (((c_lhs ()) (c_guard ()) (c_rhs (Expr_literal (Lit_float 1.0))))))
           (fd_spec ()))
-        ((fd_name tuple_empty) (fd_arity 0)
-          (fd_cases
-            (((fc_name tuple_empty) (fc_lhs ()) (fc_guards ())
-               (fc_rhs (Expr_tuple ())))))
+        ((fd_name (Atom tuple_empty)) (fd_arity 0)
+          (fd_cases (((c_lhs ()) (c_guard ()) (c_rhs (Expr_tuple ())))))
           (fd_spec ()))
-        ((fd_name tuple_nested) (fd_arity 0)
+        ((fd_name (Atom tuple_nested)) (fd_arity 0)
           (fd_cases
-            (((fc_name tuple_nested) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_tuple ((Expr_tuple ()) (Expr_tuple ((Expr_tuple ())))))))))
           (fd_spec ()))
-        ((fd_name tuple_filled) (fd_arity 0)
+        ((fd_name (Atom tuple_filled)) (fd_arity 0)
           (fd_cases
-            (((fc_name tuple_filled) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_tuple
-                   ((Expr_literal (Lit_atom ok))
+                   ((Expr_literal (Lit_atom (Atom ok)))
                      (Expr_tuple
-                       ((Expr_literal (Lit_atom error))
+                       ((Expr_literal (Lit_atom (Atom error)))
                          (Expr_literal (Lit_binary hello))
                          (Expr_literal (Lit_integer 1))))
                      (Expr_apply
-                       ((fa_name (Expr_name (Atom_name tuple_empty)))
+                       ((fa_name (Expr_name (Atom_name (Atom tuple_empty))))
                          (fa_args ())))))))))
           (fd_spec ()))
-        ((fd_name list_empty) (fd_arity 0)
-          (fd_cases
-            (((fc_name list_empty) (fc_lhs ()) (fc_guards ())
-               (fc_rhs (Expr_list ())))))
+        ((fd_name (Atom list_empty)) (fd_arity 0)
+          (fd_cases (((c_lhs ()) (c_guard ()) (c_rhs (Expr_list ())))))
           (fd_spec ()))
-        ((fd_name list_nested) (fd_arity 0)
+        ((fd_name (Atom list_nested)) (fd_arity 0)
           (fd_cases
-            (((fc_name list_nested) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_list ((Expr_list ()) (Expr_list ((Expr_list ())))))))))
           (fd_spec ()))
-        ((fd_name list_filled) (fd_arity 0)
+        ((fd_name (Atom list_filled)) (fd_arity 0)
           (fd_cases
-            (((fc_name list_filled) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_list
-                   ((Expr_literal (Lit_atom ok))
+                   ((Expr_literal (Lit_atom (Atom ok)))
                      (Expr_list
-                       ((Expr_literal (Lit_atom error))
+                       ((Expr_literal (Lit_atom (Atom error)))
                          (Expr_literal (Lit_binary hello))
                          (Expr_literal (Lit_integer 1))))
                      (Expr_apply
-                       ((fa_name (Expr_name (Atom_name list_empty)))
+                       ((fa_name (Expr_name (Atom_name (Atom list_empty))))
                          (fa_args ())))))))))
           (fd_spec ()))
-        ((fd_name list_cons) (fd_arity 0)
+        ((fd_name (Atom list_cons)) (fd_arity 0)
           (fd_cases
-            (((fc_name list_cons) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
-                 (Expr_cons ((Expr_literal (Lit_atom a)))
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
+                 (Expr_cons ((Expr_literal (Lit_atom (Atom a))))
                    (Expr_cons
                      ((Expr_tuple
-                        ((Expr_literal (Lit_atom b))
-                          (Expr_literal (Lit_atom c)))))
+                        ((Expr_literal (Lit_atom (Atom b)))
+                          (Expr_literal (Lit_atom (Atom c))))))
                      (Expr_cons
                        ((Expr_apply
-                          ((fa_name (Expr_name (Atom_name list_empty)))
+                          ((fa_name (Expr_name (Atom_name (Atom list_empty))))
                             (fa_args ()))))
                        (Expr_list ()))))))))
           (fd_spec ()))
-        ((fd_name fun_args_atom) (fd_arity 1)
+        ((fd_name (Atom fun_args_atom)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_atom) (fc_lhs ((Pattern_match (Lit_atom ok))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs ((Pattern_match (Lit_atom (Atom ok))))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_quoted_atom) (fd_arity 1)
+        ((fd_name (Atom fun_args_quoted_atom)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_quoted_atom)
-               (fc_lhs ((Pattern_match (Lit_atom What.is_going:on!))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs ((Pattern_match (Lit_atom (Atom what.is_going:on!)))))
+               (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_integer) (fd_arity 1)
+        ((fd_name (Atom fun_args_integer)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_integer)
-               (fc_lhs ((Pattern_match (Lit_integer 1)))) (fc_guards ())
-               (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs ((Pattern_match (Lit_integer 1)))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_float) (fd_arity 1)
+        ((fd_name (Atom fun_args_float)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_float)
-               (fc_lhs ((Pattern_match (Lit_float 1.0)))) (fc_guards ())
-               (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs ((Pattern_match (Lit_float 1.0)))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_tuple_empty) (fd_arity 1)
+        ((fd_name (Atom fun_args_tuple_empty)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_tuple_empty) (fc_lhs ((Pattern_tuple ())))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs ((Pattern_tuple ()))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_tuple_nested) (fd_arity 1)
+        ((fd_name (Atom fun_args_tuple_nested)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_tuple_nested)
-               (fc_lhs
-                 ((Pattern_tuple
-                    ((Pattern_tuple ()) (Pattern_tuple ((Pattern_tuple ())))))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs
+                ((Pattern_tuple
+                   ((Pattern_tuple ()) (Pattern_tuple ((Pattern_tuple ())))))))
+               (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_tuple_filled) (fd_arity 1)
+        ((fd_name (Atom fun_args_tuple_filled)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_tuple_filled)
-               (fc_lhs
-                 ((Pattern_tuple
-                    ((Pattern_match (Lit_atom ok))
-                      (Pattern_tuple
-                        ((Pattern_match (Lit_atom error))
-                          (Pattern_match (Lit_binary hello))
-                          (Pattern_match (Lit_integer 1))))))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs
+                ((Pattern_tuple
+                   ((Pattern_match (Lit_atom (Atom ok)))
+                     (Pattern_tuple
+                       ((Pattern_match (Lit_atom (Atom error)))
+                         (Pattern_match (Lit_binary hello))
+                         (Pattern_match (Lit_integer 1))))))))
+               (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_list_empty) (fd_arity 1)
+        ((fd_name (Atom fun_args_list_empty)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_list_empty) (fc_lhs ((Pattern_list ())))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs ((Pattern_list ()))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_list_nested) (fd_arity 1)
+        ((fd_name (Atom fun_args_list_nested)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_list_nested)
-               (fc_lhs
-                 ((Pattern_list
-                    ((Pattern_list ()) (Pattern_list ((Pattern_list ())))))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs
+                ((Pattern_list
+                   ((Pattern_list ()) (Pattern_list ((Pattern_list ())))))))
+               (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_list_filled) (fd_arity 1)
+        ((fd_name (Atom fun_args_list_filled)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_list_filled)
-               (fc_lhs
-                 ((Pattern_list
-                    ((Pattern_match (Lit_atom ok))
-                      (Pattern_list
-                        ((Pattern_match (Lit_atom error))
-                          (Pattern_match (Lit_binary hello))
-                          (Pattern_match (Lit_integer 1))))))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs
+                ((Pattern_list
+                   ((Pattern_match (Lit_atom (Atom ok)))
+                     (Pattern_list
+                       ((Pattern_match (Lit_atom (Atom error)))
+                         (Pattern_match (Lit_binary hello))
+                         (Pattern_match (Lit_integer 1))))))))
+               (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_args_list_cons) (fd_arity 1)
+        ((fd_name (Atom fun_args_list_cons)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_args_list_cons)
-               (fc_lhs
-                 ((Pattern_cons ((Pattern_match (Lit_atom a)))
-                    (Pattern_cons
-                      ((Pattern_tuple
-                         ((Pattern_match (Lit_atom b))
-                           (Pattern_match (Lit_atom c)))))
-                      (Pattern_cons ((Pattern_match (Lit_atom f)))
-                        (Pattern_list ()))))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs
+                ((Pattern_cons ((Pattern_match (Lit_atom (Atom a))))
+                   (Pattern_cons
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom b)))
+                          (Pattern_match (Lit_atom (Atom c))))))
+                     (Pattern_cons ((Pattern_match (Lit_atom (Atom f))))
+                       (Pattern_list ()))))))
+               (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_arg_var_in_tuple) (fd_arity 1)
+        ((fd_name (Atom fun_arg_var_in_tuple)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_arg_var_in_tuple)
-               (fc_lhs ((Pattern_tuple ((Pattern_binding A))))) (fc_guards ())
-               (fc_rhs (Expr_name (Var_name A))))))
+            (((c_lhs ((Pattern_tuple ((Pattern_binding (Var_name A))))))
+               (c_guard ()) (c_rhs (Expr_name (Var_name A))))))
           (fd_spec ()))
-        ((fd_name fun_arg_var_in_list) (fd_arity 1)
+        ((fd_name (Atom fun_arg_var_in_list)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_arg_var_in_list)
-               (fc_lhs ((Pattern_list ((Pattern_binding A))))) (fc_guards ())
-               (fc_rhs (Expr_name (Var_name A))))))
+            (((c_lhs ((Pattern_list ((Pattern_binding (Var_name A))))))
+               (c_guard ()) (c_rhs (Expr_name (Var_name A))))))
           (fd_spec ()))
-        ((fd_name fun_arg_var) (fd_arity 1)
+        ((fd_name (Atom fun_arg_var)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_arg_var) (fc_lhs ((Pattern_binding A)))
-               (fc_guards ()) (fc_rhs (Expr_name (Var_name A))))))
+            (((c_lhs ((Pattern_binding (Var_name A)))) (c_guard ())
+               (c_rhs (Expr_name (Var_name A))))))
           (fd_spec ()))
-        ((fd_name fun_arg_var_ignore) (fd_arity 1)
+        ((fd_name (Atom fun_arg_var_ignore)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_arg_var_ignore) (fc_lhs ((Pattern_binding _)))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))))
+            (((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
           (fd_spec ()))
-        ((fd_name fun_arg_var_ignore_in_tuple) (fd_arity 1)
+        ((fd_name (Atom fun_arg_var_ignore_in_tuple)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_arg_var_ignore_in_tuple)
-               (fc_lhs
-                 ((Pattern_tuple ((Pattern_binding A) (Pattern_binding _)))))
-               (fc_guards ()) (fc_rhs (Expr_name (Var_name A))))))
+            (((c_lhs
+                ((Pattern_tuple
+                   ((Pattern_binding (Var_name A))
+                     (Pattern_binding (Var_name _))))))
+               (c_guard ()) (c_rhs (Expr_name (Var_name A))))))
           (fd_spec ()))
-        ((fd_name fun_arg_var_ignore_in_list) (fd_arity 1)
+        ((fd_name (Atom fun_arg_var_ignore_in_list)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_arg_var_ignore_in_list)
-               (fc_lhs
-                 ((Pattern_list ((Pattern_binding _) (Pattern_binding B)))))
-               (fc_guards ()) (fc_rhs (Expr_name (Var_name B))))))
+            (((c_lhs
+                ((Pattern_list
+                   ((Pattern_binding (Var_name _))
+                     (Pattern_binding (Var_name B))))))
+               (c_guard ()) (c_rhs (Expr_name (Var_name B))))))
           (fd_spec ()))
-        ((fd_name fun_arg_var_ignore_in_cons) (fd_arity 1)
+        ((fd_name (Atom fun_arg_var_ignore_in_cons)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_arg_var_ignore_in_cons)
-               (fc_lhs
-                 ((Pattern_cons ((Pattern_binding A)) (Pattern_binding _))))
-               (fc_guards ()) (fc_rhs (Expr_name (Var_name A))))))
+            (((c_lhs
+                ((Pattern_cons ((Pattern_binding (Var_name A)))
+                   (Pattern_binding (Var_name _)))))
+               (c_guard ()) (c_rhs (Expr_name (Var_name A))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 2)
+        ((fd_name (Atom fun_args)) (fd_arity 2)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs ((Pattern_binding A) (Pattern_binding B)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 3)
+        ((fd_name (Atom fun_args)) (fd_arity 3)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs
-                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))
+                  (Pattern_binding (Var_name C))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))
                      (Expr_name (Var_name C))))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 4)
+        ((fd_name (Atom fun_args)) (fd_arity 4)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs
-                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
-                   (Pattern_binding D)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))
+                  (Pattern_binding (Var_name C))
+                  (Pattern_binding (Var_name D))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))
                      (Expr_name (Var_name C)) (Expr_name (Var_name D))))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 5)
+        ((fd_name (Atom fun_args)) (fd_arity 5)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs
-                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
-                   (Pattern_binding D) (Pattern_binding E)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))
+                  (Pattern_binding (Var_name C)) (Pattern_binding (Var_name D))
+                  (Pattern_binding (Var_name E))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))
                      (Expr_name (Var_name C)) (Expr_name (Var_name D))
                      (Expr_name (Var_name E))))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 6)
+        ((fd_name (Atom fun_args)) (fd_arity 6)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs
-                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
-                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))
+                  (Pattern_binding (Var_name C)) (Pattern_binding (Var_name D))
+                  (Pattern_binding (Var_name E))
+                  (Pattern_binding (Var_name F))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))
                      (Expr_name (Var_name C)) (Expr_name (Var_name D))
                      (Expr_name (Var_name E)) (Expr_name (Var_name F))))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 7)
+        ((fd_name (Atom fun_args)) (fd_arity 7)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs
-                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
-                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)
-                   (Pattern_binding G)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))
+                  (Pattern_binding (Var_name C)) (Pattern_binding (Var_name D))
+                  (Pattern_binding (Var_name E)) (Pattern_binding (Var_name F))
+                  (Pattern_binding (Var_name G))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))
                      (Expr_name (Var_name C)) (Expr_name (Var_name D))
                      (Expr_name (Var_name E)) (Expr_name (Var_name F))
                      (Expr_name (Var_name G))))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 8)
+        ((fd_name (Atom fun_args)) (fd_arity 8)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs
-                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
-                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)
-                   (Pattern_binding G) (Pattern_binding H)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))
+                  (Pattern_binding (Var_name C)) (Pattern_binding (Var_name D))
+                  (Pattern_binding (Var_name E)) (Pattern_binding (Var_name F))
+                  (Pattern_binding (Var_name G))
+                  (Pattern_binding (Var_name H))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))
                      (Expr_name (Var_name C)) (Expr_name (Var_name D))
                      (Expr_name (Var_name E)) (Expr_name (Var_name F))
                      (Expr_name (Var_name G)) (Expr_name (Var_name H))))))))
           (fd_spec ()))
-        ((fd_name fun_args) (fd_arity 9)
+        ((fd_name (Atom fun_args)) (fd_arity 9)
           (fd_cases
-            (((fc_name fun_args)
-               (fc_lhs
-                 ((Pattern_binding A) (Pattern_binding B) (Pattern_binding C)
-                   (Pattern_binding D) (Pattern_binding E) (Pattern_binding F)
-                   (Pattern_binding G) (Pattern_binding H) (Pattern_binding I)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs
+                ((Pattern_binding (Var_name A)) (Pattern_binding (Var_name B))
+                  (Pattern_binding (Var_name C)) (Pattern_binding (Var_name D))
+                  (Pattern_binding (Var_name E)) (Pattern_binding (Var_name F))
+                  (Pattern_binding (Var_name G)) (Pattern_binding (Var_name H))
+                  (Pattern_binding (Var_name I))))
+               (c_guard ())
+               (c_rhs
                  (Expr_tuple
                    ((Expr_name (Var_name A)) (Expr_name (Var_name B))
                      (Expr_name (Var_name C)) (Expr_name (Var_name D))
@@ -326,266 +315,279 @@
                      (Expr_name (Var_name G)) (Expr_name (Var_name H))
                      (Expr_name (Var_name I))))))))
           (fd_spec ()))
-        ((fd_name binding_return) (fd_arity 0)
+        ((fd_name (Atom binding_return)) (fd_arity 0)
           (fd_cases
-            (((fc_name binding_return) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_let
-                   ((lb_lhs (Pattern_binding A))
+                   ((lb_lhs (Pattern_binding (Var_name A)))
                      (lb_rhs (Expr_literal (Lit_integer 1))))
                    (Expr_name (Var_name A)))))))
           (fd_spec ()))
-        ((fd_name binding_and_return) (fd_arity 0)
+        ((fd_name (Atom binding_and_return)) (fd_arity 0)
           (fd_cases
-            (((fc_name binding_and_return) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_let
-                   ((lb_lhs (Pattern_binding A))
+                   ((lb_lhs (Pattern_binding (Var_name A)))
                      (lb_rhs (Expr_literal (Lit_integer 1))))
                    (Expr_name (Var_name A)))))))
           (fd_spec ()))
-        ((fd_name case_expr) (fd_arity 1)
+        ((fd_name (Atom case_expr)) (fd_arity 1)
           (fd_cases
-            (((fc_name case_expr) (fc_lhs ((Pattern_binding A))) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ((Pattern_binding (Var_name A)))) (c_guard ())
+               (c_rhs
                  (Expr_case (Expr_name (Var_name A))
-                   (((cb_pattern (Pattern_match (Lit_atom true)))
-                      (cb_expr (Expr_literal (Lit_atom false))))
-                     ((cb_pattern
-                        (Pattern_tuple ((Pattern_match (Lit_atom true)))))
-                       (cb_expr (Expr_literal (Lit_atom false))))
-                     ((cb_pattern
-                        (Pattern_list ((Pattern_match (Lit_atom false)))))
-                       (cb_expr (Expr_literal (Lit_atom true))))
-                     ((cb_pattern
-                        (Pattern_cons ((Pattern_match (Lit_atom false)))
-                          (Pattern_binding _)))
-                       (cb_expr (Expr_literal (Lit_atom true))))
-                     ((cb_pattern
-                        (Pattern_cons
-                          ((Pattern_match (Lit_atom false))
-                            (Pattern_binding B))
-                          (Pattern_binding T)))
-                       (cb_expr (Expr_literal (Lit_atom true))))
-                     ((cb_pattern (Pattern_match (Lit_atom false)))
-                       (cb_expr (Expr_literal (Lit_atom true))))))))))
+                   (((c_lhs ((Pattern_match (Lit_atom (Atom true)))))
+                      (c_guard ())
+                      (c_rhs (Expr_literal (Lit_atom (Atom false)))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom true)))))))
+                       (c_guard ())
+                       (c_rhs (Expr_literal (Lit_atom (Atom false)))))
+                     ((c_lhs
+                        ((Pattern_list
+                           ((Pattern_match (Lit_atom (Atom false)))))))
+                       (c_guard ())
+                       (c_rhs (Expr_literal (Lit_atom (Atom true)))))
+                     ((c_lhs
+                        ((Pattern_cons
+                           ((Pattern_match (Lit_atom (Atom false))))
+                           (Pattern_binding (Var_name _)))))
+                       (c_guard ())
+                       (c_rhs (Expr_literal (Lit_atom (Atom true)))))
+                     ((c_lhs
+                        ((Pattern_cons
+                           ((Pattern_match (Lit_atom (Atom false)))
+                             (Pattern_binding (Var_name B)))
+                           (Pattern_binding (Var_name T)))))
+                       (c_guard ())
+                       (c_rhs (Expr_literal (Lit_atom (Atom true)))))
+                     ((c_lhs ((Pattern_match (Lit_atom (Atom false)))))
+                       (c_guard ())
+                       (c_rhs (Expr_literal (Lit_atom (Atom true)))))))))))
           (fd_spec ()))
-        ((fd_name fun_ref) (fd_arity 0)
+        ((fd_name (Atom fun_ref)) (fd_arity 0)
           (fd_cases
-            (((fc_name fun_ref) (fc_lhs ()) (fc_guards ())
-               (fc_rhs (Expr_fun_ref fun_ref)))))
+            (((c_lhs ()) (c_guard ())
+               (c_rhs (Expr_fun_ref (fref_name (Atom fun_ref)) (fref_arity 0))))))
           (fd_spec ()))
-        ((fd_name lambda) (fd_arity 0)
+        ((fd_name (Atom lambda)) (fd_arity 0)
           (fd_cases
-            (((fc_name lambda) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_fun
-                   ((fd_name anonymous) (fd_arity 0)
-                     (fd_cases
-                       (((fc_name anonymous) (fc_lhs ()) (fc_guards ())
-                          (fc_rhs (Expr_literal (Lit_atom ok))))))
-                     (fd_spec ())))))))
+                   (((c_lhs ()) (c_guard ())
+                      (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))))))
           (fd_spec ()))
-        ((fd_name lambda_with_args) (fd_arity 0)
+        ((fd_name (Atom lambda_with_args)) (fd_arity 0)
           (fd_cases
-            (((fc_name lambda_with_args) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_fun
-                   ((fd_name anonymous) (fd_arity 1)
-                     (fd_cases
-                       (((fc_name anonymous) (fc_lhs ((Pattern_binding A)))
-                          (fc_guards ()) (fc_rhs (Expr_name (Var_name A))))))
-                     (fd_spec ())))))))
+                   (((c_lhs ((Pattern_binding (Var_name A)))) (c_guard ())
+                      (c_rhs (Expr_name (Var_name A))))))))))
           (fd_spec ()))
-        ((fd_name lambda_in_var) (fd_arity 0)
+        ((fd_name (Atom lambda_in_var)) (fd_arity 0)
           (fd_cases
-            (((fc_name lambda_in_var) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_let
-                   ((lb_lhs (Pattern_binding F))
+                   ((lb_lhs (Pattern_binding (Var_name F)))
                      (lb_rhs
                        (Expr_fun
-                         ((fd_name anonymous) (fd_arity 1)
-                           (fd_cases
-                             (((fc_name anonymous)
-                                (fc_lhs ((Pattern_binding A))) (fc_guards ())
-                                (fc_rhs (Expr_name (Var_name A))))))
-                           (fd_spec ())))))
+                         (((c_lhs ((Pattern_binding (Var_name A))))
+                            (c_guard ()) (c_rhs (Expr_name (Var_name A))))))))
                    (Expr_name (Var_name F)))))))
           (fd_spec ()))
-        ((fd_name lambda_var_call) (fd_arity 0)
+        ((fd_name (Atom lambda_var_call)) (fd_arity 0)
           (fd_cases
-            (((fc_name lambda_var_call) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_let
-                   ((lb_lhs (Pattern_binding F))
+                   ((lb_lhs (Pattern_binding (Var_name F)))
                      (lb_rhs
                        (Expr_fun
-                         ((fd_name anonymous) (fd_arity 1)
-                           (fd_cases
-                             (((fc_name anonymous)
-                                (fc_lhs ((Pattern_binding A))) (fc_guards ())
-                                (fc_rhs (Expr_name (Var_name A))))))
-                           (fd_spec ())))))
+                         (((c_lhs ((Pattern_binding (Var_name A))))
+                            (c_guard ()) (c_rhs (Expr_name (Var_name A))))))))
                    (Expr_apply
                      ((fa_name (Expr_name (Var_name F)))
                        (fa_args ((Expr_literal (Lit_integer 1)))))))))))
           (fd_spec ()))
-        ((fd_name send) (fd_arity 1)
+        ((fd_name (Atom send)) (fd_arity 1)
           (fd_cases
-            (((fc_name send) (fc_lhs ((Pattern_binding A))) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ((Pattern_binding (Var_name A)))) (c_guard ())
+               (c_rhs
                  (Expr_apply
                    ((fa_name
-                      (Expr_name (Qualified_name (n_mod erlang) (n_name send))))
+                      (Expr_name
+                        (Qualified_name (n_mod (Atom erlang))
+                          (n_name (Atom send)))))
                      (fa_args
                        ((Expr_name (Var_name A)) (Expr_name (Var_name A))))))))))
           (fd_spec ()))
-        ((fd_name send_chain) (fd_arity 1)
+        ((fd_name (Atom send_chain)) (fd_arity 1)
           (fd_cases
-            (((fc_name send_chain) (fc_lhs ((Pattern_binding A)))
-               (fc_guards ())
-               (fc_rhs
+            (((c_lhs ((Pattern_binding (Var_name A)))) (c_guard ())
+               (c_rhs
                  (Expr_apply
                    ((fa_name
-                      (Expr_name (Qualified_name (n_mod erlang) (n_name send))))
+                      (Expr_name
+                        (Qualified_name (n_mod (Atom erlang))
+                          (n_name (Atom send)))))
                      (fa_args
                        ((Expr_name (Var_name A))
                          (Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod erlang) (n_name send))))
+                                (Qualified_name (n_mod (Atom erlang))
+                                  (n_name (Atom send)))))
                              (fa_args
                                ((Expr_name (Var_name A))
                                  (Expr_name (Var_name A))))))))))))))
           (fd_spec ()))
-        ((fd_name recv) (fd_arity 0)
+        ((fd_name (Atom recv)) (fd_arity 0)
           (fd_cases
-            (((fc_name recv) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_recv
                    ((rcv_cases
-                      (((cb_pattern (Pattern_binding X))
-                         (cb_expr (Expr_name (Var_name X))))))
+                      (((c_lhs ((Pattern_binding (Var_name X)))) (c_guard ())
+                         (c_rhs (Expr_name (Var_name X))))))
                      (rcv_after ())))))))
           (fd_spec ()))
-        ((fd_name recv_with_after) (fd_arity 0)
+        ((fd_name (Atom recv_with_after)) (fd_arity 0)
           (fd_cases
-            (((fc_name recv_with_after) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_recv
                    ((rcv_cases
-                      (((cb_pattern (Pattern_binding X))
-                         (cb_expr (Expr_name (Var_name X))))))
+                      (((c_lhs ((Pattern_binding (Var_name X)))) (c_guard ())
+                         (c_rhs (Expr_name (Var_name X))))))
                      (rcv_after
-                       (((cb_pattern (Pattern_match (Lit_atom infinity)))
-                          (cb_expr (Expr_literal (Lit_atom ok))))))))))))
+                       (((c_lhs ((Pattern_match (Lit_atom (Atom infinity)))))
+                          (c_guard ())
+                          (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))))))))
           (fd_spec ()))
-        ((fd_name recv_selectively) (fd_arity 0)
+        ((fd_name (Atom recv_selectively)) (fd_arity 0)
           (fd_cases
-            (((fc_name recv_selectively) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_recv
                    ((rcv_cases
-                      (((cb_pattern (Pattern_match (Lit_atom true)))
-                         (cb_expr (Expr_literal (Lit_atom false))))
-                        ((cb_pattern
-                           (Pattern_tuple ((Pattern_match (Lit_atom true)))))
-                          (cb_expr (Expr_literal (Lit_atom false))))
-                        ((cb_pattern
-                           (Pattern_list ((Pattern_match (Lit_atom false)))))
-                          (cb_expr (Expr_literal (Lit_atom true))))
-                        ((cb_pattern
-                           (Pattern_cons ((Pattern_match (Lit_atom false)))
-                             (Pattern_binding _)))
-                          (cb_expr (Expr_literal (Lit_atom true))))
-                        ((cb_pattern
-                           (Pattern_cons
-                             ((Pattern_match (Lit_atom false))
-                               (Pattern_binding B))
-                             (Pattern_binding T)))
-                          (cb_expr (Expr_literal (Lit_atom true))))
-                        ((cb_pattern (Pattern_match (Lit_atom false)))
-                          (cb_expr (Expr_literal (Lit_atom true))))))
+                      (((c_lhs ((Pattern_match (Lit_atom (Atom true)))))
+                         (c_guard ())
+                         (c_rhs (Expr_literal (Lit_atom (Atom false)))))
+                        ((c_lhs
+                           ((Pattern_tuple
+                              ((Pattern_match (Lit_atom (Atom true)))))))
+                          (c_guard ())
+                          (c_rhs (Expr_literal (Lit_atom (Atom false)))))
+                        ((c_lhs
+                           ((Pattern_list
+                              ((Pattern_match (Lit_atom (Atom false)))))))
+                          (c_guard ())
+                          (c_rhs (Expr_literal (Lit_atom (Atom true)))))
+                        ((c_lhs
+                           ((Pattern_cons
+                              ((Pattern_match (Lit_atom (Atom false))))
+                              (Pattern_binding (Var_name _)))))
+                          (c_guard ())
+                          (c_rhs (Expr_literal (Lit_atom (Atom true)))))
+                        ((c_lhs
+                           ((Pattern_cons
+                              ((Pattern_match (Lit_atom (Atom false)))
+                                (Pattern_binding (Var_name B)))
+                              (Pattern_binding (Var_name T)))))
+                          (c_guard ())
+                          (c_rhs (Expr_literal (Lit_atom (Atom true)))))
+                        ((c_lhs ((Pattern_match (Lit_atom (Atom false)))))
+                          (c_guard ())
+                          (c_rhs (Expr_literal (Lit_atom (Atom true)))))))
                      (rcv_after
-                       (((cb_pattern (Pattern_match (Lit_atom infinity)))
-                          (cb_expr (Expr_literal (Lit_atom ok))))))))))))
+                       (((c_lhs ((Pattern_match (Lit_atom (Atom infinity)))))
+                          (c_guard ())
+                          (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))))))))
           (fd_spec ()))
-        ((fd_name fun_cases) (fd_arity 1)
+        ((fd_name (Atom fun_cases)) (fd_arity 1)
           (fd_cases
-            (((fc_name fun_cases) (fc_lhs ((Pattern_match (Lit_integer 1))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))
-              ((fc_name fun_cases) (fc_lhs ((Pattern_match (Lit_integer 2))))
-                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))
-              ((fc_name fun_cases) (fc_lhs ((Pattern_match (Lit_integer 3))))
-                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom ok))))
-              ((fc_name fun_cases) (fc_lhs ((Pattern_binding _)))
-                (fc_guards ()) (fc_rhs (Expr_literal (Lit_atom false))))))
+            (((c_lhs ((Pattern_match (Lit_integer 1)))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_atom (Atom ok)))))
+              ((c_lhs ((Pattern_match (Lit_integer 2)))) (c_guard ())
+                (c_rhs (Expr_literal (Lit_atom (Atom ok)))))
+              ((c_lhs ((Pattern_match (Lit_integer 3)))) (c_guard ())
+                (c_rhs (Expr_literal (Lit_atom (Atom ok)))))
+              ((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+                (c_rhs (Expr_literal (Lit_atom (Atom false)))))))
           (fd_spec ()))
-        ((fd_name fib) (fd_arity 1)
+        ((fd_name (Atom fib)) (fd_arity 1)
           (fd_cases
-            (((fc_name fib) (fc_lhs ((Pattern_match (Lit_integer 0))))
-               (fc_guards ()) (fc_rhs (Expr_literal (Lit_integer 0))))
-              ((fc_name fib) (fc_lhs ((Pattern_match (Lit_integer 1))))
-                (fc_guards ()) (fc_rhs (Expr_literal (Lit_integer 1))))
-              ((fc_name fib) (fc_lhs ((Pattern_binding N))) (fc_guards ())
-                (fc_rhs
+            (((c_lhs ((Pattern_match (Lit_integer 0)))) (c_guard ())
+               (c_rhs (Expr_literal (Lit_integer 0))))
+              ((c_lhs ((Pattern_match (Lit_integer 1)))) (c_guard ())
+                (c_rhs (Expr_literal (Lit_integer 1))))
+              ((c_lhs ((Pattern_binding (Var_name N)))) (c_guard ())
+                (c_rhs
                   (Expr_apply
                     ((fa_name
-                       (Expr_name (Qualified_name (n_mod erlang) (n_name +))))
+                       (Expr_name
+                         (Qualified_name (n_mod (Atom erlang))
+                           (n_name (Atom +)))))
                       (fa_args
                         ((Expr_apply
-                           ((fa_name (Expr_name (Atom_name fib)))
+                           ((fa_name (Expr_name (Atom_name (Atom fib))))
                              (fa_args
                                ((Expr_apply
                                   ((fa_name
                                      (Expr_name
-                                       (Qualified_name (n_mod erlang)
-                                         (n_name -))))
+                                       (Qualified_name (n_mod (Atom erlang))
+                                         (n_name (Atom -)))))
                                     (fa_args
                                       ((Expr_name (Var_name N))
                                         (Expr_literal (Lit_integer 1))))))))))
                           (Expr_apply
-                            ((fa_name (Expr_name (Atom_name fib)))
+                            ((fa_name (Expr_name (Atom_name (Atom fib))))
                               (fa_args
                                 ((Expr_apply
                                    ((fa_name
                                       (Expr_name
-                                        (Qualified_name (n_mod erlang)
-                                          (n_name -))))
+                                        (Qualified_name (n_mod (Atom erlang))
+                                          (n_name (Atom -)))))
                                      (fa_args
                                        ((Expr_name (Var_name N))
                                          (Expr_literal (Lit_integer 2))))))))))))))))))
           (fd_spec ()))
-        ((fd_name sequence) (fd_arity 0)
+        ((fd_name (Atom sequence)) (fd_arity 0)
           (fd_cases
-            (((fc_name sequence) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_let
-                   ((lb_lhs (Pattern_binding _))
+                   ((lb_lhs (Pattern_binding (Var_name _)))
                      (lb_rhs
                        (Expr_apply
-                         ((fa_name (Expr_name (Atom_name print_string)))
+                         ((fa_name (Expr_name (Atom_name (Atom print_string))))
                            (fa_args ((Expr_literal (Lit_binary hello))))))))
                    (Expr_let
-                     ((lb_lhs (Pattern_binding A))
+                     ((lb_lhs (Pattern_binding (Var_name A)))
                        (lb_rhs
                          (Expr_apply
-                           ((fa_name (Expr_name (Atom_name fib)))
+                           ((fa_name (Expr_name (Atom_name (Atom fib))))
                              (fa_args ((Expr_literal (Lit_integer 2))))))))
                      (Expr_let
-                       ((lb_lhs (Pattern_binding _))
+                       ((lb_lhs (Pattern_binding (Var_name _)))
                          (lb_rhs
                            (Expr_apply
-                             ((fa_name (Expr_name (Atom_name print_int)))
+                             ((fa_name
+                                (Expr_name (Atom_name (Atom print_int))))
                                (fa_args ((Expr_name (Var_name A))))))))
-                       (Expr_literal (Lit_atom ok)))))))))
+                       (Expr_literal (Lit_atom (Atom ok))))))))))
           (fd_spec ())))))
   
   module Function_declaration =
     struct
       let rec literal_atom () = `ok
-      let rec literal_quoted_atom () = `What.is_going:on!
+      let rec literal_quoted_atom () = `what.is_going:on!
       let rec literal_integer () = 1
       let rec literal_float () = 1.0
       let rec tuple_empty () = ()
@@ -596,7 +598,7 @@
       let rec list_filled () = [`ok; [`error; "hello"; 1]; list_empty ()]
       let rec list_cons () = [`a; [`b `c; [list_empty (); []]]]
       let rec fun_args_atom `ok = `ok
-      let rec fun_args_quoted_atom `What.is_going:on! = `ok
+      let rec fun_args_quoted_atom `what.is_going:on! = `ok
       let rec fun_args_integer 1 = `ok
       let rec fun_args_float 1.0 = `ok
       let rec fun_args_tuple_empty () = `ok

@@ -90,7 +90,7 @@
   
   -export([b/2]).
   
-  -spec b() :: fun(() -> bool()).
+  -spec b(bool(), bool()) :: bool().
   b(X, Y) -> '&&'(X, Y).
   
   
@@ -99,7 +99,7 @@
   
   -export([inc/1]).
   
-  -spec inc() :: int().
+  -spec inc(int()) :: int().
   inc(X) -> erlang:'+'(X, 1).
   
   -spec hidden() :: ok.

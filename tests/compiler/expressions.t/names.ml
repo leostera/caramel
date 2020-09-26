@@ -14,7 +14,7 @@ let rec run_macros () =
 module Nested = struct
   let x () = `compiler "caramel"
 
-  let w () = `version `delicious
+  let w () = `version `kind_of_working
 end
 
 let rec run_nested () =

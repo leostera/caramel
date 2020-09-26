@@ -135,20 +135,7 @@
          ^^^^^^^^^^
   Warning 21: this statement never returns (or has an unsound type.)
   Compiling records.erl	OK
-  Unsupported Type Expression:
-  val x : unit -> [> `compiler of string ]Unsupported Type Expression:
-  
-  val w : unit -> [> `version of [> `delicious ] ]Unsupported Type Expression:
-  
-  val run_local : unit -> [> `Atom ]Unsupported Type Expression:
-  val run_nested :
-                                                                   unit ->
-                                                                   [> `version of
-                                                                      [> 
-                                                                      `delicious
-                                                                      ] ]Unsupported Type Expression:
-  
-  val run_nested_ambiguous :Compiling names__nested.erl	OK
+  Compiling names__nested.erl	OK
   Compiling names.erl	OK
   Compiling match.erl	OK
   Compiling literals.erl	OK
@@ -159,7 +146,6 @@
   Compiling binding_on_match.erl	OK
   Compiling apply__funs.erl	OK
   Compiling apply.erl	OK
-   unit -> [> `compiler of string ]
   $ cat *.erl
   % Source code generated with Caramel.
   -module(apply).
@@ -171,19 +157,19 @@
   -export([f4/4]).
   -export([run/0]).
   
-  -spec f() :: _.
+  -spec f(any()) :: any().
   f(X) -> f(X).
   
-  -spec f1() :: _.
+  -spec f1(any()) :: any().
   f1(X) -> f([X | []]).
   
-  -spec f2() :: fun(() -> _).
+  -spec f2(any(), any()) :: any().
   f2(X, Y) -> f([X | [Y | []]]).
   
-  -spec f3() :: fun(() -> fun(() -> _)).
+  -spec f3(any(), any(), any()) :: any().
   f3(X, Y, Z) -> f([X | [Y | [Z | []]]]).
   
-  -spec f4() :: fun(() -> fun(() -> fun(() -> _))).
+  -spec f4(any(), any(), any(), any()) :: any().
   f4(W, X, Y, Z) -> f([W | [X | [Y | [Z | []]]]]).
   
   -spec run() :: int().
@@ -241,8 +227,8 @@
   -spec match_list() :: bool().
   match_list() ->
     case [0 | [1 | []]] of
-      [] -> true;
-      [X | []] -> true;
+      '[]' -> true;
+      [X | '[]'] -> true;
       [X | Xs] -> true
     end.
   
@@ -269,16 +255,16 @@
   -export([do_add/2]).
   -export([do_nested_add/2]).
   
-  -spec add() :: fun(() -> int()).
+  -spec add(int(), int()) :: int().
   add(X, Y) -> erlang:'+'(X, Y).
   
-  -spec call_op_2() :: fun(() -> fun(() -> _)).
+  -spec call_op_2(fun((any(), any()) -> any()), any(), any()) :: any().
   call_op_2(F, X, Y) -> F(X, Y).
   
-  -spec do_add() :: fun(() -> int()).
+  -spec do_add(int(), int()) :: int().
   do_add(X, Y) -> call_op_2(fun add/2, X, Y).
   
-  -spec do_nested_add() :: fun(() -> int()).
+  -spec do_nested_add(int(), int()) :: int().
   do_nested_add(X, Y) -> call_op_2(funref__nested:add, X, Y).
   
   
@@ -287,7 +273,7 @@
   
   -export([add/2]).
   
-  -spec add() :: fun(() -> int()).
+  -spec add(int(), int()) :: int().
   add(X, Y) -> erlang:'+'(X, Y).
   
   
@@ -318,7 +304,7 @@
     D = 4,
     erlang:'+'(erlang:'+'(erlang:'+'(A, B), C), D).
   
-  -spec let_nested() :: fun(() -> fun(() -> _)).
+  -spec let_nested(fun((int()) -> any()), fun(() -> any()), fun(() -> any())) :: any().
   let_nested(F, G, H) ->
     A = fun
     () ->
@@ -333,7 +319,7 @@
   end(),
     F(A).
   
-  -spec let_rec() :: _.
+  -spec let_rec() :: any().
   let_rec() ->
     F = fun
     (X) -> f(erlang:'+'(X, 1))
@@ -352,25 +338,25 @@
   -export([pair/1]).
   -export([tail/1]).
   
-  -spec empty() :: list(_).
+  -spec empty() :: list(any()).
   empty() -> [].
   
-  -spec pair() :: list(_).
+  -spec pair(any()) :: list(any()).
   pair(X) -> [X | [X | []]].
   
-  -spec cons() :: fun(() -> list(_)).
+  -spec cons(any(), list(any())) :: list(any()).
   cons(X, Y) -> [X | Y].
   
-  -spec head() :: _.
+  -spec head(list(any())) :: any().
   head([X | _]) -> X.
   
-  -spec tail() :: list(_).
+  -spec tail(list(any())) :: list(any()).
   tail([_ | X]) -> X.
   
-  -spec at_2() :: _.
+  -spec at_2(list(any())) :: any().
   at_2([_ | [X | _]]) -> X.
   
-  -spec concat() :: fun(() -> list(_)).
+  -spec concat(list(any()), list(any())) :: list(any()).
   concat(A, B) -> erlang:'++'(A, B).
   
   
@@ -462,11 +448,11 @@
   -spec match_list() :: bool().
   match_list() ->
     case [0 | [1 | []]] of
-      [] -> true;
+      '[]' -> true;
       [1 | Xs] -> true;
-      [1 | []] -> true;
+      [1 | '[]'] -> true;
       [0 | [1 | _]] -> true;
-      [0 | [1 | []]] -> true
+      [0 | [1 | '[]']] -> true
     end.
   
   -spec match_tuples() :: bool().
@@ -494,6 +480,8 @@
   -export([run_nested/0]).
   -export([run_nested_ambiguous/0]).
   
+  -spec run_local() :: atom
+         .
   run_local() ->
     X = fun run_local/1,
     Y = atom,
@@ -504,10 +492,15 @@
     Z = ,
     Z.
   
+  -spec run_nested() :: {version, kind_of_working
+                  }
+          .
   run_nested() ->
     names__nested:x(),
     names__nested:w().
   
+  -spec run_nested_ambiguous() :: {compiler, string()}
+                    .
   run_nested_ambiguous() ->
     X = fun
     () -> 1
@@ -521,9 +514,14 @@
   -export([w/0]).
   -export([x/0]).
   
+  -spec x() :: {compiler, string()}
+  .
   x() -> {compiler, <<"caramel">>}.
   
-  w() -> {version, delicious}.
+  -spec w() :: {version, kind_of_working
+         }
+  .
+  w() -> {version, kind_of_working}.
   
   
   % Source code generated with Caramel.
@@ -542,37 +540,37 @@
                     , snd => A
                     }.
   
-  -spec pair() :: fun(() -> pair(_)).
+  -spec pair(any(), any()) :: pair(any()).
   pair(X, Y) ->
     #{ fst => X
      , snd => Y
      }.
   
-  -spec fst() :: _.
+  -spec fst(pair(any())) :: any().
   fst(#{ fst := Fst }) -> Fst.
   
-  -spec snd() :: _.
+  -spec snd(pair(any())) :: any().
   snd(#{ snd := Snd }) -> Snd.
   
-  -spec swap() :: pair(_).
+  -spec swap(pair(any())) :: pair(any()).
   swap(P) ->
     #{ fst => maps:get(snd, P)
      , snd => maps:get(fst, P)
      }.
   
-  -spec map() :: fun(() -> fun(() -> pair(_))).
+  -spec map(fun((any()) -> any()), fun((any()) -> any()), pair(any())) :: pair(any()).
   map(F, G, #{ fst := Fst, snd := Snd }) ->
     #{ fst => F(Fst)
      , snd => G(Snd)
      }.
   
-  -spec swap_from_expr() :: fun(() -> pair(_)).
+  -spec swap_from_expr(any(), fun((any()) -> pair(any()))) :: pair(any()).
   swap_from_expr(P, F) ->
     #{ fst => maps:get(snd, F(P))
      , snd => maps:get(fst, F(P))
      }.
   
-  -spec flatten_first() :: pair(_).
+  -spec flatten_first(pair(pair(pair(any())))) :: pair(any()).
   flatten_first(P) ->
     #{ fst => maps:get(fst, maps:get(fst, maps:get(fst, P)))
      , snd => maps:get(snd, maps:get(fst, maps:get(fst, P)))

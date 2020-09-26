@@ -4,18 +4,18 @@
   > hello_world() -> print_int(<<"Hello world!">>).
   > EOF
   $ caramelc compile --dump-ast hello_world.erl
-  ((file_name hello_world.erl) (behaviours ()) (module_name hello_world)
-    (ocaml_name Hello_world) (attributes ())
+  ((file_name hello_world.erl) (behaviours ()) (module_name (Atom hello_world))
+    (attributes ())
     (exports
-      (((exp_type Export_function) (exp_name hello_world) (exp_arity 0))))
+      (((exp_type Export_function) (exp_name (Atom hello_world)) (exp_arity 0))))
     (types ())
     (functions
-      (((fd_name hello_world) (fd_arity 0)
+      (((fd_name (Atom hello_world)) (fd_arity 0)
          (fd_cases
-           (((fc_name hello_world) (fc_lhs ()) (fc_guards ())
-              (fc_rhs
+           (((c_lhs ()) (c_guard ())
+              (c_rhs
                 (Expr_apply
-                  ((fa_name (Expr_name (Atom_name print_int)))
+                  ((fa_name (Expr_name (Atom_name (Atom print_int))))
                     (fa_args ((Expr_literal (Lit_binary "Hello world!"))))))))))
          (fd_spec ())))))
   

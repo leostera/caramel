@@ -11,37 +11,42 @@
   > 
   > EOF
   $ caramelc compile --dump-ast case_test.erl
-  ((file_name case_test.erl) (behaviours ()) (module_name case_test)
-    (ocaml_name Case_test) (attributes ())
-    (exports (((exp_type Export_function) (exp_name f) (exp_arity 1))))
+  ((file_name case_test.erl) (behaviours ()) (module_name (Atom case_test))
+    (attributes ())
+    (exports (((exp_type Export_function) (exp_name (Atom f)) (exp_arity 1))))
     (types ())
     (functions
-      (((fd_name f) (fd_arity 1)
+      (((fd_name (Atom f)) (fd_arity 1)
          (fd_cases
-           (((fc_name f) (fc_lhs ((Pattern_binding A))) (fc_guards ())
-              (fc_rhs
+           (((c_lhs ((Pattern_binding (Var_name A)))) (c_guard ())
+              (c_rhs
                 (Expr_case (Expr_name (Var_name A))
-                  (((cb_pattern
-                      (Pattern_tuple
-                        ((Pattern_match (Lit_atom int)) (Pattern_binding I))))
-                     (cb_expr
+                  (((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom int)))
+                           (Pattern_binding (Var_name I))))))
+                     (c_guard ())
+                     (c_rhs
                        (Expr_apply
-                         ((fa_name (Expr_name (Atom_name print_int)))
+                         ((fa_name (Expr_name (Atom_name (Atom print_int))))
                            (fa_args ((Expr_name (Var_name I))))))))
-                    ((cb_pattern
-                       (Pattern_tuple
-                         ((Pattern_match (Lit_atom str)) (Pattern_binding B))))
-                      (cb_expr
+                    ((c_lhs
+                       ((Pattern_tuple
+                          ((Pattern_match (Lit_atom (Atom str)))
+                            (Pattern_binding (Var_name B))))))
+                      (c_guard ())
+                      (c_rhs
                         (Expr_apply
-                          ((fa_name (Expr_name (Atom_name print_string)))
+                          ((fa_name
+                             (Expr_name (Atom_name (Atom print_string))))
                             (fa_args ((Expr_name (Var_name B))))))))))))))
          (fd_spec ()))
-        ((fd_name g) (fd_arity 0)
+        ((fd_name (Atom g)) (fd_arity 0)
           (fd_cases
-            (((fc_name g) (fc_lhs ()) (fc_guards ())
-               (fc_rhs
+            (((c_lhs ()) (c_guard ())
+               (c_rhs
                  (Expr_apply
-                   ((fa_name (Expr_name (Atom_name f)))
+                   ((fa_name (Expr_name (Atom_name (Atom f))))
                      (fa_args ((Expr_literal (Lit_integer 1))))))))))
           (fd_spec ())))))
   

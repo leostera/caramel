@@ -119,9 +119,9 @@
                           | {poly_c, string()}
                           .
   
-  -type poly_ext_phantom(_A) :: poly(integer())
-                              | {poly_c, string()}
-                              .
+  -type poly_ext_phantom(A) :: poly(integer())
+                             | {poly_c, string()}
+                             .
   
   
   % Source code generated with Caramel.
@@ -182,8 +182,8 @@
   
   -type triplet(A, B) :: {A, A, B}.
   
-  -type phantom(_A) :: phantom
-                     .
+  -type phantom(A) :: phantom
+                    .
   
   
   % Source code generated with Caramel.
