@@ -12,7 +12,11 @@ module Fun = struct
             let args = List.map build_type_kind args in
             let return = build_type_kind return in
             Type.fun_ ~args ~return
-        | `Not_a_function -> raise Error.Unsupported_feature )
+        | `Not_a_function ->
+            Format.fprintf Format.std_formatter "Tried to uncurry a non-function type!\n%!";
+            Printtyp.type_expr Format.std_formatter type_expr;
+            Format.fprintf Format.std_formatter "\n%!";
+            raise Error.Unsupported_feature )
     | Tconstr (p, args, _) ->
         let name = Names.type_name_of_path p in
         let args = List.map build_type_kind args in
@@ -29,7 +33,14 @@ module Fun = struct
         let row_field_to_type_kind = function
           | Rpresent (Some texpr) -> [build_type_kind texpr]
           | Rpresent None -> []
-          | _ -> raise Error.Unsupported_feature
+          | Reither (_, args, _, _) -> List.map build_type_kind args
+          | _ ->
+              Format.fprintf Format.std_formatter "Tried to build a type kind for an odd variant constructor!\n%!";
+              Printtyp.type_expr Format.std_formatter type_expr;
+              Format.fprintf Format.std_formatter "\n%!";
+              Printtyp.raw_type_expr Format.std_formatter type_expr;
+              Format.fprintf Format.std_formatter "\n%!";
+              raise Error.Unsupported_feature
         in
 
         let row_field_to_constr (name, args) =
@@ -42,6 +53,8 @@ module Fun = struct
     | Tpoly (_, _)
     | Tfield (_, _, _, _)
     | Tsubst _ | Tunivar _ | Tobject _ | Tpackage _ ->
+        Printtyp.type_expr Format.std_formatter type_expr;
+        Format.fprintf Format.std_formatter "\n%!";
         raise Error.Unsupported_feature
 
   let build_spec : Types.value_description -> Erlang.Ast.type_kind option =

@@ -32,10 +32,8 @@ let ocaml_to_erlang_type t =
   | "result" -> Name.qualified ~module_name:(Atom.mk "result") (Atom.mk "t")
   | u -> Name.atom u
 
-let type_name_of_path p = p |> Path.name |> ocaml_to_erlang_type
-
-let longident_to_type_name x =
-  match x |> Longident.flatten |> List.rev with
+let type_name_of_parts parts =
+  match List.rev parts with
   | [] -> raise Unsupported_empty_identifier
   | [ x ] -> ocaml_to_erlang_type x
   | n_name :: mods -> (
@@ -48,6 +46,17 @@ let longident_to_type_name x =
           Name.qualified ~module_name:(Atom.mk x) (Atom.mk "t")
       | "erlang", "process" -> Name.qualified ~module_name (Atom.mk "pid")
       | _, _ -> Name.qualified ~module_name (Atom.mk n_name) )
+
+let type_name_of_path p =
+  match Path.flatten p with
+  | `Contains_apply ->
+      Path.print Format.std_formatter p;
+      raise Unsupported_empty_identifier
+  | `Ok (id, parts) ->
+      let name = id |> Ident.name |> ocaml_to_erlang_type |> Name.to_string in
+      type_name_of_parts (name :: parts)
+
+let longident_to_type_name x = x |> Longident.flatten |> type_name_of_parts
 
 let to_erl_op t = Name.qualified ~module_name:(Atom.mk "erlang") (Atom.mk t)
 

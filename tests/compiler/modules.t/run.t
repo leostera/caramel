@@ -28,7 +28,7 @@
   
   -export([run/0]).
   
-  -spec run() :: intadd.t().
+  -spec run() :: intadd:t().
   run() ->
     Zero = empty(),
     One = concat(Zero, 1),
