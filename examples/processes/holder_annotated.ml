@@ -1,6 +1,6 @@
-type msg = [ | `Reset | `Add  of int | `Hello of string ]
+type msg = [ `Reset | `Add of int | `Hello of string ]
 
-type state = (string * int)
+type state = string * int
 
 let handle_message (state : state) (msg : msg option) =
   let x, y = state in
