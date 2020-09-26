@@ -51,8 +51,8 @@ let ml_to_erlang ~source_file ~output_prefix ~opts:_ =
     let bytecode = to_bytecode info lambda in
     let _ = emit_bytecode info bytecode in
     let signature = read_signature info in
-    Ocaml_to_erlang.Compile.from_typedtree ~name:info.module_name typed
-      signature
+    let module_name = info.module_name in
+    Ocaml_to_erlang.Compile.from_typedtree ~module_name typed signature
     |> Erlang.Printer.to_sources
   in
   Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file

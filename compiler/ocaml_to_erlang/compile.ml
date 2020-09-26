@@ -1,3 +1,4 @@
+module Erl = Erlang.Ast_helper
 open Typedtree
 open Types
 
@@ -5,18 +6,18 @@ open Types
     constraining Types.signature.
  *)
 let build_module :
-    name:string ->
-    ocaml_name:string ->
+    module_name:Erlang.Ast.atom ->
     modules:Erlang.Ast.t list ->
     Typedtree.structure ->
     Types.signature option ->
     Erlang.Ast.t =
- fun ~name ~ocaml_name ~modules typedtree signature ->
-  let exports = Export.build_exports ~name typedtree signature in
+ fun ~module_name ~modules typedtree signature ->
+  let exports = Export.build_exports typedtree signature in
   let types = Typespecs.build_types typedtree signature in
-  let functions = Fun.build_functions ~module_name:name ~modules typedtree in
+  let functions = Fun.build_functions ~module_name ~modules typedtree in
   let attributes = [] in
-  Erlang.Ast.make ~name ~ocaml_name ~exports ~types ~functions ~attributes
+  let behaviours = [] in
+  Erl.Mod.mk ~behaviours ~exports ~types ~functions ~attributes module_name
 
 (** Navigate a [Typedtree.structure] and recursively collect all module definitions,
     building up the right prefixed names.
@@ -31,16 +32,10 @@ let build_module :
       * Typedtree.structure -> back to the top again
  *)
 let rec find_modules :
-    prefix:string ->
+    prefix:Erlang.Ast.atom ->
     Typedtree.structure ->
-    (string * string * Typedtree.structure * Types.signature option) list =
+    (Erlang.Ast.atom * Typedtree.structure * Types.signature option) list =
  fun ~prefix typedtree ->
-  let module_name prefix mb_id =
-    ( match mb_id with
-    | Some x -> prefix ^ "__" ^ Names.atom_of_ident x
-    | None -> prefix )
-    |> String.lowercase_ascii
-  in
   typedtree.str_items
   |> List.fold_left
        (fun acc struct_item ->
@@ -53,17 +48,19 @@ let rec find_modules :
                   let ocaml_name =
                     match mb.mb_id with Some x -> Ident.name x | None -> ""
                   in
-                  let prefix = module_name prefix mb.mb_id in
+                  let module_name =
+                    Erl.Atom.concat prefix (Erl.Atom.mk ocaml_name)
+                  in
                   match mb.mb_expr.mod_desc with
                   | Tmod_constraint
                       ( { mod_desc = Tmod_structure typedtree; _ },
                         Mty_signature signature,
                         _mod_type_constr,
                         _mod_type_coerc ) ->
-                      (prefix, ocaml_name, typedtree, Some signature)
+                      (module_name, typedtree, Some signature)
                       :: find_modules ~prefix typedtree
                   | Tmod_structure typedtree ->
-                      (prefix, ocaml_name, typedtree, None)
+                      (module_name, typedtree, None)
                       :: find_modules ~prefix typedtree
                   | _ -> [])
          in
@@ -74,21 +71,22 @@ let rec find_modules :
     sources.
 *)
 let from_typedtree :
-    name:string ->
+    module_name:string ->
     Typedtree.structure ->
     Types.signature option ->
     Erlang.Ast.t list =
- fun ~name typedtree signature ->
-  let name = Names.atom_of_string name in
+ fun ~module_name typedtree signature ->
+  let top_module = Erl.Atom.mk module_name in
   let modules =
     List.fold_left
-      (fun mods (name, ocaml_name, impl, sign) ->
-        build_module ~name ~ocaml_name ~modules:mods impl sign :: mods)
+      (fun mods (nested_module_name, impl, sign) ->
+        build_module ~module_name:nested_module_name ~modules:mods impl sign
+        :: mods)
       []
-      (find_modules ~prefix:name typedtree)
+      (find_modules ~prefix:top_module typedtree)
   in
   [
     modules;
-    [ build_module ~name ~ocaml_name:name ~modules typedtree signature ];
+    [ build_module ~module_name:top_module ~modules typedtree signature ];
   ]
   |> List.concat

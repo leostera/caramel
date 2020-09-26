@@ -1,45 +1,35 @@
+open Erlang.Ast_helper
+
 exception Unsupported_empty_identifier
 
-let safe_atom u = match u.[0] with 'a' .. 'z' -> u | _ -> "'" ^ u ^ "'"
+let varname_of_ident i = i |> Ident.name |> Name.var
 
-let rec varname_of_string s =
-  let name = s |> String.capitalize_ascii in
-  match (name.[0], name) with
-  | '_', name when name <> "_" ->
-      let name =
-        name |> String.to_seq |> List.of_seq |> List.tl |> List.to_seq
-        |> String.of_seq
-      in
-      "_" ^ varname_of_string name
-  | _, _ -> name
+let varname_of_longident i = i |> Longident.last |> Name.var
 
-let varname_of_ident i = i |> Ident.name |> varname_of_string
+let atom_of_ident i = i |> Ident.name |> Atom.mk
 
-let atom_of_string = String.lowercase_ascii
+let atom_of_longident x = x |> Longident.last |> Atom.mk
 
-let atom_of_ident i = i |> Ident.name |> atom_of_string
+let name_of_ident i = i |> Ident.name |> Name.atom
 
-let longident_to_atom x = x |> Longident.last |> atom_of_string
+let name_of_path p = p |> Path.name |> Name.atom
 
-let longident_to_name x =
+let name_of_longident x =
   match x |> Longident.flatten |> List.rev with
   | [] -> raise Unsupported_empty_identifier
-  | [ x ] -> Erlang.Ast.(Var_name x)
+  | [ x ] -> Name.var x
   | n_name :: mods ->
-      let n_mod = mods |> List.rev |> String.concat "__" in
-      let n_name = safe_atom n_name in
-      Erlang.Ast.(Qualified_name { n_mod; n_name })
+      let module_name = mods |> List.rev |> String.concat "__" |> Atom.mk in
+      let n_name = Atom.mk n_name in
+      Name.qualified ~module_name n_name
 
 let ocaml_to_erlang_type t =
-  let open Erlang.Ast in
   match t with
-  | "int" -> Atom_name "integer"
-  | "bool" -> Atom_name "boolean"
-  | "option" -> Qualified_name { n_mod = "option"; n_name = "t" }
-  | "result" -> Qualified_name { n_mod = "result"; n_name = "t" }
-  | u -> Atom_name (safe_atom u)
-
-let path_to_type_name p = Erlang.Ast.Atom_name (Path.name p)
+  | "int" -> Name.atom "integer"
+  | "bool" -> Name.atom "boolean"
+  | "option" -> Name.qualified ~module_name:(Atom.mk "option") (Atom.mk "t")
+  | "result" -> Name.qualified ~module_name:(Atom.mk "result") (Atom.mk "t")
+  | u -> Name.atom u
 
 let longident_to_type_name x =
   match x |> Longident.flatten |> List.rev with
@@ -49,25 +39,22 @@ let longident_to_type_name x =
       let n_mod =
         mods |> List.rev |> String.concat "__" |> String.lowercase_ascii
       in
-      let n_name = safe_atom n_name in
+      let module_name = Atom.mk n_mod in
       match (n_mod, n_name) with
       | _, x when x = "option" || x = "result" ->
-          Erlang.Ast.(Qualified_name { n_mod = x; n_name = "t" })
-      | "erlang", "process" ->
-          Erlang.Ast.(Qualified_name { n_mod; n_name = "pid" })
-      | _, _ -> Erlang.Ast.(Qualified_name { n_mod; n_name }) )
+          Name.qualified ~module_name:(Atom.mk x) (Atom.mk "t")
+      | "erlang", "process" -> Name.qualified ~module_name (Atom.mk "pid")
+      | _, _ -> Name.qualified ~module_name (Atom.mk n_name) )
 
-let to_erl_op t =
-  Erlang.Ast.(Qualified_name { n_mod = "erlang"; n_name = "'" ^ t ^ "'" })
+let to_erl_op t = Name.qualified ~module_name:(Atom.mk "erlang") (Atom.mk t)
 
 let ocaml_to_erlang_primitive_op t =
   match t with
   | "!" | "++" | "-" | "--" | "/" | "<" | ">" | "*" | "+" -> to_erl_op t
   | "^" ->
-      Erlang.Ast.(
-        Qualified_name { n_mod = "caramel"; n_name = "binary_concat" })
+      Name.qualified ~module_name:(Atom.mk "caramel") (Atom.mk "binary_concat")
   | "<>" -> to_erl_op "=/="
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="
   | "@" -> to_erl_op "++"
-  | u -> Erlang.Ast.Atom_name (safe_atom u)
+  | u -> Name.atom u

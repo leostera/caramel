@@ -1,6 +1,7 @@
 open Erlang.Ast
 open Ast_helper
 open Asttypes
+module Erl = Erlang.Ast_helper
 
 exception Function_without_cases
 
@@ -33,31 +34,30 @@ let mk_constant lit =
 
 let mk_name name =
   match name with
-  | Macro_name _ -> raise (Unsupported_name name)
   | Var_name name -> Exp.ident (mk_lid (String.lowercase_ascii name))
-  | Atom_name name -> Exp.ident (mk_lid name)
-  | Qualified_name { n_mod = "erlang"; n_name = "spawn" } -> (
+  | Atom_name (Atom name) -> Exp.ident (mk_lid name)
+  | Qualified_name { n_mod = Atom "erlang"; n_name = Atom "spawn" } -> (
       match Longident.unflatten [ "Erlang"; "spawn" ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
-  | Qualified_name { n_mod = "erlang"; n_name = "send" } -> (
+  | Qualified_name { n_mod = Atom "erlang"; n_name = Atom "send" } -> (
       match Longident.unflatten [ "Erlang"; "send" ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
-  | Qualified_name { n_mod = "erlang"; n_name } -> (
+  | Qualified_name { n_mod = Atom "erlang"; n_name = Atom n_name } -> (
       match Longident.unflatten [ "Stdlib"; n_name ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
-  | Qualified_name { n_mod; n_name } -> (
+  | Qualified_name { n_mod = Atom n_mod; n_name = Atom n_name } -> (
       match Longident.unflatten [ String.capitalize_ascii n_mod; n_name ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
 
 let rec mk_expression expr =
   match expr with
-  | Expr_fun_ref name -> Exp.ident (mk_lid name)
+  | Expr_fun_ref { fref_name = Atom name; _ } -> Exp.ident (mk_lid name)
   | Expr_name name -> mk_name name
-  | Expr_literal (Lit_atom atom) -> Exp.variant (mk_label atom) None
+  | Expr_literal (Lit_atom (Atom atom)) -> Exp.variant (mk_label atom) None
   | Expr_literal literal -> Exp.constant (mk_constant literal)
   | Expr_let ({ lb_lhs; lb_rhs }, expr) ->
       Exp.let_ Nonrecursive
@@ -70,8 +70,9 @@ let rec mk_expression expr =
   | Expr_apply
       {
         fa_name =
-          Expr_name (Qualified_name { n_mod = "erlang"; n_name = "spawn" });
-        fa_args = [ Expr_fun { fd_cases = [ case ]; _ } ];
+          Expr_name
+            (Qualified_name { n_mod = Atom "erlang"; n_name = Atom "spawn" });
+        fa_args = [ Expr_fun [ case ] ];
       } ->
       mk_spawn case
   | Expr_apply { fa_name; fa_args = [ arg ] } ->
@@ -85,8 +86,8 @@ let rec mk_expression expr =
   | Expr_case (expr, branches) ->
       Exp.match_ (mk_expression expr) (List.map mk_match_case branches)
   | Expr_tuple [] -> Exp.construct (mk_lid "()") None
-  | Expr_tuple [ Expr_literal (Lit_atom tag) ] -> Exp.variant tag None
-  | Expr_tuple (Expr_literal (Lit_atom tag) :: pats) ->
+  | Expr_tuple [ Expr_literal (Lit_atom (Atom tag)) ] -> Exp.variant tag None
+  | Expr_tuple (Expr_literal (Lit_atom (Atom tag)) :: pats) ->
       Exp.variant tag (Some (mk_expression (Expr_tuple pats)))
   | Expr_tuple [ x ] -> mk_expression x
   | Expr_tuple els -> Exp.tuple (List.map mk_expression els)
@@ -96,12 +97,12 @@ let rec mk_expression expr =
 
 and mk_spawn fn_case =
   Exp.apply
-    (mk_name (Qualified_name { n_mod = "Erlang"; n_name = "spawn" }))
+    (mk_name (Qualified_name { n_mod = Atom "Erlang"; n_name = Atom "spawn" }))
     [
       ( Nolabel,
         Exp.fun_ Nolabel None
           (Pat.var { txt = "recv"; loc = Location.none })
-          ( ( match fn_case.fc_rhs with
+          ( ( match fn_case.c_rhs with
             | Expr_apply { fa_name; fa_args = [ arg ] } ->
                 Expr_apply
                   {
@@ -120,8 +121,8 @@ and mk_recv { rcv_cases; _ } =
        [ (Nolabel, Exp.construct (mk_lid "()") None) ])
     (List.map mk_match_case rcv_cases)
 
-and mk_match_case { cb_pattern; cb_expr } =
-  Exp.case (mk_pattern cb_pattern) (mk_expression cb_expr)
+and mk_match_case { c_lhs; c_rhs; _ } =
+  Exp.case (mk_pattern (List.hd c_lhs)) (mk_expression c_rhs)
 
 and mk_list_expr ls =
   match ls with
@@ -139,17 +140,19 @@ and mk_pattern pattern =
   match pattern with
   | Pattern_ignore -> Pat.any ()
   | Pattern_binding name ->
+      let name = Erl.Name.to_string name in
       Pat.var { txt = String.lowercase_ascii name; loc = Location.none }
   | Pattern_tuple [] -> Pat.construct (mk_lid "()") None
-  | Pattern_tuple [ Pattern_match (Lit_atom tag) ] -> Pat.variant tag None
-  | Pattern_tuple (Pattern_match (Lit_atom tag) :: pats) ->
+  | Pattern_tuple [ Pattern_match (Lit_atom (Atom tag)) ] ->
+      Pat.variant tag None
+  | Pattern_tuple (Pattern_match (Lit_atom (Atom tag)) :: pats) ->
       Pat.variant tag (Some (mk_pattern (Pattern_tuple pats)))
   | Pattern_tuple [ x ] -> mk_pattern x
   | Pattern_tuple pats -> Pat.tuple (List.map mk_pattern pats)
   | Pattern_list xs -> mk_list_pat (List.map mk_pattern xs)
   | Pattern_cons (lhs, xs) ->
       mk_list_pat (List.map mk_pattern lhs @ [ mk_pattern xs ])
-  | Pattern_match (Lit_atom atom) -> Pat.variant (mk_label atom) None
+  | Pattern_match (Lit_atom (Atom atom)) -> Pat.variant (mk_label atom) None
   | Pattern_match literal -> Pat.constant (mk_constant literal)
   | _ -> raise Unsupported_pattern
 
@@ -159,25 +162,28 @@ and mk_fun_args pats =
   | [ x ] -> x
   | xs -> Pat.tuple xs
 
-and mk_fun_case { fc_lhs; fc_rhs; _ } =
-  Exp.case (mk_fun_args (List.map mk_pattern fc_lhs)) (mk_expression fc_rhs)
+and mk_fun_case { c_lhs; c_rhs; _ } =
+  Exp.case (mk_fun_args (List.map mk_pattern c_lhs)) (mk_expression c_rhs)
 
-and mk_fun { fd_cases; _ } =
-  match fd_cases with
+and mk_fun cases =
+  match cases with
   | [] -> raise Function_without_cases
-  | [ { fc_lhs; fc_rhs; _ } ] ->
+  | [ { c_lhs; c_rhs; _ } ] ->
       Exp.fun_ Nolabel None
-        (mk_fun_args (List.map mk_pattern fc_lhs))
-        (mk_expression fc_rhs)
-  | _ -> Exp.function_ (List.map mk_fun_case fd_cases)
+        (mk_fun_args (List.map mk_pattern c_lhs))
+        (mk_expression c_rhs)
+  | _ -> Exp.function_ (List.map mk_fun_case cases)
 
-and mk_fun_value ({ fd_name; _ } as f) =
-  let pat = Pat.var { txt = fd_name; loc = Location.none } in
-  let expr = mk_fun f in
+and mk_fun_value { fd_name; fd_cases; _ } =
+  let pat = Pat.var { txt = Erl.Atom.to_string fd_name; loc = Location.none } in
+  let expr = mk_fun fd_cases in
   Str.value Recursive [ Vb.mk pat expr ]
 
 let to_parsetree : Erlang.Ast.t -> Parsetree.structure =
- fun { ocaml_name; functions; _ } ->
+ fun { module_name; functions; _ } ->
+  let ocaml_name =
+    module_name |> Erl.Atom.to_string |> String.capitalize_ascii
+  in
   let module_name = { txt = Some ocaml_name; loc = Location.none } in
   (* NOTE: not ideal! we are traversing the module twice to thread the
    * receive function in the functions that are actually run as processes

@@ -1,3 +1,4 @@
+module Erl = Erlang.Ast_helper
 open Typedtree
 open Types
 
@@ -11,11 +12,8 @@ open Types
       * types.signature_item
  *)
 let build_exports :
-    name:string ->
-    Typedtree.structure ->
-    Types.signature option ->
-    Erlang.Ast.export list =
- fun ~name:_ typedtree signature ->
+    Typedtree.structure -> Types.signature option -> Erlang.Ast.export list =
+ fun typedtree signature ->
   let rec collect_args value args =
     match value.desc with
     | Tarrow (_, arg, next, _) -> collect_args next (arg :: args)
@@ -39,8 +37,8 @@ let build_exports :
                | args -> args
              in
              let arity = List.length args in
-             Some (Erlang.Ast.make_fn_export name arity)
-         | Sig_type (name, td, _, Exported) ->
-             Some
-               (Erlang.Ast.make_type_export (Names.atom_of_ident name) td.type_arity)
+             Some (Erl.Export.fun_ name ~arity)
+         | Sig_type (name, { type_arity = arity; _ }, _, Exported) ->
+             let name = Names.atom_of_ident name in
+             Some (Erl.Export.type_ name ~arity)
          | _ -> None)
