@@ -32,6 +32,8 @@ let ocaml_to_erlang_type t =
   | "result" -> Name.qualified ~module_name:(Atom.mk "result") (Atom.mk "t")
   | u -> Name.atom u
 
+let type_name_of_path p = p |> Path.name |> ocaml_to_erlang_type
+
 let longident_to_type_name x =
   match x |> Longident.flatten |> List.rev with
   | [] -> raise Unsupported_empty_identifier

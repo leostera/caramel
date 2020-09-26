@@ -14,7 +14,7 @@ module Fun = struct
             Type.fun_ ~args ~return
         | `Not_a_function -> raise Error.Unsupported_feature )
     | Tconstr (p, args, _) ->
-        let name = Names.name_of_path p in
+        let name = Names.type_name_of_path p in
         let args = List.map build_type_kind args in
         Type.apply ~name ~args
     | Ttuple els ->
