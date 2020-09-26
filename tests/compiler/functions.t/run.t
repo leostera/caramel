@@ -68,13 +68,13 @@
   -export([ignore/0]).
   -export([pair/2]).
   
-  -spec pair(A, B) :: {A, B}.
+  -spec pair(A, B) -> {A, B}.
   pair(X, Y) -> {X, Y}.
   
-  -spec combine({A, B}, {C, D}) :: {{A, C}, {B, D}}.
+  -spec combine({A, B}, {C, D}) -> {{A, C}, {B, D}}.
   combine({A, B}, {C, D}) -> {{A, C}, {B, D}}.
   
-  -spec ignore() :: ok.
+  -spec ignore() -> ok.
   ignore() -> ok.
   
   
@@ -83,7 +83,7 @@
   
   -export([hello/0]).
   
-  -spec hello() :: ok.
+  -spec hello() -> ok.
   hello() ->
     Text = <<"hello, joe!">>,
     io:format(<<"~p">>, [Text | []]).
@@ -97,16 +97,16 @@
   -export([right/2]).
   -export([snd/1]).
   
-  -spec left(A, B) :: A.
+  -spec left(A, B) -> A.
   left(L, _) -> L.
   
-  -spec right(A, B) :: B.
+  -spec right(A, B) -> B.
   right(_, R) -> R.
   
-  -spec fst({A, B}) :: A.
+  -spec fst({A, B}) -> A.
   fst({A, _}) -> A.
   
-  -spec snd({A, B}) :: B.
+  -spec snd({A, B}) -> B.
   snd({_, B}) -> B.
   
   
@@ -116,10 +116,10 @@
   -export([concat/2]).
   -export([run/0]).
   
-  -spec concat(binary(), binary()) :: binary().
+  -spec concat(binary(), binary()) -> binary().
   concat(A, B) -> << A/binary, B/binary >>.
   
-  -spec run() :: boolean().
+  -spec run() -> boolean().
   run() ->
     S1 = concat(<<"ocaml">>, <<"erlang">>),
     S2 = concat(<<"erlang">>, <<"ocaml">>),
@@ -134,21 +134,21 @@
   -export([iff_using_if/3]).
   -export([iff_using_match/3]).
   
-  -spec iff_using_headers(boolean(), A, B) :: A.
+  -spec iff_using_headers(boolean(), A, B) -> A.
   iff_using_headers(true, F, _) -> F.
   
-  -spec iff_using_function({boolean(), A, A}) :: A.
+  -spec iff_using_function({boolean(), A, A}) -> A.
   iff_using_function({false, _, F}) -> F;
   iff_using_function({true, F, _}) -> F.
   
-  -spec iff_using_if(boolean(), fun(() -> A), fun(() -> A)) :: A.
+  -spec iff_using_if(boolean(), fun(() -> A), fun(() -> A)) -> A.
   iff_using_if(Cond, T, F) ->
     case Cond of
       true -> T();
       false -> F()
     end.
   
-  -spec iff_using_match(boolean(), A, A) :: A.
+  -spec iff_using_match(boolean(), A, A) -> A.
   iff_using_match(T, F, G) ->
     case T of
       true -> F;
@@ -165,19 +165,19 @@
   -export([one_el/1]).
   -export([tail/1]).
   
-  -spec head(list(A)) :: A.
+  -spec head(list(A)) -> A.
   head([X | _]) -> X.
   
-  -spec tail(list(A)) :: list(A).
+  -spec tail(list(A)) -> list(A).
   tail([_ | Xs]) -> Xs.
   
-  -spec one_el(list(A)) :: A.
+  -spec one_el(list(A)) -> A.
   one_el([X | '[]']) -> X.
   
-  -spec at_2(list(A)) :: A.
+  -spec at_2(list(A)) -> A.
   at_2([_ | [X | _]]) -> X.
   
-  -spec at_3(list(A)) :: A.
+  -spec at_3(list(A)) -> A.
   at_3([_ | [_ | [X | _]]]) -> X.
   
   
@@ -191,22 +191,22 @@
   -export([call_other_nested/1]).
   -export([double/2]).
   
-  -spec add(A) :: A.
+  -spec add(A) -> A.
   add(X) -> X.
   
-  -spec double(fun((A) -> A), A) :: A.
+  -spec double(fun((A) -> A), A) -> A.
   double(F, X) -> F(F(X)).
   
-  -spec add_twice(A) :: A.
+  -spec add_twice(A) -> A.
   add_twice(X) -> double(fun add/1, X).
   
-  -spec call_nested(boolean()) :: ok.
+  -spec call_nested(boolean()) -> ok.
   call_nested(X) -> qualified_calls__nested:f(X).
   
-  -spec call_other(A) :: ok.
+  -spec call_other(A) -> ok.
   call_other(X) -> qualified_calls_helper:f(X).
   
-  -spec call_other_nested(A) :: ok.
+  -spec call_other_nested(A) -> ok.
   call_other_nested(X) -> qualified_calls_helper__nested:f(X).
   
   
@@ -215,7 +215,7 @@
   
   -export([f/1]).
   
-  -spec f(boolean()) :: ok.
+  -spec f(boolean()) -> ok.
   f(X) ->
     case X of
       true -> ok;
@@ -228,7 +228,7 @@
   
   -export([f/1]).
   
-  -spec f(A) :: ok.
+  -spec f(A) -> ok.
   f(_x) -> ok.
   
   
@@ -237,7 +237,7 @@
   
   -export([f/1]).
   
-  -spec f(A) :: ok.
+  -spec f(A) -> ok.
   f(_x) -> ok.
   
   
@@ -246,7 +246,7 @@
   
   -export([run/0]).
   
-  -spec run() :: ok.
+  -spec run() -> ok.
   run() ->
     A = 1,
     B = 2,
@@ -270,16 +270,16 @@
   
   -type defer(A) :: fun((ok) -> A).
   
-  -spec ignore(A, ok) :: ok.
+  -spec ignore(A, ok) -> ok.
   ignore(_x, ok) -> ok.
   
-  -spec add(integer(), A) :: integer().
+  -spec add(integer(), A) -> integer().
   add(X, Y) -> erlang:'+'(X, X).
   
-  -spec add_slow(integer(), integer(), ok) :: integer().
+  -spec add_slow(integer(), integer(), ok) -> integer().
   add_slow(X, Y, ok) -> erlang:'+'(X, Y).
   
-  -spec add_really_slow(integer(), ok, integer(), ok) :: integer().
+  -spec add_really_slow(integer(), ok, integer(), ok) -> integer().
   add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
   
   

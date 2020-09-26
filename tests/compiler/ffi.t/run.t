@@ -9,7 +9,7 @@
   
   -export([fmt/0]).
   
-  -spec fmt() :: ok.
+  -spec fmt() -> ok.
   fmt() ->
     Str = <<"Hello">>,
     io:format(<<"~p">>, [Str | []]),

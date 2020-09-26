@@ -157,22 +157,22 @@
   -export([f4/4]).
   -export([run/0]).
   
-  -spec f(A) :: B.
+  -spec f(A) -> B.
   f(X) -> f(X).
   
-  -spec f1(A) :: B.
+  -spec f1(A) -> B.
   f1(X) -> f([X | []]).
   
-  -spec f2(A, A) :: B.
+  -spec f2(A, A) -> B.
   f2(X, Y) -> f([X | [Y | []]]).
   
-  -spec f3(A, A, A) :: B.
+  -spec f3(A, A, A) -> B.
   f3(X, Y, Z) -> f([X | [Y | [Z | []]]]).
   
-  -spec f4(A, A, A, A) :: B.
+  -spec f4(A, A, A, A) -> B.
   f4(W, X, Y, Z) -> f([W | [X | [Y | [Z | []]]]]).
   
-  -spec run() :: integer().
+  -spec run() -> integer().
   run() ->
     f1(1),
     f2(1, 2),
@@ -186,7 +186,7 @@
   
   -export([apply_fun/0]).
   
-  -spec apply_fun() :: integer().
+  -spec apply_fun() -> integer().
   apply_fun() ->
     A = fun
     () -> 1
@@ -215,7 +215,7 @@
                        , snd => integer()
                        }.
   
-  -spec match_record() :: boolean().
+  -spec match_record() -> boolean().
   match_record() ->
     case #{ fst => 0
    , snd => 1
@@ -224,7 +224,7 @@
       #{ fst := X } -> true
     end.
   
-  -spec match_list() :: boolean().
+  -spec match_list() -> boolean().
   match_list() ->
     case [0 | [1 | []]] of
       '[]' -> true;
@@ -232,7 +232,7 @@
       [X | Xs] -> true
     end.
   
-  -spec match_tuples() :: boolean().
+  -spec match_tuples() -> boolean().
   match_tuples() ->
     case {1, true, <<"hello">>} of
       {X, Y, Z} -> true;
@@ -240,7 +240,7 @@
       X -> true
     end.
   
-  -spec match_atoms() :: boolean().
+  -spec match_atoms() -> boolean().
   match_atoms() ->
     case hello of
       X -> true
@@ -255,16 +255,16 @@
   -export([do_add/2]).
   -export([do_nested_add/2]).
   
-  -spec add(integer(), integer()) :: integer().
+  -spec add(integer(), integer()) -> integer().
   add(X, Y) -> erlang:'+'(X, Y).
   
-  -spec call_op_2(fun((A, B) -> C), A, B) :: C.
+  -spec call_op_2(fun((A, B) -> C), A, B) -> C.
   call_op_2(F, X, Y) -> F(X, Y).
   
-  -spec do_add(integer(), integer()) :: integer().
+  -spec do_add(integer(), integer()) -> integer().
   do_add(X, Y) -> call_op_2(fun add/2, X, Y).
   
-  -spec do_nested_add(integer(), integer()) :: integer().
+  -spec do_nested_add(integer(), integer()) -> integer().
   do_nested_add(X, Y) -> call_op_2(funref__nested:add, X, Y).
   
   
@@ -273,7 +273,7 @@
   
   -export([add/2]).
   
-  -spec add(integer(), integer()) :: integer().
+  -spec add(integer(), integer()) -> integer().
   add(X, Y) -> erlang:'+'(X, Y).
   
   
@@ -286,17 +286,17 @@
   -export([let_one/0]).
   -export([let_rec/0]).
   
-  -spec let_one() :: integer().
+  -spec let_one() -> integer().
   let_one() ->
     A = 1,
     A.
   
-  -spec let_ignore() :: integer().
+  -spec let_ignore() -> integer().
   let_ignore() ->
     1,
     2.
   
-  -spec let_many() :: integer().
+  -spec let_many() -> integer().
   let_many() ->
     A = 1,
     B = 2,
@@ -304,7 +304,7 @@
     D = 4,
     erlang:'+'(erlang:'+'(erlang:'+'(A, B), C), D).
   
-  -spec let_nested(fun((integer()) -> A), fun(() -> B), fun(() -> C)) :: A.
+  -spec let_nested(fun((integer()) -> A), fun(() -> B), fun(() -> C)) -> A.
   let_nested(F, G, H) ->
     A = fun
     () ->
@@ -319,7 +319,7 @@
   end(),
     F(A).
   
-  -spec let_rec() :: A.
+  -spec let_rec() -> A.
   let_rec() ->
     F = fun
     (X) -> f(erlang:'+'(X, 1))
@@ -338,25 +338,25 @@
   -export([pair/1]).
   -export([tail/1]).
   
-  -spec empty() :: list(A).
+  -spec empty() -> list(A).
   empty() -> [].
   
-  -spec pair(A) :: list(A).
+  -spec pair(A) -> list(A).
   pair(X) -> [X | [X | []]].
   
-  -spec cons(A, list(A)) :: list(A).
+  -spec cons(A, list(A)) -> list(A).
   cons(X, Y) -> [X | Y].
   
-  -spec head(list(A)) :: A.
+  -spec head(list(A)) -> A.
   head([X | _]) -> X.
   
-  -spec tail(list(A)) :: list(A).
+  -spec tail(list(A)) -> list(A).
   tail([_ | X]) -> X.
   
-  -spec at_2(list(A)) :: A.
+  -spec at_2(list(A)) -> A.
   at_2([_ | [X | _]]) -> X.
   
-  -spec concat(list(A), list(A)) :: list(A).
+  -spec concat(list(A), list(A)) -> list(A).
   concat(A, B) -> erlang:'++'(A, B).
   
   
@@ -370,22 +370,22 @@
   -export([integer/0]).
   -export([string/0]).
   
-  -spec integer() :: integer().
+  -spec integer() -> integer().
   integer() -> 1.
   
-  -spec float() :: float().
+  -spec float() -> float().
   float() -> 1.0.
   
-  -spec character() :: char().
+  -spec character() -> char().
   character() -> 'c'.
   
-  -spec string() :: binary().
+  -spec string() -> binary().
   string() -> <<"hello">>.
   
-  -spec bool_true() :: boolean().
+  -spec bool_true() -> boolean().
   bool_true() -> true.
   
-  -spec bool_false() :: boolean().
+  -spec bool_false() -> boolean().
   bool_false() -> true.
   
   
@@ -406,25 +406,25 @@
                        , snd => integer()
                        }.
   
-  -spec match_unit() :: boolean().
+  -spec match_unit() -> boolean().
   match_unit() ->
     case ok of
       ok -> true
     end.
   
-  -spec match_ignore() :: boolean().
+  -spec match_ignore() -> boolean().
   match_ignore() ->
     case ok of
       _ -> true
     end.
   
-  -spec match_int() :: boolean().
+  -spec match_int() -> boolean().
   match_int() ->
     case 1 of
       1 -> true
     end.
   
-  -spec match_str() :: boolean().
+  -spec match_str() -> boolean().
   match_str() ->
     case <<"hello">> of
       <<"xavier">> -> true;
@@ -435,7 +435,7 @@
       <<"joe">> -> true
     end.
   
-  -spec match_record() :: boolean().
+  -spec match_record() -> boolean().
   match_record() ->
     case #{ fst => 0
    , snd => 1
@@ -445,7 +445,7 @@
       #{ snd := 1 } -> true
     end.
   
-  -spec match_list() :: boolean().
+  -spec match_list() -> boolean().
   match_list() ->
     case [0 | [1 | []]] of
       '[]' -> true;
@@ -455,7 +455,7 @@
       [0 | [1 | '[]']] -> true
     end.
   
-  -spec match_tuples() :: boolean().
+  -spec match_tuples() -> boolean().
   match_tuples() ->
     case {1, true, <<"hello">>} of
       {1, _, _} -> true;
@@ -463,7 +463,7 @@
       {1, true, <<"hello">>} -> true
     end.
   
-  -spec match_atoms() :: boolean().
+  -spec match_atoms() -> boolean().
   match_atoms() ->
     case hello of
       xavier -> true;
@@ -479,21 +479,21 @@
   -export([run_nested/0]).
   -export([run_nested_ambiguous/0]).
   
-  -spec run_local() :: atom
+  -spec run_local() -> atom
          .
   run_local() ->
     X = fun run_local/1,
     Y = atom,
     Y.
   
-  -spec run_nested() :: {version, kind_of_working
+  -spec run_nested() -> {version, kind_of_working
                   }
           .
   run_nested() ->
     names__nested:x(),
     names__nested:w().
   
-  -spec run_nested_ambiguous() :: {compiler, binary()}
+  -spec run_nested_ambiguous() -> {compiler, binary()}
                     .
   run_nested_ambiguous() ->
     X = fun
@@ -508,11 +508,11 @@
   -export([w/0]).
   -export([x/0]).
   
-  -spec x() :: {compiler, binary()}
+  -spec x() -> {compiler, binary()}
   .
   x() -> {compiler, <<"caramel">>}.
   
-  -spec w() :: {version, kind_of_working
+  -spec w() -> {version, kind_of_working
          }
   .
   w() -> {version, kind_of_working}.
@@ -534,37 +534,37 @@
                     , snd => A
                     }.
   
-  -spec pair(A, A) :: pair(A).
+  -spec pair(A, A) -> pair(A).
   pair(X, Y) ->
     #{ fst => X
      , snd => Y
      }.
   
-  -spec fst(pair(A)) :: A.
+  -spec fst(pair(A)) -> A.
   fst(#{ fst := Fst }) -> Fst.
   
-  -spec snd(pair(A)) :: A.
+  -spec snd(pair(A)) -> A.
   snd(#{ snd := Snd }) -> Snd.
   
-  -spec swap(pair(A)) :: pair(A).
+  -spec swap(pair(A)) -> pair(A).
   swap(P) ->
     #{ fst => maps:get(snd, P)
      , snd => maps:get(fst, P)
      }.
   
-  -spec map(fun((A) -> B), fun((A) -> B), pair(A)) :: pair(B).
+  -spec map(fun((A) -> B), fun((A) -> B), pair(A)) -> pair(B).
   map(F, G, #{ fst := Fst, snd := Snd }) ->
     #{ fst => F(Fst)
      , snd => G(Snd)
      }.
   
-  -spec swap_from_expr(A, fun((A) -> pair(B))) :: pair(B).
+  -spec swap_from_expr(A, fun((A) -> pair(B))) -> pair(B).
   swap_from_expr(P, F) ->
     #{ fst => maps:get(snd, F(P))
      , snd => maps:get(fst, F(P))
      }.
   
-  -spec flatten_first(pair(pair(pair(A)))) :: pair(A).
+  -spec flatten_first(pair(pair(pair(A)))) -> pair(A).
   flatten_first(P) ->
     #{ fst => maps:get(fst, maps:get(fst, maps:get(fst, P)))
      , snd => maps:get(snd, maps:get(fst, maps:get(fst, P)))

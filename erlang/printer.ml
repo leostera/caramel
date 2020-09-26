@@ -434,7 +434,7 @@ let pp_fun_spec prefix ppf name args return =
       |> List.iter (fun arg ->
              Format.fprintf ppf ", ";
              pp_type_kind prefix ppf arg) );
-  Format.fprintf ppf ") :: %a.\n" (pp_type_kind prefix) return
+  Format.fprintf ppf ") -> %a.\n" (pp_type_kind prefix) return
 
 let pp_function ppf { fd_name; fd_cases; fd_spec; _ } ~module_ =
   let prefix = Format.sprintf "%s" (Atom.to_string fd_name) in
