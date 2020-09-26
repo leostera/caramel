@@ -1,0 +1,48 @@
+name: Main workflow
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        ocaml-version:
+          - 4.11.1
+
+    env:
+      OCAML_VERSION: ${{ matrix.ocaml-version }}
+      OS: ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use OCaml ${{ matrix.ocaml-version }}
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: ${{ matrix.ocaml-version }}
+      
+      - name: Set git user
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions-bot@users.noreply.github.com
+
+      - run: opam exec -- make deps
+
+      - run: opam exec -- make build
+
+      - name: run test suite
+        run: opam exec -- make test
+        if: env.SKIP_TEST != 'true'
+
+      - name: test source is well formatted
+        run: opam exec -- make fmt
