@@ -14,10 +14,9 @@ module Type_var_names = struct
     | None ->
         Hashtbl.add table t !last_char;
         let ret = String.make 1 !last_char in
-        last_char := Char.chr ((Char.code !last_char) + 1);
+        last_char := Char.chr (Char.code !last_char + 1);
         ret
     | Some v -> String.make 1 v
-
 end
 
 module Fun = struct
