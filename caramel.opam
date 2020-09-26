@@ -12,9 +12,7 @@ depends: [
   "cmdliner"
   "dune" {>= "2.5"}
   "menhir"
-  "ocaml" {>= "4.10.0"}
+  "ocaml" {>= "4.11.1"}
   "ocaml-compiler-libs"
-  "ppx_expect" {with-test & >= "v0.12.0"}
   "ppx_sexp_conv"
-  "patdiff"
 ]
