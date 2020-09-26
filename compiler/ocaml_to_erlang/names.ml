@@ -1,18 +1,30 @@
 open Erlang.Ast_helper
 
+let translation_table : (Erlang.Ast.name, Erlang.Ast.name) Hashtbl.t =
+  let h = Hashtbl.create 1024 in
+  [ (("List", "length"), ("erlang", "length")) ]
+  |> List.iter (fun ((m1, n1), (m2, n2)) ->
+         let k = Name.qualified ~module_name:(Atom.mk m1) (Atom.mk n1) in
+         let v = Name.qualified ~module_name:(Atom.mk m2) (Atom.mk n2) in
+         Hashtbl.add h k v);
+  h
+
+let translate n =
+  match Hashtbl.find_opt translation_table n with Some m -> m | None -> n
+
 exception Unsupported_empty_identifier
 
-let varname_of_ident i = i |> Ident.name |> Name.var
+let varname_of_ident i = i |> Ident.name |> Name.var |> translate
 
-let varname_of_longident i = i |> Longident.last |> Name.var
+let varname_of_longident i = i |> Longident.last |> Name.var |> translate
 
 let atom_of_ident i = i |> Ident.name |> Atom.mk
 
 let atom_of_longident x = x |> Longident.last |> Atom.mk
 
-let name_of_ident i = i |> Ident.name |> Name.atom
+let name_of_ident i = i |> Ident.name |> Name.atom |> translate
 
-let name_of_path p = p |> Path.name |> Name.atom
+let name_of_path p = p |> Path.name |> Name.atom |> translate
 
 let name_of_longident x =
   match x |> Longident.flatten |> List.rev with
@@ -21,7 +33,7 @@ let name_of_longident x =
   | n_name :: mods ->
       let module_name = mods |> List.rev |> String.concat "__" |> Atom.mk in
       let n_name = Atom.mk n_name in
-      Name.qualified ~module_name n_name
+      Name.qualified ~module_name n_name |> translate
 
 let ocaml_to_erlang_type t =
   match t with
@@ -69,4 +81,4 @@ let ocaml_to_erlang_primitive_op t =
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="
   | "@" -> to_erl_op "++"
-  | u -> Name.atom u
+  | u -> Name.atom u |> translate
