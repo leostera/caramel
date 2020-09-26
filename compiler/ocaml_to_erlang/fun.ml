@@ -105,16 +105,14 @@ and build_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
         ( fields
         |> List.map (fun (Asttypes.{ txt; _ }, _, pattern) ->
                (Names.atom_of_longident txt, build_pattern pattern)) )
-      (* FIXME: don't compare atoms like this, just refer to is_unit *)
-  | Tpat_construct ({ txt; _ }, _, _)
-    when Names.atom_of_longident txt = Atom.mk "()" ->
-      Erlang.Ast.Pattern_tuple []
+  (* FIXME: don't compare atoms like this, just refer to is_unit *)
+  | Tpat_construct ({ txt; _ }, _, _) when Longident.last txt = "()" ->
+      Pat.tuple []
   | Tpat_construct ({ txt; _ }, _, patterns)
-    when Names.atom_of_longident txt = Atom.mk "::" ->
-      Erlang.Ast.Pattern_list (List.map build_pattern patterns)
+    when Longident.last txt = "::" || Longident.last txt = "[]" ->
+      Pat.list (List.map build_pattern patterns)
   | Tpat_construct ({ txt; _ }, _, []) ->
-      Erlang.Ast.Pattern_match
-        (Erlang.Ast.Lit_atom (Names.atom_of_longident txt))
+      Pat.const (Const.atom (Names.atom_of_longident txt))
   | Tpat_construct ({ txt; _ }, _, patterns) ->
       let tag =
         Erlang.Ast.Pattern_match
@@ -186,17 +184,14 @@ and build_expression exp ~var_names ~modules ~module_name =
           | Erlang.Ast.Qualified_name { n_mod; n_name } ->
               Expr.ident (namespace_qualified_name n_mod n_name)
           | _ -> Expr.fun_ref ~arity:0 (Names.atom_of_longident txt) )
-  | Texp_construct ({ txt; _ }, _, _expr)
-    when Names.atom_of_longident txt = Atom.mk "[]" ->
+  | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Some (Erlang.Ast.Expr_list [])
-  | Texp_construct ({ txt; _ }, _, _expr)
-    when Names.atom_of_longident txt = Atom.mk "()" ->
+  | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
       Some (Erlang.Ast.Expr_tuple [])
   | Texp_construct ({ txt; _ }, _, []) ->
       Some (Erlang.Ast.Expr_name (Atom_name (Names.atom_of_longident txt)))
   (* NOTE: lists are just variants :) *)
-  | Texp_construct ({ txt; _ }, _, exprs)
-    when Names.atom_of_longident txt = Atom.mk "::" ->
+  | Texp_construct ({ txt; _ }, _, exprs) when Longident.last txt = "::" ->
       let values =
         exprs
         |> List.filter_map (build_expression ~var_names ~modules ~module_name)
