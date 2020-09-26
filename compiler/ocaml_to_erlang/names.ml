@@ -25,6 +25,7 @@ let name_of_longident x =
 
 let ocaml_to_erlang_type t =
   match t with
+  | "string" -> Name.atom "binary"
   | "int" -> Name.atom "integer"
   | "bool" -> Name.atom "boolean"
   | "option" -> Name.qualified ~module_name:(Atom.mk "option") (Atom.mk "t")

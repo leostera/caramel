@@ -59,7 +59,7 @@
   
   -type f(A, B) :: fun((A, B) -> boolean()).
   
-  -type nested() :: fun((ok, fun((integer()) -> boolean())) -> string()).
+  -type nested() :: fun((ok, fun((integer()) -> boolean())) -> binary()).
   
   -type f_with_tuples(A, B) :: fun(({A, B}, ok) -> boolean()).
   
@@ -89,7 +89,7 @@
   
   -type visible() :: integer().
   
-  -opaque opaque() :: string().
+  -opaque opaque() :: binary().
   
   -opaque hidden() :: reference().
   
@@ -112,15 +112,15 @@
                  .
   
   -type poly_ext(A) :: poly(A)
-                     | {poly_c, string()}
+                     | {poly_c, binary()}
                      .
   
   -type poly_ext_fixed() :: poly(integer())
-                          | {poly_c, string()}
+                          | {poly_c, binary()}
                           .
   
   -type poly_ext_phantom(A) :: poly(integer())
-                             | {poly_c, string()}
+                             | {poly_c, binary()}
                              .
   
   
@@ -157,12 +157,12 @@
                                         }}
                           .
   
-  -type small_record() :: #{ a => string() }.
+  -type small_record() :: #{ a => binary() }.
   
-  -type large_record() :: #{ lr_a => string()
-                           , lr_b => string()
-                           , lr_c => string()
-                           , lr_d => string()
+  -type large_record() :: #{ lr_a => binary()
+                           , lr_b => binary()
+                           , lr_c => binary()
+                           , lr_d => binary()
                            }.
   
   
