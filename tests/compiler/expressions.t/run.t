@@ -172,7 +172,7 @@
   -spec f4(any(), any(), any(), any()) :: any().
   f4(W, X, Y, Z) -> f([W | [X | [Y | [Z | []]]]]).
   
-  -spec run() :: int().
+  -spec run() :: integer().
   run() ->
     f1(1),
     f2(1, 2),
@@ -186,7 +186,7 @@
   
   -export([apply_fun/0]).
   
-  -spec apply_fun() :: int().
+  -spec apply_fun() :: integer().
   apply_fun() ->
     A = fun
     () -> 1
@@ -215,7 +215,7 @@
                        , snd => integer()
                        }.
   
-  -spec match_record() :: bool().
+  -spec match_record() :: boolean().
   match_record() ->
     case #{ fst => 0
    , snd => 1
@@ -224,7 +224,7 @@
       #{ fst := X } -> true
     end.
   
-  -spec match_list() :: bool().
+  -spec match_list() :: boolean().
   match_list() ->
     case [0 | [1 | []]] of
       '[]' -> true;
@@ -232,7 +232,7 @@
       [X | Xs] -> true
     end.
   
-  -spec match_tuples() :: bool().
+  -spec match_tuples() :: boolean().
   match_tuples() ->
     case {1, true, <<"hello">>} of
       {X, Y, Z} -> true;
@@ -240,7 +240,7 @@
       X -> true
     end.
   
-  -spec match_atoms() :: bool().
+  -spec match_atoms() :: boolean().
   match_atoms() ->
     case hello of
       X -> true
@@ -255,16 +255,16 @@
   -export([do_add/2]).
   -export([do_nested_add/2]).
   
-  -spec add(int(), int()) :: int().
+  -spec add(integer(), integer()) :: integer().
   add(X, Y) -> erlang:'+'(X, Y).
   
   -spec call_op_2(fun((any(), any()) -> any()), any(), any()) :: any().
   call_op_2(F, X, Y) -> F(X, Y).
   
-  -spec do_add(int(), int()) :: int().
+  -spec do_add(integer(), integer()) :: integer().
   do_add(X, Y) -> call_op_2(fun add/2, X, Y).
   
-  -spec do_nested_add(int(), int()) :: int().
+  -spec do_nested_add(integer(), integer()) :: integer().
   do_nested_add(X, Y) -> call_op_2(funref__nested:add, X, Y).
   
   
@@ -273,7 +273,7 @@
   
   -export([add/2]).
   
-  -spec add(int(), int()) :: int().
+  -spec add(integer(), integer()) :: integer().
   add(X, Y) -> erlang:'+'(X, Y).
   
   
@@ -286,17 +286,17 @@
   -export([let_one/0]).
   -export([let_rec/0]).
   
-  -spec let_one() :: int().
+  -spec let_one() :: integer().
   let_one() ->
     A = 1,
     A.
   
-  -spec let_ignore() :: int().
+  -spec let_ignore() :: integer().
   let_ignore() ->
     1,
     2.
   
-  -spec let_many() :: int().
+  -spec let_many() :: integer().
   let_many() ->
     A = 1,
     B = 2,
@@ -304,7 +304,7 @@
     D = 4,
     erlang:'+'(erlang:'+'(erlang:'+'(A, B), C), D).
   
-  -spec let_nested(fun((int()) -> any()), fun(() -> any()), fun(() -> any())) :: any().
+  -spec let_nested(fun((integer()) -> any()), fun(() -> any()), fun(() -> any())) :: any().
   let_nested(F, G, H) ->
     A = fun
     () ->
@@ -370,7 +370,7 @@
   -export([integer/0]).
   -export([string/0]).
   
-  -spec integer() :: int().
+  -spec integer() :: integer().
   integer() -> 1.
   
   -spec float() :: float().
@@ -379,13 +379,13 @@
   -spec character() :: char().
   character() -> 'c'.
   
-  -spec string() :: string().
+  -spec string() :: binary().
   string() -> <<"hello">>.
   
-  -spec bool_true() :: bool().
+  -spec bool_true() :: boolean().
   bool_true() -> true.
   
-  -spec bool_false() :: bool().
+  -spec bool_false() :: boolean().
   bool_false() -> true.
   
   
@@ -406,25 +406,25 @@
                        , snd => integer()
                        }.
   
-  -spec match_unit() :: bool().
+  -spec match_unit() :: boolean().
   match_unit() ->
     case ok of
       ok -> true
     end.
   
-  -spec match_ignore() :: bool().
+  -spec match_ignore() :: boolean().
   match_ignore() ->
     case ok of
       _ -> true
     end.
   
-  -spec match_int() :: bool().
+  -spec match_int() :: boolean().
   match_int() ->
     case 1 of
       1 -> true
     end.
   
-  -spec match_str() :: bool().
+  -spec match_str() :: boolean().
   match_str() ->
     case <<"hello">> of
       <<"xavier">> -> true;
@@ -435,7 +435,7 @@
       <<"joe">> -> true
     end.
   
-  -spec match_record() :: bool().
+  -spec match_record() :: boolean().
   match_record() ->
     case #{ fst => 0
    , snd => 1
@@ -445,7 +445,7 @@
       #{ snd := 1 } -> true
     end.
   
-  -spec match_list() :: bool().
+  -spec match_list() :: boolean().
   match_list() ->
     case [0 | [1 | []]] of
       '[]' -> true;
@@ -455,7 +455,7 @@
       [0 | [1 | '[]']] -> true
     end.
   
-  -spec match_tuples() :: bool().
+  -spec match_tuples() :: boolean().
   match_tuples() ->
     case {1, true, <<"hello">>} of
       {1, _, _} -> true;
@@ -463,7 +463,7 @@
       {1, true, <<"hello">>} -> true
     end.
   
-  -spec match_atoms() :: bool().
+  -spec match_atoms() :: boolean().
   match_atoms() ->
     case hello of
       xavier -> true;
@@ -487,7 +487,7 @@
     Y = atom,
     Y.
   
-  -spec run_macros() :: string().
+  -spec run_macros() :: binary().
   run_macros() ->
     Z = ,
     Z.
@@ -499,7 +499,7 @@
     names__nested:x(),
     names__nested:w().
   
-  -spec run_nested_ambiguous() :: {compiler, string()}
+  -spec run_nested_ambiguous() :: {compiler, binary()}
                     .
   run_nested_ambiguous() ->
     X = fun
@@ -514,7 +514,7 @@
   -export([w/0]).
   -export([x/0]).
   
-  -spec x() :: {compiler, string()}
+  -spec x() :: {compiler, binary()}
   .
   x() -> {compiler, <<"caramel">>}.
   

@@ -116,10 +116,10 @@
   -export([concat/2]).
   -export([run/0]).
   
-  -spec concat(string(), string()) :: string().
+  -spec concat(binary(), binary()) :: binary().
   concat(A, B) -> << A/binary, B/binary >>.
   
-  -spec run() :: bool().
+  -spec run() :: boolean().
   run() ->
     S1 = concat(<<"ocaml">>, <<"erlang">>),
     S2 = concat(<<"erlang">>, <<"ocaml">>),
@@ -134,21 +134,21 @@
   -export([iff_using_if/3]).
   -export([iff_using_match/3]).
   
-  -spec iff_using_headers(bool(), any(), any()) :: any().
+  -spec iff_using_headers(boolean(), any(), any()) :: any().
   iff_using_headers(true, F, _) -> F.
   
-  -spec iff_using_function({bool(), any(), any()}) :: any().
+  -spec iff_using_function({boolean(), any(), any()}) :: any().
   iff_using_function({false, _, F}) -> F;
   iff_using_function({true, F, _}) -> F.
   
-  -spec iff_using_if(bool(), fun(() -> any()), fun(() -> any())) :: any().
+  -spec iff_using_if(boolean(), fun(() -> any()), fun(() -> any())) :: any().
   iff_using_if(Cond, T, F) ->
     case Cond of
       true -> T();
       false -> F()
     end.
   
-  -spec iff_using_match(bool(), any(), any()) :: any().
+  -spec iff_using_match(boolean(), any(), any()) :: any().
   iff_using_match(T, F, G) ->
     case T of
       true -> F;
@@ -200,7 +200,7 @@
   -spec add_twice(any()) :: any().
   add_twice(X) -> double(fun add/1, X).
   
-  -spec call_nested(bool()) :: ok.
+  -spec call_nested(boolean()) :: ok.
   call_nested(X) -> qualified_calls__nested:f(X).
   
   -spec call_other(any()) :: ok.
@@ -215,7 +215,7 @@
   
   -export([f/1]).
   
-  -spec f(bool()) :: ok.
+  -spec f(boolean()) :: ok.
   f(X) ->
     case X of
       true -> ok;
@@ -273,13 +273,13 @@
   -spec ignore(any(), ok) :: ok.
   ignore(_x, ok) -> ok.
   
-  -spec add(int(), any()) :: int().
+  -spec add(integer(), any()) :: integer().
   add(X, Y) -> erlang:'+'(X, X).
   
-  -spec add_slow(int(), int(), ok) :: int().
+  -spec add_slow(integer(), integer(), ok) :: integer().
   add_slow(X, Y, ok) -> erlang:'+'(X, Y).
   
-  -spec add_really_slow(int(), ok, int(), ok) :: int().
+  -spec add_really_slow(integer(), ok, integer(), ok) :: integer().
   add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
   
   
