@@ -157,19 +157,19 @@
   -export([f4/4]).
   -export([run/0]).
   
-  -spec f(any()) :: any().
+  -spec f(A) :: B.
   f(X) -> f(X).
   
-  -spec f1(any()) :: any().
+  -spec f1(A) :: B.
   f1(X) -> f([X | []]).
   
-  -spec f2(any(), any()) :: any().
+  -spec f2(A, A) :: B.
   f2(X, Y) -> f([X | [Y | []]]).
   
-  -spec f3(any(), any(), any()) :: any().
+  -spec f3(A, A, A) :: B.
   f3(X, Y, Z) -> f([X | [Y | [Z | []]]]).
   
-  -spec f4(any(), any(), any(), any()) :: any().
+  -spec f4(A, A, A, A) :: B.
   f4(W, X, Y, Z) -> f([W | [X | [Y | [Z | []]]]]).
   
   -spec run() :: integer().
@@ -258,7 +258,7 @@
   -spec add(integer(), integer()) :: integer().
   add(X, Y) -> erlang:'+'(X, Y).
   
-  -spec call_op_2(fun((any(), any()) -> any()), any(), any()) :: any().
+  -spec call_op_2(fun((A, B) -> C), A, B) :: C.
   call_op_2(F, X, Y) -> F(X, Y).
   
   -spec do_add(integer(), integer()) :: integer().
@@ -304,7 +304,7 @@
     D = 4,
     erlang:'+'(erlang:'+'(erlang:'+'(A, B), C), D).
   
-  -spec let_nested(fun((integer()) -> any()), fun(() -> any()), fun(() -> any())) :: any().
+  -spec let_nested(fun((integer()) -> A), fun(() -> B), fun(() -> C)) :: A.
   let_nested(F, G, H) ->
     A = fun
     () ->
@@ -319,7 +319,7 @@
   end(),
     F(A).
   
-  -spec let_rec() :: any().
+  -spec let_rec() :: A.
   let_rec() ->
     F = fun
     (X) -> f(erlang:'+'(X, 1))
@@ -338,25 +338,25 @@
   -export([pair/1]).
   -export([tail/1]).
   
-  -spec empty() :: list(any()).
+  -spec empty() :: list(A).
   empty() -> [].
   
-  -spec pair(any()) :: list(any()).
+  -spec pair(A) :: list(A).
   pair(X) -> [X | [X | []]].
   
-  -spec cons(any(), list(any())) :: list(any()).
+  -spec cons(A, list(A)) :: list(A).
   cons(X, Y) -> [X | Y].
   
-  -spec head(list(any())) :: any().
+  -spec head(list(A)) :: A.
   head([X | _]) -> X.
   
-  -spec tail(list(any())) :: list(any()).
+  -spec tail(list(A)) :: list(A).
   tail([_ | X]) -> X.
   
-  -spec at_2(list(any())) :: any().
+  -spec at_2(list(A)) :: A.
   at_2([_ | [X | _]]) -> X.
   
-  -spec concat(list(any()), list(any())) :: list(any()).
+  -spec concat(list(A), list(A)) :: list(A).
   concat(A, B) -> erlang:'++'(A, B).
   
   
@@ -534,37 +534,37 @@
                     , snd => A
                     }.
   
-  -spec pair(any(), any()) :: pair(any()).
+  -spec pair(A, A) :: pair(A).
   pair(X, Y) ->
     #{ fst => X
      , snd => Y
      }.
   
-  -spec fst(pair(any())) :: any().
+  -spec fst(pair(A)) :: A.
   fst(#{ fst := Fst }) -> Fst.
   
-  -spec snd(pair(any())) :: any().
+  -spec snd(pair(A)) :: A.
   snd(#{ snd := Snd }) -> Snd.
   
-  -spec swap(pair(any())) :: pair(any()).
+  -spec swap(pair(A)) :: pair(A).
   swap(P) ->
     #{ fst => maps:get(snd, P)
      , snd => maps:get(fst, P)
      }.
   
-  -spec map(fun((any()) -> any()), fun((any()) -> any()), pair(any())) :: pair(any()).
+  -spec map(fun((A) -> B), fun((A) -> B), pair(A)) :: pair(B).
   map(F, G, #{ fst := Fst, snd := Snd }) ->
     #{ fst => F(Fst)
      , snd => G(Snd)
      }.
   
-  -spec swap_from_expr(any(), fun((any()) -> pair(any()))) :: pair(any()).
+  -spec swap_from_expr(A, fun((A) -> pair(B))) :: pair(B).
   swap_from_expr(P, F) ->
     #{ fst => maps:get(snd, F(P))
      , snd => maps:get(fst, F(P))
      }.
   
-  -spec flatten_first(pair(pair(pair(any())))) :: pair(any()).
+  -spec flatten_first(pair(pair(pair(A)))) :: pair(A).
   flatten_first(P) ->
     #{ fst => maps:get(fst, maps:get(fst, maps:get(fst, P)))
      , snd => maps:get(snd, maps:get(fst, maps:get(fst, P)))

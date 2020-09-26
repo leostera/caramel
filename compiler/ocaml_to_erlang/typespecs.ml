@@ -2,6 +2,24 @@ open Erlang.Ast_helper
 open Typedtree
 open Types
 
+module Type_var_names = struct
+  let last_char : char ref = ref 'a'
+
+  let table : (Types.type_expr, char) Hashtbl.t = Hashtbl.create 1024
+
+  let reset () = last_char := 'a'
+
+  let find t =
+    match Hashtbl.find_opt table t with
+    | None ->
+        Hashtbl.add table t !last_char;
+        let ret = String.make 1 !last_char in
+        last_char := Char.chr ((Char.code !last_char) + 1);
+        ret
+    | Some v -> String.make 1 v
+
+end
+
 module Fun = struct
   let rec build_type_kind : Types.type_expr -> Erlang.Ast.type_kind =
    fun type_expr ->
@@ -27,8 +45,7 @@ module Fun = struct
         Type.tuple parts
     | Tlink t -> build_type_kind (Btype.repr t)
     | Tvar (Some name) -> Type.var (Name.var name)
-    (* FIXME: this is wrong, and should not be any() but rather a named type variable *)
-    | Tvar None -> Type.any
+    | Tvar None -> Type.var (Name.var (Type_var_names.find type_expr))
     | Tnil -> Type.apply ~name:(Name.atom "list") ~args:[]
     | Tvariant { row_fields; _ } ->
         let row_field_to_type_kind = function
@@ -61,6 +78,7 @@ module Fun = struct
 
   let build_spec : Types.value_description -> Erlang.Ast.type_kind option =
    fun { val_type; _ } ->
+    Type_var_names.reset ();
     match Uncurry.from_type_expr val_type with
     | `Uncurried (args, return) ->
         let args = List.map build_type_kind args in
