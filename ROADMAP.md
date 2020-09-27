@@ -15,6 +15,7 @@ comp(ml,erl): figure out labeled function arguments
 comp(ml,erl): safe variable names:
   deal with prime's
   rebinding = renaming (X = 1, X = X + 1, becomes X2 = X + 1)
+  if a type variable is unbound on the return side, we should `any()` it
 
 comp(ml,erl): support for guards:
   any expression in most places
