@@ -3,6 +3,9 @@
 These are some things I intend to work on in the near future,
 somewhat ordered:
 
+comp(ml, erl): before every raise, make sure to print out as much info as possible
+  on the term/type that is unsupported.
+
 comp(ml,erl): refactor fun refs to resolve arity at compile time
 
 comp(ml,erl): investigate how to flatten out functors
