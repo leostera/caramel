@@ -31,7 +31,7 @@ let rec pp_term ctx { expr; info } =
   match expr with
   | Abs (name, term) ->
       let ctx2, name2 = fresh_name ctx name in
-      Io.format "(lambda ~p. " [ name2 ];
+      Io.format "(lambda ~p.\n\t" [ name2 ];
       pp_term ctx term;
       Io.format ")" []
   | App (fn, arg) ->

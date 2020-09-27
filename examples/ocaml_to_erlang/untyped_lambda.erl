@@ -70,7 +70,7 @@ end
 pp_term(Ctx, #{ expr := Expr, info := Info }) ->
   case Expr of
     {abs, Name, Term} -> {Ctx2, Name2} = fresh_name(Ctx, Name),
-io:format(<<"(lambda ~p. ">>, [Name2 | []]),
+io:format(<<"(lambda ~p.\n\t">>, [Name2 | []]),
 pp_term(Ctx, Term),
 io:format(<<")">>, []);
     {app, Fn, Arg} -> io:format(<<"(">>, []),
