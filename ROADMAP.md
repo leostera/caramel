@@ -28,6 +28,11 @@ comp(ml,erl): support for guards:
 
 erl(parser): Extend Erlang parser to parse some OTP modules
 
+erl(ast): parametrize the ast to include a context, we can then use that on
+  parse time to include location information in case of ast invariants being
+  broken, or at typed-tree->ast translation time to include information about
+  the exact Erlang terms that failed type checking
+
 core(parser): figure out overlap with erlang parser, steal it!
 
 core(printer): Finish pretty printer of Core AST
