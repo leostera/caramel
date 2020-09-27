@@ -30,7 +30,7 @@ picture](./docs/caramel_arch.jpg).
 ## Examples
 
 You can find several examples in [`./examples`](./examples), and in
-[`./tests/compiler`].
+[`./tests/compiler`](./tests/compiler/).
 
 In the examples, you can run `caramelc compile *.ml` to get them all built in
 the right order.
