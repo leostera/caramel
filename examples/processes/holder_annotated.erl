@@ -15,7 +15,7 @@
 
 -type state() :: {binary(), integer()}.
 
--spec handle_message(state(), option:t(msg())) :: state().
+-spec handle_message(state(), option:t(msg())) -> state().
 handle_message(State, Msg) ->
   {X, Y} = State,
   case Msg of
@@ -25,19 +25,19 @@ handle_message(State, Msg) ->
     none -> State
   end.
 
--spec loop(fun((process:after_time()) -> option:t(msg())), state()) :: A.
+-spec loop(fun((process:after_time()) -> option:t(msg())), state()) -> ok.
 loop(Recv, State) ->
   io:format(<<"current_state: ~p\n">>, [State | []]),
   Msg = Recv({bounded, 5000}),
   State2 = handle_message(State, Msg),
   loop(Recv, State2).
 
--spec start(state()) :: erlang:pid(msg()).
+-spec start(state()) -> erlang:pid(msg()).
 start(X) -> process:make(fun
   (_self, Recv) -> loop(Recv, X)
 end).
 
--spec do_work() :: ok.
+-spec do_work() -> ok.
 do_work() ->
   Pid = start({<<"hi">>, 0}),
   erlang:send(Pid, {hello, <<"joe">>}).

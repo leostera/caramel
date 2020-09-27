@@ -11,7 +11,7 @@ let handle_message : state -> msg option -> state =
   | Some (`Hello n) -> (n, y)
   | None -> state
 
-let rec loop ~recv state =
+let rec loop ~recv state : unit =
   Io.format "current_state: ~p\n" [ state ];
   let msg = recv ~timeout:(Process.Bounded 5000) in
   let state2 = handle_message state msg in
