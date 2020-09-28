@@ -15,4 +15,5 @@ depends: [
   "ocaml" {>= "4.11.1"}
   "ocaml-compiler-libs"
   "ppx_sexp_conv"
+  "sexplib"
 ]
