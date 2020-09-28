@@ -12,7 +12,7 @@ install:
 
 .PHONY: deps
 deps:
-	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib
+	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat
 
 .PHONY: test
 test:
