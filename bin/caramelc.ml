@@ -18,8 +18,8 @@ module Compile = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources dump_ast _core_erlang =
-    Caramel_compiler.Compiler.compile { sources; dump_ast }
+  let run sources dump_ast target =
+    Caramel_compiler.Compiler.compile { sources; dump_ast; target }
 
   let cmd =
     let sources =

@@ -2,7 +2,18 @@ open Compile_common
 
 exception Unsupported_file_type of (string * string)
 
-type compilation = { sources : string list; dump_ast : bool }
+type compilation_target = [ `Erlang | `Core_erlang | `Native ]
+
+let target_to_string = function
+  | `Erlang -> "erl"
+  | `Core_erlang -> "core"
+  | `Native -> "native"
+
+type compilation = {
+  sources : string list;
+  dump_ast : bool;
+  target : compilation_target;
+}
 
 let to_bytecode i lambda =
   lambda
@@ -123,45 +134,52 @@ let compile_one source ~opts =
     | `Ml file -> (ml_to_erlang, file)
     | `Mli file -> (mli_to_erlang, file)
     | `Erl file -> (erl_to_cmi, file)
-    | `Unsupported_file_type (file, ext) ->
+    | `Unsupported_file_type_for_target (_, file, ext) ->
         raise (Unsupported_file_type (file, ext))
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file) ~opts
 
-let tag_source filename =
-  match Filename.extension filename with
-  | ".ml" -> `Ml filename
-  | ".mli" -> `Mli filename
-  | ".erl" -> `Erl filename
-  | ext -> `Unsupported_file_type (filename, ext)
+let tag_source target filename =
+  match target with
+  | `Erlang | `Core_erlang -> (
+      match Filename.extension filename with
+      | ".ml" -> `Ml filename
+      | ".mli" -> `Mli filename
+      | ext -> `Unsupported_file_type_for_target (target, filename, ext) )
+  | `Native -> (
+      match Filename.extension filename with
+      | ".ml" -> `Ml filename
+      | ".mli" -> `Mli filename
+      | ".erl" -> `Erl filename
+      | ext -> `Unsupported_file_type_for_target (target, filename, ext) )
 
-let compile ({ sources; _ } as opts) =
+let compile ({ sources; target; _ } as opts) =
   match
     initialize_compiler ();
 
     let tagged_sources, errs =
-      sources |> List.map tag_source
+      sources
+      |> List.map (tag_source target)
       |> List.partition (function
-           | `Unsupported_file_type (_, _) -> false
+           | `Unsupported_file_type_for_target (_, _, _) -> false
            | _ -> true)
     in
 
     errs
     |> List.iter (function
-         | `Unsupported_file_type (file, ext) ->
+         | `Unsupported_file_type_for_target (tgt, file, ext) ->
              Format.fprintf Format.std_formatter
-               "Attempted to compile file: %s, but the extension %s is not \
-                supported.\n\n\
-                Try with an .ml, .mli, or .erl file instead.\n\n\
-                %!"
-               file ext;
+               "Attempted to compile %s, but %s files are not \
+                supported with the target flag: --target=%s%!"
+               file ext (target_to_string tgt);
              exit 1
          | _ -> ());
 
     let ml_sources =
       tagged_sources
       |> List.filter_map (function `Ml f | `Mli f -> Some f | _ -> None)
-      |> Dependency_sorter.sorted_files |> List.map tag_source
+      |> Dependency_sorter.sorted_files
+      |> List.map (tag_source target)
     in
 
     let erlang_sources =
