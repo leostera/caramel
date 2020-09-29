@@ -28,7 +28,7 @@ let name_of_path p = p |> Path.name |> Name.atom |> translate
 
 let name_of_longident x =
   match x |> Longident.flatten |> List.rev with
-  | [] -> raise Unsupported_empty_identifier
+  | [] -> Error.unsupported_empty_identifier ()
   | [ x ] -> Name.var x
   | n_name :: mods ->
       let module_name = mods |> List.rev |> String.concat "__" |> Atom.mk in
@@ -46,7 +46,7 @@ let ocaml_to_erlang_type t =
 
 let type_name_of_parts parts =
   match List.rev parts with
-  | [] -> raise Unsupported_empty_identifier
+  | [] -> Error.unsupported_empty_identifier ()
   | [ x ] -> ocaml_to_erlang_type x
   | n_name :: mods -> (
       let n_mod =
@@ -61,9 +61,7 @@ let type_name_of_parts parts =
 
 let type_name_of_path p =
   match Path.flatten p with
-  | `Contains_apply ->
-      Path.print Format.std_formatter p;
-      raise Unsupported_empty_identifier
+  | `Contains_apply -> Error.unsupported_path p
   | `Ok (id, parts) ->
       let name = id |> Ident.name |> ocaml_to_erlang_type |> Name.to_string in
       type_name_of_parts (name :: parts)

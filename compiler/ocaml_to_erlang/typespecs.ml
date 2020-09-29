@@ -34,7 +34,7 @@ module Fun = struct
               "Tried to uncurry a non-function type!\n%!";
             Printtyp.type_expr Format.std_formatter type_expr;
             Format.fprintf Format.std_formatter "\n%!";
-            raise Error.Unsupported_feature )
+            Error.unsupported_feature `Uncurryable_functions )
     | Tconstr (p, args, _) ->
         let name = Names.type_name_of_path p in
         let args = List.map mk_type_kind args in
@@ -58,7 +58,7 @@ module Fun = struct
               Format.fprintf Format.std_formatter "\n%!";
               Printtyp.raw_type_expr Format.std_formatter type_expr;
               Format.fprintf Format.std_formatter "\n%!";
-              raise Error.Unsupported_feature
+              Error.unsupported_feature `Absent_polymorphic_variants
         in
 
         let row_field_to_constr (name, args) =
@@ -71,9 +71,13 @@ module Fun = struct
     | Tpoly (_, _)
     | Tfield (_, _, _, _)
     | Tsubst _ | Tunivar _ | Tobject _ | Tpackage _ ->
+        Format.fprintf Format.std_formatter
+          "Tried to build a type kind for an unsupported feature!\n%!";
         Printtyp.type_expr Format.std_formatter type_expr;
         Format.fprintf Format.std_formatter "\n%!";
-        raise Error.Unsupported_feature
+        Printtyp.raw_type_expr Format.std_formatter type_expr;
+        Format.fprintf Format.std_formatter "\n%!";
+        Error.unsupported_feature `Type_constructs
 
   let mk_spec : Types.value_description -> Erlang.Ast.type_kind option =
    fun { val_type; _ } ->
@@ -185,7 +189,7 @@ let rec mk_type_kind core_type =
   | Ttyp_poly (_names, follow) -> mk_type_kind follow
   | Ttyp_alias (follow, _) -> mk_type_kind follow
   | Ttyp_object _ | Ttyp_class _ | Ttyp_package _ ->
-      raise Error.Unsupported_feature
+      Error.unsupported_feature `Type_objects_and_packages
 
 let mk_record labels =
   let mk_field Typedtree.{ ld_id; ld_type; _ } =

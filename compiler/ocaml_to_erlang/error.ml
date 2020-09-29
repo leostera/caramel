@@ -9,6 +9,23 @@ let ppf = Format.err_formatter
 let file_a_bug =
   {| If you think this is a bug, please file an issue here: https://github.com/AbstractMachinesLab/caramel/issues/new |}
 
+let unsupported_path path =
+  Format.fprintf ppf "We have found an unsupported path: ";
+  Path.print ppf path;
+  Format.fprintf ppf "\n\n%s" file_a_bug;
+  exit 1
+
+let unsupported_empty_identifier () =
+  Format.fprintf ppf
+    {|It appears we have found an empty identifier! This seems like a bug in the
+translation process. Could you please report this here?
+
+https://github.com/AbstractMachinesLab/caramel/issues/new
+
+Thank you!
+|};
+  exit 1
+
 let unsupported_top_level_module_value () =
   Format.fprintf ppf
     {|While OCaml allows you to define module-level variables,
@@ -35,10 +52,18 @@ Caramel will happily and safely compile that.
 let unsupported_feature feature =
   Format.fprintf ppf "Unsupported feature: %s -- %s"
     ( match feature with
+    | `Absent_polymorphic_variants ->
+        "polymorphic variant constriants for absence"
+    | `Type_constructs ->
+        "Type subsitution, universal quantification, objects, or packs"
+    | `Uncurryable_functions ->
+        "Functions that can not be curried (although this feels more like a \
+         bug in Caramel!)"
+    | `Type_objects_and_packages -> "Object-oriented OCaml and Packs"
     | `Record_update -> "Record updates"
     | `Let_and_bindings -> "let-and bindings" )
     file_a_bug;
-  raise Unsupported_feature
+  exit 1
 
 let unsupported_expression expr =
   let open Typedtree in
@@ -66,4 +91,4 @@ let unsupported_expression expr =
     | Texp_open _ -> "Texp_open"
     | _ -> "<hm, this was empty? please do open an issue>" )
     file_a_bug;
-  raise Unsupported_expression
+  exit 1
