@@ -6,7 +6,7 @@
   > fib(N) -> erlang:'+'(fib(erlang:'-'(N,1)), fib(erlang:'-'(N,2))).
   > fib() -> fib(no).
   > EOF
-  $ caramelc compile --dump-ast fib.erl
+  $ caramelc check --dump-ast fib.erl
   ((file_name fib.erl) (behaviours ()) (module_name (Atom fib)) (attributes ())
     (exports
       (((exp_type Export_function) (exp_name (Atom fib)) (exp_arity 1))))

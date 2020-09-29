@@ -10,7 +10,7 @@
   > g() -> f(1).
   > 
   > EOF
-  $ caramelc compile --dump-ast case_test.erl
+  $ caramelc check --dump-ast case_test.erl
   ((file_name case_test.erl) (behaviours ()) (module_name (Atom case_test))
     (attributes ())
     (exports (((exp_type Export_function) (exp_name (Atom f)) (exp_arity 1))))

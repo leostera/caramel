@@ -3,7 +3,7 @@
   > -export([hello_world/0]).
   > hello_world() -> print_int(<<"Hello world!">>).
   > EOF
-  $ caramelc compile --dump-ast hello_world.erl
+  $ caramelc check --dump-ast hello_world.erl
   ((file_name hello_world.erl) (behaviours ()) (module_name (Atom hello_world))
     (attributes ())
     (exports

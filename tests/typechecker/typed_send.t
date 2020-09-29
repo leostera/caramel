@@ -9,7 +9,7 @@
   > spawn_int(S) -> erlang:spawn(fun () -> loop(S) end).
   > start() -> spawn_int(0) ! {replace, yes}.
   > EOF
-  $ caramelc compile --dump-ast erlang.ml typed_process.erl
+  $ caramelc check --dump-ast erlang.ml typed_process.erl
   ((file_name typed_process.erl) (behaviours ())
     (module_name (Atom typed_process)) (attributes ())
     (exports
