@@ -119,7 +119,7 @@
   -export([run/0]).
   
   -spec concat(binary(), binary()) -> binary().
-  concat(A, B) -> << A/binary, B/binary >>.
+  concat(A, B) -> << (A)/binary, (B)/binary >>.
   
   -spec run() -> boolean().
   run() ->
