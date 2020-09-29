@@ -11,9 +11,8 @@ let make ~name ~doc ~description =
       `S "AUTHORS";
       `P "Leandro Ostera.";
       `S "LICENSE";
-      `P "Copyright (C) 2020.";
-      `P
-        "caramel is licensed under BSD 3-Clause.";
+      `P "Copyright (C) 2020, Abstract Machines Lab Sweden AB";
+      `P "caramel is licensed under BSD 3-Clause.";
     ]
   in
   let version =
