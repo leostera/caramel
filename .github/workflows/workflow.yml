@@ -88,14 +88,6 @@ jobs:
         if: ${{ success() && startsWith(runner.os, 'Linux') }}
         run: opam exec -- make fmt
 
-      - name: Define tag name
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: echo ::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}
-
-      - name: Define release tarball name
-        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
-        run: echo ::set-env name=TARBALL::caramel-${GITHUB_TAG}-${{ runner.os }}.tar.gz
-
       - name: Create release archive (unix)
         if: ${{ success() && startsWith(github.ref, 'refs/tags/')
                 && (startsWith(runner.os, 'Linux')
@@ -105,6 +97,10 @@ jobs:
           cp $(opam config var prefix)/bin/caramelc* .
           tar czf tarball.tar.gz caramelc*
 
+      - name: Define tarball name (unix)
+        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os != 'Windows' }}
+        run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
+
       - name: Create release archive (windows)
         if: ${{ success() && startsWith(github.ref, 'refs/tags/')
                 && startsWith(runner.os, 'Windows') }}
@@ -112,6 +108,12 @@ jobs:
           opam exec -- make install
           Copy-Item -Path C:/cygwin/home/runneradmin/.opam/ocaml-variants.4.11.1+mingw64c\\bin\\caramelc.exe -Destination .
           tar czf tarball.tar.gz caramelc.exe
+
+      - name: Define tag name (windows)
+        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os == 'Windows' }}
+        run: |
+          $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
+          echo "::set-env name=GITHUB_TAG::$(echo $tag)"
 
       - name: Upload release tarball
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
@@ -121,6 +123,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_draft_release.outputs.upload_url }}
-          asset_path: tarball.tar.gz 
-          asset_name: ${{ env.TARBALL }}
+          asset_path: tarball.tar.gz
+          asset_name: caramel-${{ env.GITHUB_TAG }}-${{ runner.os }}.tar.gz
           asset_content_type: application/zip
