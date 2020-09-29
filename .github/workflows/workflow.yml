@@ -22,7 +22,6 @@ jobs:
       SKIP_TEST: ${{ matrix.skip_test }}
       OCAML_VERSION: ${{ matrix.ocaml-version }}
       OS: ${{ matrix.os }}
-      TARBALL: caramel-${{ github.ref }}-${{ matrix.os }}.tar.gz
 
     runs-on: ${{ matrix.os }}
 
@@ -66,6 +65,10 @@ jobs:
       - name: Check code formatting
         if: ${{ success() && startsWith(matrix.os, 'Linux') }}
         run: opam exec -- make fmt
+
+      - name: Define release tarball name
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        run: echo ::set-env name=TARBALL::caramel-${GITHUB_REF#refs/*/}-${{ matrix.os }}.tar.gz
 
       - name: Create draft release
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
