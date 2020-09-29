@@ -22,7 +22,7 @@ jobs:
       SKIP_TEST: ${{ matrix.skip_test }}
       OCAML_VERSION: ${{ matrix.ocaml-version }}
       OS: ${{ matrix.os }}
-      TARBALL: caramel-$${ github.ref }}-${{ matrix.os }}.tar.gz
+      TARBALL: caramel-${{ github.ref }}-${{ matrix.os }}.tar.gz
 
     runs-on: ${{ matrix.os }}
 
@@ -70,8 +70,9 @@ jobs:
       - name: Create draft release
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         run: |
-          cp _build/install/bin/caramelc .
-          tar czf ${{ env.TARBALL }} ./caramelc
+          make install
+          cp ~/.opam/${{ matrix.ocaml-version }}/bin/caramelc .
+          tar czf ${{ env.TARBALL }} caramelc
 
       - name: Create draft release
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
