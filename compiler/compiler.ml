@@ -1,6 +1,6 @@
 open Compile_common
 
-type target = [ `Erlang | `Core_erlang | `Native ]
+type target = [ `Erlang | `Core_erlang | `Native | `Type_check ]
 
 type compilation = { sources : string list; dump_ast : bool; target : target }
 
@@ -10,6 +10,7 @@ let target_to_string = function
   | `Erlang -> "erl"
   | `Core_erlang -> "core"
   | `Native -> "native"
+  | `Type_check -> "type_check"
 
 let to_bytecode i lambda =
   lambda
@@ -90,6 +91,16 @@ let mli_to_erlang ~source_file ~output_prefix ~opts:_ =
     ~output_prefix ~dump_ext:"cmi"
   @@ Compile_common.interface
 
+let ml_to_cmo ~source_file ~output_prefix ~opts:_ =
+  let backend info typed =
+    let lambda = to_lambda info typed in
+    let bytecode = to_bytecode info lambda in
+    emit_bytecode info bytecode
+  in
+  Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
+    ~output_prefix ~dump_ext:"cmo"
+  @@ Compile_common.implementation ~backend
+
 (* Entrypoint to typecheck Erlang *)
 
 let erl_to_cmi ~source_file ~output_prefix ~opts =
@@ -149,7 +160,7 @@ let compile_one source ~target ~opts =
         match target with
         | `Erlang -> (ml_to_erlang, file)
         | `Core_erlang -> (ml_to_core_erlang, file)
-        | _ -> raise (Unsupported_file_type_for_target (target, file, ".ml")) )
+        | _ -> (ml_to_cmo, file) )
     | `Mli file -> (mli_to_erlang, file)
     | `Erl file -> (erl_to_cmi, file)
     | `Unsupported_file_type_for_target (t, file, ext) ->
@@ -164,7 +175,7 @@ let tag_source target filename =
       | ".ml" -> `Ml filename
       | ".mli" -> `Mli filename
       | ext -> `Unsupported_file_type_for_target (target, filename, ext) )
-  | `Native -> (
+  | `Native | `Type_check -> (
       match Filename.extension filename with
       | ".ml" -> `Ml filename
       | ".mli" -> `Mli filename

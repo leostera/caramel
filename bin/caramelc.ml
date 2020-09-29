@@ -1,5 +1,17 @@
 open Cmdliner
 
+module Common_flags = struct
+  let dump_ast =
+    Arg.(
+      value & flag
+      & info [ "d"; "dump-ast" ] ~docv:"DUMP_AST"
+          ~doc:
+            "Use this flag to print out to standard output the ASTs of the \
+             different representations being used during compilation. This is \
+             NOT suitable for programmatic usage, and its mostly used for \
+             debugging the compiler itself.")
+end
+
 module Compile = struct
   let name = "compile"
 
@@ -27,16 +39,6 @@ module Compile = struct
         non_empty & pos_all string []
         & info [] ~docv:"SOURCES" ~doc:"A list of source files to compile")
     in
-    let dump_ast =
-      Arg.(
-        value & flag
-        & info [ "d"; "dump-ast" ] ~docv:"DUMP_AST"
-            ~doc:
-              "Use this flag to print out to standard output the ASTs of the \
-               different representations being used during compilation. This \
-               is NOT suitable for programmatic usage, and its mostly used for \
-               debugging the compiler itself.")
-    in
     let target =
       let targets =
         Arg.enum
@@ -54,7 +56,7 @@ module Compile = struct
                Erlang; erl, for compiling OCaml code into Erlang; native, for \
                compiling Erlang code into native binaries. Choose wisely.")
     in
-    (Term.(pure run $ sources $ dump_ast $ target), info)
+    (Term.(pure run $ sources $ Common_flags.dump_ast $ target), info)
 end
 
 module Sort_deps = struct
@@ -76,24 +78,30 @@ module Sort_deps = struct
   let cmd = (Term.(pure run $ args), info)
 end
 
-(*
 module Typecheck = struct
   let name = "check"
+
   let doc = "Typecheck Erlang and Core Erlang sources"
-  let description = {| The Caramel compiler can take as input Erlang and
+
+  let description =
+    {| The Caramel compiler can take as input Erlang and
   Core Erlang files and it will type check them.
   |}
+
   let info = Info.make ~name ~doc ~description
 
-  let run _sources = ()
+  let run sources dump_ast =
+    Caramel_compiler.Compiler.compile
+      { sources; dump_ast; target = `Type_check }
 
-  let args =
-    let sources = Arg.(non_empty & pos_all file [] & info [] ~docv:"SOURCES") in
-    sources
-
-  let cmd = Term.(pure run), info
+  let cmd =
+    let sources =
+      Arg.(
+        non_empty & pos_all string []
+        & info [] ~docv:"SOURCES" ~doc:"A list of source files to type-check")
+    in
+    (Term.(pure run $ sources $ Common_flags.dump_ast), info)
 end
-*)
 
 module Help = struct
   let info name =
@@ -105,5 +113,5 @@ module Help = struct
 end
 
 let _ =
-  let cmds = [ Compile.cmd; Sort_deps.cmd ] in
+  let cmds = [ Compile.cmd; Sort_deps.cmd; Typecheck.cmd ] in
   Term.(exit @@ eval_choice Help.cmd cmds)
