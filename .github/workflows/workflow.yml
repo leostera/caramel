@@ -96,18 +96,21 @@ jobs:
         run: echo ::set-env name=TARBALL::caramel-${GITHUB_TAG}-${{ matrix.os }}.tar.gz
 
       - name: Create release archive (unix)
-        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/')
+                && (startsWith(matrix.os, 'Linux')
+                   || startsWith(matrix.os, 'macOS')) }}
         run: |
           opam exec -- make install
           cp $(opam config var prefix)/bin/caramelc* .
-          tar czf ${{ env.TARBALL }} ./caramelc*
+          tar czf ${{ env.TARBALL }} caramelc*
 
       - name: Create release archive (windows)
-        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/')
+                && startsWith(matrix.os, 'Windows') }}
         run: |
           opam exec -- make install
-          cp $(opam config var prefix)/bin/caramelc* .
-          tar czf ${{ env.TARBALL }} ./caramelc*
+          Copy-Item -Path (opam config var prefix)/caramelc.exe -Destination .
+          tar czf ${{ env.TARBALL }} caramelc.exe
 
       - name: Upload release tarball
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
