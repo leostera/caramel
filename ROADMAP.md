@@ -7,9 +7,6 @@ comp(ml, erl):
   * multiple branches in a match should not be supported (or their code should
     be duplicated for each branch)
 
-comp(ml, erl): before every raise, make sure to print out as much info as possible
-  on the term/type that is unsupported.
-
 comp(ml,erl): refactor fun refs to resolve arity at compile time
 
 comp(ml,erl): investigate how to flatten out functors
@@ -35,10 +32,6 @@ erl(ast): parametrize the ast to include a context, we can then use that on
 core(parser): figure out overlap with erlang parser, steal it!
 
 core(printer): Finish pretty printer of Core AST
-
-comp(ml,core): Add flag `--to-core` to pick the core backend
-
-comp(ml,core): Compile and compare against the `./erltest` suite
 
 comp(ml,core): Scout out what parts of Lambda are not compileable to Core (e.g, `Passign`)
 

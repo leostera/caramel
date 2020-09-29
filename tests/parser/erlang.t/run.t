@@ -1,4 +1,4 @@
-  $ caramelc compile --dump-ast *.erl
+  $ caramelc compile --dump-ast --target=native *.erl
   ((file_name empty.erl) (behaviours ()) (module_name (Atom empty))
     (attributes ()) (exports ()) (types ()) (functions ()))
   
