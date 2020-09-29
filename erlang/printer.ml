@@ -74,11 +74,11 @@ let rec pp_caramel_support_function _prefix ppf { fa_name; fa_args; _ } ~module_
         (Qualified_name
           { n_mod = Atom "caramel"; n_name = Atom "binary_concat"; _ }),
       [ lhs; rhs ] ) ->
-      Format.fprintf ppf "<< ";
+      Format.fprintf ppf "<< (";
       pp_expression "" ppf lhs ~module_;
-      Format.fprintf ppf "/binary, ";
+      Format.fprintf ppf ")/binary, (";
       pp_expression "" ppf rhs ~module_;
-      Format.fprintf ppf "/binary >>"
+      Format.fprintf ppf ")/binary >>"
   | _, _ -> raise Unknown_support_function
 
 and pp_variant_constructor prefix ppf vc =
