@@ -13,10 +13,7 @@ let make ~name ~doc ~description =
       `S "LICENSE";
       `P "Copyright (C) 2020.";
       `P
-        "caramel is free software, you can redistribute it and/or modify it \
-         under the terms of the GNU Lesser General Public License as published \
-         by the Free Software Foundation, with linking exception; either \
-         version 2.1 of the License, or (at your option) any later version.";
+        "caramel is licensed under BSD 3-Clause.";
     ]
   in
   let version =
