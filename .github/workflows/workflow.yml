@@ -64,6 +64,7 @@ jobs:
         run: opam exec -- make test
 
       - name: Check code formatting
+        if: ${{ success() && startsWith(matrix.os, 'Linux') }}
         run: opam exec -- make fmt
 
       - name: Create draft release
