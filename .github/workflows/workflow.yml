@@ -103,7 +103,7 @@ jobs:
         run: |
           opam exec -- make install
           cp $(opam config var prefix)/bin/caramelc* .
-          tar czf ${{ env.TARBALL }} caramelc*
+          tar czf tarball.tar.gz caramelc*
 
       - name: Create release archive (windows)
         if: ${{ success() && startsWith(github.ref, 'refs/tags/')
@@ -111,7 +111,7 @@ jobs:
         run: |
           opam exec -- make install
           Copy-Item -Path C:/cygwin/home/runneradmin/.opam/ocaml-variants.4.11.1+mingw64c\\bin\\caramelc.exe -Destination .
-          tar czf ${{ env.TARBALL }} caramelc.exe
+          tar czf tarball.tar.gz caramelc.exe
 
       - name: Upload release tarball
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
@@ -121,6 +121,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_draft_release.outputs.upload_url }}
-          asset_path: ${{ env.TARBALL }}
+          asset_path: tarball.tar.gz 
           asset_name: ${{ env.TARBALL }}
           asset_content_type: application/zip
