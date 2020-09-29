@@ -18,17 +18,43 @@ module Compile = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources dump_ast =
+  let run sources dump_ast _core_erlang =
     Caramel_compiler.Compiler.compile { sources; dump_ast }
 
   let cmd =
     let sources =
-      Arg.(non_empty & pos_all string [] & info [] ~docv:"SOURCES")
+      Arg.(
+        non_empty & pos_all string []
+        & info [] ~docv:"SOURCES" ~doc:"A list of source files to compile")
     in
     let dump_ast =
-      Arg.(value & flag & info [ "d"; "dump-ast" ] ~docv:"DUMP_AST")
+      Arg.(
+        value & flag
+        & info [ "d"; "dump-ast" ] ~docv:"DUMP_AST"
+            ~doc:
+              "Use this flag to print out to standard output the ASTs of the \
+               different representations being used during compilation. This \
+               is NOT suitable for programmatic usage, and its mostly used for \
+               debugging the compiler itself.")
     in
-    (Term.(pure run $ sources $ dump_ast), info)
+    let target =
+      let targets =
+        Arg.enum
+          [ ("core", `Core_erlang); ("erl", `Erlang); ("native", `Native) ]
+      in
+      Arg.(
+        value
+        & opt targets ~vopt:`Erlang `Erlang
+        & info [ "t"; "target" ] ~docv:"TARGET"
+            ~doc:
+              "The compilation target for this set of units. If an input \
+               source that cannot be compiled to this target is found, \
+               compilation will end abruptly.\n\n\
+               Valid targets are: core, for compiling OCaml code into Core \
+               Erlang; erl, for compiling OCaml code into Erlang; native, for \
+               compiling Erlang code into native binaries. Choose wisely.")
+    in
+    (Term.(pure run $ sources $ dump_ast $ target), info)
 end
 
 module Sort_deps = struct
