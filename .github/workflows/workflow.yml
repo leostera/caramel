@@ -73,8 +73,9 @@ jobs:
       - name: Create draft release
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         run: |
-          cp ~/_build/default/bin/caramelc.exe .
-          tar czf ${{ env.TARBALL }} caramelc.exe
+          opam exec -- make install
+          cp $(opam config var prefix)/bin/caramelc* .
+          tar czf ${{ env.TARBALL }} ./caramelc*
 
       - name: Create draft release
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
