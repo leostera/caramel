@@ -109,7 +109,7 @@ jobs:
                 && startsWith(runner.os, 'Windows') }}
         run: |
           opam exec -- make install
-          Copy-Item -Path (opam config var prefix)/caramelc.exe -Destination .
+          Copy-Item -Path (opam config var prefix)\\caramelc.exe -Destination .
           tar czf ${{ env.TARBALL }} caramelc.exe
 
       - name: Upload release tarball
