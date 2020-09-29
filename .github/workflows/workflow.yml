@@ -67,13 +67,13 @@ jobs:
         run: opam exec -- make fmt
 
       - name: Create draft release
-        if: ${{ success() && startsWith(github.ref, "refs/tags/") }}
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         run: |
           cp _build/install/bin/caramelc .
           tar czf ${{ env.TARBALL }} ./caramelc
 
       - name: Create draft release
-        if: ${{ success() && startsWith(github.ref, "refs/tags/") }}
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         id: create_draft_release
         uses: actions/create-release@v1
         env:
@@ -85,7 +85,7 @@ jobs:
           prerelease: false
 
       - name: Upload release tarball
-        if: ${{ success() && startsWith(github.ref, "refs/tags/") }}
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
