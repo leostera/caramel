@@ -3,6 +3,10 @@
 These are some things I intend to work on in the near future,
 somewhat ordered:
 
+ci: 
+  fix builds
+  publish self-contained binaries for macos/linux/windows
+
 comp(ml, erl):
   * multiple branches in a match should not be supported (or their code should
     be duplicated for each branch)
