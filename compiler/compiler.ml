@@ -1,6 +1,6 @@
 open Compile_common
 
-exception Cannot_compile_file
+exception Unsupported_file_type of (string * string)
 
 type compilation = { sources : string list; dump_ast : bool }
 
@@ -123,7 +123,8 @@ let compile_one source ~opts =
     | `Ml file -> (ml_to_erlang, file)
     | `Mli file -> (mli_to_erlang, file)
     | `Erl file -> (erl_to_cmi, file)
-    | `Unsupported_file_type _ -> raise Cannot_compile_file
+    | `Unsupported_file_type (file, ext) ->
+        raise (Unsupported_file_type (file, ext))
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file) ~opts
 
@@ -140,14 +141,20 @@ let compile ({ sources; _ } as opts) =
 
     let tagged_sources, errs =
       sources |> List.map tag_source
-      |> List.partition (function `Unsupported_file _ -> false | _ -> true)
+      |> List.partition (function
+           | `Unsupported_file_type (_, _) -> false
+           | _ -> true)
     in
 
     errs
     |> List.iter (function
          | `Unsupported_file_type (file, ext) ->
              Format.fprintf Format.std_formatter
-               "ERROR: Filename %s has unsupported extension %s." file ext;
+               "Attempted to compile file: %s, but the extension %s is not \
+                supported.\n\n\
+                Try with an .ml, .mli, or .erl file instead.\n\n\
+                %!"
+               file ext;
              exit 1
          | _ -> ());
 
