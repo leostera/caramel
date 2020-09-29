@@ -2,18 +2,9 @@ open Erlang.Ast_helper
 open Typedtree
 open Types
 
-exception Function_without_body of Typedtree.expression
-
-exception Unsupported_expression
-
 (*
 let _debug = Format.fprintf Format.std_formatter
 *)
-
-let maybe e x = match x with Some v -> v | None -> raise e
-
-let maybe_unsupported x = maybe Error.Unsupported_feature x
-
 let const_to_literal const =
   let open Asttypes in
   match const with
@@ -57,10 +48,10 @@ let is_nested_module ~modules name =
     (fun Erlang.Ast.{ module_name = mn; _ } -> Atom.equal mn name)
     modules
 
-let rec build_function name cases ~spec ~var_names ~modules ~module_name =
+let rec mk_function name cases ~spec ~var_names ~modules ~module_name =
   (* NOTE: helper function to collect all parameters *)
   let rec params c acc =
-    let acc' = build_pattern c.c_lhs :: acc in
+    let acc' = mk_pattern c.c_lhs :: acc in
     match c.c_rhs.exp_desc with
     | Texp_function { cases = [ c' ]; _ } -> params c' acc'
     | _ -> acc' |> List.rev
@@ -73,13 +64,10 @@ let rec build_function name cases ~spec ~var_names ~modules ~module_name =
     let rec body c var_names =
       match c.c_rhs.exp_desc with
       | Texp_function { cases = [ c' ]; _ } ->
-          let pattern = build_pattern c'.c_lhs in
+          let pattern = mk_pattern c'.c_lhs in
           let var_names = var_names @ collect_var_names [ pattern ] in
           body c' var_names
-      | _ -> (
-          match build_expression c.c_rhs ~var_names ~modules ~module_name with
-          | Some exp -> exp
-          | _ -> raise (Function_without_body c.c_rhs) )
+      | _ -> mk_expression c.c_rhs ~var_names ~modules ~module_name
     in
 
     let lhs = params case [] in
@@ -87,30 +75,29 @@ let rec build_function name cases ~spec ~var_names ~modules ~module_name =
     FunDecl.case ~lhs ~guard:None ~rhs
   in
 
-  Some (FunDecl.mk ~name ~cases:(List.map mk_case cases) ~spec)
+  FunDecl.mk ~name ~cases:(List.map mk_case cases) ~spec
 
 (* NOTE: We need a universally quantified k here because this function will
  * be called with several types indexing general_pattern *)
-and build_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
+and mk_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
  fun pat ->
   match pat.pat_desc with
   | Tpat_var (id, _) -> Pat.bind (Names.varname_of_ident id)
   | Tpat_value t ->
       (* NOTE: type casting magic! *)
-      build_pattern (t :> pattern)
-  | Tpat_tuple tuples ->
-      Erlang.Ast.Pattern_tuple (List.map build_pattern tuples)
+      mk_pattern (t :> pattern)
+  | Tpat_tuple tuples -> Erlang.Ast.Pattern_tuple (List.map mk_pattern tuples)
   | Tpat_record (fields, _) ->
       Erlang.Ast.Pattern_map
         ( fields
         |> List.map (fun (Asttypes.{ txt; _ }, _, pattern) ->
-               (Names.atom_of_longident txt, build_pattern pattern)) )
+               (Names.atom_of_longident txt, mk_pattern pattern)) )
   (* FIXME: don't compare atoms like this, just refer to is_unit *)
   | Tpat_construct ({ txt; _ }, _, _) when Longident.last txt = "()" ->
       Pat.tuple []
   | Tpat_construct ({ txt; _ }, _, patterns)
     when Longident.last txt = "::" || Longident.last txt = "[]" ->
-      Pat.list (List.map build_pattern patterns)
+      Pat.list (List.map mk_pattern patterns)
   | Tpat_construct ({ txt; _ }, _, []) ->
       Pat.const (Const.atom (Names.atom_of_longident txt))
   | Tpat_construct ({ txt; _ }, _, patterns) ->
@@ -118,26 +105,23 @@ and build_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
         Erlang.Ast.Pattern_match
           (Erlang.Ast.Lit_atom (Names.atom_of_longident txt))
       in
-      let values = List.map build_pattern patterns in
+      let values = List.map mk_pattern patterns in
       Erlang.Ast.Pattern_tuple (tag :: values)
   | Tpat_variant (label, None, _) -> Pat.const (Const.atom (Atom.mk label))
   | Tpat_variant (label, Some expr, _) ->
       let tag = Pat.const (Const.atom (Atom.mk label)) in
-      let value = build_pattern expr in
+      let value = mk_pattern expr in
       Pat.tuple [ tag; value ]
   | Tpat_constant const -> Erlang.Ast.Pattern_match (const_to_literal const)
   (* NOTE: here's where the translation of pattern
    * matching at the function level should happen. *)
   | _ -> Erlang.Ast.Pattern_ignore
 
-and build_bindings vbs ~var_names ~modules ~module_name =
+and mk_bindings vbs ~var_names ~modules ~module_name =
   match vbs with
   | [ vb ] ->
-      let lb_lhs = build_pattern vb.vb_pat in
-      let lb_rhs =
-        build_expression vb.vb_expr ~var_names ~modules ~module_name
-        |> maybe_unsupported
-      in
+      let lb_lhs = mk_pattern vb.vb_pat in
+      let lb_rhs = mk_expression vb.vb_expr ~var_names ~modules ~module_name in
       let lb_rhs =
         match lb_rhs with
         | Erlang.Ast.Expr_let ({ lb_lhs = Erlang.Ast.Pattern_ignore; _ }, _) ->
@@ -151,17 +135,14 @@ and build_bindings vbs ~var_names ~modules ~module_name =
         | _ -> lb_rhs
       in
       Erlang.Ast.{ lb_lhs; lb_rhs }
-  | _ ->
-      Format.fprintf Format.std_formatter
-        "Caramel does not support \"let and\" bindings!\n";
-      raise Error.Unsupported_feature
+  | _ -> Error.unsupported_feature `Let_and_bindings
 
-and build_expression exp ~var_names ~modules ~module_name =
+and mk_expression exp ~var_names ~modules ~module_name =
   match exp.exp_desc with
   | Texp_constant constant ->
       let v = const_to_literal constant in
-      Some (Erlang.Ast.Expr_literal v)
-  | Texp_ident (_, { txt; _ }, _) ->
+      Erlang.Ast.Expr_literal v
+  | Texp_ident (_, { txt; _ }, _) -> (
       let name = Names.name_of_longident txt in
       let var_name = Names.varname_of_longident txt in
 
@@ -177,26 +158,24 @@ and build_expression exp ~var_names ~modules ~module_name =
          2. qualified and external, refering to a module that is not nested
          3. unqualified, and thus refering to a function reference
       *)
-      Some
-        ( if name_in_var_names ~var_names var_name then Expr.ident var_name
-        else
-          match name with
-          | Erlang.Ast.Qualified_name { n_mod; n_name } ->
-              Expr.ident (namespace_qualified_name n_mod n_name)
-          | _ -> Expr.fun_ref ~arity:0 (Names.atom_of_longident txt) )
+      if name_in_var_names ~var_names var_name then Expr.ident var_name
+      else
+        match name with
+        | Erlang.Ast.Qualified_name { n_mod; n_name } ->
+            Expr.ident (namespace_qualified_name n_mod n_name)
+        | _ -> Expr.fun_ref ~arity:0 (Names.atom_of_longident txt) )
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
-      Some (Erlang.Ast.Expr_list [])
+      Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
-      Some (Erlang.Ast.Expr_tuple [])
+      Erlang.Ast.Expr_tuple []
   | Texp_construct ({ txt; _ }, _, []) ->
-      Some (Erlang.Ast.Expr_name (Atom_name (Names.atom_of_longident txt)))
+      Erlang.Ast.Expr_name (Atom_name (Names.atom_of_longident txt))
   (* NOTE: lists are just variants :) *)
   | Texp_construct ({ txt; _ }, _, exprs) when Longident.last txt = "::" ->
       let values =
-        exprs
-        |> List.filter_map (build_expression ~var_names ~modules ~module_name)
+        exprs |> List.map (mk_expression ~var_names ~modules ~module_name)
       in
-      Some (Erlang.Ast.Expr_list values)
+      Erlang.Ast.Expr_list values
   (* NOTE: these are actually the variants! and Texp_variant below is for
    * polymorphic ones *)
   | Texp_construct ({ txt; _ }, _, exprs) ->
@@ -204,57 +183,43 @@ and build_expression exp ~var_names ~modules ~module_name =
         Erlang.Ast.Expr_name (Atom_name (Names.atom_of_longident txt))
       in
       let values =
-        exprs
-        |> List.filter_map (build_expression ~var_names ~modules ~module_name)
+        exprs |> List.map (mk_expression ~var_names ~modules ~module_name)
       in
-      Some (Expr.tuple (tag :: values))
-  | Texp_variant (label, None) -> Some (Expr.ident (Name.atom label))
+      Expr.tuple (tag :: values)
+  | Texp_variant (label, None) -> Expr.ident (Name.atom label)
   | Texp_variant (label, Some expr) ->
       let tag = Expr.ident (Name.atom label) in
-      let value =
-        build_expression ~var_names ~modules ~module_name expr
-        |> maybe_unsupported
-      in
-      Some (Erlang.Ast.Expr_tuple [ tag; value ])
+      let value = mk_expression ~var_names ~modules ~module_name expr in
+      Erlang.Ast.Expr_tuple [ tag; value ]
   | Texp_apply (expr, args) ->
       let name =
-        match
-          build_expression expr ~var_names ~modules ~module_name
-          |> maybe_unsupported
-        with
+        match mk_expression expr ~var_names ~modules ~module_name with
         | Erlang.Ast.Expr_fun_ref { fref_name = n; _ } ->
             Expr.ident (Names.ocaml_to_erlang_primitive_op (Atom.to_string n))
         | x -> x
       in
       let args =
-        args
-        |> List.map (fun (_, arg) ->
-               arg |> maybe_unsupported
-               |> build_expression ~var_names ~modules ~module_name
-               |> maybe_unsupported)
+        List.filter_map
+          (function
+            | _, None -> None
+            | _, Some arg ->
+                Some (mk_expression arg ~var_names ~modules ~module_name))
+          args
       in
-      Some (Expr.apply name args)
+      Expr.apply name args
   (* NOTE: use `extended_expression` to provide map overrides *)
   | Texp_record { fields; _ } ->
-      Some
-        (Expr.map
-           ( fields |> Array.to_list
-           |> List.map (fun (field, value) ->
-                  let value =
-                    match value with
-                    | Kept _ ->
-                        Format.fprintf Format.std_formatter
-                          "record overrides unsupported yet!";
-                        raise Error.Unsupported_feature
-                    | Overridden (_, exp) -> (
-                        match
-                          build_expression exp ~var_names ~modules ~module_name
-                        with
-                        | None -> raise Error.Unsupported_feature
-                        | Some v -> v )
-                  in
-                  Erlang.Ast.
-                    { mf_name = Atom.mk field.lbl_name; mf_value = value }) ))
+      Expr.map
+        ( fields |> Array.to_list
+        |> List.map (fun (field, value) ->
+               let value =
+                 match value with
+                 | Kept _ -> Error.unsupported_feature `Record_update
+                 | Overridden (_, exp) ->
+                     mk_expression exp ~var_names ~modules ~module_name
+               in
+               Erlang.Ast.{ mf_name = Atom.mk field.lbl_name; mf_value = value })
+        )
   | Texp_field (expr, _, { lbl_name; _ }) ->
       let name =
         let module_name = Atom.mk "maps" in
@@ -264,48 +229,33 @@ and build_expression exp ~var_names ~modules ~module_name =
       let args =
         [
           Expr.ident (Name.atom lbl_name);
-          build_expression ~var_names ~modules ~module_name expr
-          |> maybe_unsupported;
+          mk_expression ~var_names ~modules ~module_name expr;
         ]
       in
-      Some (Expr.apply name args)
+      Expr.apply name args
   | Texp_tuple exprs ->
-      Some
-        (Erlang.Ast.Expr_tuple
-           ( exprs
-           |> List.filter_map
-                (build_expression ~var_names ~modules ~module_name) ))
+      Erlang.Ast.Expr_tuple
+        (exprs |> List.map (mk_expression ~var_names ~modules ~module_name))
   | Texp_match (expr, branches, _) ->
-      let expr =
-        build_expression expr ~var_names ~modules ~module_name
-        |> maybe_unsupported
-      in
+      let expr = mk_expression expr ~var_names ~modules ~module_name in
       (* NOTE: match on c_guard here to translate guards *)
       let branches =
         List.map
           (fun c ->
-            let lhs = build_pattern c.c_lhs in
+            let lhs = mk_pattern c.c_lhs in
             let var_names = collect_var_names [ lhs ] @ var_names in
-            let rhs =
-              build_expression c.c_rhs ~var_names ~modules ~module_name
-              |> maybe_unsupported
-            in
+            let rhs = mk_expression c.c_rhs ~var_names ~modules ~module_name in
             FunDecl.case ~lhs:[ lhs ] ~guard:None ~rhs)
           branches
       in
-      Some (Erlang.Ast.Expr_case (expr, branches))
+      Erlang.Ast.Expr_case (expr, branches)
   | Texp_ifthenelse (if_cond, if_true, if_false) ->
-      let expr =
-        build_expression ~var_names ~modules ~module_name if_cond
-        |> maybe_unsupported
-      in
+      let expr = mk_expression ~var_names ~modules ~module_name if_cond in
       let if_true =
         FunDecl.case
           ~lhs:[ Pat.const (Const.atom (Atom.mk "true")) ]
           ~guard:None
-          ~rhs:
-            ( build_expression ~var_names ~modules ~module_name if_true
-            |> maybe_unsupported )
+          ~rhs:(mk_expression ~var_names ~modules ~module_name if_true)
       in
       let if_false =
         match if_false with
@@ -314,14 +264,12 @@ and build_expression exp ~var_names ~modules ~module_name =
               FunDecl.case
                 ~lhs:[ Pat.const (Const.atom (Atom.mk "false")) ]
                 ~guard:None
-                ~rhs:
-                  ( build_expression ~var_names ~modules ~module_name if_false
-                  |> maybe_unsupported );
+                ~rhs:(mk_expression ~var_names ~modules ~module_name if_false);
             ]
         | None -> []
       in
       let branches = if_true :: if_false in
-      Some (Erlang.Ast.Expr_case (expr, branches))
+      Erlang.Ast.Expr_case (expr, branches)
   | Texp_let (_, vbs, expr) ->
       (* NOTE: consider flattening let-ins ?
          let rec flatten e acc =
@@ -331,51 +279,42 @@ and build_expression exp ~var_names ~modules ~module_name =
          in
          let bindings = flatten expr [] in
       *)
-      let let_binding = build_bindings vbs ~var_names ~modules ~module_name in
+      let let_binding = mk_bindings vbs ~var_names ~modules ~module_name in
       let var_names =
         collect_var_names Erlang.Ast.[ let_binding.lb_lhs ] @ var_names
       in
-      let let_expr =
-        build_expression ~var_names ~modules ~module_name expr
-        |> maybe_unsupported
-      in
-      Some (Erlang.Ast.Expr_let (let_binding, let_expr))
-  | Texp_function { cases; _ } -> (
-      match
-        build_function ~module_name ~modules ~spec:None ~var_names
+      let let_expr = mk_expression ~var_names ~modules ~module_name expr in
+      Erlang.Ast.Expr_let (let_binding, let_expr)
+  | Texp_function { cases; _ } ->
+      let f =
+        mk_function ~module_name ~modules ~spec:None ~var_names
           (Atom.mk "anonymous") cases
-      with
-      | Some f -> Some (Expr.fun_ ~cases:f.fd_cases)
-      | None -> None )
+      in
+      Expr.fun_ ~cases:f.fd_cases
   | Texp_sequence (this, next) ->
       let let_binding =
         Erlang.Ast.
           {
             lb_lhs = Erlang.Ast.Pattern_ignore;
-            lb_rhs =
-              build_expression this ~var_names ~modules ~module_name
-              |> maybe_unsupported;
+            lb_rhs = mk_expression this ~var_names ~modules ~module_name;
           }
       in
-      let let_expr =
-        build_expression ~var_names ~modules ~module_name next
-        |> maybe_unsupported
-      in
-      Some (Erlang.Ast.Expr_let (let_binding, let_expr))
-  | _ -> raise Unsupported_expression
+      let let_expr = mk_expression ~var_names ~modules ~module_name next in
+      Erlang.Ast.Expr_let (let_binding, let_expr)
+  | _ -> Error.unsupported_expression exp
 
-let build_value vb ~modules ~module_name ~typedtree =
+let mk_value vb ~modules ~module_name ~typedtree =
   match (vb.vb_pat.pat_desc, vb.vb_expr.exp_desc) with
   | Tpat_var (id, _), Texp_function { cases; _ } ->
       let id = id |> Names.atom_of_ident in
-      build_function ~module_name ~modules
+      mk_function ~module_name ~modules
         ~spec:(Typespecs.Fun.find_spec ~typedtree id)
         ~var_names:[] id cases
-  | _ -> None
+  | _ -> Error.unsupported_top_level_module_value ()
 
 (** Build the actual functions of an Erlang module
  *)
-let build_functions :
+let mk_functions :
     module_name:Erlang.Ast.atom ->
     modules:Erlang.Ast.t list ->
     Typedtree.structure ->
@@ -386,8 +325,7 @@ let build_functions :
        (fun acc item ->
          match item.str_desc with
          | Tstr_value (_, vb) ->
-             List.filter_map (build_value ~typedtree ~modules ~module_name) vb
-             @ acc
+             List.map (mk_value ~typedtree ~modules ~module_name) vb @ acc
          | _ -> acc)
        []
   |> List.rev

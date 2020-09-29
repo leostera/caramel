@@ -11,7 +11,7 @@ open Types
       * Types.signature
       * types.signature_item
  *)
-let build_exports :
+let mk_exports :
     Typedtree.structure -> Types.signature option -> Erlang.Ast.export list =
  fun typedtree signature ->
   let rec collect_args value args =

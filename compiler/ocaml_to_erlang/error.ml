@@ -1,1 +1,69 @@
 exception Unsupported_feature
+
+exception Unsupported_top_level_module_value
+
+exception Unsupported_expression
+
+let ppf = Format.err_formatter
+
+let file_a_bug =
+  {| If you think this is a bug, please file an issue here: https://github.com/AbstractMachinesLab/caramel/issues/new |}
+
+let unsupported_top_level_module_value () =
+  Format.fprintf ppf
+    {|While OCaml allows you to define module-level variables,
+these are not valid declarations at the module-leve in Erlang.
+
+Caramel could have translated them into a function, so that `let x = 1` became
+`x() -> 1` in Erlang, an every instance of `x` would become `x()`.
+
+Unfortunately this will not guarantee the preservation of the semantics during translation :(
+
+For example, if `let x = print_string "hello"; 1` was translated to Erlang, it
+would be translated to `x() -> io:format("~p", ["hello"]), 1.`
+
+Now the side-effect of printing would occur every time you use the variable `x`.
+
+You can, however, turn your constants into a function of a unit, so that
+`let x = 1` becomes `let x () = `.
+
+Caramel will happily and safely compile that.
+
+|};
+  exit 1
+
+let unsupported_feature feature =
+  Format.fprintf ppf "Unsupported feature: %s -- %s"
+    ( match feature with
+    | `Record_update -> "Record updates"
+    | `Let_and_bindings -> "let-and bindings" )
+    file_a_bug;
+  raise Unsupported_feature
+
+let unsupported_expression expr =
+  let open Typedtree in
+  Format.fprintf ppf "Unsupported expression: %s -- %s"
+    ( match expr.exp_desc with
+    | Texp_try _ -> "Texp_try"
+    | Texp_setfield _ -> "Texp_setfield"
+    | Texp_array _ -> "Texp_array"
+    | Texp_while _ -> "Texp_while"
+    | Texp_for _ -> "Texp_for"
+    | Texp_send _ -> "Texp_send"
+    | Texp_new _ -> "Texp_new"
+    | Texp_instvar _ -> "Texp_instvar"
+    | Texp_setinstvar _ -> "Texp_setinstvar"
+    | Texp_override _ -> "Texp_override"
+    | Texp_letmodule _ -> "Texp_letmodule"
+    | Texp_letexception _ -> "Texp_letexception"
+    | Texp_assert _ -> "Texp_assert"
+    | Texp_lazy _ -> "Texp_lazy"
+    | Texp_object _ -> "Texp_object"
+    | Texp_pack _ -> "Texp_pack"
+    | Texp_letop _ -> "Texp_letop"
+    | Texp_unreachable -> "Texp_unreachable"
+    | Texp_extension_constructor _ -> "Texp_extension_constructor"
+    | Texp_open _ -> "Texp_open"
+    | _ -> "<hm, this was empty? please do open an issue>" )
+    file_a_bug;
+  raise Unsupported_expression

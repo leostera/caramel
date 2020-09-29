@@ -5,16 +5,16 @@ open Types
 (** Build a single Erlang module from a Typedtree.structure, and an optionally
     constraining Types.signature.
  *)
-let build_module :
+let mk_module :
     module_name:Erlang.Ast.atom ->
     modules:Erlang.Ast.t list ->
     Typedtree.structure ->
     Types.signature option ->
     Erlang.Ast.t =
  fun ~module_name ~modules typedtree signature ->
-  let exports = Export.build_exports typedtree signature in
-  let types = Typespecs.build_types typedtree signature in
-  let functions = Fun.build_functions ~module_name ~modules typedtree in
+  let exports = Export.mk_exports typedtree signature in
+  let types = Typespecs.mk_types typedtree signature in
+  let functions = Fun.mk_functions ~module_name ~modules typedtree in
   let attributes = [] in
   let behaviours = [] in
   Erl.Mod.mk ~behaviours ~exports ~types ~functions ~attributes module_name
@@ -80,13 +80,12 @@ let from_typedtree :
   let modules =
     List.fold_left
       (fun mods (nested_module_name, impl, sign) ->
-        build_module ~module_name:nested_module_name ~modules:mods impl sign
+        mk_module ~module_name:nested_module_name ~modules:mods impl sign
         :: mods)
       []
       (find_modules ~prefix:top_module typedtree)
   in
   [
-    modules;
-    [ build_module ~module_name:top_module ~modules typedtree signature ];
+    modules; [ mk_module ~module_name:top_module ~modules typedtree signature ];
   ]
   |> List.concat
