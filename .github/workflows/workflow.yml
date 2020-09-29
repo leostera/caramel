@@ -66,10 +66,13 @@ jobs:
         if: ${{ success() && startsWith(matrix.os, 'Linux') }}
         run: opam exec -- make fmt
 
+      - name: Define tag name
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: echo ::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}
+
       - name: Define release tarball name
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
-        run: echo ::set-env name=TARBALL::caramel-${GITHUB_REF#refs/*/}-${{ matrix.os }}.tar.gz
-
+        run: echo ::set-env name=TARBALL::caramel-${GITHUB_TAG}-${{ matrix.os }}.tar.gz
       - name: Create draft release
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         run: |
@@ -84,8 +87,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ env.GITHUB_TAG }}
+          release_name: ${{ env.GITHUB_TAG }}
           draft: true
           prerelease: false
 
