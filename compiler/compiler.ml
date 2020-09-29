@@ -52,14 +52,18 @@ let initialize_compiler () =
 
 (** Actual compilation chains *)
 
-let ml_to_core_erlang ~source_file ~output_prefix ~opts:_ =
+let ml_to_core_erlang ~source_file ~output_prefix ~opts =
   let backend info (typed, coercion) =
     let lambda = to_lambda info (typed, coercion) in
     let bytecode = to_bytecode info lambda in
     let _ = emit_bytecode info bytecode in
     let module_name = info.module_name in
-    [ Lambda_to_core_erlang.from_lambda ~module_name lambda.code ]
-    |> Core_erlang.Printer.to_sources
+    let core_ast = Lambda_to_core_erlang.from_lambda ~module_name lambda.code in
+    if opts.dump_ast then (
+      Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
+        (Core_erlang.Ast.sexp_of_t core_ast);
+      Format.fprintf Format.std_formatter "\n\n%!" );
+    Core_erlang.Printer.to_sources [ core_ast ]
   in
   Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
     ~output_prefix ~dump_ext:"cmo"

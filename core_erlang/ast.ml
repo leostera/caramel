@@ -1,3 +1,5 @@
+open Sexplib.Std
+
 type atom = string [@@deriving sexp]
 
 type var_name = string [@@deriving sexp]
