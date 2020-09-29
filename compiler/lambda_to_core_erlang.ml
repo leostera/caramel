@@ -99,9 +99,9 @@ let mk_definitions : Lambda.lambda -> Core_erlang.Ast.fun_def list =
 
 (** Turn an OCaml Lambda program into Core Erlang
  *)
-let from_lambda : name:string -> Lambda.lambda -> Core_erlang.Ast.t =
- fun ~name lambda ->
-  let module_name = atom_of_string name in
+let from_lambda : module_name:string -> Lambda.lambda -> Core_erlang.Ast.t =
+ fun ~module_name lambda ->
+  let module_name = atom_of_string module_name in
   let m_defs = mk_definitions lambda in
   let m_fnames = m_defs |> List.map (fun { fd_name; _ } -> fd_name) in
   {

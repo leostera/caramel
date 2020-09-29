@@ -1,19 +1,15 @@
 open Compile_common
 
-exception Unsupported_file_type of (string * string)
+type target = [ `Erlang | `Core_erlang | `Native ]
 
-type compilation_target = [ `Erlang | `Core_erlang | `Native ]
+type compilation = { sources : string list; dump_ast : bool; target : target }
+
+exception Unsupported_file_type_for_target of (target * string * string)
 
 let target_to_string = function
   | `Erlang -> "erl"
   | `Core_erlang -> "core"
   | `Native -> "native"
-
-type compilation = {
-  sources : string list;
-  dump_ast : bool;
-  target : compilation_target;
-}
 
 let to_bytecode i lambda =
   lambda
@@ -56,6 +52,19 @@ let initialize_compiler () =
 
 (** Actual compilation chains *)
 
+let ml_to_core_erlang ~source_file ~output_prefix ~opts:_ =
+  let backend info (typed, coercion) =
+    let lambda = to_lambda info (typed, coercion) in
+    let bytecode = to_bytecode info lambda in
+    let _ = emit_bytecode info bytecode in
+    let module_name = info.module_name in
+    [ Lambda_to_core_erlang.from_lambda ~module_name lambda.code ]
+    |> Core_erlang.Printer.to_sources
+  in
+  Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
+    ~output_prefix ~dump_ext:"cmo"
+  @@ fun info -> Compile_common.implementation info ~backend
+
 let ml_to_erlang ~source_file ~output_prefix ~opts:_ =
   let backend info (typed, coercion) =
     let lambda = to_lambda info (typed, coercion) in
@@ -78,6 +87,7 @@ let mli_to_erlang ~source_file ~output_prefix ~opts:_ =
   @@ Compile_common.interface
 
 (* Entrypoint to typecheck Erlang *)
+
 let erl_to_cmi ~source_file ~output_prefix ~opts =
   let backend info typed =
     let lambda = to_lambda info typed in
@@ -128,14 +138,18 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
   in
   backend i typedtree
 
-let compile_one source ~opts =
+let compile_one source ~target ~opts =
   let fn, source_file =
     match source with
-    | `Ml file -> (ml_to_erlang, file)
+    | `Ml file -> (
+        match target with
+        | `Erlang -> (ml_to_erlang, file)
+        | `Core_erlang -> (ml_to_core_erlang, file)
+        | _ -> raise (Unsupported_file_type_for_target (target, file, ".ml")) )
     | `Mli file -> (mli_to_erlang, file)
     | `Erl file -> (erl_to_cmi, file)
-    | `Unsupported_file_type_for_target (_, file, ext) ->
-        raise (Unsupported_file_type (file, ext))
+    | `Unsupported_file_type_for_target (t, file, ext) ->
+        raise (Unsupported_file_type_for_target (t, file, ext))
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file) ~opts
 
@@ -169,8 +183,8 @@ let compile ({ sources; target; _ } as opts) =
     |> List.iter (function
          | `Unsupported_file_type_for_target (tgt, file, ext) ->
              Format.fprintf Format.std_formatter
-               "Attempted to compile %s, but %s files are not \
-                supported with the target flag: --target=%s%!"
+               "Attempted to compile %s, but %s files are not supported with \
+                the target flag: --target=%s%!"
                file ext (target_to_string tgt);
              exit 1
          | _ -> ());
@@ -187,7 +201,7 @@ let compile ({ sources; target; _ } as opts) =
       |> List.filter_map (function `Erl f -> Some (`Erl f) | _ -> None)
     in
 
-    List.iter (compile_one ~opts) (ml_sources @ erlang_sources);
+    List.iter (compile_one ~target ~opts) (ml_sources @ erlang_sources);
 
     Warnings.check_fatal ()
   with
