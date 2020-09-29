@@ -1,104 +1,128 @@
-# Roadmap
+# Standard Erlang libraries for OCaml
 
-### Up Next 
+This library contains:
 
-- [X] Better handling of externals / FFI
-- [X] Example of type-safe process
-- [ ] fully inferred message type in processes experiments
-  - [X] passing a recv function for the unification to work from the inside out
-  - [ ] ~~hack "receive" expression into the language~~ 
-- [ ] Type Safe Send & Receive:
-  - [X] ~~try universally quantified message types~~ -- nope, too permissive,
-        got runtime crashes!
-  - [ ] ~~try hiding the message type altogether in a GADT~~
-  - [X] try fixing the type of the receiver pid's message instead -- needs a
-        additional layering over process (contramap) to turn them into the
-        current processes' acceptable message type
-- [X] bind names from poly variants!!!
-- [X] clean up tests to make it easier to see what's being changed where
-- [ ] Function signatures 
-- [ ] refactor fun refs to resolve as much data (M, F, Arity) at compile time
+* a definition of an AST for Erlang,
+* a parser that tries to follow the [Standard Erlang
+  grammar](https://github.com/erlang/otp/blob/master/lib/stdlib/src/erl_parse.yrl),
+  and
+* 2 printers: a debugging S-expr printer, and a Standard Erlang printer
 
-### Idioms
+As a note, I'm actively deprioritizing Erlang Records in favor of Maps at all
+levels.
 
-- [X] Empty tuple `()` is a common value in OCaml, this is translated to the
-  atom `ok` in Erlang. This is not _entirely_ idiomatic, since some functions
-  are generated that take for last argument the atom `ok`, but it is much nicer
-  for the returned values. 
+## Language Support
 
-### Module System
+This list and its completeness is a work in progress.
 
-The goal here is to support the OCaml module system, with its nesting, functors,
-aliasing, and combination support, to provide a flexible and type-safe way of
-structuring large amounts of code.
+### Preprocessor Language
 
-- [x] Modules
-- [X] Modules that have no exports of any kind will not generate Erlang code
-  and are thus zero-cost
-- [x] Nested Modules are flattened out
-- [x] Control Exports via Interfaces
-- [x] Module Functions Declarations
-- [ ] Functors
+- [ ] Macro definition
+- [ ] Macro application
 
-### Type Generation
+### Module Language
 
-The goal here is to generate Dialyzer compatible type specs that can be used to
-indicate the usage of the code that was generated. A decision neeeds to be made
-as to whether we'll add a little overhead to make some of these typed
-representations (specially the ones with phantom types), runtime safe too.
+- [ ] Module attributes (built-in and custom ones)
+- [ ] Type declarations
+- [ ] Function declarations
 
-- [X] Opaque Types
-- [x] Phantom Types
-- [x] Variants | Union Types
-- [x] Polymorphic variant types
-- [x] Alias Types
-- [x] Record Types
-- [x] Function Types
-- [ ] Automatic Function Specs
-- [x] Control Exports via Interfaces
-- [X] Support qualified type constructor names
+### Type Language
 
-### Functions
+- [ ] Opaque types
+- [ ] Visible types
+- [ ] Union types
+- [ ] Aliases
+- [ ] Record types
+- [ ] Tuple types
+- [ ] Map types
+- [ ] Function types
+- [ ] Type constructors
+- [ ] Type variables
+- [ ] Function specs
+- [ ] Callback function specs
 
-- [ ] Explicitly distinguish between parameters that can be uncurried
-      and curriable ones
+### Pattern Language
 
-### Expression Generation
+- [ ] Ignore pattern (`_`)
+- [ ] Constant matches (against literals) 
+- [ ] Tuple patterns
+- [ ] List patterns
+  - [ ] Empty list
+  - [ ] Head-tail patterns
+  - [ ] Exact list patterns
+- [ ] Record patterns
+- [ ] Map patterns
+- [ ] Pattern binding
 
-Valid expressions in the Erlang language that are supported off the bad, or translated via FFI libraries or syntax extensions at the OCaml level.
+### Expression Language
 
-- [ ] Literals:
-  - [ ] Pid
-  - [ ] Reference
-  - [x] Integer
-  - [x] Character
-  - [x] String (OCaml strings turned into as binary string)
-  - [x] Float
-  - [x] Maps
-  - [x] Lists
-  - [x] Tuples
-- [x] Let Bindings
-- [x] Variables
-  - [ ] Make sure all variable names translate to valid Erlang variable names
-- [X] Lambdas
-- [x] Function Reference
-- [x] Function Calls
-  - [x] Proper resolution of local nested modules
-  - [ ] Proper calls for lambdas -- currently this prints `f(A, B)` for `f(A)(B)`
-        since it has no way of knowing that `f` has arity 1.
-- [x] Case Expressions
-- [x] If Expressions (they get turned into case expressions)
-- [ ] Receive Expression
-- [ ] Guards
+- [ ] Constants:
+  - [ ] Integer
+  - [ ] Floats
+  - [ ] Binary Strings
+  - [ ] IO Lists
+  - [ ] Characters
+  - [ ] Atoms
+- [ ] Let bindings
+- [ ] Passing Identifiers to other expressions
+- [ ] Function:
+  - [ ] Fun references
+  - [ ] Lambda application (`F()`)
+  - [ ] Unqualified application (`f()`)
+  - [ ] Qualified application (`m:f()`)
+  - [ ] Dynamic Qualified application (`M:F()`)
+- [ ] Map expressions
+  - [ ] New map
+  - [ ] Map updates
+- [ ] List expressions:
+  - [ ] Empty list
+  - [ ] Lists with elements
+  - [ ] List consing (`[ H | T]`)
+  - [ ] List comprehensions
+- [ ] Tuple expressions
+- [ ] Record expressions
+  - [ ] New record
+  - [ ] Record update
+- [ ] Exception expressions:
+  - [ ] Try catch
+  - [ ] Catch
+  - [ ] Throw 
+- [ ] Case expressions
+- [ ] Messaging expressions
+  - [ ] Receive
+  - [ ] Receive .. After
+  - [ ] Send (although this is just an infix operator for `erlang:send/2`)
+- [ ] Clause Guards
 
-### Pattern Matching
+### Operators
 
-These are all different possible pattern matchings that we can do in let bindings,
-function headers, case branches, etc. Not everything is allowed on that side!
-
-- [x] Ignore
-- [x] Binding
-- [x] Tuple
-- [x] List
-- [x] Map
-- [x] Exact match
+- [ ] *
+- [ ] /
+- [ ] div
+- [ ] rem
+- [ ] band
+- [ ] and
+- [ ] +
+- [ ] -
+- [ ] bor
+- [ ] bxor
+- [ ] bsl
+- [ ] bsr
+- [ ] or
+- [ ] xor
+- [ ] ++
+- [ ] --
+- [ ] ==
+- [ ] /=
+- [ ] =<
+- [ ] <
+- [ ] >=
+- [ ] >
+- [ ] =:=
+- [ ] =/=
+- [ ] <=
+- [ ] =>
+- [ ] :=
+- [ ] <<
+- [ ] >>
+- [ ] !
