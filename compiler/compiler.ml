@@ -1,5 +1,7 @@
 open Compile_common
 
+let tool_name = "caramelc"
+
 type target = [ `Erlang | `Core_erlang | `Native | `Type_check ]
 
 type compilation = { sources : string list; dump_ast : bool; target : target }
@@ -47,6 +49,8 @@ let read_signature info =
   with Not_found -> None
 
 let initialize_compiler () =
+  Clflags.nopervasives := true;
+  Clflags.no_std_include := true;
   Compmisc.init_path ();
   let _ = Compmisc.initial_env () in
   ()
@@ -66,7 +70,7 @@ let ml_to_core_erlang ~source_file ~output_prefix ~opts =
       Format.fprintf Format.std_formatter "\n\n%!" );
     Core_erlang.Printer.to_sources [ core_ast ]
   in
-  Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
+  Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix ~dump_ext:"cmo"
   @@ fun info -> Compile_common.implementation info ~backend
 
@@ -82,12 +86,12 @@ let ml_to_erlang ~source_file ~output_prefix ~opts:_ =
     in
     Erlang.Printer.to_sources erl_ast
   in
-  Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
+  Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix ~dump_ext:"cmo"
   @@ fun info -> Compile_common.implementation info ~backend
 
 let mli_to_erlang ~source_file ~output_prefix ~opts:_ =
-  Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
+  Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix ~dump_ext:"cmi"
   @@ Compile_common.interface
 
@@ -97,7 +101,7 @@ let ml_to_cmo ~source_file ~output_prefix ~opts:_ =
     let bytecode = to_bytecode info lambda in
     emit_bytecode info bytecode
   in
-  Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
+  Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix ~dump_ext:"cmo"
   @@ Compile_common.implementation ~backend
 
@@ -109,7 +113,7 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
     let bytecode = to_bytecode info lambda in
     emit_bytecode info bytecode
   in
-  Compile_common.with_info ~native:false ~tool_name:"caramelc" ~source_file
+  Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix ~dump_ext:"cmo"
   @@ fun i ->
   let erlang_ast =
