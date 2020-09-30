@@ -23,6 +23,7 @@ translation process. Could you please report this here?
 https://github.com/AbstractMachinesLab/caramel/issues/new
 
 Thank you!
+\n
 |};
   exit 1
 
@@ -45,12 +46,12 @@ You can, however, turn your constants into a function of a unit, so that
 `let x = 1` becomes `let x () = `.
 
 Caramel will happily and safely compile that.
-
+\n
 |};
   exit 1
 
 let unsupported_feature feature =
-  Format.fprintf ppf "Unsupported feature: %s -- %s"
+  Format.fprintf ppf "Unsupported feature: %s -- %s\n"
     ( match feature with
     | `Absent_polymorphic_variants ->
         "polymorphic variant constriants for absence"
@@ -67,7 +68,7 @@ let unsupported_feature feature =
 
 let unsupported_expression expr =
   let open Typedtree in
-  Format.fprintf ppf "Unsupported expression: %s -- %s"
+  Format.fprintf ppf "Unsupported expression: %s -- %s\n"
     ( match expr.exp_desc with
     | Texp_try _ -> "Texp_try"
     | Texp_setfield _ -> "Texp_setfield"
