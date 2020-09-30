@@ -220,11 +220,13 @@ let compile ({ sources; target; _ } as opts) =
 
     Warnings.check_fatal ()
   with
-  | exception Env.Error err -> Env.report_error Format.std_formatter err
+  | exception Env.Error err ->
+      Env.report_error Format.std_formatter err;
+      Format.fprintf Format.std_formatter "\n%!"
   | exception exc -> (
       match Location.error_of_exn exc with
       | Some (`Ok error) -> Location.print_report Format.std_formatter error
       | _ ->
-          Format.fprintf Format.std_formatter "ERROR: %s"
+          Format.fprintf Format.std_formatter "ERROR: %s\n"
             (Printexc.to_string exc) )
   | _ -> ()
