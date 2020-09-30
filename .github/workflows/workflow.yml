@@ -99,26 +99,14 @@ jobs:
         if: ${{ success() && startsWith(runner.os, 'Linux') }}
         run: opam exec -- make fmt
 
-      - name: Create release archive (unix)
-        if: ${{ success() && startsWith(github.ref, 'refs/tags/')
-                && (startsWith(runner.os, 'Linux')
-                   || startsWith(runner.os, 'macOS')) }}
+      - name: Create release archive
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         run: |
-          opam exec -- make install
-          cp $(opam config var prefix)/bin/caramelc* .
-          tar czf tarball.tar.gz caramelc*
+          opam exec -- make release
 
-      - name: Define tarball name (unix)
+      - name: Define tag name (unix)
         if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os != 'Windows' }}
         run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
-
-      - name: Create release archive (windows)
-        if: ${{ success() && startsWith(github.ref, 'refs/tags/')
-                && startsWith(runner.os, 'Windows') }}
-        run: |
-          opam exec -- make install
-          Copy-Item -Path C:/cygwin/home/runneradmin/.opam/ocaml-variants.4.11.1+mingw64c\\bin\\caramelc.exe -Destination .
-          tar czf tarball.tar.gz caramelc.exe
 
       - name: Define tag name (windows)
         if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os == 'Windows' }}
@@ -134,6 +122,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_draft_release.outputs.upload_url }}
-          asset_path: tarball.tar.gz
+          asset_path: release.tar.gz
           asset_name: caramel-${{ env.GITHUB_TAG }}-${{ matrix.suffix }}.tar.gz
           asset_content_type: application/zip

@@ -1,3 +1,5 @@
+CARAMELC=$(PWD)/caramelc.exe
+
 .PHONY: build
 build:
 	dune build @install @default -j8
@@ -18,6 +20,12 @@ deps:
 test:
 	dune runtest
 
+release:
+	tar czf release.tar.gz \
+		-C _build/default/src/ \
+		caramelc.exe \
+		stdlib
+
 .PHONY: promote
 promote:
 	dune promote
@@ -29,4 +37,3 @@ fmt:
 .PHONY: clean
 clean:
 	dune clean
-
