@@ -32,7 +32,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-          - ubuntu-latest
+          - ubuntu-16.04
           - windows-latest
         ocaml-version:
           - 4.11.1
@@ -43,13 +43,12 @@ jobs:
             suffix: x86_64-apple-darwin
           - os: windows-latest
             suffix: x86_64-pc-windows
-          - os: ubuntu-latest
+          - os: ubuntu-16.04
             ocaml-version: 4.11.1
             suffix: x86_64-linux-gnu
-          - os: ubuntu-latest
+          - os: ubuntu-16.04
             ocaml-version: 4.11.1+musl+static+flambda
             suffix: x86_64-linux-musl
-            musl: true
 
     env:
       SKIP_TEST: ${{ matrix.skip_test }}
@@ -76,10 +75,6 @@ jobs:
             ${{ runner.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-
             ${{ runner.os }}-${{ matrix.ocaml-version }}-
             ${{ runner.os }}-
-
-      - name: Install musl-tools if needed
-        if: ${{ matrix.musl }}
-        run: sudo apt-get install musl-tools --yes
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
