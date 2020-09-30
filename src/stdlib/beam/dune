@@ -8,3 +8,23 @@
  (action
   (run %{dep:../../bin/bootc.exe} compile --no-stdlib --target=archive
     beam.ml stdlib_erlang.ml stdlib_timer.ml stdlib_io.ml stdlib_process.ml)))
+
+(install
+ (section lib)
+ (files
+  (beam.cmi as ./stdlib/beam/beam.cmi)
+  (beam.cma as ./stdlib/beam/beam.cma)
+  (beam.cmo as ./stdlib/beam/beam.cmo)
+  (stdlib_erlang.cmi as ./stdlib/beam/stdlib_erlang.cmi)
+  (stdlib_erlang.cma as ./stdlib/beam/stdlib_erlang.cma)
+  (stdlib_erlang.cmo as ./stdlib/beam/stdlib_erlang.cmo)
+  (stdlib_process.cmi as ./stdlib/beam/stdlib_process.cmi)
+  (stdlib_process.cma as ./stdlib/beam/stdlib_process.cma)
+  (stdlib_process.cmo as ./stdlib/beam/stdlib_process.cmo)
+  (stdlib_timer.cmi as ./stdlib/beam/stdlib_timer.cmi)
+  (stdlib_timer.cma as ./stdlib/beam/stdlib_timer.cma)
+  (stdlib_timer.cmo as ./stdlib/beam/stdlib_timer.cmo)
+  (stdlib_io.cmi as ./stdlib/beam/stdlib_io.cmi)
+  (stdlib_io.cma as ./stdlib/beam/stdlib_io.cma)
+  (stdlib_io.cmo as ./stdlib/beam/stdlib_io.cmo))
+ (package caramel))

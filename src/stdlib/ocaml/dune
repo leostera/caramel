@@ -5,3 +5,11 @@
  (action
   (run %{dep:../../bin/bootc.exe} compile --no-stdlib --target=archive
     stdlib.ml)))
+
+(install
+ (section lib)
+ (files
+  (stdlib.cmi as ./stdlib/ocaml/stdlib.cmi)
+  (stdlib.cma as ./stdlib/ocaml/stdlib.cma)
+  (stdlib.cmo as ./stdlib/ocaml/stdlib.cmo))
+ (package caramel))

@@ -3,7 +3,9 @@ open Compile_common
 let tool_name = "caramelc"
 
 let stdlib_path =
-  Filename.concat (Filename.dirname Sys.executable_name) "stdlib"
+  Filename.concat
+    (Filename.dirname (Filename.dirname Sys.executable_name))
+    "lib/caramel/stdlib"
 
 type target = [ `Erlang | `Core_erlang | `Native | `Type_check | `Archive ]
 
