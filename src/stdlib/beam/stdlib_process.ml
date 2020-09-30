@@ -1,3 +1,5 @@
+module Erlang = Stdlib_erlang
+
 type after_time = Infinity | Bounded of int
 
 type 'm recv = timeout:after_time -> 'm option

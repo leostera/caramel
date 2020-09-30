@@ -1,0 +1,7 @@
+(rule
+ (alias runtest)
+ (targets stdlib.cma stdlib.cmi stdlib.cmo)
+ (deps ../../bin/bootc.exe)
+ (action
+  (run %{dep:../../bin/bootc.exe} compile --no-stdlib --target=archive
+    stdlib.ml)))

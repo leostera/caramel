@@ -2,11 +2,12 @@
  (name caramel_compiler)
  (public_name caramel.compiler)
  (libraries caramel.core_erlang caramel.erlang
-   caramel.compiler.ocaml_to_erlang compiler-libs.common sexplib))
+   caramel.compiler.ocaml_to_erlang compiler-libs.common
+   compiler-libs.optcomp sexplib))
 
 (rule
  (targets compiler_version.ml)
  (deps
-  (:input-file ../version.ml.in))
+  (:input-file ../../version.ml.in))
  (action
   (copy %{input-file} %{targets})))

@@ -2,9 +2,17 @@ open Compile_common
 
 let tool_name = "caramelc"
 
-type target = [ `Erlang | `Core_erlang | `Native | `Type_check ]
+let stdlib_path =
+  Filename.concat (Filename.dirname Sys.executable_name) "stdlib"
 
-type compilation = { sources : string list; dump_ast : bool; target : target }
+type target = [ `Erlang | `Core_erlang | `Native | `Type_check | `Archive ]
+
+type compilation = {
+  sources : string list;
+  dump_ast : bool;
+  target : target;
+  no_stdlib : bool;
+}
 
 exception Unsupported_file_type_for_target of (target * string * string)
 
@@ -13,6 +21,7 @@ let target_to_string = function
   | `Core_erlang -> "core"
   | `Native -> "native"
   | `Type_check -> "type_check"
+  | `Archive -> "archive"
 
 let to_bytecode i lambda =
   lambda
@@ -48,9 +57,16 @@ let read_signature info =
     Some sign
   with Not_found -> None
 
-let initialize_compiler () =
+let initialize_compiler ~opts =
   Clflags.nopervasives := true;
   Clflags.no_std_include := true;
+  Clflags.open_modules := if opts.no_stdlib then [] else [ "Stdlib"; "Beam" ];
+  Clflags.include_dirs :=
+    if opts.no_stdlib then []
+    else
+      [
+        Filename.concat stdlib_path "ocaml"; Filename.concat stdlib_path "beam";
+      ];
   Compmisc.init_path ();
   let _ = Compmisc.initial_env () in
   ()
@@ -70,8 +86,8 @@ let ml_to_core_erlang ~source_file ~output_prefix ~opts =
       Format.fprintf Format.std_formatter "\n\n%!" );
     Core_erlang.Printer.to_sources [ core_ast ]
   in
-  Compile_common.with_info ~native:false ~tool_name ~source_file
-    ~output_prefix ~dump_ext:"cmo"
+  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
+    ~dump_ext:"cmo"
   @@ fun info -> Compile_common.implementation info ~backend
 
 let ml_to_erlang ~source_file ~output_prefix ~opts:_ =
@@ -86,13 +102,13 @@ let ml_to_erlang ~source_file ~output_prefix ~opts:_ =
     in
     Erlang.Printer.to_sources erl_ast
   in
-  Compile_common.with_info ~native:false ~tool_name ~source_file
-    ~output_prefix ~dump_ext:"cmo"
+  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
+    ~dump_ext:"cmo"
   @@ fun info -> Compile_common.implementation info ~backend
 
 let mli_to_erlang ~source_file ~output_prefix ~opts:_ =
-  Compile_common.with_info ~native:false ~tool_name ~source_file
-    ~output_prefix ~dump_ext:"cmi"
+  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
+    ~dump_ext:"cmi"
   @@ Compile_common.interface
 
 let ml_to_cmo ~source_file ~output_prefix ~opts:_ =
@@ -101,8 +117,21 @@ let ml_to_cmo ~source_file ~output_prefix ~opts:_ =
     let bytecode = to_bytecode info lambda in
     emit_bytecode info bytecode
   in
-  Compile_common.with_info ~native:false ~tool_name ~source_file
-    ~output_prefix ~dump_ext:"cmo"
+  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
+    ~dump_ext:"cmo"
+  @@ Compile_common.implementation ~backend
+
+let ml_to_cma ~source_file ~output_prefix ~opts:_ =
+  let backend info typed =
+    let lambda = to_lambda info typed in
+    let bytecode = to_bytecode info lambda in
+    emit_bytecode info bytecode;
+    Bytelibrarian.create_archive
+      (Compenv.get_objfiles ~with_ocamlparam:false)
+      (output_prefix ^ ".cma")
+  in
+  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
+    ~dump_ext:"cma"
   @@ Compile_common.implementation ~backend
 
 (* Entrypoint to typecheck Erlang *)
@@ -113,8 +142,8 @@ let erl_to_cmi ~source_file ~output_prefix ~opts =
     let bytecode = to_bytecode info lambda in
     emit_bytecode info bytecode
   in
-  Compile_common.with_info ~native:false ~tool_name ~source_file
-    ~output_prefix ~dump_ext:"cmo"
+  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
+    ~dump_ext:"cmo"
   @@ fun i ->
   let erlang_ast =
     match Erlang.Parse.from_file i.source_file with
@@ -162,6 +191,7 @@ let compile_one source ~target ~opts =
     match source with
     | `Ml file -> (
         match target with
+        | `Archive -> (ml_to_cma, file)
         | `Erlang -> (ml_to_erlang, file)
         | `Core_erlang -> (ml_to_core_erlang, file)
         | _ -> (ml_to_cmo, file) )
@@ -174,7 +204,7 @@ let compile_one source ~target ~opts =
 
 let tag_source target filename =
   match target with
-  | `Erlang | `Core_erlang -> (
+  | `Archive | `Erlang | `Core_erlang -> (
       match Filename.extension filename with
       | ".ml" -> `Ml filename
       | ".mli" -> `Mli filename
@@ -188,7 +218,7 @@ let tag_source target filename =
 
 let compile ({ sources; target; _ } as opts) =
   match
-    initialize_compiler ();
+    initialize_compiler ~opts;
 
     let tagged_sources, errs =
       sources

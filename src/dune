@@ -2,6 +2,7 @@
  (name caramelc)
  (public_name caramelc)
  (package caramel)
- (libraries cmdliner caramel.compiler)
+ (libraries bin caramel.compiler)
+ (link_deps ./stdlib/beam/beam.cma ./stdlib/ocaml/stdlib.cma)
  (flags
   (:standard -safe-string)))

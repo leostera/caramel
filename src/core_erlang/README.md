@@ -3,7 +3,9 @@
 This library contains:
 
 * a definition of an AST for Core Erlang,
-* a parser that follows the [Core Erlang Spec](https://www.it.uu.se/research/group/hipe/cerl/doc/core_erlang-1.0.3.pdf) and,
+* a parser that follows the [Core Erlang
+  Spec](https://www.it.uu.se/research/group/hipe/cerl/doc/core_erlang-1.0.3.pdf)
+  and,
 * 2 printers: a debugging S-expr printer, and a Core Erlang printer
 
 ## Language Support
@@ -13,10 +15,10 @@ done when its supported at the 3 levels: Parsing, AST, and Printing.
 
 ### Module Language
 
-- [ ] Module name
+- [x] Module name
 - [ ] Module attributes (built-in and custom ones)
 - [ ] Type declarations
-- [ ] Function declarations
+- [x] Function declarations
 
 ### Type Language
 
@@ -48,23 +50,23 @@ done when its supported at the 3 levels: Parsing, AST, and Printing.
 ### Expression Language
 
 - [ ] Literals:
-  - [ ] Integer
-  - [ ] Floats
-  - [ ] Atoms
-  - [ ] Char
-  - [ ] Nil
-  - [ ] Cons
-  - [ ] Tuple
-- [ ] Let binding
-- [ ] Letrec binding
-- [ ] Sequencing
-- [ ] Variable
-- [ ] Case expression
-- [ ] Lambdas
-- [ ] Function application
-- [ ] Qualified function calls
-- [ ] Primitive Operations
-- [ ] Exception expressions:
-  - [ ] Try .. catch
-  - [ ] Catch
-- [ ] Receive expressions
+  - [x] Integer -- AST, Printer
+  - [x] Floats -- AST
+  - [x] Atoms -- AST, Printer
+  - [x] Char -- AST
+  - [x] Nil -- AST
+  - [x] Cons -- AST
+  - [x] Tuple -- AST
+- [x] Let binding -- AST
+- [x] Letrec binding -- AST
+- [x] Sequencing -- AST
+- [x] Variable -- AST
+- [x] Case expression -- AST
+- [x] Lambdas -- AST
+- [x] Function application -- AST
+- [x] Qualified function calls -- AST, Printer
+- [x] Primitive Operations -- AST
+- [x] Exception expressions:
+  - [x] Try .. catch -- AST
+  - [x] Catch -- AST
+- [x] Receive expressions -- AST

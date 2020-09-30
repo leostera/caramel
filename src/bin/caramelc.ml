@@ -1,6 +1,8 @@
 open Cmdliner
 
 module Common_flags = struct
+  let no_stdlib = Arg.(value & flag & info [ "no-stdlib" ] ~docv:"NO_STDLIB")
+
   let dump_ast =
     Arg.(
       value & flag
@@ -30,8 +32,8 @@ module Compile = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources dump_ast target =
-    Caramel_compiler.Compiler.compile { sources; dump_ast; target }
+  let run sources dump_ast no_stdlib target =
+    Caramel_compiler.Compiler.compile { sources; dump_ast; target; no_stdlib }
 
   let cmd =
     let sources =
@@ -42,7 +44,12 @@ module Compile = struct
     let target =
       let targets =
         Arg.enum
-          [ ("core", `Core_erlang); ("erl", `Erlang); ("native", `Native) ]
+          [
+            ("core", `Core_erlang);
+            ("erl", `Erlang);
+            ("native", `Native);
+            ("archive", `Archive);
+          ]
       in
       Arg.(
         value
@@ -56,7 +63,10 @@ module Compile = struct
                Erlang; erl, for compiling OCaml code into Erlang; native, for \
                compiling Erlang code into native binaries. Choose wisely.")
     in
-    (Term.(pure run $ sources $ Common_flags.dump_ast $ target), info)
+    ( Term.(
+        pure run $ sources $ Common_flags.dump_ast $ Common_flags.no_stdlib
+        $ target),
+      info )
 end
 
 module Sort_deps = struct
@@ -90,9 +100,9 @@ module Typecheck = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources dump_ast =
+  let run sources dump_ast no_stdlib =
     Caramel_compiler.Compiler.compile
-      { sources; dump_ast; target = `Type_check }
+      { sources; dump_ast; no_stdlib; target = `Type_check }
 
   let cmd =
     let sources =
@@ -100,7 +110,8 @@ module Typecheck = struct
         non_empty & pos_all string []
         & info [] ~docv:"SOURCES" ~doc:"A list of source files to type-check")
     in
-    (Term.(pure run $ sources $ Common_flags.dump_ast), info)
+    ( Term.(pure run $ sources $ Common_flags.dump_ast $ Common_flags.no_stdlib),
+      info )
 end
 
 module Help = struct
@@ -112,6 +123,6 @@ module Help = struct
   let cmd = (Term.(ret (const (`Help (`Pager, None)))), info "caramelc")
 end
 
-let _ =
+let run () =
   let cmds = [ Compile.cmd; Sort_deps.cmd; Typecheck.cmd ] in
   Term.(exit @@ eval_choice Help.cmd cmds)
