@@ -32,7 +32,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-          - ubuntu-latest
+          - ubuntu-20.04
           - windows-latest
         ocaml-version:
           - 4.11.1
@@ -43,10 +43,10 @@ jobs:
             suffix: x86_64-apple-darwin
           - os: windows-latest
             suffix: x86_64-pc-windows
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             ocaml-version: 4.11.1
             suffix: x86_64-linux-gnu
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             ocaml-version: 4.11.1+musl+static+flambda
             suffix: x86_64-linux-musl
 
@@ -77,7 +77,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: AbstractMachinesLab/setup-ocaml@musl
+        uses: avsm/setup-ocaml@v1
         with:
           ocaml-version: ${{ matrix.ocaml-version }}
 
