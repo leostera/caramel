@@ -135,5 +135,5 @@ jobs:
         with:
           upload_url: ${{ needs.create_draft_release.outputs.upload_url }}
           asset_path: tarball.tar.gz
-          asset_name: caramel-${{ env.GITHUB_TAG }}-${{ env.suffix }}.tar.gz
+          asset_name: caramel-${{ env.GITHUB_TAG }}-${{ matrix.suffix }}.tar.gz
           asset_content_type: application/zip
