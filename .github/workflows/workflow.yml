@@ -78,7 +78,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install musl-tools if needed
-        if: ${{ env.musl }}
+        if: ${{ matrix.musl }}
         run: apt-get install musl-tools --yes
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
