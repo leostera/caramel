@@ -38,6 +38,17 @@ jobs:
           - 4.11.1
         skip_test:
           - false
+        include:
+          - os: macos-latest
+            suffix: x86_64-apple-darwin
+          - os: windows-latest
+            suffix: x86_64-pc-windows
+          - os: ubuntu-latest
+            ocaml-version: 4.11.1
+            suffix: x86_64-linux-gnu
+          - os: ubuntu-latest
+            ocaml-version: 4.11.1+musl+static+flambda
+            suffix: x86_64-linux-musl
 
     env:
       SKIP_TEST: ${{ matrix.skip_test }}
@@ -124,5 +135,5 @@ jobs:
         with:
           upload_url: ${{ needs.create_draft_release.outputs.upload_url }}
           asset_path: tarball.tar.gz
-          asset_name: caramel-${{ env.GITHUB_TAG }}-${{ runner.os }}.tar.gz
+          asset_name: caramel-${{ env.GITHUB_TAG }}-${{ env.suffix }}.tar.gz
           asset_content_type: application/zip
