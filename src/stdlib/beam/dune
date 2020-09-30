@@ -1,5 +1,5 @@
 (rule
- (alias runtest)
+ (alias stdlib)
  (targets beam.cma beam.cmi beam.cmo stdlib_erlang.cma stdlib_erlang.cmi
    stdlib_erlang.cmo stdlib_process.cma stdlib_process.cmi stdlib_process.cmo
    stdlib_io.cma stdlib_io.cmi stdlib_io.cmo stdlib_timer.cma

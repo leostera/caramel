@@ -1,5 +1,5 @@
 (rule
- (alias runtest)
+ (alias stdlib)
  (targets stdlib.cma stdlib.cmi stdlib.cmo)
  (deps ../../bin/bootc.exe)
  (action
