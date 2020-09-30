@@ -7,5 +7,6 @@
   (:standard -safe-string)))
 
 (alias
-  (name caramelc)
-  (deps (alias stdlib)))
+ (name caramelc)
+ (deps
+  (alias stdlib)))
