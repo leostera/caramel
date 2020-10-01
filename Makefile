@@ -1,3 +1,5 @@
+export
+
 CARAMELC=$(PWD)/caramelc.exe
 
 .PHONY: build

@@ -107,15 +107,9 @@ module Typecheck = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources dump_ast no_stdlib =
+  let run sources dump_ast no_stdlib stdlib_path =
     Caramel_compiler.Compiler.compile
-      {
-        sources;
-        dump_ast;
-        no_stdlib;
-        target = `Type_check;
-        stdlib_path = Caramel_compiler.Compiler.default_stdlib_path;
-      }
+      { sources; dump_ast; no_stdlib; target = `Type_check; stdlib_path }
 
   let cmd =
     let sources =
@@ -123,7 +117,9 @@ module Typecheck = struct
         non_empty & pos_all string []
         & info [] ~docv:"SOURCES" ~doc:"A list of source files to type-check")
     in
-    ( Term.(pure run $ sources $ Common_flags.dump_ast $ Common_flags.no_stdlib),
+    ( Term.(
+        pure run $ sources $ Common_flags.dump_ast $ Common_flags.no_stdlib
+        $ Common_flags.stdlib_path),
       info )
 end
 
