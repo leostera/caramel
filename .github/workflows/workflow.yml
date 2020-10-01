@@ -62,17 +62,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Define env (unix)
-        if: ${{ runner.os != 'Windows' }}
-        run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
-
-      - name: Define env (windows)
-        if: ${{ runner.os == 'Windows' }}
-        run: |
-          $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
-          echo "::set-env name=GITHUB_TAG::$(echo $tag)"
-          echo "::set-env name=CARAMELC_STDLIB_PATH::${{ matrix.stdlib_path }}"
-
       - name: Cached Infra
         uses: actions/cache@v2
         env:
@@ -98,6 +87,17 @@ jobs:
         run: |
           git config --global user.name github-actions
           git config --global user.email github-actions-bot@users.noreply.github.com
+
+      - name: Define env (unix)
+        if: ${{ runner.os != 'Windows' }}
+        run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
+
+      - name: Define env (windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
+          echo "::set-env name=GITHUB_TAG::$(echo $tag)"
+          echo "::set-env name=CARAMELC_STDLIB_PATH::${{ matrix.stdlib_path }}"
 
       - name: Install dependencies
         run: opam exec -- make deps
