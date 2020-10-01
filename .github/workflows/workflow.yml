@@ -113,9 +113,17 @@ jobs:
         run: opam exec -- make fmt
 
       - name: Create release archive
-        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ success() }}
         run: |
           opam exec -- make release
+
+      - name: Upload build artifact
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v2
+        with:
+          path: release.tar.gz
+          name: caramel-${{ env.GITHUB_TAG }}-${{ matrix.suffix }}.tar.gz
+          if-no-files-found: error
 
       - name: Upload release tarball
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
