@@ -2,7 +2,7 @@ CARAMELC=$(PWD)/caramelc.exe
 
 .PHONY: build
 build:
-	dune build @install @default -j8
+	dune build @all -j8
 
 .PHONY: watch
 watch:
@@ -17,6 +17,7 @@ deps:
 	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat
 
 .PHONY: test
+test: CARAMELC_STDLIB_PATH=$(PWD)/_build/default/src/stdlib
 test:
 	dune runtest
 
