@@ -32,7 +32,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-          - ubuntu-20.04
+          - ubuntu-16.04
           - windows-latest
         ocaml-version:
           - 4.11.1
@@ -41,7 +41,7 @@ jobs:
         include:
           - os: macos-latest
             suffix: x86_64-apple-darwin
-          - os: ubuntu-20.04
+          - os: ubuntu-16.04
             ocaml-version: 4.11.1
             suffix: x86_64-linux-gnu
           - os: ubuntu-20.04
