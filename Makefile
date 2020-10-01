@@ -1,6 +1,7 @@
 export
 
-CARAMELC=$(PWD)/caramelc.exe
+CARAMELC = $(PWD)/caramelc.exe
+CARAMELC_STDLIB_PATH ?= $(PWD)/_build/default/src/stdlib
 
 .PHONY: build
 build:
@@ -19,7 +20,6 @@ deps:
 	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat
 
 .PHONY: test
-test: CARAMELC_STDLIB_PATH=$(PWD)/_build/default/src/stdlib
 test:
 	dune runtest
 
