@@ -63,11 +63,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Define env (unix)
-        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os != 'Windows' }}
+        if: ${{ runner.os != 'Windows' }}
         run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
 
-      - name: Define (windows)
-        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os == 'Windows' }}
+      - name: Define env (windows)
+        if: ${{ runner.os == 'Windows' }}
         run: |
           $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
           echo "::set-env name=GITHUB_TAG::$(echo $tag)"
