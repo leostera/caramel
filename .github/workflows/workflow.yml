@@ -41,14 +41,15 @@ jobs:
         include:
           - os: macos-latest
             suffix: x86_64-apple-darwin
-          - os: windows-latest
-            suffix: x86_64-pc-windows
           - os: ubuntu-20.04
             ocaml-version: 4.11.1
             suffix: x86_64-linux-gnu
           - os: ubuntu-20.04
             ocaml-version: 4.11.1+musl+static+flambda
             suffix: x86_64-linux-musl
+          - os: windows-latest
+            suffix: x86_64-pc-windows
+            stdlib_path: D:\a\caramel\caramel\_build\default\src\stdlib
 
     env:
       SKIP_TEST: ${{ matrix.skip_test }}
@@ -60,6 +61,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Define env (unix)
+        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os != 'Windows' }}
+        run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
+
+      - name: Define (windows)
+        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os == 'Windows' }}
+        run: |
+          $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
+          echo "::set-env name=GITHUB_TAG::$(echo $tag)"
+          echo "::set-env name=CARAMELC_STDLIB_PATH::${{ matrix.stdlib_path }}"
 
       - name: Cached Infra
         uses: actions/cache@v2
@@ -104,16 +116,6 @@ jobs:
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         run: |
           opam exec -- make release
-
-      - name: Define tag name (unix)
-        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os != 'Windows' }}
-        run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
-
-      - name: Define tag name (windows)
-        if: ${{ startsWith(github.ref, 'refs/tags/') && runner.os == 'Windows' }}
-        run: |
-          $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
-          echo "::set-env name=GITHUB_TAG::$(echo $tag)"
 
       - name: Upload release tarball
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
