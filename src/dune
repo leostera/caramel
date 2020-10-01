@@ -2,7 +2,7 @@
  (name caramelc)
  (public_name caramelc)
  (package caramel)
- (libraries bin caramel.compiler)
+ (libraries bin)
  (flags
   (:standard -safe-string)))
 

@@ -3,6 +3,12 @@ open Cmdliner
 module Common_flags = struct
   let no_stdlib = Arg.(value & flag & info [ "no-stdlib" ] ~docv:"NO_STDLIB")
 
+  let stdlib_path =
+    Arg.(
+      value
+      & opt string Caramel_compiler.Compiler.default_stdlib_path
+      & info [ "stdlib-path" ] ~env:(env_var "CARAMELC_STDLIB_PATH"))
+
   let dump_ast =
     Arg.(
       value & flag
@@ -32,8 +38,9 @@ module Compile = struct
 
   let info = Info.make ~name ~doc ~description
 
-  let run sources dump_ast no_stdlib target =
-    Caramel_compiler.Compiler.compile { sources; dump_ast; target; no_stdlib }
+  let run sources dump_ast no_stdlib stdlib_path target =
+    Caramel_compiler.Compiler.compile
+      { sources; dump_ast; target; no_stdlib; stdlib_path }
 
   let cmd =
     let sources =
@@ -65,7 +72,7 @@ module Compile = struct
     in
     ( Term.(
         pure run $ sources $ Common_flags.dump_ast $ Common_flags.no_stdlib
-        $ target),
+        $ Common_flags.stdlib_path $ target),
       info )
 end
 
@@ -102,7 +109,13 @@ module Typecheck = struct
 
   let run sources dump_ast no_stdlib =
     Caramel_compiler.Compiler.compile
-      { sources; dump_ast; no_stdlib; target = `Type_check }
+      {
+        sources;
+        dump_ast;
+        no_stdlib;
+        target = `Type_check;
+        stdlib_path = Caramel_compiler.Compiler.default_stdlib_path;
+      }
 
   let cmd =
     let sources =
