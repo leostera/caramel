@@ -12,7 +12,7 @@ type compilation = {
   dump_ast : bool;
   target : target;
   no_stdlib : bool;
-  stdlib_path : string ;
+  stdlib_path : string;
 }
 
 exception Unsupported_file_type_for_target of (target * string * string)
@@ -66,7 +66,8 @@ let initialize_compiler ~opts =
     if opts.no_stdlib then []
     else
       [
-        Filename.concat opts.stdlib_path "ocaml"; Filename.concat opts.stdlib_path "beam";
+        Filename.concat opts.stdlib_path "ocaml";
+        Filename.concat opts.stdlib_path "beam";
       ];
   Compmisc.init_path ();
   let _ = Compmisc.initial_env () in
