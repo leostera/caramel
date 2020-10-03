@@ -43,12 +43,12 @@ jobs:
             suffix: x86_64-apple-darwin
           - os: ubuntu-18.04
             ocaml-version: 4.11.1
-            suffix: x86_64-linux-gnu
+            suffix: x86_64-unknown-linux-gnu
           - os: ubuntu-20.04
             ocaml-version: 4.11.1+musl+static+flambda
-            suffix: x86_64-linux-musl
+            suffix: x86_64-unknown-linux-musl
           - os: windows-latest
-            suffix: x86_64-pc-windows
+            suffix: x86_64-pc-windows-gnu
             stdlib_path: D:\a\caramel\caramel\_build\default\src\stdlib
 
     env:
