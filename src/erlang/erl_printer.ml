@@ -1,5 +1,5 @@
-open Ast_helper
-open Ast
+open Erl_ast_helper
+open Erl_ast
 
 exception Invalid_case_branch
 
@@ -11,7 +11,7 @@ exception Lambda_without_cases
 
 exception Function_spec_with_less_than_2_parts of string
 
-exception Type_constructors_must_be_atoms_or_qualified_names of Ast.name
+exception Type_constructors_must_be_atoms_or_qualified_names of Erl_ast.name
 
 exception Invalid_case_expresion_without_branches
 
@@ -125,7 +125,7 @@ and pp_type_kind prefix ppf typ_kind =
       let padding = H.pad (String.length prefix + 1) in
       match fields with
       | [] -> Format.fprintf ppf "#{}"
-      | Ast.{ rf_name = Atom rf_name; rf_type; _ } :: fs -> (
+      | { rf_name = Atom rf_name; rf_type; _ } :: fs -> (
           Format.fprintf ppf "#{ %s => " rf_name;
           pp_type_kind prefix ppf rf_type;
           match fs with
@@ -133,7 +133,7 @@ and pp_type_kind prefix ppf typ_kind =
           | fs ->
               Format.fprintf ppf "\n";
               fs
-              |> List.iter (fun Ast.{ rf_name = Atom rf_name; rf_type; _ } ->
+              |> List.iter (fun { rf_name = Atom rf_name; rf_type; _ } ->
                      Format.fprintf ppf "%s, %s => " padding rf_name;
                      pp_type_kind prefix ppf rf_type;
                      Format.fprintf ppf "\n");
@@ -243,7 +243,7 @@ and pp_name ppf name =
 
 and pp_case_branches prefix ppf branches ~module_ =
   match branches with
-  | Ast.{ c_lhs = [ c_lhs ]; c_rhs; _ } :: bs -> (
+  | { c_lhs = [ c_lhs ]; c_rhs; _ } :: bs -> (
       let prefix = prefix ^ "  " in
       Format.fprintf ppf "\n%s" prefix;
       pp_pattern_match ppf c_lhs;
@@ -254,7 +254,7 @@ and pp_case_branches prefix ppf branches ~module_ =
       | bs ->
           bs
           |> List.iter (function
-               | Ast.{ c_lhs = [ c_lhs ]; c_rhs; _ } ->
+               | { c_lhs = [ c_lhs ]; c_rhs; _ } ->
                    Format.fprintf ppf ";\n%s" prefix;
                    pp_pattern_match ppf c_lhs;
                    Format.fprintf ppf " -> ";
@@ -295,7 +295,7 @@ and pp_expression prefix ppf expr ~module_ =
       Format.fprintf ppf "end ";
       Format.fprintf ppf "end"
   | Expr_fun_ref { fref_name = name; _ } -> (
-      match Ast_util.find_fun_by_name module_ name with
+      match find_fun_by_name module_ name with
       | None -> ()
       | Some { fd_arity; _ } ->
           Format.fprintf ppf "fun %a/%d" pp_atom name fd_arity )
@@ -373,7 +373,7 @@ and pp_expression prefix ppf expr ~module_ =
       let padding = H.pad (String.length prefix + 1) in
       match fields with
       | [] -> Format.fprintf ppf "#{}"
-      | Ast.{ mf_name; mf_value; _ } :: fs -> (
+      | { mf_name; mf_value; _ } :: fs -> (
           Format.fprintf ppf "#{ %a => " pp_atom mf_name;
           pp_expression "" ppf mf_value ~module_;
           match fs with
@@ -381,7 +381,7 @@ and pp_expression prefix ppf expr ~module_ =
           | fs ->
               Format.fprintf ppf "\n";
               fs
-              |> List.iter (fun Ast.{ mf_name; mf_value; _ } ->
+              |> List.iter (fun { mf_name; mf_value; _ } ->
                      Format.fprintf ppf "%s, %a => " padding pp_atom mf_name;
                      pp_expression "" ppf mf_value ~module_;
                      Format.fprintf ppf "\n");
@@ -453,9 +453,7 @@ let pp_types ppf types =
   types
   |> List.iter (fun { typ_visibility; typ_name; typ_kind; typ_params; _ } ->
          let visibility =
-           match typ_visibility with
-           | Ast.Opaque -> "opaque"
-           | Ast.Visible -> "type"
+           match typ_visibility with Opaque -> "opaque" | Visible -> "type"
          in
          let params =
            typ_params |> List.map Name.to_string |> String.concat ", "
@@ -482,15 +480,13 @@ let to_source_file erlmod =
   let _ = print_string ("Compiling " ^ erlmod.file_name ^ "\t") in
   let erlfile = erlmod.file_name in
   let oc = open_out_bin erlfile in
-  Misc.try_finally
-    ~always:(fun () ->
-      print_string "OK\n";
-      close_out oc)
-    ~exceptionally:(fun () -> Misc.remove_file erlfile)
-    (fun () ->
+  ( try
       let f = Format.formatter_of_out_channel oc in
       Format.fprintf f "%% Source code generated with Caramel.\n";
-      Format.fprintf f "%a@\n%!" pp erlmod)
+      Format.fprintf f "%a@\n%!" pp erlmod
+    with _ -> Sys.remove erlfile );
+  print_string "OK\n";
+  close_out oc
 
 let to_sources erlmods =
   erlmods

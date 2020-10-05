@@ -1,6 +1,0 @@
-(library
- (name core_erlang)
- (public_name caramel.core_erlang)
- (preprocess
-  (pps ppx_sexp_conv))
- (libraries compiler-libs.common sexplib))

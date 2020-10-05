@@ -1,4 +1,4 @@
-open Ast
+open Erl_ast
 
 (* Helpers to work with Atoms *)
 module Atom = struct
@@ -254,3 +254,6 @@ module Mod = struct
         mk module_name
     | xs -> item_list_to_module xs empty
 end
+
+let find_fun_by_name mod_ name =
+  mod_.functions |> List.find_opt (fun { fd_name; _ } -> fd_name = name)

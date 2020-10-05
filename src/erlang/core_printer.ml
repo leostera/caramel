@@ -1,4 +1,4 @@
-open Ast
+open Core_ast
 
 exception Can_not_print_that_yet
 
@@ -82,14 +82,12 @@ let to_source_file coremod =
   let _ = print_string ("Compiling " ^ coremod.m_filename ^ "\t") in
   let corefile = coremod.m_filename in
   let oc = open_out_bin corefile in
-  Misc.try_finally
-    ~always:(fun () ->
-      print_string "OK\n";
-      close_out oc)
-    ~exceptionally:(fun () -> Misc.remove_file corefile)
-    (fun () ->
+  ( try
       let f = Format.formatter_of_out_channel oc in
       Format.fprintf f "%% Source code generated with Caramel.\n";
-      Format.fprintf f "%a@\n%!" pp coremod)
+      Format.fprintf f "%a@\n%!" pp coremod
+    with _ -> Sys.remove corefile );
+  print_string "OK\n";
+  close_out oc
 
 let to_sources coremod = List.iter to_source_file coremod

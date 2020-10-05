@@ -2,7 +2,7 @@
  *  Helpers to create Erlang ASTs
  *)
 
-open Ast
+open Erl_ast
 
 (* Helpers to work with Atoms *)
 module Atom : sig
@@ -155,3 +155,7 @@ module Mod : sig
 
   val of_structure : structure -> t
 end
+
+(* Find a function by its name within a module.
+ *)
+val find_fun_by_name : Erl_ast.t -> Erl_ast.atom -> Erl_ast.fun_decl option

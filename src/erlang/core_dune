@@ -1,0 +1,4 @@
+(library
+ (name core_erlang)
+ (public_name erlang.core)
+ (libraries sexplib))

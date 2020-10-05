@@ -3,17 +3,18 @@
  (public_name caramel.erlang)
  (preprocess
   (pps ppx_sexp_conv))
- (libraries compiler-libs.common compiler-libs.bytecomp sexplib))
+ (libraries sexplib))
 
-(ocamllex lexer)
+(ocamllex erl_lexer)
 
 (menhir
- (modules parser)
+ (modules erl_parser)
  (flags --explain --dump))
 
 (rule
- (deps parser.messages)
+ (deps erl_parser.messages)
  (action
   (with-stdout-to
-   parser_messages.ml
-   (run menhir %{dep:parser.mly} --compile-errors %{dep:parser.messages}))))
+   erl_parser_messages.ml
+   (run menhir %{dep:erl_parser.mly} --compile-errors
+     %{dep:erl_parser.messages}))))

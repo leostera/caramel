@@ -1,7 +1,6 @@
-/* The parser definition */
 %{
-open Ast
-open Ast_helper
+open Erl_ast
+open Erl_ast_helper
 
 type parse_error =
   | Unknown_type_visibility of string
@@ -19,7 +18,7 @@ let throw x =
       Format.fprintf Format.std_formatter "Functions_must_have_clauses"
   | Expression_is_invalid_pattern expr ->
       Format.fprintf Format.std_formatter "Expression_is_invalid_pattern: ";
-      Printer.pp_expression "" Format.std_formatter expr ~module_:Mod.empty
+      Erl_printer.pp_expression "" Format.std_formatter expr ~module_:Mod.empty
   end;
   Format.fprintf Format.std_formatter "\n%!";
   raise (Parse_error x)
@@ -36,49 +35,39 @@ let rec expr_to_pattern expr =
 
 %}
 
-/* Tokens */
+(******************************************************************************
+ *
+ * Tokens
+ *
+ ******************************************************************************)
 
-%token <string> ATOM
-%token <string> CHAR
-%token <string> FLOAT
-%token <string> INTEGER
-%token <string> STRING
-%token <string> VARIABLE
-%token AFTER
-%token ARROW
-%token BANG
-%token BINARY_CLOSE
-%token BINARY_OPEN
-%token CASE
-%token COLON
-%token COLON_COLON
-%token COMMA
-%token DASH
-%token DOT
-%token END
-%token EQUAL
-%token FUN
-%token LEFT_BRACE
-%token LEFT_BRACKET
-%token LEFT_PARENS
-%token OF
-%token PIPE
-%token RECEIVE
-%token RIGHT_BRACE
-%token RIGHT_BRACKET
-%token RIGHT_PARENS
-%token SEMICOLON
-%token SLASH
+(* Tokens with a Value *)
+%token <string * Parse_info.t> CHAR ATOM FLOAT INTEGER STRING VARIABLE
 
-%token EOF
+(* Keyword Tokens *)
+%token <Parse_info.t> AFTER CASE END FUN OF RECEIVE
 
-/* Entry points */
+(* Symbol Tokens *)
+%token <Parse_info.t> ARROW BANG
+BINARY_CLOSE BINARY_OPEN
+COMMA SEMICOLON COLON COLON_COLON DOT
+LEFT_BRACE RIGHT_BRACE
+LEFT_BRACKET RIGHT_BRACKET
+LEFT_PARENS RIGHT_PARENS
+PIPE SLASH DASH EQUAL
 
-%start module_file
-%type <Ast.t> module_file
+(* EOF *)
+%token <Parse_info.t> EOF
+
+%start <Erl_ast.t> module_file
 %%
 
-(* An .erl file. *)
+(******************************************************************************
+ *
+ * Rule declarations
+ *
+ ******************************************************************************)
+
 let module_file :=
   is = module_item+; EOF;
   { Mod.of_structure (List.rev is) }
@@ -90,7 +79,7 @@ let module_item :=
 
 (** Module Attributes *)
 let name_with_arity :=
-  | name = atom; SLASH; arity = INTEGER;
+  | name = atom; SLASH; (arity, _) = INTEGER;
     { Expr.tuple [ Expr.const (Const.atom name); Expr.const (Const.integer arity)] }
 
 let module_attribute :=
@@ -115,7 +104,7 @@ let type_decl :=
     { Type.mk ~visibility ~name ~params ~kind  }
 
 let type_visibility :=
-  | atom = ATOM; {
+  | (atom, _) = ATOM; {
     match atom with
     | "opaque" -> Type.opaque
     | "type" -> Type.visible
@@ -142,7 +131,7 @@ let type_expr_constr :=
     { Type.apply ~args ~name }
 
 let type_expr_var :=
-  | n = VARIABLE; { Type.var (Name.var n) }
+  | (n, _) = VARIABLE; { Type.var (Name.var n) }
 
 let type_expr_tuple :=
   | t = tuple(type_expr); { Type.tuple t }
@@ -220,7 +209,7 @@ let expr_literal :=
   | ~ = literal; { Expr_literal literal }
 
 let expr_fun_ref :=
-  | FUN; name = atom; SLASH; arity = INTEGER;
+  | FUN; name = atom; SLASH; (arity,_) = INTEGER;
     { Expr.fun_ref name ~arity:(int_of_string arity) }
 
 let expr_apply :=
@@ -267,18 +256,18 @@ let tuple(a) := LEFT_BRACE; els = separated_list(COMMA, a); RIGHT_BRACE; { els }
  *)
 
 let literal :=
-  | c = CHAR; { Const.char c }
-  | BINARY_OPEN; s = STRING; BINARY_CLOSE; { Const.binary s }
-  | n = INTEGER; { Const.integer n }
-  | n = FLOAT; { Const.float n }
-  | a = ATOM; { Const.atom (Atom.mk a) }
+  | (c, _) = CHAR; { Const.char c }
+  | BINARY_OPEN; (s, _) = STRING; BINARY_CLOSE; { Const.binary s }
+  | (n, _) = INTEGER; { Const.integer n }
+  | (n, _) = FLOAT; { Const.float n }
+  | (a, _) = ATOM; { Const.atom (Atom.mk a) }
 
 let name :=
-  | n = VARIABLE; { Name.var n }
-  | a = ATOM; { Name.atom a }
+  | (n, _) = VARIABLE; { Name.var n }
+  | (a, _) = ATOM; { Name.atom a }
   | module_name = atom; COLON; n = atom; { Name.qualified ~module_name n }
 
-let atom := a = ATOM; { Atom.mk a }
+let atom := (a, _) = ATOM; { Atom.mk a }
 
 (**
  * Helpers
