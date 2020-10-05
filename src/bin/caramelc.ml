@@ -49,18 +49,19 @@ module Compile = struct
         & info [] ~docv:"SOURCES" ~doc:"A list of source files to compile")
     in
     let target =
+      let open Caramel_compiler.Compiler.Target in
       let targets =
         Arg.enum
           [
-            ("core", `Core_erlang);
-            ("erl", `Erlang);
-            ("native", `Native);
-            ("archive", `Archive);
+            ("core", Core_erlang);
+            ("erl", Erlang);
+            ("native", Native);
+            ("archive", Archive);
           ]
       in
       Arg.(
         value
-        & opt targets ~vopt:`Erlang `Erlang
+        & opt targets ~vopt:Erlang Erlang
         & info [ "t"; "target" ] ~docv:"TARGET"
             ~doc:
               "The compilation target for this set of units. If an input \
@@ -86,7 +87,7 @@ module Sort_deps = struct
   let info = Info.make ~name ~doc ~description
 
   let run sources =
-    Caramel_compiler.Dependency_sorter.print_sorted_files sources
+    Caramel_compiler.Compiler.Dependency_sorter.print_sorted_files sources
 
   let args =
     let sources = Arg.(non_empty & pos_all file [] & info [] ~docv:"SOURCES") in
@@ -108,8 +109,9 @@ module Typecheck = struct
   let info = Info.make ~name ~doc ~description
 
   let run sources dump_ast no_stdlib stdlib_path =
+    let open Caramel_compiler.Compiler.Target in
     Caramel_compiler.Compiler.compile
-      { sources; dump_ast; no_stdlib; target = `Type_check; stdlib_path }
+      { sources; dump_ast; no_stdlib; target = Type_check; stdlib_path }
 
   let cmd =
     let sources =
