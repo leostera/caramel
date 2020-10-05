@@ -37,9 +37,9 @@ let compile ~source_file ~output_prefix ~opts =
     let core_ast = Ast_transl.from_lambda ~module_name lambda.code in
     if opts.dump_ast then (
       Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
-        (Core_erlang.Ast.sexp_of_t core_ast);
+        (Erlang.Core.Ast.sexp_of_t core_ast);
       Format.fprintf Format.std_formatter "\n\n%!" );
-    Core_erlang.Printer.to_sources [ core_ast ]
+    Erlang.Core.Printer.to_sources [ core_ast ]
   in
   Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
     ~dump_ext:"cmo"

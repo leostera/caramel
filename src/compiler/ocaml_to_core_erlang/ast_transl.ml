@@ -1,4 +1,5 @@
-open Core_erlang.Ast
+open Erlang.Core
+open Erlang.Core.Ast
 open Lambda
 
 exception Unsupported_top_level_lambda_value
@@ -38,7 +39,7 @@ let atom_of_ident i = i |> Ident.name |> atom_of_string
 
 let is_primop = function Praise _ -> true | _ -> false
 
-(* Build an Core_erlang.Ast.Exp_primop from a Lambda.Lprim *)
+(* Build an Ast.Exp_primop from a Lambda.Lprim *)
 let lambda_prim_to_primop prim =
   match prim with _ -> raise Unsupported_primitive_operation
 
@@ -47,38 +48,38 @@ let lambda_prim_to_fun prim =
   | Paddint -> Expr_literal (Lit_atom "+")
   | _ -> raise Unsupported_primitive_operation
 
-(* Build an arbitrary Core_erlang.Ast.expr out of a Lambda.lambda *)
-let rec mk_expr : Lambda.lambda -> Core_erlang.Ast.expr =
+(* Build an arbitrary Ast.expr out of a Lambda.lambda *)
+let rec mk_expr : Lambda.lambda -> Ast.expr =
  fun lambda ->
   match lambda with
-  (* Some LPrim values are actually Core Erlang primops, some other
+  (* Some LPrim values are actually Erlang primops, some other
    * are just qualified calls to the erlang module *)
   | Lprim (prim, args, _) when is_primop prim ->
       let pop_name = lambda_prim_to_primop prim in
       let pop_args = args |> List.map mk_expr in
-      Core_erlang.Ast.Expr_primop { pop_name; pop_args }
+      Ast.Expr_primop { pop_name; pop_args }
   | Lprim (prim, args, _) ->
       let qc_fun = lambda_prim_to_fun prim in
       let qc_args = args |> List.map mk_expr in
-      let qc_mod = Core_erlang.Ast.Expr_literal (Lit_atom "erlang") in
-      Core_erlang.Ast.Expr_qualified_call { qc_mod; qc_fun; qc_args }
-  | Lvar id -> Core_erlang.Ast.Expr_var (varname_of_ident id)
+      let qc_mod = Ast.Expr_literal (Lit_atom "erlang") in
+      Ast.Expr_qualified_call { qc_mod; qc_fun; qc_args }
+  | Lvar id -> Ast.Expr_var (varname_of_ident id)
   | _ -> raise Unsupported_expression
 
-(* Build a Core_erlang.Ast.fun_expr out of a Lambda.lambda *)
-let mk_fun_expr : Lambda.lambda -> Core_erlang.Ast.fun_expr =
+(* Build a Ast.fun_expr out of a Lambda.lambda *)
+let mk_fun_expr : Lambda.lambda -> Ast.fun_expr =
  fun lambda ->
   match lambda with
   | Lfunction { params; body; _ } ->
       let fe_arity = params |> List.length in
       let fe_vars = params |> List.map (fun (id, _) -> varname_of_ident id) in
       let fe_body = mk_expr body in
-      Core_erlang.Ast.{ fe_arity; fe_vars; fe_body }
+      Ast.{ fe_arity; fe_vars; fe_body }
   | _ -> raise Unsupported_top_level_lambda_value
 
-(** Build one Core Erlang definition out of Lambda.lambda term
+(** Build one Erlang definition out of Lambda.lambda term
  *)
-let mk_definition : Lambda.lambda -> Core_erlang.Ast.fun_def =
+let mk_definition : Lambda.lambda -> Ast.fun_def =
  fun lambda ->
   match lambda with
   | Llet (_let_kind, _value_kind, id, body, _next) ->
@@ -86,20 +87,20 @@ let mk_definition : Lambda.lambda -> Core_erlang.Ast.fun_def =
       let fd_name =
         { fn_name = atom_of_ident id; fn_arity = fd_body.fe_arity }
       in
-      Core_erlang.Ast.{ fd_name; fd_body }
+      Ast.{ fd_name; fd_body }
   | _ -> raise Unsupported_top_level_lambda_value
 
-(** Build Core Erlang definitions out of Lambda.lambda term
+(** Build Erlang definitions out of Lambda.lambda term
  *)
-let mk_definitions : Lambda.lambda -> Core_erlang.Ast.fun_def list =
+let mk_definitions : Lambda.lambda -> Ast.fun_def list =
  fun lambda ->
   let extract l = match l with Lprim (_, lambda, _) -> lambda | _ -> [] in
 
   extract lambda |> List.map mk_definition
 
-(** Turn an OCaml Lambda program into Core Erlang
+(** Turn an OCaml Lambda program into Erlang
  *)
-let from_lambda : module_name:string -> Lambda.lambda -> Core_erlang.Ast.t =
+let from_lambda : module_name:string -> Lambda.lambda -> Ast.t =
  fun ~module_name lambda ->
   let module_name = atom_of_string module_name in
   let m_defs = mk_definitions lambda in
