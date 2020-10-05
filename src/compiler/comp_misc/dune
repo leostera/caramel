@@ -1,0 +1,4 @@
+(library
+ (name comp_misc)
+ (public_name caramel.compiler.misc)
+ (libraries compiler-libs.common))

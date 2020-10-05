@@ -1,0 +1,5 @@
+(library
+ (name ocaml_to_core_erlang)
+ (public_name caramel.compiler.ocaml_to_core_erlang)
+ (libraries caramel.core_erlang caramel.compiler.misc caramel.erlang
+   compiler-libs.common sexplib))

@@ -1,0 +1,5 @@
+(library
+ (name erlang_to_native)
+ (public_name caramel.compiler.erlang_to_native)
+ (libraries caramel.compiler.misc compiler-libs.common compiler-libs.optcomp
+   caramel.erlang sexplib))

@@ -1,0 +1,4 @@
+(library
+ (name ocaml_archive)
+ (public_name caramel.compiler.ocaml_archive)
+ (libraries caramel.compiler.misc compiler-libs.common caramel.erlang sexplib))
