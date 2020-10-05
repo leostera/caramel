@@ -12,7 +12,7 @@ let make ~name ~doc ~description =
       `P "Leandro Ostera.";
       `S "LICENSE";
       `P "Copyright (C) 2020, Abstract Machines Lab Sweden AB";
-      `P "caramel is licensed under BSD 3-Clause.";
+      `P "Caramel is licensed under Apache License 2.0";
     ]
   in
   let version =
