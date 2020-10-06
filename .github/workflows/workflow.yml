@@ -102,6 +102,10 @@ jobs:
       - name: Install dependencies
         run: opam exec -- make deps
 
+      - name: Clean start on releases
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: opam exec -- make clean
+
       - name: Build project
         run: opam exec -- make build
 
