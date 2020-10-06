@@ -1,31 +1,34 @@
-# Caramel
-> :candy: An Erlang backend to the OCaml compiler
+# :candy: Caramel
+> An Erlang backend to the OCaml compiler
 
+## What is Caramel?
+
+Caramel is an **experimental project**, featuring primarily an Erlang backend
+to the OCaml compiler, that brings one of the most mature, expressive, and
+stable type-systems in the world to the BEAM.
+
+In short, it lets you write OCaml and it will compile it to Erlang.
+
+```ocaml
+(* math.ml *)
+let inc x = x + 1
+```
+
+```erlang
+% math.erl
+-module(math).
+-export([inc/1]).
+inc(X) -> erlang:'+'(X, 1).
+```
+
+> NOTE: idiomatic support for infix operators is still not there :)
 
 ## Getting started
 
-You can bootstrap the system by running:
-
-```sh
-caramel $ make deps build
-```
-
-It relies on `opam` being installed, and `make deps` will take care of
-installing all the necessary `opam` dependencies.
-
-After `make` you should have a `caramelc` binary to play around with. 
-
-## Hacking
-
-The target `make watch` will start the Dune build watcher, and recompile the
-project as you save files.
-
-You can run tests with `make test`, and reformat the source code with `make
-fmt`.
-
-For a more in-depth description of what's happening, check the the [OCaml to
-Erlang](./docs/ocaml_to_erlang.md) document, and the [Caramel arch
-picture](./docs/caramel_arch.jpg).
+You can download the latest pre-release from the [releases
+page](https://github.com/AbstractMachinesLab/caramel/releases). After
+unpacking it you should be able to add it to your PATH env and start playing
+around with the `caramelc` binary.
 
 ## Examples
 
