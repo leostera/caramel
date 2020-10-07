@@ -244,7 +244,7 @@ module Mod = struct
     | x :: xs -> item_list_to_module xs (update x acc)
 
   let of_structure items =
-    match items with
+    match (List.rev items) with
     | [
      Module_attribute
        {
