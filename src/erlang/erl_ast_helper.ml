@@ -2,13 +2,26 @@ open Erl_ast
 
 (* Helpers to work with Atoms *)
 module Atom = struct
-  let mk str = Atom (String.lowercase_ascii str)
+  let quote str = "'" ^ str ^ "'"
 
-  let to_string (Atom str) = str
+  let unquote a =
+    match a.[0] with
+    | '\'' -> String.sub a 1 ((String.length a) - 2)
+    | _ -> a
+
+  let mk str =
+    let atom = match str.[0] with
+      | 'a' .. 'z' -> String.lowercase_ascii str
+      | _ -> quote str
+    in
+    Atom atom
+
+  let to_string (Atom str) = unquote str
 
   let equal (Atom a) (Atom b) = String.equal a b
 
-  let concat (Atom a) (Atom b) = Atom (a ^ "__" ^ b)
+  let concat (Atom a) (Atom b) str =
+    mk ((unquote a) ^ str ^ (unquote b))
 end
 
 (* Helpers to work with Names *)

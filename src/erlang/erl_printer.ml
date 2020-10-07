@@ -27,9 +27,7 @@ module H = struct
     String.make n ' '
 end
 
-let pp_atom ppf (Atom atom) =
-  let atom = match atom.[0] with 'a' .. 'z' -> atom | _ -> "'" ^ atom ^ "'" in
-  Format.fprintf ppf "%s" atom
+let pp_atom ppf (Atom atom) = Format.fprintf ppf "%s" atom
 
 let name_to_string name =
   match name with
@@ -96,6 +94,7 @@ and pp_variant_constructor prefix ppf vc =
 
 and pp_type_kind prefix ppf typ_kind =
   match typ_kind with
+  | Type_const lit -> pp_literal ppf lit
   | Type_variable var_name -> pp_name ppf var_name
   | Type_constr { tc_name = Atom_name (Atom "unit"); _ } ->
       Format.fprintf ppf "ok"

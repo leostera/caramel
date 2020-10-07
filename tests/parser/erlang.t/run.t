@@ -1,4 +1,7 @@
   $ caramelc parse *.erl
+  ((Module_attribute
+     ((atr_name (Atom module))
+       (atr_value (Expr_literal (Lit_atom (Atom 'My__path__to__module')))))))
   ((Module_comment (Comment " single comment"))
     (Module_attribute
       ((atr_name (Atom module))
@@ -29,7 +32,7 @@
       ((fd_name (Atom literal_quoted_atom)) (fd_arity 0)
         (fd_cases
           (((c_lhs ()) (c_guard ())
-             (c_rhs (Expr_literal (Lit_atom (Atom what.is_going:on!)))))))
+             (c_rhs (Expr_literal (Lit_atom (Atom 'What.is_going:on!')))))))
         (fd_spec ())))
     (Function_decl
       ((fd_name (Atom literal_integer)) (fd_arity 0)
@@ -117,7 +120,7 @@
     (Function_decl
       ((fd_name (Atom fun_args_quoted_atom)) (fd_arity 1)
         (fd_cases
-          (((c_lhs ((Pattern_match (Lit_atom (Atom what.is_going:on!)))))
+          (((c_lhs ((Pattern_match (Lit_atom (Atom 'What.is_going:on!')))))
              (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom ok)))))))
         (fd_spec ())))
     (Function_decl
@@ -587,7 +590,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom erlang)) (n_name (Atom +)))))
+                       (Qualified_name (n_mod (Atom erlang))
+                         (n_name (Atom '+')))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom fib))))
@@ -596,7 +600,7 @@
                                 ((fa_name
                                    (Expr_name
                                      (Qualified_name (n_mod (Atom erlang))
-                                       (n_name (Atom -)))))
+                                       (n_name (Atom '-')))))
                                   (fa_args
                                     ((Expr_name (Var_name N))
                                       (Expr_literal (Lit_integer 1))))))))))
@@ -607,7 +611,7 @@
                                  ((fa_name
                                     (Expr_name
                                       (Qualified_name (n_mod (Atom erlang))
-                                        (n_name (Atom -)))))
+                                        (n_name (Atom '-')))))
                                    (fa_args
                                      ((Expr_name (Var_name N))
                                        (Expr_literal (Lit_integer 2))))))))))))))))))

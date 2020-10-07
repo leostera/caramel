@@ -12,7 +12,7 @@ module Atom : sig
 
   val equal : atom -> atom -> bool
 
-  val concat : atom -> atom -> atom
+  val concat : atom -> atom -> string -> atom
 end
 
 (* Helpers to work with Names *)
@@ -120,6 +120,8 @@ module Type : sig
   val record : record_field list -> type_kind
 
   val var : name -> type_kind
+
+  val const : literal -> type_kind
 
   val variant : variant_constructor list -> type_kind
 
