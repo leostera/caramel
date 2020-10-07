@@ -42,7 +42,7 @@ let rec expr_to_pattern expr =
  ******************************************************************************)
 
 (* Tokens with a Value *)
-%token <string * Parse_info.t> CHAR ATOM FLOAT INTEGER STRING VARIABLE
+%token <string * Parse_info.t> CHAR ATOM FLOAT INTEGER STRING VARIABLE COMMENT
 
 (* Keyword Tokens *)
 %token <Parse_info.t> AFTER CASE END FUN OF RECEIVE
@@ -73,6 +73,7 @@ let module_file :=
   { Mod.of_structure (List.rev is) }
 
 let module_item :=
+  | ~ = comment; { Module_comment comment }
   | ~ = module_attribute; { Module_attribute module_attribute }
   | ~ = type_decl; { Type_decl type_decl }
   | ~ = fun_decl; { Function_decl fun_decl }
@@ -235,6 +236,12 @@ let case_branch :=
 let expr_fun :=
   | FUN; cases = separated_list(SEMICOLON, fun_case); END;
     { Expr.fun_ ~cases }
+
+(**
+ * Comments
+ *)
+let comment :=
+  | (text, _) = COMMENT; { Comment text }
 
 (**
  * Constructors

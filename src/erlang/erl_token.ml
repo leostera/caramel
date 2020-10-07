@@ -10,6 +10,7 @@ type t =
   | COLON of Parse_info.t
   | COLON_COLON of Parse_info.t
   | COMMA of Parse_info.t
+  | COMMENT of string * Parse_info.t
   | DASH of Parse_info.t
   | DOT of Parse_info.t
   | END of Parse_info.t

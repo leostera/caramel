@@ -330,4 +330,3 @@ get_opts_replace([{insert_replaced,N} | T],{Part,Global,_Insert}) ->
     get_opts_replace(T,{Part,Global,N});
 get_opts_replace(_,_) ->
     throw(badopt).
-

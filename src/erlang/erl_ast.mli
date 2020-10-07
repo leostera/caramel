@@ -1,5 +1,7 @@
 type atom = Atom of string
 
+and comment = Comment of string
+
 and guard = unit
 
 and name =
@@ -90,6 +92,7 @@ and export = { exp_type : export_type; exp_name : atom; exp_arity : int }
 and attribute = { atr_name : atom; atr_value : expr }
 
 and module_item =
+  | Module_comment of comment
   | Module_attribute of attribute
   | Type_decl of type_decl
   | Function_decl of fun_decl

@@ -30,11 +30,12 @@ let update_loc lexbuf ?file ~line ~absolute chars =
                  | None -> pos.pos_fname
                  | Some s -> s
   in
-  lexbuf.Lexing.lex_curr_p <- { pos with
+  lexbuf.Lexing.lex_curr_p <-
+  { pos with
     pos_fname = new_file;
     pos_lnum = if absolute then line else pos.pos_lnum + line;
     pos_bol = pos.pos_cnum - chars;
-                              }
+  }
 
 let tokinfo lexbuf = Parse_info.t_of_lexbuf lexbuf
 
@@ -55,7 +56,10 @@ let atom = lowercase ['A'-'Z' 'a'-'z' '_' '0'-'9' '@']*
 
 let variable = ['_' 'A'-'Z'] ['A'-'Z' 'a'-'z' '_' '0'-'9' ]*
 
+let comment = '%' ['%']*
+
 rule token = parse
+  | comment { read_comment (Buffer.create 256) lexbuf }
   | newline { update_loc lexbuf ~line:1 ~absolute:false 0; token lexbuf }
   | blank + { token lexbuf }
   | float as float { FLOAT (float, tokinfo lexbuf) }
@@ -105,6 +109,19 @@ and read_atom buf = parse
   | _ { error lexbuf ("Illegal atom character: " ^ Lexing.lexeme lexbuf) }
   | eof { error lexbuf "Unterminated_string" }
 
+and read_comment buf = parse
+  | newline   { COMMENT (Buffer.contents buf, tokinfo lexbuf) }
+  | '\\' '/'  { Buffer.add_char buf '/'; read_string buf lexbuf }
+  | '\\' '\\' { Buffer.add_char buf '\\'; read_string buf lexbuf }
+  | '\\' 'b'  { Buffer.add_char buf '\b'; read_string buf lexbuf }
+  | '\\' 'f'  { Buffer.add_char buf '\012'; read_string buf lexbuf }
+  | '\\' 'n'  { Buffer.add_char buf '\n'; read_string buf lexbuf }
+  | '\\' 'r'  { Buffer.add_char buf '\r'; read_string buf lexbuf }
+  | '\\' 't'  { Buffer.add_char buf '\t'; read_string buf lexbuf }
+  | [^ '\\']+ {
+    Buffer.add_string buf (Lexing.lexeme lexbuf); read_string buf lexbuf }
+  | _ { error lexbuf ("Illegal character in comment: " ^ Lexing.lexeme lexbuf) }
+  | eof { COMMENT (Buffer.contents buf, tokinfo lexbuf) }
 
 and read_string buf = parse
   | '"'       { STRING (Buffer.contents buf, tokinfo lexbuf) }

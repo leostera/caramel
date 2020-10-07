@@ -181,6 +181,7 @@ module Mod = struct
 
   let update x acc =
     match x with
+    | Module_comment _ -> acc
     | Module_attribute
         {
           atr_name = Atom "module";

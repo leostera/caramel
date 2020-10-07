@@ -2,6 +2,8 @@ open Sexplib.Std
 
 type atom = Atom of string [@@deriving sexp]
 
+and comment = Comment of string [@@deriving_sexp]
+
 and guard = unit [@@deriving sexp]
 
 and name =
@@ -109,6 +111,7 @@ and export = { exp_type : export_type; exp_name : atom; exp_arity : int }
 and attribute = { atr_name : atom; atr_value : expr } [@@deriving sexp]
 
 and module_item =
+  | Module_comment of comment
   | Module_attribute of attribute
   | Type_decl of type_decl
   | Function_decl of fun_decl
