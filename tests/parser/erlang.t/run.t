@@ -1,9 +1,6 @@
-  $ caramelc compile --dump-ast --target=native *.erl
+  $ caramelc parse *.erl
   ((file_name empty.erl) (behaviours ()) (module_name (Atom empty))
     (attributes ()) (exports ()) (types ()) (functions ()))
-  
-  module Empty = struct  end
-  
   ((file_name function_declaration.erl) (behaviours ())
     (module_name (Atom function_declaration)) (attributes ()) (exports ())
     (types ())
@@ -583,89 +580,24 @@
                                (fa_args ((Expr_name (Var_name A))))))))
                        (Expr_literal (Lit_atom (Atom ok))))))))))
           (fd_spec ())))))
-  
-  module Function_declaration =
-    struct
-      let rec literal_atom () = `ok
-      let rec literal_quoted_atom () = `what.is_going:on!
-      let rec literal_integer () = 1
-      let rec literal_float () = 1.0
-      let rec tuple_empty () = ()
-      let rec tuple_nested () = ((), ())
-      let rec tuple_filled () = `ok ((`error ("hello", 1)), (tuple_empty ()))
-      let rec list_empty () = []
-      let rec list_nested () = [[]; [[]]]
-      let rec list_filled () = [`ok; [`error; "hello"; 1]; list_empty ()]
-      let rec list_cons () = [`a; [`b `c; [list_empty (); []]]]
-      let rec fun_args_atom `ok = `ok
-      let rec fun_args_quoted_atom `what.is_going:on! = `ok
-      let rec fun_args_integer 1 = `ok
-      let rec fun_args_float 1.0 = `ok
-      let rec fun_args_tuple_empty () = `ok
-      let rec fun_args_tuple_nested ((), ()) = `ok
-      let rec fun_args_tuple_filled (`ok (`error ("hello", 1))) = `ok
-      let rec fun_args_list_empty [] = `ok
-      let rec fun_args_list_nested ([]::([]::[])::[]) = `ok
-      let rec fun_args_list_filled (`ok::(`error::"hello"::1::[])::[]) = `ok
-      let rec fun_args_list_cons (`a::((`b `c)::(`f::[]::[])::[])::[]) = `ok
-      let rec fun_arg_var_in_tuple a = a
-      let rec fun_arg_var_in_list (a::[]) = a
-      let rec fun_arg_var a = a
-      let rec fun_arg_var_ignore _ = `ok
-      let rec fun_arg_var_ignore_in_tuple (a, _) = a
-      let rec fun_arg_var_ignore_in_list (_::b::[]) = b
-      let rec fun_arg_var_ignore_in_cons (a::_::[]) = a
-      let rec fun_args (a, b) = (a, b)
-      let rec fun_args (a, b, c) = (a, b, c)
-      let rec fun_args (a, b, c, d) = (a, b, c, d)
-      let rec fun_args (a, b, c, d, e) = (a, b, c, d, e)
-      let rec fun_args (a, b, c, d, e, f) = (a, b, c, d, e, f)
-      let rec fun_args (a, b, c, d, e, f, g) = (a, b, c, d, e, f, g)
-      let rec fun_args (a, b, c, d, e, f, g, h) = (a, b, c, d, e, f, g, h)
-      let rec fun_args (a, b, c, d, e, f, g, h, i) =
-        (a, b, c, d, e, f, g, h, i)
-      let rec binding_return () = let a = 1 in a
-      let rec binding_and_return () = let a = 1 in a
-      let rec case_expr a =
-        match a with
-        | `true -> `false
-        | `true -> `false
-        | `false::[] -> `true
-        | `false::_::[] -> `true
-        | `false::b::t::[] -> `true
-        | `false -> `true
-      let rec fun_ref () = fun_ref
-      let rec lambda () () = `ok
-      let rec lambda_with_args () a = a
-      let rec lambda_in_var () = let f a = a in f
-      let rec lambda_var_call () = let f a = a in f 1
-      let rec send a = Erlang.send (a, a)
-      let rec send_chain a = Erlang.send (a, (Erlang.send (a, a)))
-      let rec recv () = match recv () with | x -> x
-      let rec recv_with_after () = match recv () with | x -> x
-      let rec recv_selectively () =
-        match recv () with
-        | `true -> `false
-        | `true -> `false
-        | `false::[] -> `true
-        | `false::_::[] -> `true
-        | `false::b::t::[] -> `true
-        | `false -> `true
-      let rec fun_cases =
-        function | 1 -> `ok | 2 -> `ok | 3 -> `ok | _ -> `false
-      let rec fib =
-        function
-        | 0 -> 0
-        | 1 -> 1
-        | n ->
-            Stdlib.(+) ((fib (Stdlib.(-) (n, 1))), (fib (Stdlib.(-) (n, 2))))
-      let rec sequence () =
-        let _ = print_string "hello" in
-        let a = fib 2 in let _ = print_int a in `ok
-    end
-  
-  File "_none_", line 1:
-  Error: This expression has type 'a list
-         but an expression was expected of type [> `ok ]
+  ((file_name module_attributes.erl)
+    (behaviours ((Atom gen_server) (Atom another_behavior)))
+    (module_name (Atom module_attributes))
+    (attributes
+      (((atr_name (Atom on_load))
+         (atr_value
+           (Expr_list
+             ((Expr_tuple
+                ((Expr_literal (Lit_atom (Atom pre)))
+                  (Expr_literal (Lit_integer 0))))))))))
+    (exports
+      (((exp_type Export_type) (exp_name (Atom t)) (exp_arity 0))
+        ((exp_type Export_type) (exp_name (Atom opt)) (exp_arity 2))
+        ((exp_type Export_function) (exp_name (Atom f)) (exp_arity 0))
+        ((exp_type Export_function) (exp_name (Atom g)) (exp_arity 2))))
+    (types ()) (functions ()))
+  ((file_name type_declaration.erl) (behaviours ())
+    (module_name (Atom type_declaration)) (attributes ()) (exports ())
+    (types ()) (functions ()))
   $ echo $?
   0
