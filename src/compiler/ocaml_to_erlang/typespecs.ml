@@ -45,7 +45,7 @@ module Fun = struct
     | Tlink t -> mk_type_kind (Btype.repr t)
     | Tvar (Some name) -> Type.var (Name.var name)
     | Tvar None -> Type.var (Name.var (Type_var_names.find type_expr))
-    | Tnil -> Type.apply ~name:(Name.atom "list") ~args:[]
+    | Tnil -> Type.apply ~name:(Name.atom (Atom.mk "list")) ~args:[]
     | Tvariant { row_fields; _ } ->
         let row_field_to_type_kind = function
           | Rpresent (Some texpr) -> [ mk_type_kind texpr ]
@@ -62,7 +62,7 @@ module Fun = struct
         in
 
         let row_field_to_constr (name, args) =
-          let name = Name.atom name in
+          let name = Name.atom (Atom.lowercase (Atom.mk name)) in
           let args = row_field_to_type_kind args in
           Type.constr ~args ~name
         in
@@ -168,7 +168,7 @@ let rec mk_type_kind core_type =
         | r :: rs' -> (
             match r.rf_desc with
             | Ttag ({ txt; _ }, _, core_types) ->
-                let name = Name.atom txt in
+                let name = Name.atom (Atom.lowercase (Atom.mk txt)) in
                 let args = core_types |> List.filter_map mk_type_kind in
                 let variant = Type.constr ~name ~args in
                 all_rows rs' (variant :: acc)
@@ -228,7 +228,9 @@ let mk_type type_decl ~signature =
       match type_decl.typ_manifest with
       | Some abs -> mk_abstract name params type_decl abs signature
       | None ->
-          let kind = Type.apply ~args:[] ~name:(Name.atom "reference") in
+          let kind =
+            Type.apply ~args:[] ~name:(Name.atom (Atom.mk "reference"))
+          in
           Some (Type.mk ~name ~params ~kind ~visibility:Opaque) )
   | Ttype_record labels ->
       let kind = mk_record labels in

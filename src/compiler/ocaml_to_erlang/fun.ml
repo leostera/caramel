@@ -99,17 +99,18 @@ and mk_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
     when Longident.last txt = "::" || Longident.last txt = "[]" ->
       Pat.list (List.map mk_pattern patterns)
   | Tpat_construct ({ txt; _ }, _, []) ->
-      Pat.const (Const.atom (Names.atom_of_longident txt))
+      Pat.const (Const.atom (Atom.lowercase (Names.atom_of_longident txt)))
   | Tpat_construct ({ txt; _ }, _, patterns) ->
       let tag =
         Erlang.Ast.Pattern_match
-          (Erlang.Ast.Lit_atom (Names.atom_of_longident txt))
+          (Erlang.Ast.Lit_atom (Atom.lowercase (Names.atom_of_longident txt)))
       in
       let values = List.map mk_pattern patterns in
       Erlang.Ast.Pattern_tuple (tag :: values)
-  | Tpat_variant (label, None, _) -> Pat.const (Const.atom (Atom.mk label))
+  | Tpat_variant (label, None, _) ->
+      Pat.const (Const.atom (Atom.lowercase (Atom.mk label)))
   | Tpat_variant (label, Some expr, _) ->
-      let tag = Pat.const (Const.atom (Atom.mk label)) in
+      let tag = Pat.const (Const.atom (Atom.lowercase (Atom.mk label))) in
       let value = mk_pattern expr in
       Pat.tuple [ tag; value ]
   | Tpat_constant const -> Erlang.Ast.Pattern_match (const_to_literal const)
@@ -147,9 +148,9 @@ and mk_expression exp ~var_names ~modules ~module_name =
       let var_name = Names.varname_of_longident txt in
 
       let namespace_qualified_name n_mod n_name =
-        let module_name = Atom.concat module_name n_mod "__" in
+        let module_name = Atom.lowercase (Atom.concat module_name n_mod "__") in
         match is_nested_module ~modules module_name with
-        | true -> Name.qualified ~module_name n_name
+        | true -> Name.qualified ~module_name (Atom.lowercase n_name)
         | _ -> name
       in
 
@@ -169,7 +170,7 @@ and mk_expression exp ~var_names ~modules ~module_name =
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
       Erlang.Ast.Expr_tuple []
   | Texp_construct ({ txt; _ }, _, []) ->
-      Erlang.Ast.Expr_name (Atom_name (Names.atom_of_longident txt))
+      Expr.ident (Name.atom (Atom.lowercase (Names.atom_of_longident txt)))
   (* NOTE: lists are just variants :) *)
   | Texp_construct ({ txt; _ }, _, exprs) when Longident.last txt = "::" ->
       let values =
@@ -180,15 +181,16 @@ and mk_expression exp ~var_names ~modules ~module_name =
    * polymorphic ones *)
   | Texp_construct ({ txt; _ }, _, exprs) ->
       let tag =
-        Erlang.Ast.Expr_name (Atom_name (Names.atom_of_longident txt))
+        Expr.ident (Name.atom (Atom.lowercase (Names.atom_of_longident txt)))
       in
       let values =
         exprs |> List.map (mk_expression ~var_names ~modules ~module_name)
       in
       Expr.tuple (tag :: values)
-  | Texp_variant (label, None) -> Expr.ident (Name.atom label)
+  | Texp_variant (label, None) ->
+      Expr.ident (Name.atom (Atom.lowercase (Atom.mk label)))
   | Texp_variant (label, Some expr) ->
-      let tag = Expr.ident (Name.atom label) in
+      let tag = Expr.ident (Name.atom (Atom.lowercase (Atom.mk label))) in
       let value = mk_expression ~var_names ~modules ~module_name expr in
       Erlang.Ast.Expr_tuple [ tag; value ]
   | Texp_apply (expr, args) ->
@@ -228,7 +230,7 @@ and mk_expression exp ~var_names ~modules ~module_name =
       in
       let args =
         [
-          Expr.ident (Name.atom lbl_name);
+          Expr.ident (Name.atom (Atom.mk lbl_name));
           mk_expression ~var_names ~modules ~module_name expr;
         ]
       in

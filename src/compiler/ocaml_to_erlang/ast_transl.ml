@@ -17,7 +17,8 @@ let mk_module :
   let functions = Fun.mk_functions ~module_name ~modules typedtree in
   let attributes = [] in
   let behaviours = [] in
-  Erl.Mod.mk ~behaviours ~exports ~types ~functions ~attributes module_name
+  Erl.Mod.mk ~behaviours ~exports ~types ~functions ~attributes
+    (Erl.Atom.lowercase module_name)
 
 (** Navigate a [Typedtree.structure] and recursively collect all module definitions,
     building up the right prefixed names.
@@ -46,10 +47,11 @@ let rec find_modules :
            | _ -> [] )
            |> List.concat_map (fun mb ->
                   let ocaml_name =
-                    match mb.mb_id with Some x -> Ident.name x | None -> ""
+                    (match mb.mb_id with Some x -> Ident.name x | None -> "")
+                    |> Erl.Atom.mk
                   in
                   let module_name =
-                    Erl.Atom.concat prefix (Erl.Atom.mk ocaml_name) "__"
+                    Erl.Atom.concat prefix ocaml_name "__" |> Erl.Atom.lowercase
                   in
                   match mb.mb_expr.mod_desc with
                   | Tmod_constraint
@@ -76,7 +78,7 @@ let from_typedtree :
     Types.signature option ->
     Erlang.Ast.t list =
  fun ~module_name typedtree signature ->
-  let top_module = Erl.Atom.mk module_name in
+  let top_module = Erl.Atom.(lowercase (mk module_name)) in
   let modules =
     List.fold_left
       (fun mods (nested_module_name, impl, sign) ->
