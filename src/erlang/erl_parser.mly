@@ -68,7 +68,7 @@ PIPE SLASH DASH EQUAL
  *
  ******************************************************************************)
 
-let module_file := is = module_item+; EOF; { List.rev is }
+let module_file := is = module_item+; EOF; { is }
 
 let module_item :=
   | ~ = comment; { Module_comment comment }
