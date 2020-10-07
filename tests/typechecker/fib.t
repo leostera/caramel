@@ -24,7 +24,7 @@
                    ((fa_name
                       (Expr_name
                         (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom +)))))
+                          (n_name (Atom '+')))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom fib))))
@@ -33,7 +33,7 @@
                                  ((fa_name
                                     (Expr_name
                                       (Qualified_name (n_mod (Atom erlang))
-                                        (n_name (Atom -)))))
+                                        (n_name (Atom '-')))))
                                    (fa_args
                                      ((Expr_name (Var_name N))
                                        (Expr_literal (Lit_integer 1))))))))))
@@ -44,7 +44,7 @@
                                   ((fa_name
                                      (Expr_name
                                        (Qualified_name (n_mod (Atom erlang))
-                                         (n_name (Atom -)))))
+                                         (n_name (Atom '-')))))
                                     (fa_args
                                       ((Expr_name (Var_name N))
                                         (Expr_literal (Lit_integer 2))))))))))))))))))
