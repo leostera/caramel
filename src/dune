@@ -1,7 +1,13 @@
 (executable
+ (name bootc)
+ (libraries bin)
+ (modules bootc))
+
+(executable
  (name caramelc)
  (public_name caramelc)
  (package caramel)
+ (modules caramelc)
  (libraries bin)
  (flags
   (:standard -safe-string)))

@@ -1,10 +1,9 @@
 (rule
  (alias stdlib)
  (targets stdlib.cma stdlib.cmi stdlib.cmo)
- (deps ../../bin/bootc.exe)
+ (deps ../../bootc.exe)
  (action
-  (run %{dep:../../bin/bootc.exe} compile --no-stdlib --target=archive
-    stdlib.ml)))
+  (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive stdlib.ml)))
 
 (install
  (section lib)

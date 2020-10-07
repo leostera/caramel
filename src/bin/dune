@@ -1,11 +1,5 @@
-(executable
- (name bootc)
- (libraries bin)
- (modules bootc))
-
 (library
  (name bin)
  (libraries cmdliner caramel.compiler caramel.typing)
- (modules caramelc info)
  (flags
   (:standard -safe-string)))

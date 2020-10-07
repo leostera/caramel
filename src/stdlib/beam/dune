@@ -4,10 +4,10 @@
    stdlib_erlang.cmo stdlib_process.cma stdlib_process.cmi stdlib_process.cmo
    stdlib_io.cma stdlib_io.cmi stdlib_io.cmo stdlib_timer.cma
    stdlib_timer.cmi stdlib_timer.cmo)
- (deps ../../bin/bootc.exe)
+ (deps ../../bootc.exe)
  (action
-  (run %{dep:../../bin/bootc.exe} compile --no-stdlib --target=archive
-    beam.ml stdlib_erlang.ml stdlib_timer.ml stdlib_io.ml stdlib_process.ml)))
+  (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive beam.ml
+    stdlib_erlang.ml stdlib_timer.ml stdlib_io.ml stdlib_process.ml)))
 
 (install
  (section lib)
