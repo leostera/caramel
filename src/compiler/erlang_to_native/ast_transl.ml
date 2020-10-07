@@ -44,8 +44,8 @@ let mk_name name =
       match Longident.unflatten [ "Erlang"; "send" ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
-  | Qualified_name { n_mod = Atom "erlang"; n_name = Atom n_name } -> (
-      match Longident.unflatten [ "Stdlib"; n_name ] with
+  | Qualified_name { n_mod = Atom "erlang"; n_name } -> (
+      match Longident.unflatten [ "Stdlib"; (Erl.Atom.to_string n_name) ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
   | Qualified_name { n_mod = Atom n_mod; n_name = Atom n_name } -> (
