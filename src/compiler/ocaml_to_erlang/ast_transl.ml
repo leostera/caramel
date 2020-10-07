@@ -49,7 +49,7 @@ let rec find_modules :
                     match mb.mb_id with Some x -> Ident.name x | None -> ""
                   in
                   let module_name =
-                    Erl.Atom.concat prefix (Erl.Atom.mk ocaml_name)
+                    Erl.Atom.concat prefix (Erl.Atom.mk ocaml_name) "__"
                   in
                   match mb.mb_expr.mod_desc with
                   | Tmod_constraint

@@ -147,7 +147,7 @@ and mk_expression exp ~var_names ~modules ~module_name =
       let var_name = Names.varname_of_longident txt in
 
       let namespace_qualified_name n_mod n_name =
-        let module_name = Atom.concat module_name n_mod in
+        let module_name = Atom.concat module_name n_mod "__" in
         match is_nested_module ~modules module_name with
         | true -> Name.qualified ~module_name n_name
         | _ -> name
