@@ -111,16 +111,17 @@ and read_atom buf = parse
 
 and read_comment buf = parse
   | newline   { COMMENT (Buffer.contents buf, tokinfo lexbuf) }
-  | '\\' '/'  { Buffer.add_char buf '/'; read_string buf lexbuf }
-  | '\\' '\\' { Buffer.add_char buf '\\'; read_string buf lexbuf }
-  | '\\' 'b'  { Buffer.add_char buf '\b'; read_string buf lexbuf }
-  | '\\' 'f'  { Buffer.add_char buf '\012'; read_string buf lexbuf }
-  | '\\' 'n'  { Buffer.add_char buf '\n'; read_string buf lexbuf }
-  | '\\' 'r'  { Buffer.add_char buf '\r'; read_string buf lexbuf }
-  | '\\' 't'  { Buffer.add_char buf '\t'; read_string buf lexbuf }
-  | [^ '\\']+ {
-    Buffer.add_string buf (Lexing.lexeme lexbuf); read_string buf lexbuf }
-  | _ { error lexbuf ("Illegal character in comment: " ^ Lexing.lexeme lexbuf) }
+  | '\\' '/'  { Buffer.add_char buf '/'; read_comment buf lexbuf }
+  | '\\' '\\' { Buffer.add_char buf '\\'; read_comment buf lexbuf }
+  | '\\' 'b'  { Buffer.add_char buf '\b'; read_comment buf lexbuf }
+  | '\\' 'f'  { Buffer.add_char buf '\012'; read_comment buf lexbuf }
+  | '\\' 'n'  { Buffer.add_char buf '\n'; read_comment buf lexbuf }
+  | '\\' 'r'  { Buffer.add_char buf '\r'; read_comment buf lexbuf }
+  | '\\' 't'  { Buffer.add_char buf '\t'; read_comment buf lexbuf }
+  | _ {
+      Buffer.add_string buf (Lexing.lexeme lexbuf);
+      read_comment buf lexbuf
+  }
   | eof { COMMENT (Buffer.contents buf, tokinfo lexbuf) }
 
 and read_string buf = parse

@@ -1,7 +1,18 @@
   $ caramelc parse *.erl
   ((Module_attribute
-     ((atr_name (Atom module))
-       (atr_value (Expr_literal (Lit_atom (Atom comments)))))))
+     ((atr_name (Atom author))
+       (atr_value (Expr_literal (Lit_atom (Atom comment))))))
+    (Module_comment (Comment " lines"))
+    (Module_comment (Comment " consecutive"))
+    (Module_comment (Comment " many"))
+    (Module_attribute
+      ((atr_name (Atom behavior))
+        (atr_value (Expr_literal (Lit_atom (Atom b))))))
+    (Module_comment (Comment " multi \"%\""))
+    (Module_attribute
+      ((atr_name (Atom module))
+        (atr_value (Expr_literal (Lit_atom (Atom comments))))))
+    (Module_comment (Comment " single comment")))
   ((Module_attribute
      ((atr_name (Atom module))
        (atr_value (Expr_literal (Lit_atom (Atom empty)))))))
