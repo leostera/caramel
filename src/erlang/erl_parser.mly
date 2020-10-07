@@ -59,7 +59,7 @@ PIPE SLASH DASH EQUAL
 (* EOF *)
 %token <Parse_info.t> EOF
 
-%start <Erl_ast.t> module_file
+%start <Erl_ast.structure> module_file
 %%
 
 (******************************************************************************
@@ -68,9 +68,7 @@ PIPE SLASH DASH EQUAL
  *
  ******************************************************************************)
 
-let module_file :=
-  is = module_item+; EOF;
-  { Mod.of_structure (List.rev is) }
+let module_file := is = module_item+; EOF; { List.rev is }
 
 let module_item :=
   | ~ = comment; { Module_comment comment }

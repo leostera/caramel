@@ -14,9 +14,9 @@ let run sources =
   List.iter
     (fun source ->
       ( match Erlang.Parse.from_file source with
-      | Ok ast ->
+      | Ok structure ->
           Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
-            (Erlang.Ast.sexp_of_t ast)
+            (Erlang.Ast.sexp_of_structure structure)
       | Error (`Parser_error err) ->
           Format.fprintf Format.std_formatter "ERROR: %s" err );
       Format.fprintf Format.std_formatter "\n%!")

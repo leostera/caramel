@@ -41,7 +41,7 @@ let check ~source_file ~output_prefix ~opts =
     | Error (`Parser_error msg) ->
         Format.fprintf Format.std_formatter "Parser_error: %s" msg;
         exit 1
-    | Ok ast -> ast
+    | Ok structure -> Erlang.Ast_helper.Mod.of_structure structure
   in
   if opts.dump_ast then (
     Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter

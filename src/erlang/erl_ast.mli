@@ -110,3 +110,4 @@ and t = {
 }
 
 val sexp_of_t : t -> Sexplib.Sexp.t
+val sexp_of_structure : structure -> Sexplib.Sexp.t
