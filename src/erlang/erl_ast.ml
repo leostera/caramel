@@ -46,7 +46,7 @@ and expr =
   | Expr_nil
   | Expr_cons of expr list * expr
   | Expr_case of expr * case list
-  | Expr_if of (expr * expr) list
+  | Expr_if of (expr list list * expr) list
   | Expr_tuple of expr list
   | Expr_fun of case list
   | Expr_try of try_catch
@@ -54,6 +54,7 @@ and expr =
 
 and pattern =
   | Pattern_ignore
+  | Pattern_with_name of pattern * name
   | Pattern_binding of name
   | Pattern_tuple of pattern list
   | Pattern_list of pattern list
@@ -101,7 +102,7 @@ and type_decl = {
   typ_expr : type_expr;
   typ_kind : type_kind;
   typ_name : atom;
-  typ_params : name list;
+  typ_params : type_expr list;
 }
 [@@deriving sexp]
 

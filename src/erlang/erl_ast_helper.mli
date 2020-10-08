@@ -79,7 +79,7 @@ module Expr : sig
 
   val try_ : expr -> catch:case list -> expr
 
-  val if_ : clauses:(expr * expr) list -> expr
+  val if_ : clauses:(expr list list * expr) list -> expr
 end
 
 (* Helpers to work with Patterns *)
@@ -117,7 +117,7 @@ end
 module Type : sig
   val mk :
     ?kind:type_kind ->
-    ?params:name list ->
+    ?params:type_expr list ->
     name:atom ->
     expr:type_expr ->
     type_decl
