@@ -3,15 +3,21 @@ open Erl_ast
 open Erl_ast_helper
 
 type parse_error =
-  | Unknown_type_visibility of string
-  | Functions_must_have_clauses
   | Expression_is_invalid_pattern of expr
+  | Arrow_types_must_start_with_spec
+  | Unsupported_error_class 
+  | Functions_must_have_clauses
+  | Unknown_type_visibility of string
 
 exception Parse_error of parse_error
 exception Error
 
 let throw x =
   begin match x with
+  | Unsupported_error_class ->
+      Format.fprintf Format.std_formatter "Error classes must be 'throw' or 'error'"
+  | Arrow_types_must_start_with_spec ->
+      Format.fprintf Format.std_formatter "Arrow types must start with -spec "
   | Unknown_type_visibility v ->
       Format.fprintf Format.std_formatter "Unknown_type_visibility: %s" v
   | Functions_must_have_clauses ->
@@ -45,16 +51,19 @@ let rec expr_to_pattern expr =
 %token <string * Parse_info.t> CHAR ATOM FLOAT INTEGER STRING VARIABLE COMMENT
 
 (* Keyword Tokens *)
-%token <Parse_info.t> AFTER CASE END FUN OF RECEIVE
+%token <Parse_info.t> AFTER CASE END FUN OF RECEIVE WHEN NOT THROW CATCH TRY IF
 
 (* Symbol Tokens *)
-%token <Parse_info.t> ARROW BANG
+%token <Parse_info.t> ARROW ARROW_BACK BANG
 BINARY_CLOSE BINARY_OPEN
 COMMA SEMICOLON COLON COLON_COLON DOT
 LEFT_BRACE RIGHT_BRACE
 LEFT_BRACKET RIGHT_BRACKET
 LEFT_PARENS RIGHT_PARENS
-PIPE SLASH DASH EQUAL
+PIPE SLASH DASH UNDERSCORE
+LT GT LTE GTE
+PLUS STAR PLUS_PLUS MINUS_MINUS
+EQUAL EQUAL_EQUAL SLASH_EQUAL EQUAL_COLON_EQUAL EQUAL_SLASH_EQUAL COLON_EQUAL
 
 (* EOF *)
 %token <Parse_info.t> EOF
@@ -96,53 +105,50 @@ let module_attribute_value :=
 (** Type Language *)
 let type_decl :=
   | DASH;
-    visibility = type_visibility;
+    kind = type_kind;
     name = atom;
     params = parlist(name); COLON_COLON;
+    expr = type_expr;
+    _ = type_constraint?;
+    DOT;
+    { Type.mk ~kind ~name ~params ~expr  }
+  | DASH;
     kind = type_kind;
-    { Type.mk ~visibility ~name ~params ~kind  }
+    name = atom;
+    params = parlist(name); ARROW;
+    expr = type_expr;
+    _ = type_constraint?;
+    DOT;
+    {
+      (match kind with
+      | Spec -> ()
+      | _ -> throw Arrow_types_must_start_with_spec);
+      Type.mk ~kind ~name ~params ~expr
+    }
 
-let type_visibility :=
+let type_kind :=
   | (atom, _) = ATOM; {
     match atom with
     | "opaque" -> Type.opaque
-    | "type" -> Type.visible
+    | "type" -> Type.type_
+    | "spec" -> Type.spec
     | _ -> throw (Unknown_type_visibility atom)
   }
 
-let type_kind :=
-  | t = type_expr_fun ; { t }
-  | t = type_expr_tuple ; { t }
-  | t = type_expr_variant ; { t }
+(* TODO: constraints are currently being ignored *)
+let type_constraint :=
+  | WHEN; cs = separated_nonempty_list(COMMA, type_expr); { cs }
 
 let type_expr :=
-  | t = type_expr_fun; { t }
-  | t = type_expr_constr; { t }
-  | t = type_expr_var; { t }
-  | t = type_expr_tuple; { t }
-
-let type_expr_fun :=
-  | args = parlist(type_expr); COLON_COLON; return = type_expr;
-    { Type.fun_ ~args ~return }
-
-let type_expr_constr :=
-  | ~ = name; args = parlist(type_expr);
-    { Type.apply ~args ~name }
-
-let type_expr_var :=
+  (* NOTE: save this name *)
+  | _ = name; COLON_COLON; t = type_expr; { t }
   | (n, _) = VARIABLE; { Type.var (Name.var n) }
-
-let type_expr_tuple :=
+  | ~ = literal ; { Type.const literal }
   | t = tuple(type_expr); { Type.tuple t }
-
-let type_expr_variant :=
-  | constructors = separated_list(PIPE, type_expr); {
-    constructors
-    |> List.map (function
-      | Type_constr { tc_args=args; tc_name=name } -> Type.constr ~args ~name
-      | x -> Extension x )
-    |> Type.variant
-  }
+  | t = delimited(LEFT_BRACKET, type_expr, RIGHT_BRACKET); { Type.list t }
+  | args = parlist(type_expr); ARROW; return = type_expr; { Type.fun_ ~args ~return }
+  | ~ = name; args = parlist(type_expr); { Type.apply ~args ~name }
+  | t = type_expr; PIPE; t2 = type_expr; { Type.variant [t; t2] }
 
 (** Function Declarations *)
 let fun_decl :=
@@ -158,14 +164,18 @@ let fun_decl :=
 let named_fun_case := ~ = atom; ~ = fun_case; <>
 
 let fun_case :=
-  | lhs = parlist(expr); ARROW; rhs = expr;
-    { FunDecl.case ~lhs:(List.map expr_to_pattern lhs) ~guard:None ~rhs }
+  | lhs = parlist(expr); guard = guard?; ARROW; rhs = expr;
+    { FunDecl.case ~lhs:(List.map expr_to_pattern lhs) ~guard ~rhs }
+
+let guard :=
+  | WHEN; exprs = separated_list(SEMICOLON | COMMA, expr); { exprs }
 
 (**
  * Expressions
  *)
 
 let expr :=
+  | e = expr_op; { e }
   | e = expr_send; { e }
   | e = expr_recv; { e }
   | e = expr_apply; { e }
@@ -177,6 +187,16 @@ let expr :=
   | e = expr_case; { e }
   | e = expr_tuple; { e }
   | e = expr_fun; { e }
+  | e = expr_not; { e }
+  | e = expr_comment; { e }
+  | e = expr_if; { e }
+  | e = expr_try_catch; { e }
+
+let expr_comment :=
+  | c = comment; e = expr; { Expr.comment c e }
+
+let expr_not :=
+  | NOT; e = expr; { e }
 
 let expr_let :=
   | lb_lhs = expr; EQUAL; lb_rhs = expr; COMMA; next = expr;
@@ -194,6 +214,14 @@ let expr_recv :=
       after = case_branch;
     END;
     { Expr.recv ~cases ~after:(Some after) }
+
+let expr_if :=
+  | IF; clauses = separated_list(SEMICOLON, if_branch); END;
+    { Expr.if_ ~clauses }
+
+let if_branch :=
+  | lhs = expr; ARROW; rhs = expr; { (lhs, rhs) }
+
 
 let expr_send :=
   | pid = expr; BANG; msg = expr;
@@ -214,26 +242,65 @@ let expr_fun_ref :=
 let expr_apply :=
   | ~ = name; fa_args = parlist(expr);
     { Expr_apply { fa_name = Expr_name name; fa_args } }
+  | THROW; fa_args = parlist(expr);
+    { let throw = Expr.ident (Name.qualified ~module_name:(Atom.mk "erlang") (Atom.mk "throw")) in
+      Expr.apply throw fa_args }
 
 let expr_list := l = list(expr); { l }
 
 let expr_tuple := t = tuple(expr); { Expr_tuple t }
 
 let expr_case :=
-  CASE; ~ = expr; OF;
-  cases = separated_list(SEMICOLON, case_branch);
-  END;
-  { Expr_case (expr, cases) }
+  | CASE; ~ = expr; OF; cases = separated_list(SEMICOLON, case_branch); END;
+    { Expr_case (expr, cases) }
 
 let case_branch :=
-  | lhs = expr; ARROW; rhs = expr;
-    { FunDecl.case ~lhs:[expr_to_pattern lhs] ~rhs ~guard:None }
-  | lhs = separated_list(COMMA, expr); ARROW; rhs = expr;
-    { FunDecl.case ~lhs:(List.map expr_to_pattern lhs) ~rhs ~guard:None }
+  | lhs = expr; ARROW; guard = guard?; rhs = expr;
+    { FunDecl.case ~lhs:[expr_to_pattern lhs] ~rhs ~guard }
+  | lhs = separated_list(COMMA, expr); guard = guard?; ARROW; rhs = expr;
+    { FunDecl.case ~lhs:(List.map expr_to_pattern lhs) ~rhs ~guard }
 
 let expr_fun :=
   | FUN; cases = separated_list(SEMICOLON, fun_case); END;
     { Expr.fun_ ~cases }
+
+let expr_try_catch :=
+  | TRY; ~ = expr; CATCH; catch = separated_nonempty_list(SEMICOLON, catch); END;
+    { Expr.try_ expr ~catch }
+
+let catch :=
+  | class_ = catch_class?; p = expr; guard = guard?; ARROW; rhs = expr;
+    { let pattern = expr_to_pattern p in
+      let lhs = [Pat.catch ~class_ ~stacktrace:None pattern] in
+      FunDecl.case ~lhs ~guard ~rhs
+    }
+  (*
+  | class_ = catch_class?; p = expr; COLON; ~ = name; guard = guard?; ARROW; rhs = expr;
+    { let pattern = expr_to_pattern p in
+      let lhs = [Pat.catch ~class_ ~stacktrace:(Some name) pattern] in
+      FunDecl.case ~lhs ~guard ~rhs
+    }
+    *)
+
+let catch_class :=
+  | (n, _) = VARIABLE; COLON; {
+      match n with
+      | "_" -> Pat.catch_class_throw
+      | _ -> throw Unsupported_error_class
+    }
+  | THROW; COLON; { Pat.catch_class_throw }
+
+let expr_op :=
+  | op = operator; rhs = expr; {
+    let op = Expr.ident (Name.qualified ~module_name:(Atom.mk "erlang") op) in
+    let args = [rhs] in
+    Expr.apply op args
+  }
+  | lhs = expr; op = operator; rhs = expr; {
+    let op = Expr.ident (Name.qualified ~module_name:(Atom.mk "erlang") op) in
+    let args = [lhs; rhs] in
+    Expr.apply op args
+  }
 
 (**
  * Comments
@@ -254,7 +321,7 @@ let list(a) :=
     { Expr.cons el1 el2 }
 
 
-let tuple(a) := LEFT_BRACE; els = separated_list(COMMA, a); RIGHT_BRACE; { els }
+let tuple(a) := els = delimited(LEFT_BRACE, separated_list(COMMA, a), RIGHT_BRACE); { els }
 
 (**
  * Terminals
@@ -269,13 +336,31 @@ let literal :=
 
 let name :=
   | (n, _) = VARIABLE; { Name.var n }
-  | (a, _) = ATOM; { Name.atom a }
+  | (a, _) = ATOM; { Name.atom (Atom.mk a) }
   | module_name = atom; COLON; n = atom; { Name.qualified ~module_name n }
 
 let atom := (a, _) = ATOM; { Atom.mk a }
 
+let operator :=
+  | SLASH; { Atom.mk "/" }
+  | PLUS; { Atom.mk "+" }
+  | DASH; { Atom.mk "-" }
+  | PLUS_PLUS; { Atom.mk "++" }
+  | MINUS_MINUS; { Atom.mk "--" }
+  | EQUAL_EQUAL; { Atom.mk "==" }
+  | SLASH_EQUAL; { Atom.mk "/=" }
+  | EQUAL_COLON_EQUAL; { Atom.mk "=:=" }
+  | EQUAL_SLASH_EQUAL; { Atom.mk "=/=" }
+  | COLON_EQUAL; { Atom.mk ":=" }
+  | STAR; { Atom.mk "*" }
+  | LT; { Atom.mk "<" }
+  | GT; { Atom.mk ">" }
+  | LTE; { Atom.mk "=<" }
+  | GTE; { Atom.mk ">=" }
+
+
 (**
  * Helpers
  *)
-let parens(t) := LEFT_PARENS; els = t; RIGHT_PARENS; { els }
+let parens(t) := els = delimited(LEFT_PARENS, t, RIGHT_PARENS); { els }
 let parlist(t) := els = parens(separated_list(COMMA, t)); { els }

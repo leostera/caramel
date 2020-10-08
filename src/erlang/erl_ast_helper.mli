@@ -13,13 +13,15 @@ module Atom : sig
   val equal : atom -> atom -> bool
 
   val concat : atom -> atom -> string -> atom
+
+  val lowercase : atom -> atom
 end
 
 (* Helpers to work with Names *)
 module Name : sig
   val var : string -> name
 
-  val atom : string -> name
+  val atom : atom -> name
 
   val qualified : module_name:atom -> atom -> name
 
@@ -72,6 +74,12 @@ module Expr : sig
   val recv : cases:case list -> after:case option -> expr
 
   val tuple : expr list -> expr
+
+  val comment : comment -> expr -> expr
+
+  val try_ : expr -> catch:case list -> expr
+
+  val if_ : clauses:(expr * expr) list -> expr
 end
 
 (* Helpers to work with Patterns *)
@@ -89,11 +97,18 @@ module Pat : sig
   val map : (atom * pattern) list -> pattern
 
   val const : literal -> pattern
+
+  val catch :
+    ?class_:catch_class option -> ?stacktrace:name option -> pattern -> pattern
+
+  val catch_class_throw : catch_class
+
+  val catch_class_error : catch_class
 end
 
 (* Helpers to work with Functions *)
 module FunDecl : sig
-  val mk : name:atom -> ?spec:type_kind option -> cases:case list -> fun_decl
+  val mk : name:atom -> ?spec:type_expr option -> cases:case list -> fun_decl
 
   val case : lhs:pattern list -> ?guard:guard option -> rhs:expr -> case
 end
@@ -101,37 +116,37 @@ end
 (* Helpers to work with Types *)
 module Type : sig
   val mk :
-    ?visibility:type_visibility ->
+    ?kind:type_kind ->
     ?params:name list ->
     name:atom ->
-    kind:type_kind ->
+    expr:type_expr ->
     type_decl
 
-  val apply : ?args:type_kind list -> name:name -> type_kind
+  val apply : ?args:type_expr list -> name:name -> type_expr
 
-  val constr : ?args:type_kind list -> name:name -> variant_constructor
+  val field : atom -> type_expr -> record_field
 
-  val extension : type_kind -> variant_constructor
+  val fun_ : ?args:type_expr list -> return:type_expr -> type_expr
 
-  val field : atom -> type_kind -> record_field
+  val record : record_field list -> type_expr
 
-  val fun_ : ?args:type_kind list -> return:type_kind -> type_kind
+  val var : name -> type_expr
 
-  val record : record_field list -> type_kind
+  val const : literal -> type_expr
 
-  val var : name -> type_kind
+  val variant : type_expr list -> type_expr
 
-  val const : literal -> type_kind
+  val tuple : type_expr list -> type_expr
 
-  val variant : variant_constructor list -> type_kind
+  val list : type_expr -> type_expr
 
-  val tuple : type_kind list -> type_kind
+  val opaque : type_kind
 
-  val opaque : type_visibility
+  val type_ : type_kind
 
-  val visible : type_visibility
+  val spec : type_kind
 
-  val any : type_kind
+  val any : type_expr
 end
 
 module Export : sig

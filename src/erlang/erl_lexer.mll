@@ -15,12 +15,18 @@ let error lexbuf e =
 let keyword_table =
   let h = Hashtbl.create 6 in
   List.iter (fun (s,f) -> Hashtbl.add h s f ) [
-    "case", (fun i -> CASE i);
-    "receive", (fun i -> RECEIVE i);
     "after", (fun i -> AFTER i);
-    "of", (fun i -> OF i);
+    "case", (fun i -> CASE i);
+    "catch", (fun i -> CATCH i);
     "end", (fun i -> END i);
     "fun", (fun i -> FUN i);
+    "if", (fun i -> IF i);
+    "not", (fun i -> NOT i);
+    "of", (fun i -> OF i);
+    "receive", (fun i -> RECEIVE i);
+    "throw", (fun i -> THROW i);
+    "try", (fun i -> TRY i);
+    "when", (fun i -> WHEN i);
   ];
   h
 
@@ -56,7 +62,7 @@ let atom = lowercase ['A'-'Z' 'a'-'z' '_' '0'-'9' '@']*
 
 let variable = ['_' 'A'-'Z'] ['A'-'Z' 'a'-'z' '_' '0'-'9' ]*
 
-let comment = '%' ['%']*
+let comment = '%'
 
 rule token = parse
   | comment { read_comment (Buffer.create 256) lexbuf }
@@ -72,10 +78,15 @@ rule token = parse
   | "::" { COLON_COLON (tokinfo lexbuf) }
   | ";" { SEMICOLON (tokinfo lexbuf) }
   | "-" { DASH (tokinfo lexbuf) }
+  | "--" { MINUS_MINUS (tokinfo lexbuf) }
   | "|" { PIPE (tokinfo lexbuf) }
   | "/" { SLASH (tokinfo lexbuf) }
   | "(" { LEFT_PARENS (tokinfo lexbuf) }
   | ")" { RIGHT_PARENS (tokinfo lexbuf) }
+  | "<" { LT (tokinfo lexbuf) }
+  | ">" { GT (tokinfo lexbuf) }
+  | "=<" { LTE (tokinfo lexbuf) }
+  | ">=" { GTE (tokinfo lexbuf) }
   | "[" { LEFT_BRACKET (tokinfo lexbuf) }
   | "]" { RIGHT_BRACKET (tokinfo lexbuf) }
   | "{" { LEFT_BRACE (tokinfo lexbuf) }
@@ -83,6 +94,14 @@ rule token = parse
   | "->" { ARROW (tokinfo lexbuf) }
   | "<<" { BINARY_OPEN (tokinfo lexbuf) }
   | ">>" { BINARY_CLOSE (tokinfo lexbuf) }
+  | "++" { PLUS_PLUS (tokinfo lexbuf) }
+  | "+" { PLUS (tokinfo lexbuf) }
+  | "*" { STAR (tokinfo lexbuf) }
+  | "==" { EQUAL_EQUAL (tokinfo lexbuf) }
+  | "/=" { SLASH_EQUAL (tokinfo lexbuf) }
+  | "=:=" { EQUAL_COLON_EQUAL (tokinfo lexbuf) }
+  | "=/=" { EQUAL_SLASH_EQUAL (tokinfo lexbuf) }
+  | ":=" { COLON_EQUAL (tokinfo lexbuf) }
   | "\'" { read_atom (Buffer.create 1024) lexbuf }
   | "\"" { read_string (Buffer.create 1024) lexbuf }
   | atom as atom {

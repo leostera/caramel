@@ -18,7 +18,7 @@ let run sources =
           Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
             (Erlang.Ast.sexp_of_structure structure)
       | Error (`Parser_error err) ->
-          Format.fprintf Format.std_formatter "ERROR: %s" err );
+          Format.fprintf Format.std_formatter "ERROR: %s%!\n" err );
       Format.fprintf Format.std_formatter "\n%!")
     sources
 

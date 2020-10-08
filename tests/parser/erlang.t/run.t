@@ -6,13 +6,13 @@
     (Module_attribute
       ((atr_name (Atom module))
         (atr_value (Expr_literal (Lit_atom (Atom comments))))))
-    (Module_comment (Comment " multi \"%\""))
+    (Module_comment (Comment "%% multi \"%\""))
     (Module_attribute
       ((atr_name (Atom behavior))
         (atr_value (Expr_literal (Lit_atom (Atom b))))))
-    (Module_comment (Comment " many"))
-    (Module_comment (Comment " consecutive"))
-    (Module_comment (Comment " lines"))
+    (Module_comment (Comment "% many"))
+    (Module_comment (Comment "% consecutive"))
+    (Module_comment (Comment "% lines"))
     (Module_attribute
       ((atr_name (Atom author))
         (atr_value (Expr_literal (Lit_atom (Atom comment)))))))
@@ -677,6 +677,216 @@
             ((Expr_tuple
                ((Expr_literal (Lit_atom (Atom pre)))
                  (Expr_literal (Lit_integer 0))))))))))
+  ((Module_attribute
+     ((atr_name (Atom module))
+       (atr_value (Expr_literal (Lit_atom (Atom operators))))))
+    (Function_decl
+      ((fd_name (Atom f)) (fd_arity 0)
+        (fd_cases
+          (((c_lhs ()) (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name _)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name
+                          (Expr_name
+                            (Qualified_name (n_mod (Atom erlang))
+                              (n_name (Atom '-')))))
+                         (fa_args ((Expr_literal (Lit_integer 1))))))))
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name _)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom erlang))
+                                (n_name (Atom send)))))
+                           (fa_args
+                             ((Expr_literal (Lit_integer 1))
+                               (Expr_literal (Lit_integer 1))))))))
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding (Var_name _)))
+                       (lb_rhs
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name (n_mod (Atom erlang))
+                                  (n_name (Atom '+')))))
+                             (fa_args
+                               ((Expr_literal (Lit_integer 1))
+                                 (Expr_literal (Lit_integer 1))))))))
+                     (Expr_let
+                       ((lb_lhs (Pattern_binding (Var_name _)))
+                         (lb_rhs
+                           (Expr_apply
+                             ((fa_name
+                                (Expr_name
+                                  (Qualified_name (n_mod (Atom erlang))
+                                    (n_name (Atom '-')))))
+                               (fa_args
+                                 ((Expr_literal (Lit_integer 1))
+                                   (Expr_literal (Lit_integer 1))))))))
+                       (Expr_let
+                         ((lb_lhs (Pattern_binding (Var_name _)))
+                           (lb_rhs
+                             (Expr_apply
+                               ((fa_name
+                                  (Expr_name
+                                    (Qualified_name (n_mod (Atom erlang))
+                                      (n_name (Atom '/')))))
+                                 (fa_args
+                                   ((Expr_literal (Lit_integer 1))
+                                     (Expr_literal (Lit_integer 1))))))))
+                         (Expr_let
+                           ((lb_lhs (Pattern_binding (Var_name _)))
+                             (lb_rhs
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name
+                                      (Qualified_name (n_mod (Atom erlang))
+                                        (n_name (Atom '*')))))
+                                   (fa_args
+                                     ((Expr_literal (Lit_integer 1))
+                                       (Expr_literal (Lit_integer 1))))))))
+                           (Expr_let
+                             ((lb_lhs (Pattern_binding (Var_name _)))
+                               (lb_rhs
+                                 (Expr_apply
+                                   ((fa_name
+                                      (Expr_name
+                                        (Qualified_name (n_mod (Atom erlang))
+                                          (n_name (Atom '++')))))
+                                     (fa_args
+                                       ((Expr_literal (Lit_integer 1))
+                                         (Expr_literal (Lit_integer 1))))))))
+                             (Expr_let
+                               ((lb_lhs (Pattern_binding (Var_name _)))
+                                 (lb_rhs
+                                   (Expr_apply
+                                     ((fa_name
+                                        (Expr_name
+                                          (Qualified_name (n_mod (Atom erlang))
+                                            (n_name (Atom '--')))))
+                                       (fa_args
+                                         ((Expr_literal (Lit_integer 1))
+                                           (Expr_literal (Lit_integer 1))))))))
+                               (Expr_let
+                                 ((lb_lhs (Pattern_binding (Var_name _)))
+                                   (lb_rhs
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Qualified_name
+                                              (n_mod (Atom erlang))
+                                              (n_name (Atom '==')))))
+                                         (fa_args
+                                           ((Expr_literal (Lit_integer 1))
+                                             (Expr_literal (Lit_integer 1))))))))
+                                 (Expr_let
+                                   ((lb_lhs (Pattern_binding (Var_name _)))
+                                     (lb_rhs
+                                       (Expr_apply
+                                         ((fa_name
+                                            (Expr_name
+                                              (Qualified_name
+                                                (n_mod (Atom erlang))
+                                                (n_name (Atom '=:=')))))
+                                           (fa_args
+                                             ((Expr_literal (Lit_integer 1))
+                                               (Expr_literal (Lit_integer 1))))))))
+                                   (Expr_let
+                                     ((lb_lhs (Pattern_binding (Var_name _)))
+                                       (lb_rhs
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Qualified_name
+                                                  (n_mod (Atom erlang))
+                                                  (n_name (Atom '=/=')))))
+                                             (fa_args
+                                               ((Expr_literal (Lit_integer 1))
+                                                 (Expr_literal (Lit_integer 1))))))))
+                                     (Expr_let
+                                       ((lb_lhs (Pattern_binding (Var_name _)))
+                                         (lb_rhs
+                                           (Expr_apply
+                                             ((fa_name
+                                                (Expr_name
+                                                  (Qualified_name
+                                                    (n_mod (Atom erlang))
+                                                    (n_name (Atom '/=')))))
+                                               (fa_args
+                                                 ((Expr_literal
+                                                    (Lit_integer 1))
+                                                   (Expr_literal
+                                                     (Lit_integer 1))))))))
+                                       (Expr_let
+                                         ((lb_lhs
+                                            (Pattern_binding (Var_name _)))
+                                           (lb_rhs
+                                             (Expr_apply
+                                               ((fa_name
+                                                  (Expr_name
+                                                    (Qualified_name
+                                                      (n_mod (Atom erlang))
+                                                      (n_name (Atom '<')))))
+                                                 (fa_args
+                                                   ((Expr_literal
+                                                      (Lit_integer 1))
+                                                     (Expr_literal
+                                                       (Lit_integer 1))))))))
+                                         (Expr_let
+                                           ((lb_lhs
+                                              (Pattern_binding (Var_name _)))
+                                             (lb_rhs
+                                               (Expr_apply
+                                                 ((fa_name
+                                                    (Expr_name
+                                                      (Qualified_name
+                                                        (n_mod (Atom erlang))
+                                                        (n_name (Atom '=<')))))
+                                                   (fa_args
+                                                     ((Expr_literal
+                                                        (Lit_integer 1))
+                                                       (Expr_literal
+                                                         (Lit_integer 1))))))))
+                                           (Expr_let
+                                             ((lb_lhs
+                                                (Pattern_binding (Var_name _)))
+                                               (lb_rhs
+                                                 (Expr_apply
+                                                   ((fa_name
+                                                      (Expr_name
+                                                        (Qualified_name
+                                                          (n_mod (Atom erlang))
+                                                          (n_name (Atom '>')))))
+                                                     (fa_args
+                                                       ((Expr_literal
+                                                          (Lit_integer 1))
+                                                         (Expr_literal
+                                                           (Lit_integer 1))))))))
+                                             (Expr_let
+                                               ((lb_lhs
+                                                  (Pattern_binding
+                                                    (Var_name _)))
+                                                 (lb_rhs
+                                                   (Expr_apply
+                                                     ((fa_name
+                                                        (Expr_name
+                                                          (Qualified_name
+                                                            (n_mod
+                                                              (Atom erlang))
+                                                            (n_name
+                                                              (Atom '>=')))))
+                                                       (fa_args
+                                                         ((Expr_literal
+                                                            (Lit_integer 1))
+                                                           (Expr_literal
+                                                             (Lit_integer 1))))))))
+                                               (Expr_literal
+                                                 (Lit_atom (Atom ok)))))))))))))))))))))))
+        (fd_spec ()))))
   ((Module_attribute
      ((atr_name (Atom module))
        (atr_value (Expr_literal (Lit_atom (Atom type_declaration)))))))

@@ -2,33 +2,28 @@ open Erl_ast
 
 (* Helpers to work with Atoms *)
 module Atom = struct
-  let quote str = "'" ^ str ^ "'"
+  let safe_quote str =
+    match str.[0] with 'a' .. 'z' -> str | _ -> "'" ^ str ^ "'"
 
   let unquote a =
-    match a.[0] with
-    | '\'' -> String.sub a 1 ((String.length a) - 2)
-    | _ -> a
+    match a.[0] with '\'' -> String.sub a 1 (String.length a - 2) | _ -> a
 
-  let mk str =
-    let atom = match str.[0] with
-      | 'a' .. 'z' -> String.lowercase_ascii str
-      | _ -> quote str
-    in
-    Atom atom
+  let mk str = Atom (safe_quote str)
 
   let to_string (Atom str) = unquote str
 
+  let lowercase (Atom str) = mk (String.lowercase_ascii (unquote str))
+
   let equal (Atom a) (Atom b) = String.equal a b
 
-  let concat (Atom a) (Atom b) str =
-    mk ((unquote a) ^ str ^ (unquote b))
+  let concat (Atom a) (Atom b) str = mk (unquote a ^ str ^ unquote b)
 end
 
 (* Helpers to work with Names *)
 module Name = struct
   let var str = Var_name (String.capitalize_ascii str)
 
-  let atom str = Atom_name (Atom.mk str)
+  let atom a = Atom_name a
 
   let qualified ~module_name:n_mod n_name = Qualified_name { n_mod; n_name }
 
@@ -88,6 +83,12 @@ module Expr = struct
   let recv ~cases ~after = Expr_recv { rcv_cases = cases; rcv_after = after }
 
   let tuple parts = Expr_tuple parts
+
+  let comment c e = Expr_comment (c, e)
+
+  let try_ try_expr ~catch = Expr_try { try_expr; try_catch = catch }
+
+  let if_ ~clauses = Expr_if clauses
 end
 
 (* Helpers to work with Patterns *)
@@ -105,6 +106,13 @@ module Pat = struct
   let map kvs = Pattern_map kvs
 
   let const literal = Pattern_match literal
+
+  let catch ?(class_ = None) ?(stacktrace = None) pat =
+    Pattern_catch (class_, pat, stacktrace)
+
+  let catch_class_throw = Class_throw
+
+  let catch_class_error = Class_error
 end
 
 (* Helpers to work with Functions *)
@@ -124,13 +132,8 @@ end
 
 (* Helpers to work with Types *)
 module Type = struct
-  let mk ?(visibility = Visible) ?(params = []) ~name ~kind =
-    {
-      typ_kind = kind;
-      typ_name = name;
-      typ_visibility = visibility;
-      typ_params = params;
-    }
+  let mk ?(kind = Type) ?(params = []) ~name ~expr =
+    { typ_expr = expr; typ_name = name; typ_kind = kind; typ_params = params }
 
   let apply ?(args = []) ~name = Type_constr { tc_name = name; tc_args = args }
 
@@ -141,21 +144,23 @@ module Type = struct
 
   let var name = Type_variable name
 
-  let variant tyvar_constructors = Type_variant { tyvar_constructors }
+  let const lit = Type_const lit
+
+  let variant types = Type_variant types
 
   let tuple parts = Type_tuple parts
 
-  let constr ?(args = []) ~name = Constructor { tc_name = name; tc_args = args }
-
-  let extension type_kind = Extension type_kind
+  let list t = Type_list t
 
   let field rf_name rf_type = { rf_name; rf_type }
 
   let opaque = Opaque
 
-  let visible = Visible
+  let type_ = Type
 
-  let any = apply ~args:[] ~name:(Name.atom "any")
+  let spec = Spec
+
+  let any = apply ~args:[] ~name:(Name.atom (Atom.mk "any"))
 end
 
 module Export = struct
@@ -257,7 +262,7 @@ module Mod = struct
     | x :: xs -> item_list_to_module xs (update x acc)
 
   let of_structure items =
-    match (List.rev items) with
+    match List.rev items with
     | [
      Module_attribute
        {

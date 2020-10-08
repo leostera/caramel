@@ -2,7 +2,7 @@ type atom = Atom of string
 
 and comment = Comment of string
 
-and guard = unit
+and guard = expr list
 
 and name =
   | Var_name of string
@@ -24,7 +24,12 @@ and literal =
 
 and recv = { rcv_cases : case list; rcv_after : case option }
 
+and catch_class = Class_error | Class_throw
+
+and try_catch = { try_expr : expr; try_catch : case list }
+
 and expr =
+  | Expr_comment of comment * expr
   | Expr_let of let_binding * expr
   | Expr_name of name
   | Expr_literal of literal
@@ -36,8 +41,10 @@ and expr =
   | Expr_nil
   | Expr_cons of expr list * expr
   | Expr_case of expr * case list
+  | Expr_if of (expr * expr) list
   | Expr_tuple of expr list
   | Expr_fun of case list
+  | Expr_try of try_catch
 
 and pattern =
   | Pattern_ignore
@@ -46,6 +53,7 @@ and pattern =
   | Pattern_list of pattern list
   | Pattern_cons of pattern list * pattern
   | Pattern_map of (atom * pattern) list
+  | Pattern_catch of catch_class option * pattern * name option
   | Pattern_match of literal
 
 and fun_apply = { fa_name : expr; fa_args : expr list }
@@ -54,28 +62,28 @@ and fun_decl = {
   fd_name : atom;
   fd_arity : int;
   fd_cases : case list;
-  fd_spec : type_kind option;
+  fd_spec : type_expr option;
 }
 
-and record_field = { rf_name : atom; rf_type : type_kind }
+and record_field = { rf_name : atom; rf_type : type_expr }
 
-and variant_constructor = Constructor of type_constr | Extension of type_kind
+and type_constr = { tc_name : name; tc_args : type_expr list }
 
-and type_constr = { tc_name : name; tc_args : type_kind list }
-
-and type_kind =
-  | Type_function of { tyfun_args : type_kind list; tyfun_return : type_kind }
+and type_expr =
+  | Type_function of { tyfun_args : type_expr list; tyfun_return : type_expr }
   | Type_constr of type_constr
   | Type_variable of name
-  | Type_tuple of type_kind list
+  | Type_tuple of type_expr list
+  | Type_list of type_expr
   | Type_record of { tyrec_fields : record_field list }
-  | Type_variant of { tyvar_constructors : variant_constructor list }
+  | Type_variant of type_expr list
+  | Type_const of literal
 
-and type_visibility = Opaque | Visible
+and type_kind = Opaque | Type | Spec
 
 and type_decl = {
+  typ_expr : type_expr;
   typ_kind : type_kind;
-  typ_visibility : type_visibility;
   typ_name : atom;
   typ_params : name list;
 }
@@ -110,4 +118,5 @@ and t = {
 }
 
 val sexp_of_t : t -> Sexplib.Sexp.t
+
 val sexp_of_structure : structure -> Sexplib.Sexp.t
