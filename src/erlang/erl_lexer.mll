@@ -16,17 +16,31 @@ let keyword_table =
   let h = Hashtbl.create 6 in
   List.iter (fun (s,f) -> Hashtbl.add h s f ) [
     "after", (fun i -> AFTER i);
+    "and", (fun i -> AND i);
+    "andalso", (fun i -> ANDALSO i);
+    "band", (fun i -> BAND i);
+    "begin", (fun i -> BEGIN i);
+    "bnot", (fun i -> BNOT i);
+    "bor", (fun i -> BOR i);
+    "bsl", (fun i -> BSL i);
+    "bsr", (fun i -> BSR i);
+    "bxor", (fun i -> BXOR i);
     "case", (fun i -> CASE i);
     "catch", (fun i -> CATCH i);
+    "div", (fun i -> DIV i);
     "end", (fun i -> END i);
     "fun", (fun i -> FUN i);
     "if", (fun i -> IF i);
     "not", (fun i -> NOT i);
     "of", (fun i -> OF i);
+    "or", (fun i -> OR i);
+    "orelse", (fun i -> ORELSE i);
     "receive", (fun i -> RECEIVE i);
+    "rem", (fun i -> REM i);
     "throw", (fun i -> THROW i);
     "try", (fun i -> TRY i);
     "when", (fun i -> WHEN i);
+    "xor", (fun i -> XOR i);
   ];
   h
 

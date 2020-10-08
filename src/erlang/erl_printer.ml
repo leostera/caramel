@@ -172,6 +172,10 @@ and pp_pattern_match ppf pm =
       in
       Format.fprintf ppf "%s:%a:%a" class_ pp_pattern_match pat pp_name n
   | Pattern_ignore -> Format.fprintf ppf "_"
+  | Pattern_with_name (pat, name) ->
+      pp_pattern_match ppf pat;
+      Format.fprintf ppf " = ";
+      pp_name ppf name
   | Pattern_binding name -> pp_name ppf name
   | Pattern_match lit -> pp_literal ppf lit
   | Pattern_tuple [] -> Format.fprintf ppf "ok"
@@ -246,25 +250,30 @@ and pp_name ppf name =
        *)
       Format.fprintf ppf "%a:%a" pp_atom n_mod pp_atom n_name
 
+and pp_expression_list prefix ppf expressions ~module_ =
+  Format.pp_print_list
+    ~pp_sep:(fun ppf () -> Format.fprintf ppf ", ")
+    (pp_expression prefix ~module_)
+    ppf
+    expressions
+
+and pp_if_case_branch prefix ppf (lhs, rhs) ~module_ =
+  Format.pp_print_list
+    ~pp_sep:(fun ppf () -> Format.fprintf ppf ";\n")
+    (pp_expression_list prefix ~module_)
+    ppf
+    lhs;
+  Format.fprintf ppf " -> ";
+  pp_expression "" ppf rhs ~module_
+
 and pp_if_case_branches prefix ppf branches ~module_ =
-  match branches with
-  | (lhs, rhs) :: bs -> (
-      let prefix = prefix ^ "  " in
-      Format.fprintf ppf "\n%s" prefix;
-      pp_expression prefix ppf lhs ~module_;
-      Format.fprintf ppf " -> ";
-      pp_expression "" ppf rhs ~module_;
-      match bs with
-      | [] -> ()
-      | bs ->
-          List.iter
-            (fun (lhs, rhs) ->
-              Format.fprintf ppf ";\n%s" prefix;
-              pp_expression "" ppf lhs ~module_;
-              Format.fprintf ppf " -> ";
-              pp_expression "" ppf rhs ~module_)
-            bs )
-  | _ -> raise Invalid_case_branch
+  let prefix = prefix ^ "  " in
+  Format.fprintf ppf "\n%s" prefix;
+  Format.pp_print_list
+    ~pp_sep:(fun ppf () -> Format.fprintf ppf ";\n")
+    (pp_if_case_branch prefix ~module_)
+    ppf
+    branches
 
 and pp_case_branches prefix ppf branches ~module_ =
   match branches with
@@ -498,7 +507,14 @@ let pp_types ppf types =
            | Spec -> "spec"
          in
          let params =
-           typ_params |> List.map Name.to_string |> String.concat ", "
+           let buf = Buffer.create 1024 in
+           let f = Format.formatter_of_buffer buf in
+           Format.pp_print_list
+             ~pp_sep:(fun ppf () -> Format.fprintf ppf ", ")
+             (pp_type_expr "")
+             f
+             typ_params;
+            Buffer.contents buf
          in
          let prefix =
            Format.sprintf "-%s %s(%s) :: " visibility (Atom.to_string typ_name)

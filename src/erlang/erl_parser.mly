@@ -5,7 +5,7 @@ open Erl_ast_helper
 type parse_error =
   | Expression_is_invalid_pattern of expr
   | Arrow_types_must_start_with_spec
-  | Unsupported_error_class 
+  | Unsupported_error_class
   | Functions_must_have_clauses
   | Unknown_type_visibility of string
 
@@ -24,6 +24,8 @@ let throw x =
       Format.fprintf Format.std_formatter "Functions_must_have_clauses"
   | Expression_is_invalid_pattern expr ->
       Format.fprintf Format.std_formatter "Expression_is_invalid_pattern: ";
+      Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter (sexp_of_expr expr);
+      Format.fprintf Format.std_formatter "\n\n";
       Erl_printer.pp_expression "" Format.std_formatter expr ~module_:Mod.empty
   end;
   Format.fprintf Format.std_formatter "\n%!";
@@ -37,6 +39,8 @@ let rec expr_to_pattern expr =
   | Expr_list exprs -> Pattern_list (List.map expr_to_pattern exprs)
   | Expr_cons (lhs, rhs) -> Pattern_cons (List.map expr_to_pattern lhs, expr_to_pattern rhs)
   | Expr_tuple exprs -> Pattern_tuple (List.map expr_to_pattern exprs)
+  | Expr_nil -> Pattern_list []
+  | Expr_let ({ lb_lhs; lb_rhs = (Expr_name (Var_name name))}, _) -> Pattern_with_name (lb_lhs, (Name.var name))
   | _ -> throw (Expression_is_invalid_pattern expr)
 
 %}
@@ -51,7 +55,8 @@ let rec expr_to_pattern expr =
 %token <string * Parse_info.t> CHAR ATOM FLOAT INTEGER STRING VARIABLE COMMENT
 
 (* Keyword Tokens *)
-%token <Parse_info.t> AFTER CASE END FUN OF RECEIVE WHEN NOT THROW CATCH TRY IF
+%token <Parse_info.t> AFTER AND ANDALSO BAND BEGIN BNOT BOR BSL BSR BXOR CASE
+CATCH DIV END FUN IF NOT OF OR ORELSE RECEIVE REM THROW TRY WHEN XOR
 
 (* Symbol Tokens *)
 %token <Parse_info.t> ARROW ARROW_BACK BANG
@@ -86,36 +91,25 @@ let module_item :=
   | ~ = fun_decl; { Function_decl fun_decl }
 
 (** Module Attributes *)
-let name_with_arity :=
-  | name = atom; SLASH; (arity, _) = INTEGER;
-    { Expr.tuple [ Expr.const (Const.atom name); Expr.const (Const.integer arity)] }
-
 let module_attribute :=
-  | DASH; atr_name = atom; atr_value = parens(module_attribute_value); DOT;
+  | DASH; atr_name = atom; atr_value = parens(expr); DOT;
     { { atr_name; atr_value} }
-
-let module_attribute_value :=
-  | LEFT_BRACE; name = atom; COMMA; els = list(name_with_arity); RIGHT_BRACE;
-    { Expr.tuple [ Expr.const (Const.atom name); els ] }
-
-  | els = list(name_with_arity); { els }
-
-  | atom = atom; { Expr_literal (Lit_atom atom) }
 
 (** Type Language *)
 let type_decl :=
   | DASH;
     kind = type_kind;
     name = atom;
-    params = parlist(name); COLON_COLON;
+    params = parlist(type_expr); COLON_COLON;
     expr = type_expr;
     _ = type_constraint?;
     DOT;
+    (* NOTE: should we constraint params to only names here? *)
     { Type.mk ~kind ~name ~params ~expr  }
   | DASH;
     kind = type_kind;
     name = atom;
-    params = parlist(name); ARROW;
+    params = parlist(type_expr); ARROW;
     expr = type_expr;
     _ = type_constraint?;
     DOT;
@@ -142,13 +136,28 @@ let type_constraint :=
 let type_expr :=
   (* NOTE: save this name *)
   | _ = name; COLON_COLON; t = type_expr; { t }
+
   | (n, _) = VARIABLE; { Type.var (Name.var n) }
+
   | ~ = literal ; { Type.const literal }
+
   | t = tuple(type_expr); { Type.tuple t }
-  | t = delimited(LEFT_BRACKET, type_expr, RIGHT_BRACKET); { Type.list t }
-  | args = parlist(type_expr); ARROW; return = type_expr; { Type.fun_ ~args ~return }
-  | ~ = name; args = parlist(type_expr); { Type.apply ~args ~name }
-  | t = type_expr; PIPE; t2 = type_expr; { Type.variant [t; t2] }
+
+  | t = delimited(LEFT_BRACKET, type_expr, RIGHT_BRACKET);
+    { Type.list t }
+  | LEFT_BRACKET; t = type_expr; COMMA; DOT; DOT; DOT; RIGHT_BRACKET;
+    { Type.list t }
+
+  | FUN; LEFT_PARENS; args = parlist(type_expr); ARROW; return = type_expr; RIGHT_PARENS;
+    { Type.fun_ ~args ~return }
+
+  | ~ = name; args = parlist(type_expr);
+    { Type.apply ~args ~name }
+
+  | t = type_expr; PIPE; t2 = type_expr;
+    { Type.variant [t; t2] }
+  | LEFT_PARENS; t = type_expr; PIPE; t2 = type_expr; RIGHT_PARENS;
+    { Type.variant [t; t2] }
 
 (** Function Declarations *)
 let fun_decl :=
@@ -187,16 +196,12 @@ let expr :=
   | e = expr_case; { e }
   | e = expr_tuple; { e }
   | e = expr_fun; { e }
-  | e = expr_not; { e }
   | e = expr_comment; { e }
   | e = expr_if; { e }
   | e = expr_try_catch; { e }
 
 let expr_comment :=
   | c = comment; e = expr; { Expr.comment c e }
-
-let expr_not :=
-  | NOT; e = expr; { e }
 
 let expr_let :=
   | lb_lhs = expr; EQUAL; lb_rhs = expr; COMMA; next = expr;
@@ -220,7 +225,7 @@ let expr_if :=
     { Expr.if_ ~clauses }
 
 let if_branch :=
-  | lhs = expr; ARROW; rhs = expr; { (lhs, rhs) }
+  | lhs = separated_nonempty_list(SEMICOLON, separated_list(COMMA, expr)); ARROW; rhs = expr; { (lhs, rhs) }
 
 
 let expr_send :=
@@ -230,7 +235,7 @@ let expr_send :=
   }
 
 let expr_name  :=
-  | n = name; { Expr_name n }
+  | n = name; { Expr.ident n }
 
 let expr_literal :=
   | ~ = literal; { Expr_literal literal }
@@ -241,14 +246,14 @@ let expr_fun_ref :=
 
 let expr_apply :=
   | ~ = name; fa_args = parlist(expr);
-    { Expr_apply { fa_name = Expr_name name; fa_args } }
+    { Expr.apply (Expr.ident name) fa_args }
   | THROW; fa_args = parlist(expr);
     { let throw = Expr.ident (Name.qualified ~module_name:(Atom.mk "erlang") (Atom.mk "throw")) in
       Expr.apply throw fa_args }
 
 let expr_list := l = list(expr); { l }
 
-let expr_tuple := t = tuple(expr); { Expr_tuple t }
+let expr_tuple := t = tuple(expr); { Expr.tuple t }
 
 let expr_case :=
   | CASE; ~ = expr; OF; cases = separated_list(SEMICOLON, case_branch); END;
@@ -342,22 +347,35 @@ let name :=
 let atom := (a, _) = ATOM; { Atom.mk a }
 
 let operator :=
-  | SLASH; { Atom.mk "/" }
-  | PLUS; { Atom.mk "+" }
-  | DASH; { Atom.mk "-" }
-  | PLUS_PLUS; { Atom.mk "++" }
-  | MINUS_MINUS; { Atom.mk "--" }
-  | EQUAL_EQUAL; { Atom.mk "==" }
-  | SLASH_EQUAL; { Atom.mk "/=" }
-  | EQUAL_COLON_EQUAL; { Atom.mk "=:=" }
-  | EQUAL_SLASH_EQUAL; { Atom.mk "=/=" }
+  | AND; { Atom.mk "and" }
+  | ANDALSO; { Atom.mk "andalso" }
+  | BAND; { Atom.mk "band" }
+  | BNOT; { Atom.mk "bnot" }
+  | BOR; { Atom.mk "bor" }
+  | BSL; { Atom.mk "bsl" }
+  | BSR; { Atom.mk "bsr" }
+  | BXOR; { Atom.mk "bxor" }
   | COLON_EQUAL; { Atom.mk ":=" }
-  | STAR; { Atom.mk "*" }
-  | LT; { Atom.mk "<" }
+  | DASH; { Atom.mk "-" }
+  | DIV; { Atom.mk "div" }
+  | EQUAL_COLON_EQUAL; { Atom.mk "=:=" }
+  | EQUAL_EQUAL; { Atom.mk "==" }
+  | EQUAL_SLASH_EQUAL; { Atom.mk "=/=" }
   | GT; { Atom.mk ">" }
-  | LTE; { Atom.mk "=<" }
   | GTE; { Atom.mk ">=" }
-
+  | LT; { Atom.mk "<" }
+  | LTE; { Atom.mk "=<" }
+  | MINUS_MINUS; { Atom.mk "--" }
+  | NOT; { Atom.mk "not" }
+  | OR; { Atom.mk "or" }
+  | ORELSE; { Atom.mk "orelse" }
+  | PLUS; { Atom.mk "+" }
+  | PLUS_PLUS; { Atom.mk "++" }
+  | REM; { Atom.mk "rem" }
+  | SLASH; { Atom.mk "/" }
+  | SLASH_EQUAL; { Atom.mk "/=" }
+  | STAR; { Atom.mk "*" }
+  | XOR; { Atom.mk "xor" }
 
 (**
  * Helpers
