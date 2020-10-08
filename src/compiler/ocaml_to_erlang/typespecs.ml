@@ -225,6 +225,7 @@ let mk_type_params params =
 let mk_type type_decl ~signature =
   let name = Names.atom_of_ident type_decl.typ_id in
   let params = mk_type_params type_decl.typ_params in
+  let params = List.map Type.var params in
   match type_decl.typ_kind with
   (* NOTE: turns out that "abstract" here means "only structure, no names!"
    * so this branch will generate the appropriate types for tuples, aliases
