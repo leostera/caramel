@@ -654,29 +654,49 @@
       ((atr_name (Atom export_type))
         (atr_value
           (Expr_list
-            ((Expr_tuple
-               ((Expr_literal (Lit_atom (Atom t)))
-                 (Expr_literal (Lit_integer 0))))
-              (Expr_tuple
-                ((Expr_literal (Lit_atom (Atom opt)))
-                  (Expr_literal (Lit_integer 2)))))))))
+            ((Expr_apply
+               ((fa_name
+                  (Expr_name
+                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
+                 (fa_args
+                   ((Expr_literal (Lit_atom (Atom t)))
+                     (Expr_literal (Lit_integer 0))))))
+              (Expr_apply
+                ((fa_name
+                   (Expr_name
+                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
+                  (fa_args
+                    ((Expr_literal (Lit_atom (Atom opt)))
+                      (Expr_literal (Lit_integer 2)))))))))))
     (Module_attribute
       ((atr_name (Atom export))
         (atr_value
           (Expr_list
-            ((Expr_tuple
-               ((Expr_literal (Lit_atom (Atom f)))
-                 (Expr_literal (Lit_integer 0))))
-              (Expr_tuple
-                ((Expr_literal (Lit_atom (Atom g)))
-                  (Expr_literal (Lit_integer 2)))))))))
+            ((Expr_apply
+               ((fa_name
+                  (Expr_name
+                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
+                 (fa_args
+                   ((Expr_literal (Lit_atom (Atom f)))
+                     (Expr_literal (Lit_integer 0))))))
+              (Expr_apply
+                ((fa_name
+                   (Expr_name
+                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
+                  (fa_args
+                    ((Expr_literal (Lit_atom (Atom g)))
+                      (Expr_literal (Lit_integer 2)))))))))))
     (Module_attribute
       ((atr_name (Atom on_load))
         (atr_value
           (Expr_list
-            ((Expr_tuple
-               ((Expr_literal (Lit_atom (Atom pre)))
-                 (Expr_literal (Lit_integer 0))))))))))
+            ((Expr_apply
+               ((fa_name
+                  (Expr_name
+                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
+                 (fa_args
+                   ((Expr_literal (Lit_atom (Atom pre)))
+                     (Expr_literal (Lit_integer 0))))))))))))
   ((Module_attribute
      ((atr_name (Atom module))
        (atr_value (Expr_literal (Lit_atom (Atom operators))))))

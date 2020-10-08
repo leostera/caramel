@@ -264,8 +264,14 @@ seq(First, Last, Inc)
     if
         Inc > 0, First - Inc =< Last;
         Inc < 0, First - Inc >= Last ->
-            N = (Last - First + Inc) div Inc,
-            seq_loop(N, Inc*(N-1)+First, Inc, []);
+            %% FIXME: the next 3 lines used to look like this:
+            %%   N = (Last - First + Inc) div Inc,
+            %%   seq_loop(N, Inc*(N-1)+First, Inc, []);
+            %% but parenthesizing doesn't work yet.
+            N = Last - First + Inc,
+            N2 = N div Inc,
+            N3 = N-1,
+            seq_loop(N, Inc*N3+First, Inc, []);
         Inc =:= 0, First =:= Last ->
             seq_loop(1, First, Inc, [])
     end.
@@ -1282,8 +1288,9 @@ foldr(F, Accu, []) when is_function(F, 2) -> Accu.
       List2 :: [T],
       T :: term().
 
-filter(Pred, List) when is_function(Pred, 1) ->
-    [ E || E <- List, Pred(E) ].
+% FIXME: no support for list comprehensions yet
+% filter(Pred, List) when is_function(Pred, 1) ->
+%    [ E || E <- List, Pred(E) ].
 
 %% Equivalent to {filter(F, L), filter(NotF, L)}, if NotF = 'fun(X) ->
 %% not F(X) end'.
@@ -1335,7 +1342,8 @@ zf(F, L) ->
       T :: term().
 
 foreach(F, [Hd|Tail]) ->
-    F(Hd),
+  % FIXME: this should be just F(Hd),
+    _ = F(Hd),
     foreach(F, Tail);
 foreach(F, []) when is_function(F, 1) -> ok.
 
