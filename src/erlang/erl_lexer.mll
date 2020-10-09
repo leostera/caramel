@@ -76,6 +76,8 @@ let atom = lowercase ['A'-'Z' 'a'-'z' '_' '0'-'9' '@']*
 
 let variable = ['_' 'A'-'Z'] ['A'-'Z' 'a'-'z' '_' '0'-'9' ]*
 
+let macro = ['?'] ['A'-'Z' 'a'-'z' '_' '0'-'9' ]*
+
 let comment = '%'
 
 rule token = parse
@@ -85,6 +87,7 @@ rule token = parse
   | float as float { FLOAT (float, tokinfo lexbuf) }
   | number as number { INTEGER (number, tokinfo lexbuf) }
   | "!" { BANG (tokinfo lexbuf) }
+  | "#" { HASH (tokinfo lexbuf) }
   | "." { DOT (tokinfo lexbuf) }
   | "," { COMMA (tokinfo lexbuf) }
   | ":" { COLON (tokinfo lexbuf) }
@@ -106,6 +109,7 @@ rule token = parse
   | "{" { LEFT_BRACE (tokinfo lexbuf) }
   | "}" { RIGHT_BRACE (tokinfo lexbuf) }
   | "->" { ARROW (tokinfo lexbuf) }
+  | "=>" { FAT_ARROW (tokinfo lexbuf) }
   | "<<" { BINARY_OPEN (tokinfo lexbuf) }
   | ">>" { BINARY_CLOSE (tokinfo lexbuf) }
   | "++" { PLUS_PLUS (tokinfo lexbuf) }
@@ -123,6 +127,7 @@ rule token = parse
 							|> or_else (fun i -> ATOM (atom, i))
 			in a (tokinfo lexbuf)
 	}
+  | macro as macro { MACRO (macro, tokinfo lexbuf) }
   | variable as variable { VARIABLE (variable, tokinfo lexbuf) }
   | eof { EOF (tokinfo lexbuf) }
 

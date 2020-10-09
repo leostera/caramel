@@ -3,6 +3,7 @@ type t =
   | AND of Parse_info.t
   | ANDALSO of Parse_info.t
   | ARROW of Parse_info.t
+  | FAT_ARROW of Parse_info.t
   | ATOM of string * Parse_info.t
   | BAND of Parse_info.t
   | BANG of Parse_info.t
@@ -34,6 +35,7 @@ type t =
   | FUN of Parse_info.t
   | GT of Parse_info.t
   | GTE of Parse_info.t
+  | HASH of Parse_info.t
   | IF of Parse_info.t
   | INTEGER of string * Parse_info.t
   | LEFT_BRACE of Parse_info.t
@@ -41,6 +43,7 @@ type t =
   | LEFT_PARENS of Parse_info.t
   | LT of Parse_info.t
   | LTE of Parse_info.t
+  | MACRO of string * Parse_info.t
   | MINUS of Parse_info.t
   | MINUS_MINUS of Parse_info.t
   | NOT of Parse_info.t
