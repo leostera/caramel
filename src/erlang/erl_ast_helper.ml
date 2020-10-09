@@ -25,14 +25,14 @@ module Name = struct
 
   let atom a = Atom_name a
 
-  let qualified ~module_name:n_mod n_name = Qualified_name { n_mod; n_name }
+  let qualified ~m:n_mod ~f:n_name = Qualified_name { n_mod; n_name }
 
-  let to_string n =
+  let rec to_string n =
     match n with
     | Atom_name a -> Atom.to_string a
     | Var_name n -> n
     | Qualified_name { n_mod; n_name } ->
-        Printf.sprintf "%s:%s" (Atom.to_string n_mod) (Atom.to_string n_name)
+        Printf.sprintf "%s:%s" (to_string n_mod) (to_string n_name)
 
   let ignore = var "_"
 end
@@ -44,6 +44,8 @@ module Const = struct
   let char str = Lit_char str
 
   let binary str = Lit_binary str
+
+  let string str = Lit_string str
 
   let float str = Lit_float str
 
@@ -60,8 +62,6 @@ module Expr = struct
 
   let const lit = Expr_literal lit
 
-  let field key value = { mf_name = key; mf_value = value }
-
   let fun_ ~cases = Expr_fun cases
 
   (* FIXME: not yet fixed modelling arity in functino references *)
@@ -76,7 +76,11 @@ module Expr = struct
 
   let list xs = Expr_list xs
 
+  let map_field key value = { mf_name = key; mf_value = value }
+
   let map kvs = Expr_map kvs
+
+  let map_update m kvs = Expr_map_update (m, kvs)
 
   let nil = Expr_nil
 
@@ -86,9 +90,14 @@ module Expr = struct
 
   let comment c e = Expr_comment (c, e)
 
-  let try_ try_expr ~catch = Expr_try { try_expr; try_catch = catch }
+  let try_ try_expr ~catch ~after =
+    Expr_try { try_expr; try_catch = catch; try_after = after }
+
+  let catch expr = Expr_catch expr
 
   let if_ ~clauses = Expr_if clauses
+
+  let macro name = Expr_macro name
 end
 
 (* Helpers to work with Patterns *)
@@ -109,10 +118,6 @@ module Pat = struct
 
   let catch ?(class_ = None) ?(stacktrace = None) pat =
     Pattern_catch (class_, pat, stacktrace)
-
-  let catch_class_throw = Class_throw
-
-  let catch_class_error = Class_error
 end
 
 (* Helpers to work with Functions *)
@@ -140,7 +145,12 @@ module Type = struct
   let fun_ ?(args = []) ~return =
     Type_function { tyfun_args = args; tyfun_return = return }
 
-  let record tyrec_fields = Type_record { tyrec_fields }
+  let record name fields = Type_record (name, fields)
+
+  let map_field ?(presence = Mandatory) tmf_name tmf_value =
+    { tmf_presence = presence; tmf_name; tmf_value }
+
+  let map fields = Type_map fields
 
   let var name = Type_variable name
 
@@ -159,6 +169,8 @@ module Type = struct
   let type_ = Type
 
   let spec = Spec
+
+  let callback = Callback
 
   let any = apply ~args:[] ~name:(Name.atom (Atom.mk "any"))
 end

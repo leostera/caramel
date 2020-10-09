@@ -23,7 +23,7 @@ module Name : sig
 
   val atom : atom -> name
 
-  val qualified : module_name:atom -> atom -> name
+  val qualified : m:name -> f:name -> name
 
   val to_string : name -> string
 
@@ -37,6 +37,8 @@ module Const : sig
   val char : string -> literal
 
   val binary : string -> literal
+
+  val string : string -> literal
 
   val float : string -> literal
 
@@ -53,11 +55,9 @@ module Expr : sig
 
   val const : literal -> expr
 
-  val field : atom -> expr -> map_field
-
   val fun_ : cases:case list -> expr
 
-  val fun_ref : atom -> arity:int -> expr
+  val fun_ref : name -> arity:int -> expr
 
   val ident : name -> expr
 
@@ -67,7 +67,11 @@ module Expr : sig
 
   val list : expr list -> expr
 
+  val map_field : expr -> expr -> map_field
+
   val map : map_field list -> expr
+
+  val map_update : expr -> map_field list -> expr
 
   val nil : expr
 
@@ -77,9 +81,13 @@ module Expr : sig
 
   val comment : comment -> expr -> expr
 
-  val try_ : expr -> catch:case list -> expr
+  val try_ : expr -> catch:case list option -> after:expr option -> expr
+
+  val catch : expr -> expr
 
   val if_ : clauses:(expr list list * expr) list -> expr
+
+  val macro : string -> expr
 end
 
 (* Helpers to work with Patterns *)
@@ -94,16 +102,12 @@ module Pat : sig
 
   val cons : pattern list -> pattern -> pattern
 
-  val map : (atom * pattern) list -> pattern
+  val map : (pattern * pattern) list -> pattern
 
   val const : literal -> pattern
 
   val catch :
-    ?class_:catch_class option -> ?stacktrace:name option -> pattern -> pattern
-
-  val catch_class_throw : catch_class
-
-  val catch_class_error : catch_class
+    ?class_:name option -> ?stacktrace:name option -> pattern -> pattern
 end
 
 (* Helpers to work with Functions *)
@@ -128,7 +132,12 @@ module Type : sig
 
   val fun_ : ?args:type_expr list -> return:type_expr -> type_expr
 
-  val record : record_field list -> type_expr
+  val record : name -> record_field list -> type_expr
+
+  val map_field :
+    ?presence:field_presence -> type_expr -> type_expr -> type_map_field
+
+  val map : type_map_field list -> type_expr
 
   val var : name -> type_expr
 
@@ -145,6 +154,8 @@ module Type : sig
   val type_ : type_kind
 
   val spec : type_kind
+
+  val callback : type_kind
 
   val any : type_expr
 end
