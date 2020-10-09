@@ -58,12 +58,12 @@ This list and its completeness is a work in progress.
 
 #### Expression Language
 
-- [ ] Constants:
+- [x] Constants:
   - [x] Integer -- AST, Printer
   - [x] Floats -- AST, Printer
   - [x] Binary Strings -- AST, Printer
   - [x] Strings -- AST, Printer
-  - [ ] IO Lists
+  - [x] IO Lists
   - [x] Characters -- AST, Printer
   - [x] Atoms -- AST, Printer
 - [x] Let bindings -- AST, Printer
@@ -74,9 +74,9 @@ This list and its completeness is a work in progress.
   - [x] Unqualified application (`f()`) -- AST, Printer
   - [x] Qualified application (`m:f()`) -- AST, Printer
   - [x] Dynamic Qualified application (`M:F()`) -- AST, Printer
-- [ ] Map expressions
+- [x] Map expressions
   - [x] New map -- AST, Printer
-  - [ ] Map updates
+  - [x] Map updates
 - [ ] List expressions:
   - [x] Empty list -- AST, Printer
   - [x] Lists with elements -- AST, Printer
@@ -86,9 +86,9 @@ This list and its completeness is a work in progress.
 - [ ] Record expressions
   - [ ] New record
   - [ ] Record update
-- [ ] Exception expressions:
+- [X] Exception expressions:
   - [X] Try catch
-  - [ ] Catch
+  - [X] Catch
   - [X] Throw 
 - [x] Case expressions -- AST, Printer
 - [x] Messaging expressions
