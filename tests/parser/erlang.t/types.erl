@@ -15,3 +15,9 @@
 
 -record(r, {}).
 -type record() :: #r{}.
+
+-spec fn() :: unit.
+
+-callback cb(a()) :: union().
+
+-type option(A) :: {some, A} | none.

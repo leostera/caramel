@@ -684,6 +684,48 @@
         (fd_spec ()))))
   ((Module_attribute
      ((atr_name (Atom module))
+       (atr_value (Expr_literal (Lit_atom (Atom macros))))))
+    (Module_attribute
+      ((atr_name (Atom define))
+        (atr_value
+          (Expr_list
+            ((Expr_name (Var_name MY_MACRO)) (Expr_literal (Lit_integer 1)))))))
+    (Module_attribute
+      ((atr_name (Atom define))
+        (atr_value
+          (Expr_list
+            ((Expr_apply
+               ((fa_name (Expr_name (Var_name MY_MACRO)))
+                 (fa_args ((Expr_name (Var_name X))))))
+              (Expr_apply
+                ((fa_name
+                   (Expr_name
+                     (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                       (n_name (Atom_name (Atom '+'))))))
+                  (fa_args
+                    ((Expr_name (Var_name X)) (Expr_literal (Lit_integer 1)))))))))))
+    (Function_decl
+      ((fd_name (Atom f)) (fd_arity 0)
+        (fd_cases (((c_lhs ()) (c_guard ()) (c_rhs (Expr_macro ?MY_MACRO)))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom f)) (fd_arity 0)
+        (fd_cases
+          (((c_lhs ()) (c_guard ())
+             (c_rhs
+               (Expr_apply ((fa_name (Expr_macro ?MY_MACRO)) (fa_args ())))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom f)) (fd_arity 0)
+        (fd_cases
+          (((c_lhs ()) (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_macro ?MY_MACRO))
+                   (fa_args ((Expr_literal (Lit_integer 2))))))))))
+        (fd_spec ()))))
+  ((Module_attribute
+     ((atr_name (Atom module))
        (atr_value (Expr_literal (Lit_atom (Atom module_attributes))))))
     (Module_attribute
       ((atr_name (Atom behavior))
@@ -1014,6 +1056,24 @@
           (Expr_list ((Expr_literal (Lit_atom (Atom r))) (Expr_tuple ()))))))
     (Type_decl
       ((typ_expr (Type_record ((Atom_name (Atom r)) ()))) (typ_kind Type)
-        (typ_name (Atom record)) (typ_params ()))))
+        (typ_name (Atom record)) (typ_params ())))
+    (Type_decl
+      ((typ_expr (Type_const (Lit_atom (Atom unit)))) (typ_kind Spec)
+        (typ_name (Atom fn)) (typ_params ())))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom union))) (tc_args ()))))
+        (typ_kind Callback) (typ_name (Atom cb))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom a))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom some)))
+                (Type_variable (Var_name A))))
+             (Type_const (Lit_atom (Atom none))))))
+        (typ_kind Type) (typ_name (Atom option))
+        (typ_params ((Type_variable (Var_name A)))))))
   $ echo $?
   0

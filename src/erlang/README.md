@@ -13,17 +13,14 @@ This library contains:
   and
 * 2 printers: a debugging S-expr printer, and a Standard Erlang printer
 
-As a note, I'm actively deprioritizing Erlang Records in favor of Maps at all
-levels.
-
 ### Language Support
 
 This list and its completeness is a work in progress.
 
 #### Preprocessor Language
 
-- [ ] Macro definition
-- [ ] Macro application
+- [X] Macro definition
+- [X] Macro application
 
 #### Module Language
 
@@ -33,18 +30,18 @@ This list and its completeness is a work in progress.
 
 #### Type Language
 
-- [x] Opaque types -- AST, Printer
-- [x] Visible types -- AST, Printer
-- [x] Union types -- AST, Printer
-- [x] Aliases -- AST, Printer
-- [x] Record types -- AST, Printer
-- [x] Tuple types -- AST, Printer
-- [x] Map types -- AST, Printer
-- [x] Function types -- AST, Printer
-- [x] Type constructors -- AST, Printer
-- [x] Type variables -- AST, Printer
-- [x] Function specs -- AST, Printer
-- [ ] Callback function specs
+- [x] Opaque types
+- [x] Visible types
+- [x] Union types
+- [x] Aliases
+- [x] Record types
+- [x] Tuple types
+- [x] Map types
+- [x] Function types
+- [x] Type constructors
+- [x] Type variables
+- [x] Function specs
+- [X] Callback function specs
 
 #### Pattern Language
 
@@ -65,6 +62,7 @@ This list and its completeness is a work in progress.
   - [x] Integer -- AST, Printer
   - [x] Floats -- AST, Printer
   - [x] Binary Strings -- AST, Printer
+  - [x] Strings -- AST, Printer
   - [ ] IO Lists
   - [x] Characters -- AST, Printer
   - [x] Atoms -- AST, Printer
@@ -89,48 +87,48 @@ This list and its completeness is a work in progress.
   - [ ] New record
   - [ ] Record update
 - [ ] Exception expressions:
-  - [ ] Try catch
+  - [X] Try catch
   - [ ] Catch
-  - [ ] Throw 
+  - [X] Throw 
 - [x] Case expressions -- AST, Printer
 - [x] Messaging expressions
   - [x] Receive -- AST, Printer
   - [x] Receive .. After -- AST, Printer
   - [x] Send (although this is just an infix operator for `erlang:send/2`) -- AST, Printer
-- [ ] Clause Guards
+- [X] Clause Guards
 
 #### Operators
 
-- [ ] *
-- [ ] /
-- [ ] div
-- [ ] rem
-- [ ] band
-- [ ] and
-- [ ] +
-- [ ] -
-- [ ] bor
-- [ ] bxor
-- [ ] bsl
-- [ ] bsr
-- [ ] or
-- [ ] xor
-- [ ] ++
-- [ ] --
-- [ ] ==
-- [ ] /=
-- [ ] =<
-- [ ] <
-- [ ] >=
-- [ ] >
-- [ ] =:=
-- [ ] =/=
-- [ ] <=
-- [ ] =>
-- [ ] :=
-- [ ] <<
-- [ ] >>
-- [ ] !
+- [X] *
+- [X] /
+- [X] div
+- [X] rem
+- [X] band
+- [X] and
+- [X] +
+- [X] -
+- [X] bor
+- [X] bxor
+- [X] bsl
+- [X] bsr
+- [X] or
+- [X] xor
+- [X] ++
+- [X] --
+- [X] ==
+- [X] /=
+- [X] =<
+- [X] <
+- [X] >=
+- [X] >
+- [X] =:=
+- [X] =/=
+- [X] <=
+- [X] =>
+- [X] :=
+- [X] <<
+- [X] >>
+- [X] !
 
 ## Core Erlang
 
