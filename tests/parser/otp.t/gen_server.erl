@@ -117,16 +117,18 @@
 %% Internal exports
 -export([init_it/6]).
 
--include("logger.hrl").
+% FIXME: this should be "logger.hrl"
+-include(<<"logger.hrl">>).
 
 -define(
    STACKTRACE(),
    element(2, erlang:process_info(self(), current_stacktrace))).
 
 
+% FIXME: parenthesizing isn't supported yet
+% | (LocalName :: atom())
 -type server_ref() ::
         pid()
-      | (LocalName :: atom())
       | {Name :: atom(), Node :: atom()}
       | {'global', GlobalName :: term()}
       | {'via', RegMod :: module(), ViaName :: term()}.
@@ -269,10 +271,12 @@ check_response(Msg, RequestId) ->
 %% Make a cast to a generic server.
 %% -----------------------------------------------------------------
 cast({global,Name}, Request) ->
-    catch global:send(Name, cast_msg(Request)),
+  % FIXME: ignored let bindings are not supported yet
+    _ = catch global:send(Name, cast_msg(Request)),
     ok;
 cast({via, Mod, Name}, Request) ->
-    catch Mod:send(Name, cast_msg(Request)),
+  % FIXME: ignored let bindings are not supported yet
+    _ = catch Mod:send(Name, cast_msg(Request)),
     ok;
 cast({Name,Node}=Dest, Request) when is_atom(Name), is_atom(Node) -> 
     do_cast(Dest, Request);
@@ -282,7 +286,8 @@ cast(Dest, Request) when is_pid(Dest) ->
     do_cast(Dest, Request).
 
 do_cast(Dest, Request) -> 
-    do_send(Dest, cast_msg(Request)),
+  % FIXME: ignored let bindings are not supported yet
+    _ = do_send(Dest, cast_msg(Request)),
     ok.
     
 cast_msg(Request) -> {'$gen_cast',Request}.
@@ -291,7 +296,8 @@ cast_msg(Request) -> {'$gen_cast',Request}.
 %% Send a reply to the client.
 %% -----------------------------------------------------------------
 reply({To, Tag}, Reply) ->
-    catch To ! {Tag, Reply},
+  % FIXME: ignored let bindings are not supported yet
+    _ = catch To ! {Tag, Reply},
     ok.
 
 %% ----------------------------------------------------------------- 
@@ -304,7 +310,8 @@ abcast(Nodes, Name, Request) when is_list(Nodes), is_atom(Name) ->
     do_abcast(Nodes, Name, cast_msg(Request)).
 
 do_abcast([Node|Nodes], Name, Msg) when is_atom(Node) ->
-    do_send({Name,Node},Msg),
+  % FIXME: ignored let bindings are not supported yet
+    _ = do_send({Name,Node},Msg),
     do_abcast(Nodes, Name, Msg);
 do_abcast([], _,_) -> abcast.
 
@@ -384,10 +391,12 @@ init_it(Starter, Parent, Name0, Mod, Args, Options) ->
 
     case init_it(Mod, Args) of
 	{ok, {ok, State}} ->
-	    proc_lib:init_ack(Starter, {ok, self()}), 	    
+  % FIXME: ignored let bindings are not supported yet
+	    _ = proc_lib:init_ack(Starter, {ok, self()}), 	    
 	    loop(Parent, Name, State, Mod, infinity, HibernateAfterTimeout, Debug);
 	{ok, {ok, State, Timeout}} ->
-	    proc_lib:init_ack(Starter, {ok, self()}), 	    
+  % FIXME: ignored let bindings are not supported yet
+	    _ = proc_lib:init_ack(Starter, {ok, self()}), 	    
 	    loop(Parent, Name, State, Mod, Timeout, HibernateAfterTimeout, Debug);
 	{ok, {stop, Reason}} ->
 	    %% For consistency, we must make sure that the
@@ -396,20 +405,24 @@ init_it(Starter, Parent, Name0, Mod, Args, Options) ->
 	    %% (Otherwise, the parent process could get
 	    %% an 'already_started' error if it immediately
 	    %% tried starting the process again.)
-	    gen:unregister_name(Name0),
-	    proc_lib:init_ack(Starter, {error, Reason}),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = gen:unregister_name(Name0),
+	    _ = proc_lib:init_ack(Starter, {error, Reason}),
 	    exit(Reason);
 	{ok, ignore} ->
-	    gen:unregister_name(Name0),
-	    proc_lib:init_ack(Starter, ignore),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = gen:unregister_name(Name0),
+	    _ = proc_lib:init_ack(Starter, ignore),
 	    exit(normal);
 	{ok, Else} ->
+  % FIXME: ignored let bindings are not supported yet
 	    Error = {bad_return_value, Else},
-	    proc_lib:init_ack(Starter, {error, Error}),
+	    _ = proc_lib:init_ack(Starter, {error, Error}),
 	    exit(Error);
 	{'EXIT', Class, Reason, Stacktrace} ->
-	    gen:unregister_name(Name0),
-	    proc_lib:init_ack(Starter, {error, terminate_reason(Class, Reason, Stacktrace)}),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = gen:unregister_name(Name0),
+	    _ = proc_lib:init_ack(Starter, {error, terminate_reason(Class, Reason, Stacktrace)}),
 	    erlang:raise(Class, Reason, Stacktrace)
     end.
 init_it(Mod, Args) ->
@@ -485,7 +498,8 @@ decode_msg(Msg, Parent, Name, State, Mod, Time, HibernateAfterTimeout, Debug, Hi
 %%% Send/receive functions
 %%% ---------------------------------------------------
 do_send(Dest, Msg) ->
-    try erlang:send(Dest, Msg)
+  % FIXME: ignored let bindings are not supported yet
+    _ = try erlang:send(Dest, Msg)
     catch
         error:_ -> ok
     end,
@@ -505,7 +519,8 @@ do_multi_call(Nodes, Name, Req, Timeout) ->
 		  %% exit signals. The sychronization is needed in case
 		  %% the receiver would exit before the caller started
 		  %% the monitor.
-		  process_flag(trap_exit, true),
+  % FIXME: ignored let bindings are not supported yet
+		  _ = process_flag(trap_exit, true),
 		  Mref = erlang:monitor(process, Caller),
 		  receive
 		      {Caller,Tag} ->
@@ -520,7 +535,8 @@ do_multi_call(Nodes, Name, Req, Timeout) ->
 		  end
 	  end),
     Mref = erlang:monitor(process, Receiver),
-    Receiver ! {self(),Tag},
+  % FIXME: ignored let bindings are not supported yet
+    _ = Receiver ! {self(),Tag},
     receive
 	{'DOWN',Mref,_,_,{Receiver,Tag,Result}} ->
 	    Result;
@@ -537,7 +553,8 @@ send_nodes([Node|Tail], Name, Tag, Req, Monitors)
   when is_atom(Node) ->
     Monitor = start_monitor(Node, Name),
     %% Handle non-existing names in rec_nodes.
-    catch {Name, Node} ! {'$gen_call', {self(), {Tag, Node}}, Req},
+  % FIXME: ignored let bindings are not supported yet
+    _ = catch {Name, Node} ! {'$gen_call', {self(), {Tag, Node}}, Req},
     send_nodes(Tail, Name, Tag, Req, [Monitor | Monitors]);
 send_nodes([_Node|Tail], Name, Tag, Req, Monitors) ->
     %% Skip non-atom Node
@@ -560,11 +577,13 @@ rec_nodes(Tag, [{N,R}|Tail], Name, Badnodes, Replies, Time, TimerId ) ->
 	{'DOWN', R, _, _, _} ->
 	    rec_nodes(Tag, Tail, Name, [N|Badnodes], Replies, Time, TimerId);
 	{{Tag, N}, Reply} ->  %% Tag is bound !!!
-	    erlang:demonitor(R, [flush]),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = erlang:demonitor(R, [flush]),
 	    rec_nodes(Tag, Tail, Name, Badnodes, 
 		      [{N,Reply}|Replies], Time, TimerId);
 	{timeout, TimerId, _} ->	
-	    erlang:demonitor(R, [flush]),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = erlang:demonitor(R, [flush]),
 	    %% Collect all replies that already have arrived
 	    rec_nodes_rest(Tag, Tail, Name, [N|Badnodes], Replies)
     end;
@@ -572,16 +591,19 @@ rec_nodes(Tag, [N|Tail], Name, Badnodes, Replies, Time, TimerId) ->
     %% R6 node
     receive
 	{nodedown, N} ->
-	    monitor_node(N, false),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = monitor_node(N, false),
 	    rec_nodes(Tag, Tail, Name, [N|Badnodes], Replies, 2000, TimerId);
 	{{Tag, N}, Reply} ->  %% Tag is bound !!!
-	    receive {nodedown, N} -> ok after 0 -> ok end,
-	    monitor_node(N, false),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = receive {nodedown, N} -> ok after 0 -> ok end,
+	    _ = monitor_node(N, false),
 	    rec_nodes(Tag, Tail, Name, Badnodes,
 		      [{N,Reply}|Replies], 2000, TimerId);
 	{timeout, TimerId, _} ->	
-	    receive {nodedown, N} -> ok after 0 -> ok end,
-	    monitor_node(N, false),
+	    _ = receive {nodedown, N} -> ok after 0 -> ok end,
+	    _ = monitor_node(N, false),
+
 	    %% Collect all replies that already have arrived
 	    rec_nodes_rest(Tag, Tail, Name, [N | Badnodes], Replies)
     after Time ->
@@ -590,14 +612,16 @@ rec_nodes(Tag, [N|Tail], Name, Badnodes, Replies, Time, TimerId) ->
 		    rec_nodes(Tag, [N|Tail], Name, Badnodes,
 			      Replies, infinity, TimerId);
 		_ -> % badnode
-		    receive {nodedown, N} -> ok after 0 -> ok end,
-		    monitor_node(N, false),
+  % FIXME: ignored let bindings are not supported yet
+		    _ = receive {nodedown, N} -> ok after 0 -> ok end,
+		    _ = monitor_node(N, false),
 		    rec_nodes(Tag, Tail, Name, [N|Badnodes],
 			      Replies, 2000, TimerId)
 	    end
     end;
 rec_nodes(_, [], _, Badnodes, Replies, _, TimerId) ->
-    case catch erlang:cancel_timer(TimerId) of
+  % FIXME: ignored let bindings are not supported yet
+    _ = case catch erlang:cancel_timer(TimerId) of
 	false ->  % It has already sent it's message
 	    receive
 		{timeout, TimerId, _} -> ok
@@ -615,25 +639,30 @@ rec_nodes_rest(Tag, [{N,R}|Tail], Name, Badnodes, Replies) ->
 	{'DOWN', R, _, _, _} ->
 	    rec_nodes_rest(Tag, Tail, Name, [N|Badnodes], Replies);
 	{{Tag, N}, Reply} -> %% Tag is bound !!!
-	    erlang:demonitor(R, [flush]),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = erlang:demonitor(R, [flush]),
 	    rec_nodes_rest(Tag, Tail, Name, Badnodes, [{N,Reply}|Replies])
     after 0 ->
-	    erlang:demonitor(R, [flush]),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = erlang:demonitor(R, [flush]),
 	    rec_nodes_rest(Tag, Tail, Name, [N|Badnodes], Replies)
     end;
 rec_nodes_rest(Tag, [N|Tail], Name, Badnodes, Replies) ->
     %% R6 node
     receive
 	{nodedown, N} ->
-	    monitor_node(N, false),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = monitor_node(N, false),
 	    rec_nodes_rest(Tag, Tail, Name, [N|Badnodes], Replies);
 	{{Tag, N}, Reply} ->  %% Tag is bound !!!
-	    receive {nodedown, N} -> ok after 0 -> ok end,
-	    monitor_node(N, false),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = receive {nodedown, N} -> ok after 0 -> ok end,
+	    _ = monitor_node(N, false),
 	    rec_nodes_rest(Tag, Tail, Name, Badnodes, [{N,Reply}|Replies])
     after 0 ->
-	    receive {nodedown, N} -> ok after 0 -> ok end,
-	    monitor_node(N, false),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = receive {nodedown, N} -> ok after 0 -> ok end,
+	    _ = monitor_node(N, false),
 	    rec_nodes_rest(Tag, Tail, Name, [N|Badnodes], Replies)
     end;
 rec_nodes_rest(_Tag, [], _Name, Badnodes, Replies) ->
@@ -647,13 +676,15 @@ rec_nodes_rest(_Tag, [], _Name, Badnodes, Replies) ->
 start_monitor(Node, Name) when is_atom(Node), is_atom(Name) ->
     if node() =:= nonode@nohost, Node =/= nonode@nohost ->
 	    Ref = make_ref(),
-	    self() ! {'DOWN', Ref, process, {Name, Node}, noconnection},
+  % FIXME: ignored let bindings are not supported yet
+	    _ = self() ! {'DOWN', Ref, process, {Name, Node}, noconnection},
 	    {Node, Ref};
        true ->
 	    case catch erlang:monitor(process, {Name, Node}) of
 		{'EXIT', _} ->
 		    %% Remote node is R6
-		    monitor_node(Node, true),
+  % FIXME: ignored let bindings are not supported yet
+		    _ =monitor_node(Node, true),
 		    Node;
 		Ref when is_reference(Ref) ->
 		    {Node, Ref}
@@ -681,13 +712,18 @@ try_dispatch(Mod, Func, Msg, State) ->
     catch
 	throw:R ->
 	    {ok, R};
-        error:undef = R:Stacktrace when Func == handle_info ->
+        R:Stacktrace when Func == handle_info ->
+        % FIXME: this form of pattern matching on
+        % catch clauses is not supported yet:
+        %
+        %   error:undef = R:Stacktrace when Func == handle_info ->
             case erlang:function_exported(Mod, handle_info, 2) of
                 false ->
-                    ?LOG_WARNING(
+                % FIXME: ignored let bindings are not supported yet
+                    _ = ?LOG_WARNING(
                        #{label=>{gen_server,no_handle_info},
                          module=>Mod,
-                         message=>Msg},
+                         message=>Msg },
                        #{domain=>[otp],
                          report_cb=>fun gen_server:format_log/2,
                          error_logger=>
@@ -735,10 +771,12 @@ handle_msg({'$gen_call', From, Msg}, Parent, Name, State, Mod, HibernateAfterTim
     Result = try_handle_call(Mod, Msg, From, State),
     case Result of
 	{ok, {reply, Reply, NState}} ->
-	    reply(From, Reply),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = reply(From, Reply),
 	    loop(Parent, Name, NState, Mod, infinity, HibernateAfterTimeout, []);
 	{ok, {reply, Reply, NState, Time1}} ->
-	    reply(From, Reply),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = reply(From, Reply),
 	    loop(Parent, Name, NState, Mod, Time1, HibernateAfterTimeout, []);
 	{ok, {noreply, NState}} ->
 	    loop(Parent, Name, NState, Mod, infinity, HibernateAfterTimeout, []);
@@ -746,9 +784,9 @@ handle_msg({'$gen_call', From, Msg}, Parent, Name, State, Mod, HibernateAfterTim
 	    loop(Parent, Name, NState, Mod, Time1, HibernateAfterTimeout, []);
 	{ok, {stop, Reason, Reply, NState}} ->
 	    try
-		terminate(Reason, ?STACKTRACE(), Name, From, Msg, Mod, NState, [])
+        terminate(Reason, ?STACKTRACE(), Name, From, Msg, Mod, NState, [])
 	    after
-		reply(From, Reply)
+        reply(From, Reply)
 	    end;
 	Other -> handle_common_reply(Other, Parent, Name, From, Msg, Mod, HibernateAfterTimeout, State)
     end;
@@ -819,7 +857,8 @@ handle_common_reply(Reply, Parent, Name, From, Msg, Mod, HibernateAfterTimeout, 
     end.
 
 reply(Name, From, Reply, State, Debug) ->
-    reply(From, Reply),
+  % FIXME: ignored let bindings are not supported yet
+    _ = reply(From, Reply),
     sys:handle_debug(Debug, fun print_event/3, Name,
 		     {out, Reply, From, State} ).
 
@@ -901,9 +940,11 @@ terminate(Class, Reason, Stacktrace, Name, From, Msg, Mod, State, Debug) ->
 -spec terminate(_, _, _, _, _, _, _, _, _, _) -> no_return().
 terminate(Class, Reason, Stacktrace, ReportReason, Name, From, Msg, Mod, State, Debug) ->
     Reply = try_terminate(Mod, terminate_reason(Class, Reason, Stacktrace), State),
-    case Reply of
+  % FIXME: ignored let bindings are not supported yet
+    _ = case Reply of
 	{'EXIT', C, R, S} ->
-	    error_info({R, S}, Name, From, Msg, Mod, State, Debug),
+  % FIXME: ignored let bindings are not supported yet
+	    _ = error_info({R, S}, Name, From, Msg, Mod, State, Debug),
 	    erlang:raise(C, R, S);
 	_ ->
 	    case {Class, Reason} of
@@ -914,7 +955,8 @@ terminate(Class, Reason, Stacktrace, ReportReason, Name, From, Msg, Mod, State, 
 		    error_info(ReportReason, Name, From, Msg, Mod, State, Debug)
 	    end
     end,
-    case Stacktrace of
+  % FIXME: ignored let bindings are not supported yet
+    _ = case Stacktrace of
 	[] ->
 	    erlang:Class(Reason);
 	_ ->
@@ -931,7 +973,8 @@ error_info(_Reason, application_controller, _From, _Msg, _Mod, _State, _Debug) -
     ok;
 error_info(Reason, Name, From, Msg, Mod, State, Debug) ->
     Log = sys:get_log(Debug),
-    ?LOG_ERROR(#{label=>{gen_server,terminate},
+  % FIXME: ignored let bindings are not supported yet
+    _ = ?LOG_ERROR(#{label=>{gen_server,terminate},
                  name=>Name,
                  last_message=>Msg,
                  state=>format_status(terminate, Mod, get(), State),
@@ -985,7 +1028,8 @@ limit_report(#{label:={gen_server,terminate},
             Depth) ->
     Report#{last_message=>io_lib:limit_term(Msg,Depth),
             state=>io_lib:limit_term(State,Depth),
-            log=>[io_lib:limit_term(L,Depth)||L<-Log],
+            % FIXME: list comprehensions are not yet supported
+            % log=>[io_lib:limit_term(L,Depth)||L<-Log],
             reason=>io_lib:limit_term(Reason,Depth),
             client_info=>limit_client_report(Client,Depth)};
 limit_report(#{label:={gen_server,no_handle_info},
@@ -1069,9 +1113,10 @@ format_log_multi(#{label:={gen_server,terminate},
     P = p(FormatOpts),
     Format =
         lists:append(
-          ["** Generic server ",P," terminating \n"
-           "** Last message in was ",P,"~n"
-           "** When Server state == ",P,"~n"
+          %% FIXME: multi-line strings are not supported yet
+          ["** Generic server ",P," terminating \n",
+           "** Last message in was ",P,"~n",
+           "** When Server state == ",P,"~n",
            "** Reason for termination ==~n** ",P,"~n"] ++
                case Log of
                    [] -> [];
@@ -1101,8 +1146,9 @@ format_log_multi(#{label:={gen_server,no_handle_info},
                  #{depth:=Depth}=FormatOpts) ->
     P = p(FormatOpts),
     Format =
-        "** Undefined handle_info in ~p~n"
-        "** Unhandled message: "++P++"~n",
+          %% FIXME: multi-line strings are not supported yet
+          %% this should be broken before the second **
+        "** Undefined handle_info in ~p~n** Unhandled message: "++P++"~n",
     Args =
         case Depth of
             unlimited ->
@@ -1209,13 +1255,15 @@ format_status(Opt, StatusData) ->
      Specific].
 
 format_log_state(Mod, Log) ->
-    [case Event of
-         {out,Msg,From,State} ->
-             {out,Msg,From,format_status(terminate, Mod, get(), State)};
-         {noreply,State} ->
-             {noreply,format_status(terminate, Mod, get(), State)};
-         _ -> Event
-     end || Event <- Log].
+  %% FIXME: list comprehesions are not supported yet
+   % [case Event of
+   %      {out,Msg,From,State} ->
+   %          {out,Msg,From,format_status(terminate, Mod, get(), State)};
+   %      {noreply,State} ->
+   %          {noreply,format_status(terminate, Mod, get(), State)};
+   %      _ -> Event
+   %  end || Event <- Log].
+   [].
 
 format_status(Opt, Mod, PDict, State) ->
     DefStatus = case Opt of

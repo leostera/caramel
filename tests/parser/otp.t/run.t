@@ -164,8 +164,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -214,8 +214,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom erlang))
-                         (n_name (Atom error)))))
+                       (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                         (n_name (Atom_name (Atom error))))))
                     (fa_args ((Expr_literal (Lit_atom (Atom badarg)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -237,8 +237,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom not)))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom not))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom is_binary))))
@@ -246,8 +246,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom not)))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom not))))))
                       (fa_args
                         ((Expr_apply
                            ((fa_name (Expr_name (Atom_name (Atom is_integer))))
@@ -255,8 +255,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom not)))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom not))))))
                       (fa_args
                         ((Expr_apply
                            ((fa_name (Expr_name (Atom_name (Atom is_integer))))
@@ -273,8 +273,8 @@
                      (Expr_apply
                        ((fa_name
                           (Expr_name
-                            (Qualified_name (n_mod (Atom erlang))
-                              (n_name (Atom error)))))
+                            (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                              (n_name (Atom_name (Atom error))))))
                          (fa_args ((Expr_literal (Lit_atom (Atom badarg))))))))))))
             ((c_lhs
                ((Pattern_binding (Var_name Subject))
@@ -284,16 +284,16 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name Pos))
                           (Expr_literal (Lit_integer 0))))))
                    (Expr_apply
                      ((fa_name
                         (Expr_name
-                          (Qualified_name (n_mod (Atom erlang))
-                            (n_name (Atom '=<')))))
+                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                            (n_name (Atom_name (Atom '=<'))))))
                        (fa_args
                          ((Expr_name (Var_name Pos))
                            (Expr_apply
@@ -313,8 +313,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom erlang))
-                         (n_name (Atom error)))))
+                       (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                         (n_name (Atom_name (Atom error))))))
                     (fa_args ((Expr_literal (Lit_atom (Atom badarg)))))))))
             ((c_lhs
                ((Pattern_binding (Var_name Subject))
@@ -324,8 +324,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '<'))))))
                       (fa_args
                         ((Expr_name (Var_name Len))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -337,16 +337,18 @@
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '+')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '+'))))))
                             (fa_args
                               ((Expr_name (Var_name Pos))
                                 (Expr_name (Var_name Len))))))
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '-')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '-'))))))
                             (fa_args ((Expr_name (Var_name Len))))))))))))
             ((c_lhs
                ((Pattern_binding (Var_name Subject))
@@ -356,8 +358,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Len))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -369,16 +371,18 @@
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '+')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '+'))))))
                             (fa_args
                               ((Expr_name (Var_name Pos))
                                 (Expr_literal (Lit_integer 1))))))
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '+')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '+'))))))
                             (fa_args
                               ((Expr_name (Var_name Pos))
                                 (Expr_name (Var_name Len))))))))))))))
@@ -395,8 +399,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -412,8 +416,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -432,8 +436,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -448,8 +452,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -468,8 +472,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -485,8 +489,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -506,8 +510,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -523,8 +527,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -540,8 +544,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -557,8 +561,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -575,8 +579,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -593,8 +597,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -616,8 +620,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -641,8 +645,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -661,8 +665,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -683,8 +687,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -704,8 +708,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -726,8 +730,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -744,8 +748,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -764,8 +768,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Type_decl
@@ -786,8 +790,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Module_comment (Comment "%% End of BIFs."))
@@ -890,8 +894,10 @@
                                          ((fa_name
                                             (Expr_name
                                               (Qualified_name
-                                                (n_mod (Atom binary))
-                                                (n_name (Atom matches)))))
+                                                (n_mod
+                                                  (Atom_name (Atom binary)))
+                                                (n_name
+                                                  (Atom_name (Atom matches))))))
                                            (fa_args
                                              ((Expr_name (Var_name Haystack))
                                                (Expr_name (Var_name Needles))
@@ -902,8 +908,10 @@
                                             ((fa_name
                                                (Expr_name
                                                  (Qualified_name
-                                                   (n_mod (Atom binary))
-                                                   (n_name (Atom match)))))
+                                                   (n_mod
+                                                     (Atom_name (Atom binary)))
+                                                   (n_name
+                                                     (Atom_name (Atom match))))))
                                               (fa_args
                                                 ((Expr_name
                                                    (Var_name Haystack))
@@ -977,17 +985,21 @@
                                                          (Expr_name
                                                            (Qualified_name
                                                              (n_mod
-                                                               (Atom lists))
+                                                               (Atom_name
+                                                                 (Atom lists)))
                                                              (n_name
-                                                               (Atom sort)))))
+                                                               (Atom_name
+                                                                 (Atom sort))))))
                                                         (fa_args
                                                           ((Expr_name
                                                              (Var_name Li))))))))))))))))
                                 (Expr_apply
                                   ((fa_name
                                      (Expr_name
-                                       (Qualified_name (n_mod (Atom erlang))
-                                         (n_name (Atom iolist_to_binary)))))
+                                       (Qualified_name
+                                         (n_mod (Atom_name (Atom erlang)))
+                                         (n_name
+                                           (Atom_name (Atom iolist_to_binary))))))
                                     (fa_args
                                       ((Expr_apply
                                          ((fa_name
@@ -999,18 +1011,20 @@
                                                (Expr_name (Var_name ReplList))
                                                (Expr_literal (Lit_integer 0)))))))))))))))))
                    (try_catch
-                     (((c_lhs
-                         ((Pattern_catch (Class_throw)
-                            (Pattern_binding (Var_name _)) ())))
-                        (c_guard ())
-                        (c_rhs
-                          (Expr_apply
-                            ((fa_name
-                               (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom error)))))
-                              (fa_args
-                                ((Expr_literal (Lit_atom (Atom badarg)))))))))))))))))
+                     ((((c_lhs
+                          ((Pattern_catch ((Var_name _))
+                             (Pattern_binding (Var_name _)) ())))
+                         (c_guard ())
+                         (c_rhs
+                           (Expr_apply
+                             ((fa_name
+                                (Expr_name
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom erlang)))
+                                    (n_name (Atom_name (Atom error))))))
+                               (fa_args
+                                 ((Expr_literal (Lit_atom (Atom badarg))))))))))))
+                   (try_after ())))))))
         (fd_spec ())))
     (Function_decl
       ((fd_name (Atom do_replace)) (fd_arity 4)
@@ -1024,8 +1038,8 @@
                  ((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom binary))
-                           (n_name (Atom part)))))
+                         (Qualified_name (n_mod (Atom_name (Atom binary)))
+                           (n_name (Atom_name (Atom part))))))
                       (fa_args
                         ((Expr_name (Var_name H))
                           (Expr_tuple
@@ -1033,8 +1047,9 @@
                               (Expr_apply
                                 ((fa_name
                                    (Expr_name
-                                     (Qualified_name (n_mod (Atom erlang))
-                                       (n_name (Atom '-')))))
+                                     (Qualified_name
+                                       (n_mod (Atom_name (Atom erlang)))
+                                       (n_name (Atom_name (Atom '-'))))))
                                   (fa_args
                                     ((Expr_apply
                                        ((fa_name
@@ -1057,8 +1072,8 @@
                   ((Expr_apply
                      ((fa_name
                         (Expr_name
-                          (Qualified_name (n_mod (Atom binary))
-                            (n_name (Atom part)))))
+                          (Qualified_name (n_mod (Atom_name (Atom binary)))
+                            (n_name (Atom_name (Atom part))))))
                        (fa_args
                          ((Expr_name (Var_name H))
                            (Expr_tuple
@@ -1066,8 +1081,9 @@
                                (Expr_apply
                                  ((fa_name
                                     (Expr_name
-                                      (Qualified_name (n_mod (Atom erlang))
-                                        (n_name (Atom '-')))))
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom erlang)))
+                                        (n_name (Atom_name (Atom '-'))))))
                                    (fa_args
                                      ((Expr_name (Var_name A))
                                        (Expr_name (Var_name N))))))))))))
@@ -1082,8 +1098,9 @@
                                  (Expr_apply
                                    ((fa_name
                                       (Expr_name
-                                        (Qualified_name (n_mod (Atom binary))
-                                          (n_name (Atom part)))))
+                                        (Qualified_name
+                                          (n_mod (Atom_name (Atom binary)))
+                                          (n_name (Atom_name (Atom part))))))
                                      (fa_args
                                        ((Expr_name (Var_name H))
                                          (Expr_tuple
@@ -1099,8 +1116,9 @@
                           (Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '+')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '+'))))))
                               (fa_args
                                 ((Expr_name (Var_name A))
                                   (Expr_name (Var_name B)))))))))))))))
@@ -1136,8 +1154,8 @@
                  ((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom binary))
-                           (n_name (Atom part)))))
+                         (Qualified_name (n_mod (Atom_name (Atom binary)))
+                           (n_name (Atom_name (Atom part))))))
                       (fa_args
                         ((Expr_name (Var_name H))
                           (Expr_tuple
@@ -1145,8 +1163,9 @@
                               (Expr_apply
                                 ((fa_name
                                    (Expr_name
-                                     (Qualified_name (n_mod (Atom erlang))
-                                       (n_name (Atom '-')))))
+                                     (Qualified_name
+                                       (n_mod (Atom_name (Atom erlang)))
+                                       (n_name (Atom_name (Atom '-'))))))
                                   (fa_args
                                     ((Expr_apply
                                        ((fa_name
@@ -1164,8 +1183,8 @@
                   ((Expr_apply
                      ((fa_name
                         (Expr_name
-                          (Qualified_name (n_mod (Atom binary))
-                            (n_name (Atom part)))))
+                          (Qualified_name (n_mod (Atom_name (Atom binary)))
+                            (n_name (Atom_name (Atom part))))))
                        (fa_args
                          ((Expr_name (Var_name H))
                            (Expr_tuple
@@ -1173,8 +1192,9 @@
                                (Expr_apply
                                  ((fa_name
                                     (Expr_name
-                                      (Qualified_name (n_mod (Atom erlang))
-                                        (n_name (Atom '-')))))
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom erlang)))
+                                        (n_name (Atom_name (Atom '-'))))))
                                    (fa_args
                                      ((Expr_name (Var_name I))
                                        (Expr_name (Var_name N)))))))))))))
@@ -1269,8 +1289,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom erlang))
-                         (n_name (Atom throw)))))
+                       (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                         (n_name (Atom_name (Atom throw))))))
                     (fa_args ((Expr_literal (Lit_atom (Atom badopt)))))))))))
         (fd_spec ()))))
   $ caramelc parse lists.erl
@@ -1317,8 +1337,8 @@
                 ((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '/')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '/'))))))
                      (fa_args
                        ((Expr_literal (Lit_atom (Atom max)))
                          (Expr_literal (Lit_integer 2)))))))))))))
@@ -1331,8 +1351,8 @@
                 ((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '/')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '/'))))))
                      (fa_args
                        ((Expr_literal (Lit_atom (Atom min)))
                          (Expr_literal (Lit_integer 2)))))))))))))
@@ -1620,8 +1640,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Module_comment (Comment "% Shadowed by erl_bif_types: lists:keymember/3"))
@@ -1643,8 +1663,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Module_comment (Comment "% Shadowed by erl_bif_types: lists:keysearch/3"))
@@ -1670,8 +1690,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Module_comment (Comment "% Shadowed by erl_bif_types: lists:member/2"))
@@ -1691,8 +1711,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Module_comment (Comment "% Shadowed by erl_bif_types: lists:reverse/2"))
@@ -1711,8 +1731,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom nif_error)))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom nif_error))))))
                    (fa_args ((Expr_literal (Lit_atom (Atom undef)))))))))))
         (fd_spec ())))
     (Module_comment (Comment "%% End of BIFs"))
@@ -1739,8 +1759,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom '++')))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom '++'))))))
                    (fa_args
                      ((Expr_name (Var_name L1)) (Expr_name (Var_name L2))))))))))
         (fd_spec ())))
@@ -1762,8 +1782,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom erlang))
-                         (n_name (Atom '++')))))
+                       (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                         (n_name (Atom_name (Atom '++'))))))
                     (fa_args
                       ((Expr_name (Var_name H))
                         (Expr_apply
@@ -1789,8 +1809,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom '--')))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom '--'))))))
                    (fa_args
                      ((Expr_name (Var_name L1)) (Expr_name (Var_name L2))))))))))
         (fd_spec ())))
@@ -1804,11 +1824,14 @@
     (Function_decl
       ((fd_name (Atom reverse)) (fd_arity 1)
         (fd_cases
-          (((c_lhs ((Pattern_with_name (Pattern_list ()) (Var_name L))))
+          (((c_lhs
+              ((Pattern_with_name (Pattern_list ())
+                 (Pattern_binding (Var_name L)))))
              (c_guard ()) (c_rhs (Expr_name (Var_name L))))
             ((c_lhs
                ((Pattern_with_name
-                  (Pattern_list ((Pattern_binding (Var_name _)))) (Var_name L))))
+                  (Pattern_list ((Pattern_binding (Var_name _))))
+                  (Pattern_binding (Var_name L)))))
               (c_guard ()) (c_rhs (Expr_name (Var_name L))))
             ((c_lhs
                ((Pattern_list
@@ -1827,8 +1850,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name L))
                         (Expr_list
@@ -1862,8 +1885,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 1)))))))))
@@ -1874,8 +1897,8 @@
                       ((Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name N))
                                (Expr_literal (Lit_integer 1))))))
@@ -1902,8 +1925,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 1)))))))))
@@ -1914,8 +1937,8 @@
                       ((Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name N))
                                (Expr_literal (Lit_integer 1))))))
@@ -1987,8 +2010,8 @@
                      (Expr_apply
                        ((fa_name
                           (Expr_name
-                            (Qualified_name (n_mod (Atom erlang))
-                              (n_name (Atom '-')))))
+                            (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                              (n_name (Atom_name (Atom '-'))))))
                          (fa_args
                            ((Expr_apply
                               ((fa_name (Expr_name (Atom_name (Atom length))))
@@ -1999,22 +2022,24 @@
                  (Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>=')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>='))))))
                      (fa_args
                        ((Expr_name (Var_name Delta))
                          (Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom andalso)))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom andalso))))))
                              (fa_args
                                ((Expr_literal (Lit_integer 0))
                                  (Expr_apply
                                    ((fa_name
                                       (Expr_name
-                                        (Qualified_name (n_mod (Atom erlang))
-                                          (n_name (Atom '=:=')))))
+                                        (Qualified_name
+                                          (n_mod (Atom_name (Atom erlang)))
+                                          (n_name (Atom_name (Atom '=:='))))))
                                      (fa_args
                                        ((Expr_apply
                                           ((fa_name
@@ -2110,15 +2135,16 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '-')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '-'))))))
                       (fa_args
                         ((Expr_name (Var_name First))
                           (Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '=<')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '=<'))))))
                               (fa_args
                                 ((Expr_literal (Lit_integer 1))
                                   (Expr_name (Var_name Last)))))))))))))
@@ -2129,15 +2155,16 @@
                      ((Expr_apply
                         ((fa_name
                            (Expr_name
-                             (Qualified_name (n_mod (Atom erlang))
-                               (n_name (Atom '-')))))
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom '-'))))))
                           (fa_args
                             ((Expr_name (Var_name Last))
                               (Expr_apply
                                 ((fa_name
                                    (Expr_name
-                                     (Qualified_name (n_mod (Atom erlang))
-                                       (n_name (Atom '+')))))
+                                     (Qualified_name
+                                       (n_mod (Atom_name (Atom erlang)))
+                                       (n_name (Atom_name (Atom '+'))))))
                                   (fa_args
                                     ((Expr_name (Var_name First))
                                       (Expr_literal (Lit_integer 1))))))))))
@@ -2153,8 +2180,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>=')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>='))))))
                      (fa_args
                        ((Expr_name (Var_name N))
                          (Expr_literal (Lit_integer 4)))))))))
@@ -2165,16 +2192,16 @@
                      ((Expr_apply
                         ((fa_name
                            (Expr_name
-                             (Qualified_name (n_mod (Atom erlang))
-                               (n_name (Atom '-')))))
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom '-'))))))
                           (fa_args
                             ((Expr_name (Var_name N))
                               (Expr_literal (Lit_integer 4))))))
                        (Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name X))
                                (Expr_literal (Lit_integer 4))))))
@@ -2182,24 +2209,27 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '-')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '-'))))))
                               (fa_args
                                 ((Expr_name (Var_name X))
                                   (Expr_literal (Lit_integer 3))))))
                            (Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom erlang))
-                                    (n_name (Atom '-')))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom erlang)))
+                                    (n_name (Atom_name (Atom '-'))))))
                                (fa_args
                                  ((Expr_name (Var_name X))
                                    (Expr_literal (Lit_integer 2))))))
                            (Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom erlang))
-                                    (n_name (Atom '-')))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom erlang)))
+                                    (n_name (Atom_name (Atom '-'))))))
                                (fa_args
                                  ((Expr_name (Var_name X))
                                    (Expr_literal (Lit_integer 1))))))
@@ -2212,8 +2242,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 2)))))))))
@@ -2224,16 +2254,17 @@
                       ((Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name N))
                                (Expr_literal (Lit_integer 2))))))
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '-')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '-'))))))
                             (fa_args
                               ((Expr_name (Var_name X))
                                 (Expr_literal (Lit_integer 2))))))
@@ -2241,8 +2272,9 @@
                           ((Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom erlang))
-                                    (n_name (Atom '-')))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom erlang)))
+                                    (n_name (Atom_name (Atom '-'))))))
                                (fa_args
                                  ((Expr_name (Var_name X))
                                    (Expr_literal (Lit_integer 1))))))
@@ -2287,46 +2319,48 @@
                  (((((Expr_apply
                        ((fa_name
                           (Expr_name
-                            (Qualified_name (n_mod (Atom erlang))
-                              (n_name (Atom '>')))))
+                            (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                              (n_name (Atom_name (Atom '>'))))))
                          (fa_args
                            ((Expr_name (Var_name Inc))
                              (Expr_literal (Lit_integer 0))))))
                       (Expr_apply
                         ((fa_name
                            (Expr_name
-                             (Qualified_name (n_mod (Atom erlang))
-                               (n_name (Atom '-')))))
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom '-'))))))
                           (fa_args
                             ((Expr_name (Var_name First))
                               (Expr_apply
                                 ((fa_name
                                    (Expr_name
-                                     (Qualified_name (n_mod (Atom erlang))
-                                       (n_name (Atom '=<')))))
+                                     (Qualified_name
+                                       (n_mod (Atom_name (Atom erlang)))
+                                       (n_name (Atom_name (Atom '=<'))))))
                                   (fa_args
                                     ((Expr_name (Var_name Inc))
                                       (Expr_name (Var_name Last)))))))))))
                      ((Expr_apply
                         ((fa_name
                            (Expr_name
-                             (Qualified_name (n_mod (Atom erlang))
-                               (n_name (Atom '<')))))
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom '<'))))))
                           (fa_args
                             ((Expr_name (Var_name Inc))
                               (Expr_literal (Lit_integer 0))))))
                        (Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name First))
                                (Expr_apply
                                  ((fa_name
                                     (Expr_name
-                                      (Qualified_name (n_mod (Atom erlang))
-                                        (n_name (Atom '>=')))))
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom erlang)))
+                                        (n_name (Atom_name (Atom '>='))))))
                                    (fa_args
                                      ((Expr_name (Var_name Inc))
                                        (Expr_name (Var_name Last))))))))))))
@@ -2346,16 +2380,19 @@
                                   (Expr_apply
                                     ((fa_name
                                        (Expr_name
-                                         (Qualified_name (n_mod (Atom erlang))
-                                           (n_name (Atom '-')))))
+                                         (Qualified_name
+                                           (n_mod (Atom_name (Atom erlang)))
+                                           (n_name (Atom_name (Atom '-'))))))
                                       (fa_args
                                         ((Expr_name (Var_name Last))
                                           (Expr_apply
                                             ((fa_name
                                                (Expr_name
                                                  (Qualified_name
-                                                   (n_mod (Atom erlang))
-                                                   (n_name (Atom '+')))))
+                                                   (n_mod
+                                                     (Atom_name (Atom erlang)))
+                                                   (n_name
+                                                     (Atom_name (Atom '+'))))))
                                               (fa_args
                                                 ((Expr_name (Var_name First))
                                                   (Expr_name (Var_name Inc))))))))))))
@@ -2366,8 +2403,8 @@
                                       ((fa_name
                                          (Expr_name
                                            (Qualified_name
-                                             (n_mod (Atom erlang))
-                                             (n_name (Atom div)))))
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name (Atom_name (Atom div))))))
                                         (fa_args
                                           ((Expr_name (Var_name N))
                                             (Expr_name (Var_name Inc))))))))
@@ -2378,8 +2415,9 @@
                                         ((fa_name
                                            (Expr_name
                                              (Qualified_name
-                                               (n_mod (Atom erlang))
-                                               (n_name (Atom '-')))))
+                                               (n_mod
+                                                 (Atom_name (Atom erlang)))
+                                               (n_name (Atom_name (Atom '-'))))))
                                           (fa_args
                                             ((Expr_name (Var_name N))
                                               (Expr_literal (Lit_integer 1))))))))
@@ -2392,8 +2430,10 @@
                                             ((fa_name
                                                (Expr_name
                                                  (Qualified_name
-                                                   (n_mod (Atom erlang))
-                                                   (n_name (Atom '*')))))
+                                                   (n_mod
+                                                     (Atom_name (Atom erlang)))
+                                                   (n_name
+                                                     (Atom_name (Atom '*'))))))
                                               (fa_args
                                                 ((Expr_name (Var_name Inc))
                                                   (Expr_apply
@@ -2401,8 +2441,11 @@
                                                        (Expr_name
                                                          (Qualified_name
                                                            (n_mod
-                                                             (Atom erlang))
-                                                           (n_name (Atom '+')))))
+                                                             (Atom_name
+                                                               (Atom erlang)))
+                                                           (n_name
+                                                             (Atom_name
+                                                               (Atom '+'))))))
                                                       (fa_args
                                                         ((Expr_name
                                                            (Var_name N3))
@@ -2413,16 +2456,16 @@
                    ((((Expr_apply
                         ((fa_name
                            (Expr_name
-                             (Qualified_name (n_mod (Atom erlang))
-                               (n_name (Atom '=:=')))))
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom '=:='))))))
                           (fa_args
                             ((Expr_name (Var_name Inc))
                               (Expr_literal (Lit_integer 0))))))
                        (Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '=:=')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '=:='))))))
                            (fa_args
                              ((Expr_name (Var_name First))
                                (Expr_name (Var_name Last))))))))
@@ -2443,8 +2486,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>=')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>='))))))
                      (fa_args
                        ((Expr_name (Var_name N))
                          (Expr_literal (Lit_integer 4)))))))))
@@ -2455,8 +2498,8 @@
                      (Expr_apply
                        ((fa_name
                           (Expr_name
-                            (Qualified_name (n_mod (Atom erlang))
-                              (n_name (Atom '-')))))
+                            (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                              (n_name (Atom_name (Atom '-'))))))
                          (fa_args
                            ((Expr_name (Var_name X)) (Expr_name (Var_name D))))))))
                  (Expr_let
@@ -2465,8 +2508,8 @@
                        (Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name Y))
                                (Expr_name (Var_name D))))))))
@@ -2476,8 +2519,9 @@
                          (Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '-')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '-'))))))
                              (fa_args
                                ((Expr_name (Var_name Z))
                                  (Expr_name (Var_name D))))))))
@@ -2487,16 +2531,18 @@
                            ((Expr_apply
                               ((fa_name
                                  (Expr_name
-                                   (Qualified_name (n_mod (Atom erlang))
-                                     (n_name (Atom '-')))))
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom erlang)))
+                                     (n_name (Atom_name (Atom '-'))))))
                                 (fa_args
                                   ((Expr_name (Var_name N))
                                     (Expr_literal (Lit_integer 4))))))
                              (Expr_apply
                                ((fa_name
                                   (Expr_name
-                                    (Qualified_name (n_mod (Atom erlang))
-                                      (n_name (Atom '-')))))
+                                    (Qualified_name
+                                      (n_mod (Atom_name (Atom erlang)))
+                                      (n_name (Atom_name (Atom '-'))))))
                                  (fa_args
                                    ((Expr_name (Var_name W))
                                      (Expr_name (Var_name D))))))
@@ -2514,8 +2560,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 2)))))))))
@@ -2526,8 +2572,8 @@
                       (Expr_apply
                         ((fa_name
                            (Expr_name
-                             (Qualified_name (n_mod (Atom erlang))
-                               (n_name (Atom '-')))))
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom '-'))))))
                           (fa_args
                             ((Expr_name (Var_name X)) (Expr_name (Var_name D))))))))
                   (Expr_apply
@@ -2536,16 +2582,18 @@
                         ((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '-')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '-'))))))
                              (fa_args
                                ((Expr_name (Var_name N))
                                  (Expr_literal (Lit_integer 2))))))
                           (Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '-')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '-'))))))
                               (fa_args
                                 ((Expr_name (Var_name Y))
                                   (Expr_name (Var_name D))))))
@@ -2596,8 +2644,8 @@
                        (Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '+')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '+'))))))
                            (fa_args
                              ((Expr_name (Var_name Sum))
                                (Expr_name (Var_name H))))))))))))
@@ -2624,8 +2672,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -2654,8 +2702,8 @@
                       ((Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name N))
                                (Expr_literal (Lit_integer 1))))))
@@ -2692,8 +2740,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '<'))))))
                      (fa_args
                        ((Expr_name (Var_name H)) (Expr_name (Var_name Min)))))))))
              (c_rhs
@@ -2743,8 +2791,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>'))))))
                      (fa_args
                        ((Expr_name (Var_name H)) (Expr_name (Var_name Max)))))))))
              (c_rhs
@@ -2787,8 +2835,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name L))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -2802,8 +2850,9 @@
                             ((Expr_apply
                                ((fa_name
                                   (Expr_name
-                                    (Qualified_name (n_mod (Atom erlang))
-                                      (n_name (Atom '-')))))
+                                    (Qualified_name
+                                      (n_mod (Atom_name (Atom erlang)))
+                                      (n_name (Atom_name (Atom '-'))))))
                                  (fa_args
                                    ((Expr_name (Var_name S))
                                      (Expr_literal (Lit_integer 1))))))
@@ -2845,8 +2894,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>'))))))
                      (fa_args
                        ((Expr_name (Var_name L))
                          (Expr_literal (Lit_integer 0)))))))))
@@ -2859,8 +2908,9 @@
                          (Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '-')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '-'))))))
                              (fa_args
                                ((Expr_name (Var_name L))
                                  (Expr_literal (Lit_integer 1)))))))))))))
@@ -2877,8 +2927,8 @@
                    (Expr_apply
                      ((fa_name
                         (Expr_name
-                          (Qualified_name (n_mod (Atom erlang))
-                            (n_name (Atom '>')))))
+                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                            (n_name (Atom_name (Atom '>'))))))
                        (fa_args
                          ((Expr_name (Var_name L))
                            (Expr_literal (Lit_integer 0)))))))))
@@ -3199,13 +3249,13 @@
                    ((Pattern_binding (Var_name X))
                      (Pattern_binding (Var_name Y)))
                    (Pattern_binding (Var_name L)))
-                 (Var_name L0))))
+                 (Pattern_binding (Var_name L0)))))
              (c_guard
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -3217,8 +3267,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '=<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=<'))))))
                              (fa_args
                                ((Expr_name (Var_name Y))
                                  (Expr_name (Var_name Z)))))))))
@@ -3228,8 +3279,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '=<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=<'))))))
                              (fa_args
                                ((Expr_name (Var_name X))
                                  (Expr_name (Var_name Z)))))))))
@@ -3248,8 +3300,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name X))
                                  (Expr_name (Var_name Y)))))))))
@@ -3284,8 +3337,9 @@
                         (((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '=<')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '=<'))))))
                               (fa_args
                                 ((Expr_name (Var_name X))
                                   (Expr_name (Var_name Z)))))))))
@@ -3298,8 +3352,9 @@
                         (((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '=<')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '=<'))))))
                               (fa_args
                                 ((Expr_name (Var_name Y))
                                   (Expr_name (Var_name Z)))))))))
@@ -3324,9 +3379,12 @@
                                 (Expr_list ())))))))))))
             ((c_lhs
                ((Pattern_with_name
-                  (Pattern_list ((Pattern_binding (Var_name _)))) (Var_name L))))
+                  (Pattern_list ((Pattern_binding (Var_name _))))
+                  (Pattern_binding (Var_name L)))))
               (c_guard ()) (c_rhs (Expr_name (Var_name L))))
-            ((c_lhs ((Pattern_with_name (Pattern_list ()) (Var_name L))))
+            ((c_lhs
+               ((Pattern_with_name (Pattern_list ())
+                  (Pattern_binding (Var_name L)))))
               (c_guard ()) (c_rhs (Expr_name (Var_name L))))))
         (fd_spec ())))
     (Function_decl
@@ -3341,8 +3399,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -3361,8 +3419,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '<'))))))
                       (fa_args
                         ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
               (c_rhs
@@ -3393,8 +3451,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name R))
                         (Expr_list ((Expr_name (Var_name X))))))))))))
@@ -3454,8 +3512,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom merge3_1))))
@@ -3514,8 +3572,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom rmerge3_1))))
@@ -3548,8 +3606,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom merge2_1))))
@@ -3587,8 +3645,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom rmerge2_1))))
@@ -3617,7 +3675,8 @@
                (Expr_apply
                  ((fa_name (Expr_name (Atom_name (Atom flatmap))))
                    (fa_args
-                     ((Expr_fun_ref (fref_name (Atom thing_to_list))
+                     ((Expr_fun_ref
+                        (fref_name (Atom_name (Atom thing_to_list)))
                         (fref_arity 1))
                        (Expr_name (Var_name List))))))))))
         (fd_spec ())))
@@ -3791,8 +3850,9 @@
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '+')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '+'))))))
                             (fa_args
                               ((Expr_name (Var_name L))
                                 (Expr_literal (Lit_integer 1))))))))))))
@@ -3847,8 +3907,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -3870,8 +3930,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom element))))
@@ -3918,8 +3978,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 0))))))
@@ -3946,8 +4006,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom element))))
@@ -4002,8 +4062,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -4026,8 +4086,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom element))))
@@ -4042,8 +4102,8 @@
                    (Expr_apply
                      ((fa_name
                         (Expr_name
-                          (Qualified_name (n_mod (Atom lists))
-                            (n_name (Atom reverse)))))
+                          (Qualified_name (n_mod (Atom_name (Atom lists)))
+                            (n_name (Atom_name (Atom reverse))))))
                        (fa_args
                          ((Expr_name (Var_name L)) (Expr_name (Var_name T))))))))))
             ((c_lhs
@@ -4086,8 +4146,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 0))))))
@@ -4113,8 +4173,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom element))))
@@ -4161,8 +4221,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name I))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -4200,8 +4260,9 @@
                               (((Expr_apply
                                   ((fa_name
                                      (Expr_name
-                                       (Qualified_name (n_mod (Atom erlang))
-                                         (n_name (Atom '=<')))))
+                                       (Qualified_name
+                                         (n_mod (Atom_name (Atom erlang)))
+                                         (n_name (Atom_name (Atom '=<'))))))
                                     (fa_args
                                       ((Expr_name (Var_name EX))
                                         (Expr_name (Var_name EY)))))))))
@@ -4229,8 +4290,12 @@
                                                  ((fa_name
                                                     (Expr_name
                                                       (Qualified_name
-                                                        (n_mod (Atom erlang))
-                                                        (n_name (Atom '=<')))))
+                                                        (n_mod
+                                                          (Atom_name
+                                                            (Atom erlang)))
+                                                        (n_name
+                                                          (Atom_name
+                                                            (Atom '=<'))))))
                                                    (fa_args
                                                      ((Expr_name (Var_name EY))
                                                        (Expr_name
@@ -4243,8 +4308,12 @@
                                                   ((fa_name
                                                      (Expr_name
                                                        (Qualified_name
-                                                         (n_mod (Atom erlang))
-                                                         (n_name (Atom '=<')))))
+                                                         (n_mod
+                                                           (Atom_name
+                                                             (Atom erlang)))
+                                                         (n_name
+                                                           (Atom_name
+                                                             (Atom '=<'))))))
                                                     (fa_args
                                                       ((Expr_name
                                                          (Var_name EX))
@@ -4269,8 +4338,10 @@
                                           ((fa_name
                                              (Expr_name
                                                (Qualified_name
-                                                 (n_mod (Atom erlang))
-                                                 (n_name (Atom '==')))))
+                                                 (n_mod
+                                                   (Atom_name (Atom erlang)))
+                                                 (n_name
+                                                   (Atom_name (Atom '=='))))))
                                             (fa_args
                                               ((Expr_name (Var_name X))
                                                 (Expr_name (Var_name Y)))))))))
@@ -4333,8 +4404,12 @@
                                                   ((fa_name
                                                      (Expr_name
                                                        (Qualified_name
-                                                         (n_mod (Atom erlang))
-                                                         (n_name (Atom '=<')))))
+                                                         (n_mod
+                                                           (Atom_name
+                                                             (Atom erlang)))
+                                                         (n_name
+                                                           (Atom_name
+                                                             (Atom '=<'))))))
                                                     (fa_args
                                                       ((Expr_name
                                                          (Var_name EX))
@@ -4352,8 +4427,12 @@
                                                    ((fa_name
                                                       (Expr_name
                                                         (Qualified_name
-                                                          (n_mod (Atom erlang))
-                                                          (n_name (Atom '=<')))))
+                                                          (n_mod
+                                                            (Atom_name
+                                                              (Atom erlang)))
+                                                          (n_name
+                                                            (Atom_name
+                                                              (Atom '=<'))))))
                                                      (fa_args
                                                        ((Expr_name
                                                           (Var_name EY))
@@ -4401,8 +4480,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -4431,8 +4510,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '=<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=<'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EY)))))))))
@@ -4467,8 +4547,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name R))
                         (Expr_list ((Expr_name (Var_name X))))))))))))
@@ -4493,8 +4573,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Index))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -4532,8 +4612,9 @@
                            (Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name M)) (Expr_list ())))))))))))))))
         (fd_spec ())))
@@ -4562,8 +4643,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Index))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -4601,8 +4682,9 @@
                            (Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name M)) (Expr_list ())))))))))))))))
         (fd_spec ())))
@@ -4623,8 +4705,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name I))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -4662,8 +4744,9 @@
                               (((Expr_apply
                                   ((fa_name
                                      (Expr_name
-                                       (Qualified_name (n_mod (Atom erlang))
-                                         (n_name (Atom '==')))))
+                                       (Qualified_name
+                                         (n_mod (Atom_name (Atom erlang)))
+                                         (n_name (Atom_name (Atom '=='))))))
                                     (fa_args
                                       ((Expr_name (Var_name EX))
                                         (Expr_name (Var_name EY)))))))))
@@ -4684,8 +4767,9 @@
                                (((Expr_apply
                                    ((fa_name
                                       (Expr_name
-                                        (Qualified_name (n_mod (Atom erlang))
-                                          (n_name (Atom '<')))))
+                                        (Qualified_name
+                                          (n_mod (Atom_name (Atom erlang)))
+                                          (n_name (Atom_name (Atom '<'))))))
                                      (fa_args
                                        ((Expr_name (Var_name EX))
                                          (Expr_name (Var_name EY)))))))))
@@ -4713,8 +4797,12 @@
                                                   ((fa_name
                                                      (Expr_name
                                                        (Qualified_name
-                                                         (n_mod (Atom erlang))
-                                                         (n_name (Atom '==')))))
+                                                         (n_mod
+                                                           (Atom_name
+                                                             (Atom erlang)))
+                                                         (n_name
+                                                           (Atom_name
+                                                             (Atom '=='))))))
                                                     (fa_args
                                                       ((Expr_name
                                                          (Var_name EY))
@@ -4731,8 +4819,12 @@
                                                    ((fa_name
                                                       (Expr_name
                                                         (Qualified_name
-                                                          (n_mod (Atom erlang))
-                                                          (n_name (Atom '<')))))
+                                                          (n_mod
+                                                            (Atom_name
+                                                              (Atom erlang)))
+                                                          (n_name
+                                                            (Atom_name
+                                                              (Atom '<'))))))
                                                      (fa_args
                                                        ((Expr_name
                                                           (Var_name EY))
@@ -4750,8 +4842,12 @@
                                                    ((fa_name
                                                       (Expr_name
                                                         (Qualified_name
-                                                          (n_mod (Atom erlang))
-                                                          (n_name (Atom '==')))))
+                                                          (n_mod
+                                                            (Atom_name
+                                                              (Atom erlang)))
+                                                          (n_name
+                                                            (Atom_name
+                                                              (Atom '=='))))))
                                                      (fa_args
                                                        ((Expr_name
                                                           (Var_name EZ))
@@ -4768,8 +4864,12 @@
                                                    ((fa_name
                                                       (Expr_name
                                                         (Qualified_name
-                                                          (n_mod (Atom erlang))
-                                                          (n_name (Atom '=<')))))
+                                                          (n_mod
+                                                            (Atom_name
+                                                              (Atom erlang)))
+                                                          (n_name
+                                                            (Atom_name
+                                                              (Atom '=<'))))))
                                                      (fa_args
                                                        ((Expr_name
                                                           (Var_name EX))
@@ -4835,8 +4935,12 @@
                                                   ((fa_name
                                                      (Expr_name
                                                        (Qualified_name
-                                                         (n_mod (Atom erlang))
-                                                         (n_name (Atom '==')))))
+                                                         (n_mod
+                                                           (Atom_name
+                                                             (Atom erlang)))
+                                                         (n_name
+                                                           (Atom_name
+                                                             (Atom '=='))))))
                                                     (fa_args
                                                       ((Expr_name
                                                          (Var_name EX))
@@ -4853,8 +4957,12 @@
                                                    ((fa_name
                                                       (Expr_name
                                                         (Qualified_name
-                                                          (n_mod (Atom erlang))
-                                                          (n_name (Atom '<')))))
+                                                          (n_mod
+                                                            (Atom_name
+                                                              (Atom erlang)))
+                                                          (n_name
+                                                            (Atom_name
+                                                              (Atom '<'))))))
                                                      (fa_args
                                                        ((Expr_name
                                                           (Var_name EX))
@@ -4872,8 +4980,12 @@
                                                    ((fa_name
                                                       (Expr_name
                                                         (Qualified_name
-                                                          (n_mod (Atom erlang))
-                                                          (n_name (Atom '==')))))
+                                                          (n_mod
+                                                            (Atom_name
+                                                              (Atom erlang)))
+                                                          (n_name
+                                                            (Atom_name
+                                                              (Atom '=='))))))
                                                      (fa_args
                                                        ((Expr_name
                                                           (Var_name EY))
@@ -4890,8 +5002,12 @@
                                                    ((fa_name
                                                       (Expr_name
                                                         (Qualified_name
-                                                          (n_mod (Atom erlang))
-                                                          (n_name (Atom '=<')))))
+                                                          (n_mod
+                                                            (Atom_name
+                                                              (Atom erlang)))
+                                                          (n_name
+                                                            (Atom_name
+                                                              (Atom '=<'))))))
                                                      (fa_args
                                                        ((Expr_name
                                                           (Var_name EY))
@@ -4945,8 +5061,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '==')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=='))))))
                             (fa_args
                               ((Expr_name (Var_name EX))
                                 (Expr_name (Var_name EY)))))))))
@@ -4962,8 +5079,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EY)))))))))
@@ -5011,8 +5129,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Index))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -5050,8 +5168,9 @@
                            (Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name M)) (Expr_list ())))))))))))))))
         (fd_spec ())))
@@ -5083,8 +5202,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Index))
                           (Expr_literal (Lit_integer 0)))))))))
@@ -5122,8 +5241,9 @@
                            (Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name M)) (Expr_list ())))))))))))))))
         (fd_spec ())))
@@ -5173,8 +5293,8 @@
                    (Expr_apply
                      ((fa_name
                         (Expr_name
-                          (Qualified_name (n_mod (Atom erlang))
-                            (n_name (Atom '>=')))))
+                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                            (n_name (Atom_name (Atom '>='))))))
                        (fa_args
                          ((Expr_name (Var_name Index))
                            (Expr_literal (Lit_integer 1))))))
@@ -5207,7 +5327,7 @@
                ((Pattern_binding (Var_name Fun))
                  (Pattern_with_name
                    (Pattern_list ((Pattern_binding (Var_name _))))
-                   (Var_name L))))
+                   (Pattern_binding (Var_name L)))))
               (c_guard
                 (((Expr_apply
                     ((fa_name (Expr_name (Atom_name (Atom is_function))))
@@ -5273,8 +5393,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom lists))
-                        (n_name (Atom reverse)))))
+                      (Qualified_name (n_mod (Atom_name (Atom lists)))
+                        (n_name (Atom_name (Atom reverse))))))
                    (fa_args
                      ((Expr_apply
                         ((fa_name (Expr_name (Atom_name (Atom fmerge2_1))))
@@ -5330,8 +5450,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom lists))
-                        (n_name (Atom reverse)))))
+                      (Qualified_name (n_mod (Atom_name (Atom lists)))
+                        (n_name (Atom_name (Atom reverse))))))
                    (fa_args
                      ((Expr_apply
                         ((fa_name (Expr_name (Atom_name (Atom rfmerge2_1))))
@@ -5363,7 +5483,8 @@
           (((c_lhs
               ((Pattern_binding (Var_name Fun))
                 (Pattern_with_name
-                  (Pattern_list ((Pattern_binding (Var_name _)))) (Var_name L))))
+                  (Pattern_list ((Pattern_binding (Var_name _))))
+                  (Pattern_binding (Var_name L)))))
              (c_guard
                (((Expr_apply
                    ((fa_name (Expr_name (Atom_name (Atom is_function))))
@@ -5373,7 +5494,8 @@
              (c_rhs (Expr_name (Var_name L))))
             ((c_lhs
                ((Pattern_binding (Var_name Fun))
-                 (Pattern_with_name (Pattern_list ()) (Var_name L))))
+                 (Pattern_with_name (Pattern_list ())
+                   (Pattern_binding (Var_name L)))))
               (c_guard
                 (((Expr_apply
                     ((fa_name (Expr_name (Atom_name (Atom is_function))))
@@ -5496,8 +5618,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom ufmerge2_2))))
@@ -5554,8 +5676,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom rufmerge2_1))))
@@ -5581,13 +5703,13 @@
                    ((Pattern_binding (Var_name X))
                      (Pattern_binding (Var_name Y)))
                    (Pattern_binding (Var_name L)))
-                 (Var_name L0))))
+                 (Pattern_binding (Var_name L0)))))
              (c_guard
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '<'))))))
                      (fa_args
                        ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -5599,8 +5721,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name Y))
                                  (Expr_name (Var_name Z)))))))))
@@ -5610,8 +5733,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name Y))
                                  (Expr_name (Var_name Z)))))))))
@@ -5623,8 +5747,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name Z))
                                  (Expr_name (Var_name X)))))))))
@@ -5637,8 +5762,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name Z))
                                  (Expr_name (Var_name X)))))))))
@@ -5668,8 +5794,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
               (c_rhs
@@ -5683,8 +5809,9 @@
                         (((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '<')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '<'))))))
                               (fa_args
                                 ((Expr_name (Var_name X))
                                   (Expr_name (Var_name Z)))))))))
@@ -5697,8 +5824,9 @@
                         (((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '==')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '=='))))))
                               (fa_args
                                 ((Expr_name (Var_name X))
                                   (Expr_name (Var_name Z)))))))))
@@ -5710,8 +5838,9 @@
                         (((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '<')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '<'))))))
                               (fa_args
                                 ((Expr_name (Var_name Z))
                                   (Expr_name (Var_name Y)))))))))
@@ -5724,8 +5853,9 @@
                         (((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom erlang))
-                                   (n_name (Atom '==')))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom erlang)))
+                                   (n_name (Atom_name (Atom '=='))))))
                               (fa_args
                                 ((Expr_name (Var_name Z))
                                   (Expr_name (Var_name Y)))))))))
@@ -5760,7 +5890,8 @@
                       ((Expr_name (Var_name X)) (Expr_name (Var_name L))))))))
             ((c_lhs
                ((Pattern_with_name
-                  (Pattern_list ((Pattern_binding (Var_name _)))) (Var_name L))))
+                  (Pattern_list ((Pattern_binding (Var_name _))))
+                  (Pattern_binding (Var_name L)))))
               (c_guard ()) (c_rhs (Expr_name (Var_name L))))
             ((c_lhs ((Pattern_list ()))) (c_guard ()) (c_rhs (Expr_list ())))))
         (fd_spec ())))
@@ -5775,8 +5906,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -5792,8 +5923,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '<'))))))
                       (fa_args
                         ((Expr_name (Var_name X)) (Expr_name (Var_name Y)))))))))
               (c_rhs
@@ -5875,8 +6006,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom umerge3_1))))
@@ -5939,8 +6070,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom rumerge3_1))))
@@ -5975,8 +6106,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom umerge2_2))))
@@ -6017,8 +6148,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_apply
                          ((fa_name (Expr_name (Atom_name (Atom rumerge2_1))))
@@ -6183,8 +6314,8 @@
                (Expr_apply
                  ((fa_name
                     (Expr_name
-                      (Qualified_name (n_mod (Atom erlang))
-                        (n_name (Atom '++')))))
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom '++'))))))
                    (fa_args
                      ((Expr_apply
                         ((fa_name (Expr_name (Var_name F)))
@@ -6647,7 +6778,7 @@
                 (Pattern_with_name
                   (Pattern_cons ((Pattern_binding (Var_name Hd)))
                     (Pattern_binding (Var_name Tail)))
-                  (Var_name Rest))))
+                  (Pattern_binding (Var_name Rest)))))
              (c_guard ())
              (c_rhs
                (Expr_case
@@ -6814,8 +6945,8 @@
                   (Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name N))
                           (Expr_literal (Lit_integer 0))))))
@@ -6834,7 +6965,7 @@
                         (Pattern_tuple
                           ((Pattern_binding (Var_name _))
                             (Pattern_binding (Var_name _))))
-                        (Var_name Result))))
+                        (Pattern_binding (Var_name Result)))))
                     (c_guard ()) (c_rhs (Expr_name (Var_name Result))))
                    ((c_lhs ((Pattern_binding (Var_name Fault))))
                      (c_guard
@@ -6845,8 +6976,8 @@
                        (Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom error)))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom error))))))
                            (fa_args
                              ((Expr_name (Var_name Fault))
                                (Expr_list
@@ -6860,8 +6991,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom erlang))
-                         (n_name (Atom error)))))
+                       (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                         (n_name (Atom_name (Atom error))))))
                     (fa_args
                       ((Expr_literal (Lit_atom (Atom badarg)))
                         (Expr_list
@@ -6880,8 +7011,8 @@
                  ((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom lists))
-                           (n_name (Atom reverse)))))
+                         (Qualified_name (n_mod (Atom_name (Atom lists)))
+                           (n_name (Atom_name (Atom reverse))))))
                       (fa_args ((Expr_name (Var_name R)) (Expr_list ())))))
                    (Expr_name (Var_name L))))))
             ((c_lhs
@@ -6897,8 +7028,8 @@
                       ((Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom erlang))
-                                (n_name (Atom '-')))))
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '-'))))))
                            (fa_args
                              ((Expr_name (Var_name N))
                                (Expr_literal (Lit_integer 1))))))
@@ -7058,8 +7189,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>=')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>='))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -7081,8 +7212,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -7151,8 +7282,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>=')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>='))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -7174,8 +7305,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>=')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -7197,8 +7328,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name S)) (Expr_name (Var_name Z)))))))))
               (c_rhs
@@ -7264,8 +7395,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -7287,8 +7418,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -7357,8 +7488,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -7380,8 +7511,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -7403,8 +7534,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name S)) (Expr_name (Var_name Z)))))))))
               (c_rhs
@@ -7532,8 +7663,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -7635,8 +7767,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -7663,8 +7796,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -7701,8 +7834,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -7743,8 +7876,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -7780,8 +7913,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -7819,8 +7952,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -7864,8 +7997,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -7921,8 +8054,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -7966,8 +8099,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -8024,8 +8157,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -8062,8 +8195,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -8104,8 +8237,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -8141,8 +8274,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -8180,8 +8313,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -8225,8 +8358,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -8281,8 +8414,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -8326,8 +8459,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -8383,8 +8516,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -8418,8 +8551,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -8437,8 +8570,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -8477,8 +8610,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons
@@ -8499,8 +8632,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -8534,8 +8667,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -8553,8 +8686,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -8594,8 +8727,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons
@@ -8617,8 +8750,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>'))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -8640,8 +8773,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
               (c_rhs
@@ -8661,8 +8794,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -8684,8 +8817,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -8752,8 +8885,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '>')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '>'))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -8775,8 +8908,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
               (c_rhs
@@ -8796,8 +8929,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -8819,8 +8952,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -8840,8 +8973,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '>')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '>'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name S)))))))))
               (c_rhs
@@ -8866,8 +8999,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name S)))))))))
               (c_rhs
@@ -8928,8 +9061,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '<'))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -8951,8 +9084,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
               (c_rhs
@@ -8972,8 +9105,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '<'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -8995,8 +9128,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -9063,8 +9196,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '<'))))))
                      (fa_args
                        ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
              (c_rhs
@@ -9086,8 +9219,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name Y)))))))))
               (c_rhs
@@ -9107,8 +9240,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '<'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -9130,8 +9263,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name X)))))))))
               (c_rhs
@@ -9151,8 +9284,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '<'))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name S)))))))))
               (c_rhs
@@ -9177,8 +9310,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name Z)) (Expr_name (Var_name S)))))))))
               (c_rhs
@@ -9408,8 +9541,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -9549,8 +9683,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -9582,8 +9717,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -9606,8 +9741,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -9645,8 +9780,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -9666,8 +9801,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -9688,8 +9823,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -9729,8 +9864,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -9766,8 +9901,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -9787,8 +9922,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -9826,8 +9961,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -9850,8 +9985,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -9893,8 +10028,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -9951,8 +10086,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -9975,8 +10110,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -10018,8 +10153,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -10076,8 +10211,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -10099,8 +10234,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -10137,8 +10272,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -10176,8 +10311,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -10219,8 +10354,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -10244,8 +10379,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H2M)))))))))
               (c_rhs
@@ -10269,8 +10404,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -10315,8 +10450,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H2M)))))))))
               (c_rhs
@@ -10337,8 +10472,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
               (c_rhs
@@ -10381,8 +10516,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -10429,8 +10564,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H2)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -10454,8 +10589,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name H3M)))))))))
               (c_rhs
@@ -10493,8 +10628,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name H3M)))))))))
               (c_rhs
@@ -10534,8 +10669,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H3)))))))))
              (c_rhs
@@ -10559,8 +10694,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3M)))))))))
               (c_rhs
@@ -10600,8 +10735,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H3M)))))))))
               (c_rhs
@@ -10645,8 +10780,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -10667,8 +10802,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -10701,16 +10836,16 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H2)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2)) (Expr_name (Var_name M))))))))
             ((c_lhs
@@ -10723,8 +10858,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -10742,8 +10877,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -10778,8 +10913,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons ((Expr_name (Var_name H1)))
@@ -10800,8 +10935,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -10834,8 +10969,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -10855,8 +10990,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name H1)) (Expr_name (Var_name H2)))))))))
              (c_rhs
@@ -10878,8 +11013,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H2M)))))))))
               (c_rhs
@@ -10917,16 +11052,16 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name H1)) (Expr_name (Var_name H2M)))))))))
               (c_rhs
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons ((Expr_name (Var_name H1)))
@@ -10941,8 +11076,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons
@@ -10974,8 +11109,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name EY))
                                 (Expr_name (Var_name EZ)))))))))
@@ -10996,8 +11132,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '=<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=<'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -11018,8 +11155,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name R)) (Expr_list ()))))))))
                      (c_rhs
@@ -11091,8 +11229,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name EY))
                                 (Expr_name (Var_name EZ)))))))))
@@ -11115,8 +11254,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '=<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=<'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -11139,8 +11279,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '=<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=<'))))))
                              (fa_args
                                ((Expr_name (Var_name ES))
                                  (Expr_name (Var_name EZ)))))))))
@@ -11221,8 +11362,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '>')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '>'))))))
                             (fa_args
                               ((Expr_name (Var_name EY))
                                 (Expr_name (Var_name EZ)))))))))
@@ -11243,8 +11385,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '>')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '>'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -11265,8 +11408,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name R)) (Expr_list ()))))))))
                      (c_rhs
@@ -11338,8 +11482,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '>')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '>'))))))
                             (fa_args
                               ((Expr_name (Var_name EY))
                                 (Expr_name (Var_name EZ)))))))))
@@ -11362,8 +11507,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '>')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '>'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -11386,8 +11532,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '>')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '>'))))))
                              (fa_args
                                ((Expr_name (Var_name ES))
                                  (Expr_name (Var_name EZ)))))))))
@@ -11463,8 +11610,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_name (Var_name O))
                          (Expr_literal (Lit_atom (Atom asc))))))))))
@@ -11515,8 +11662,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name O))
                           (Expr_literal (Lit_atom (Atom desc))))))))))
@@ -11636,8 +11783,9 @@
                           ((Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name L)) (Expr_list ()))))))
                           (Expr_name (Var_name Acc)))
@@ -11672,8 +11820,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '==')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
                      (fa_args
                        ((Expr_name (Var_name O))
                          (Expr_literal (Lit_atom (Atom asc))))))))))
@@ -11724,8 +11872,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name O))
                           (Expr_literal (Lit_atom (Atom desc))))))))))
@@ -11840,8 +11988,9 @@
                           ((Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name L)) (Expr_list ()))))))
                           (Expr_name (Var_name Acc)))
@@ -11886,8 +12035,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -11936,8 +12086,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -11992,8 +12142,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -12041,8 +12192,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -12087,8 +12238,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -12149,8 +12300,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E3)))))))))
@@ -12218,8 +12370,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -12280,8 +12432,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E2))
                                 (Expr_name (Var_name E3)))))))))
@@ -12358,8 +12511,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -12409,8 +12563,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -12465,8 +12619,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -12515,8 +12670,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -12561,8 +12716,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -12623,8 +12778,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E2))
                                 (Expr_name (Var_name E3)))))))))
@@ -12691,8 +12847,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -12753,8 +12909,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E3)))))))))
@@ -12831,8 +12988,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -12869,8 +13027,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -12898,8 +13056,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -12939,8 +13098,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons
@@ -12970,8 +13129,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -13008,8 +13168,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -13037,8 +13197,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -13079,8 +13240,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons
@@ -13112,8 +13273,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '==')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=='))))))
                             (fa_args
                               ((Expr_name (Var_name EY))
                                 (Expr_name (Var_name EZ)))))))))
@@ -13132,8 +13294,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name EY))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13154,8 +13317,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13175,8 +13339,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13197,8 +13362,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name R)) (Expr_list ()))))))))
                      (c_rhs
@@ -13271,8 +13437,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '==')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=='))))))
                             (fa_args
                               ((Expr_name (Var_name EY))
                                 (Expr_name (Var_name EZ)))))))))
@@ -13293,8 +13460,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name EY))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13318,8 +13486,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13342,8 +13511,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name EX))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13367,8 +13537,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name ES))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13391,8 +13562,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name ES))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13472,8 +13644,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '==')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=='))))))
                             (fa_args
                               ((Expr_name (Var_name EY))
                                 (Expr_name (Var_name EZ)))))))))
@@ -13490,8 +13663,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '<')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '<'))))))
                              (fa_args
                                ((Expr_name (Var_name EY))
                                  (Expr_name (Var_name EZ)))))))))
@@ -13508,8 +13682,9 @@
                                  ((Expr_apply
                                     ((fa_name
                                        (Expr_name
-                                         (Qualified_name (n_mod (Atom lists))
-                                           (n_name (Atom reverse)))))
+                                         (Qualified_name
+                                           (n_mod (Atom_name (Atom lists)))
+                                           (n_name (Atom_name (Atom reverse))))))
                                       (fa_args
                                         ((Expr_name (Var_name R))
                                           (Expr_list ())))))))))))))
@@ -13539,7 +13714,8 @@
               (Expr_apply
                 ((fa_name
                    (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
+                     (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                       (n_name (Atom_name (Atom '/'))))))
                   (fa_args
                     ((Expr_literal (Lit_atom (Atom ukeymergel)))
                       (Expr_literal (Lit_integer 3)))))))))))
@@ -13650,8 +13826,9 @@
                           ((Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name L)) (Expr_list ()))))))
                           (Expr_name (Var_name Acc)))
@@ -13756,8 +13933,9 @@
                           ((Expr_apply
                              ((fa_name
                                 (Expr_name
-                                  (Qualified_name (n_mod (Atom lists))
-                                    (n_name (Atom reverse)))))
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom lists)))
+                                    (n_name (Atom_name (Atom reverse))))))
                                (fa_args
                                  ((Expr_name (Var_name L)) (Expr_list ()))))))
                           (Expr_name (Var_name Acc)))
@@ -13801,8 +13979,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -13827,8 +14006,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name E2))
                                  (Expr_name (Var_name HdM)))))))))
@@ -13880,8 +14060,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E2)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -13906,8 +14086,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -13934,8 +14114,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -13991,8 +14171,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -14044,8 +14225,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -14071,8 +14252,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -14119,8 +14300,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -14151,8 +14332,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -14212,8 +14393,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E3)))))))))
@@ -14285,8 +14467,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -14317,8 +14499,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E3)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
@@ -14378,8 +14560,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E2))
                                 (Expr_name (Var_name E3)))))))))
@@ -14461,8 +14644,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -14514,8 +14698,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -14562,8 +14746,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -14615,8 +14799,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -14680,8 +14864,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -14708,8 +14893,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name E1))
                                  (Expr_name (Var_name E2M)))))))))
@@ -14762,8 +14948,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E1)) (Expr_name (Var_name E2M)))))))))
               (c_rhs
@@ -14788,8 +14974,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '=<')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=<'))))))
                       (fa_args
                         ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
               (c_rhs
@@ -14840,8 +15026,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E2)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -14897,8 +15083,8 @@
                (((Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '=<')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=<'))))))
                      (fa_args
                        ((Expr_name (Var_name E1)) (Expr_name (Var_name E3)))))))))
              (c_rhs
@@ -14965,8 +15151,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E2))
                                 (Expr_name (Var_name E3)))))))))
@@ -14991,8 +15178,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name E2))
                                  (Expr_name (Var_name E3M)))))))))
@@ -15043,8 +15231,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E2)) (Expr_name (Var_name E3M)))))))))
               (c_rhs
@@ -15101,8 +15289,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E3)))))))))
@@ -15127,8 +15316,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name E1))
                                  (Expr_name (Var_name E3M)))))))))
@@ -15182,8 +15372,8 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E1)) (Expr_name (Var_name E3M)))))))))
               (c_rhs
@@ -15243,8 +15433,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -15264,8 +15455,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name E2))
                                  (Expr_name (Var_name HdM)))))))))
@@ -15301,16 +15493,16 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E2)) (Expr_name (Var_name HdM)))))))))
               (c_rhs
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2)) (Expr_name (Var_name M))))))))
             ((c_lhs
@@ -15324,8 +15516,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -15352,8 +15544,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -15390,8 +15583,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons ((Expr_name (Var_name H1)))
@@ -15419,8 +15612,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -15458,8 +15652,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -15488,8 +15682,9 @@
                       (((Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom erlang))
-                                 (n_name (Atom '=<')))))
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom erlang)))
+                                 (n_name (Atom_name (Atom '=<'))))))
                             (fa_args
                               ((Expr_name (Var_name E1))
                                 (Expr_name (Var_name E2)))))))))
@@ -15510,8 +15705,9 @@
                        (((Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom erlang))
-                                  (n_name (Atom '==')))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=='))))))
                              (fa_args
                                ((Expr_name (Var_name E1))
                                  (Expr_name (Var_name E2M)))))))))
@@ -15553,16 +15749,16 @@
                 (((Expr_apply
                     ((fa_name
                        (Expr_name
-                         (Qualified_name (n_mod (Atom erlang))
-                           (n_name (Atom '==')))))
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
                       (fa_args
                         ((Expr_name (Var_name E1)) (Expr_name (Var_name E2M)))))))))
               (c_rhs
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons ((Expr_name (Var_name H1)))
@@ -15579,8 +15775,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons
@@ -15646,8 +15842,9 @@
                                (((Expr_apply
                                    ((fa_name
                                       (Expr_name
-                                        (Qualified_name (n_mod (Atom erlang))
-                                          (n_name (Atom '==')))))
+                                        (Qualified_name
+                                          (n_mod (Atom_name (Atom erlang)))
+                                          (n_name (Atom_name (Atom '=='))))))
                                      (fa_args
                                        ((Expr_name (Var_name R))
                                          (Expr_list ()))))))))
@@ -15874,8 +16071,9 @@
                                (((Expr_apply
                                    ((fa_name
                                       (Expr_name
-                                        (Qualified_name (n_mod (Atom erlang))
-                                          (n_name (Atom '==')))))
+                                        (Qualified_name
+                                          (n_mod (Atom_name (Atom erlang)))
+                                          (n_name (Atom_name (Atom '=='))))))
                                      (fa_args
                                        ((Expr_name (Var_name R))
                                          (Expr_list ()))))))))
@@ -16120,8 +16318,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -16210,8 +16409,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -16282,8 +16482,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -16338,8 +16538,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons ((Expr_name (Var_name H1)))
@@ -16396,8 +16596,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -16452,8 +16652,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons ((Expr_name (Var_name H1)))
@@ -16570,8 +16770,9 @@
                                (((Expr_apply
                                    ((fa_name
                                       (Expr_name
-                                        (Qualified_name (n_mod (Atom erlang))
-                                          (n_name (Atom '==')))))
+                                        (Qualified_name
+                                          (n_mod (Atom_name (Atom erlang)))
+                                          (n_name (Atom_name (Atom '=='))))))
                                      (fa_args
                                        ((Expr_name (Var_name R))
                                          (Expr_list ()))))))))
@@ -16888,8 +17089,10 @@
                                            ((fa_name
                                               (Expr_name
                                                 (Qualified_name
-                                                  (n_mod (Atom lists))
-                                                  (n_name (Atom reverse)))))
+                                                  (n_mod
+                                                    (Atom_name (Atom lists)))
+                                                  (n_name
+                                                    (Atom_name (Atom reverse))))))
                                              (fa_args
                                                ((Expr_name (Var_name R))
                                                  (Expr_list ())))))))))))))))))
@@ -16956,8 +17159,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -17014,8 +17218,9 @@
                          ((Expr_apply
                             ((fa_name
                                (Expr_name
-                                 (Qualified_name (n_mod (Atom lists))
-                                   (n_name (Atom reverse)))))
+                                 (Qualified_name
+                                   (n_mod (Atom_name (Atom lists)))
+                                   (n_name (Atom_name (Atom reverse))))))
                               (fa_args
                                 ((Expr_name (Var_name L)) (Expr_list ()))))))
                          (Expr_name (Var_name Acc)))
@@ -17119,8 +17324,9 @@
                          (Expr_apply
                            ((fa_name
                               (Expr_name
-                                (Qualified_name (n_mod (Atom lists))
-                                  (n_name (Atom reverse)))))
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom lists)))
+                                  (n_name (Atom_name (Atom reverse))))))
                              (fa_args
                                ((Expr_name (Var_name T2))
                                  (Expr_name (Var_name M)))))))))
@@ -17130,8 +17336,8 @@
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom lists))
-                                 (n_name (Atom reverse)))))
+                               (Qualified_name (n_mod (Atom_name (Atom lists)))
+                                 (n_name (Atom_name (Atom reverse))))))
                             (fa_args
                               ((Expr_name (Var_name T2))
                                 (Expr_cons ((Expr_name (Var_name H2)))
@@ -17187,8 +17393,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T1))
                         (Expr_cons ((Expr_name (Var_name H1)))
@@ -17245,8 +17451,8 @@
                 (Expr_apply
                   ((fa_name
                      (Expr_name
-                       (Qualified_name (n_mod (Atom lists))
-                         (n_name (Atom reverse)))))
+                       (Qualified_name (n_mod (Atom_name (Atom lists)))
+                         (n_name (Atom_name (Atom reverse))))))
                     (fa_args
                       ((Expr_name (Var_name T2))
                         (Expr_cons ((Expr_name (Var_name H2)))
@@ -17339,8 +17545,8 @@
                        (Expr_apply
                          ((fa_name
                             (Expr_name
-                              (Qualified_name (n_mod (Atom lists))
-                                (n_name (Atom reverse)))))
+                              (Qualified_name (n_mod (Atom_name (Atom lists)))
+                                (n_name (Atom_name (Atom reverse))))))
                            (fa_args
                              ((Expr_name (Var_name T1))
                                (Expr_cons ((Expr_name (Var_name H1)))
@@ -17351,12 +17557,7171 @@
                         (Expr_apply
                           ((fa_name
                              (Expr_name
-                               (Qualified_name (n_mod (Atom lists))
-                                 (n_name (Atom reverse)))))
+                               (Qualified_name (n_mod (Atom_name (Atom lists)))
+                                 (n_name (Atom_name (Atom reverse))))))
                             (fa_args
                               ((Expr_name (Var_name T1))
                                 (Expr_cons
                                   ((Expr_name (Var_name H1))
                                     (Expr_name (Var_name H2M)))
                                   (Expr_name (Var_name M)))))))))))))))
+        (fd_spec ()))))
+  $ caramelc parse gen_server.erl
+  ((Module_comment (Comment %)) (Module_comment (Comment "% %CopyrightBegin%"))
+    (Module_comment (Comment %))
+    (Module_comment
+      (Comment "% Copyright Ericsson AB 1996-2018. All Rights Reserved."))
+    (Module_comment (Comment %))
+    (Module_comment
+      (Comment
+        "% Licensed under the Apache License, Version 2.0 (the \"License\");"))
+    (Module_comment
+      (Comment
+        "% you may not use this file except in compliance with the License."))
+    (Module_comment (Comment "% You may obtain a copy of the License at"))
+    (Module_comment (Comment %))
+    (Module_comment
+      (Comment "%     http://www.apache.org/licenses/LICENSE-2.0"))
+    (Module_comment (Comment %))
+    (Module_comment
+      (Comment
+        "% Unless required by applicable law or agreed to in writing, software"))
+    (Module_comment
+      (Comment
+        "% distributed under the License is distributed on an \"AS IS\" BASIS,"))
+    (Module_comment
+      (Comment
+        "% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied."))
+    (Module_comment
+      (Comment
+        "% See the License for the specific language governing permissions and"))
+    (Module_comment (Comment "% limitations under the License."))
+    (Module_comment (Comment %)) (Module_comment (Comment "% %CopyrightEnd%"))
+    (Module_comment (Comment %))
+    (Module_attribute
+      ((atr_name (Atom module))
+        (atr_value (Expr_literal (Lit_atom (Atom gen_server))))))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment
+        "%% NOTE: If init_ack() return values are modified, see comment"))
+    (Module_comment (Comment "%%       above monitor_return() in gen.erl!"))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%% The idea behind THIS server is that the user module"))
+    (Module_comment
+      (Comment "%% provides (different) functions to handle different"))
+    (Module_comment (Comment "%% kind of inputs. "))
+    (Module_comment
+      (Comment "%% If the Parent process terminates the Module:terminate/2"))
+    (Module_comment (Comment "%% function is called."))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%% The user module should export:"))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%   init(Args)  "))
+    (Module_comment (Comment "%%     ==> {ok, State}"))
+    (Module_comment (Comment "%%         {ok, State, Timeout}"))
+    (Module_comment (Comment "%%         ignore"))
+    (Module_comment (Comment "%%         {stop, Reason}"))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%   handle_call(Msg, {From, Tag}, State)"))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%    ==> {reply, Reply, State}"))
+    (Module_comment (Comment "%%        {reply, Reply, State, Timeout}"))
+    (Module_comment (Comment "%%        {noreply, State}"))
+    (Module_comment (Comment "%%        {noreply, State, Timeout}"))
+    (Module_comment (Comment "%%        {stop, Reason, Reply, State}  "))
+    (Module_comment
+      (Comment
+        "%%              Reason = normal | shutdown | Term terminate(State) is called"))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%   handle_cast(Msg, State)"))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%    ==> {noreply, State}"))
+    (Module_comment (Comment "%%        {noreply, State, Timeout}"))
+    (Module_comment (Comment "%%        {stop, Reason, State} "))
+    (Module_comment
+      (Comment
+        "%%              Reason = normal | shutdown | Term terminate(State) is called"))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment
+        "%%   handle_info(Info, State) Info is e.g. {'EXIT', P, R}, {nodedown, N}, ..."))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%    ==> {noreply, State}"))
+    (Module_comment (Comment "%%        {noreply, State, Timeout}"))
+    (Module_comment (Comment "%%        {stop, Reason, State} "))
+    (Module_comment
+      (Comment
+        "%%              Reason = normal | shutdown | Term, terminate(State) is called"))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%%   terminate(Reason, State) Let the user module clean up"))
+    (Module_comment (Comment "%%        always called when server terminates"))
+    (Module_comment (Comment %%)) (Module_comment (Comment "%%    ==> ok"))
+    (Module_comment (Comment %%)) (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%% The work flow (of the server) can be described as follows:"))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%%   User module                          Generic"))
+    (Module_comment
+      (Comment "%%   -----------                          -------"))
+    (Module_comment
+      (Comment "%%     start            ----->             start"))
+    (Module_comment (Comment "%%     init             <-----              ."))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%%                                         loop"))
+    (Module_comment (Comment "%%     handle_call      <-----              ."))
+    (Module_comment
+      (Comment "%%                      ----->             reply"))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%     handle_cast      <-----              ."))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%     handle_info      <-----              ."))
+    (Module_comment (Comment %%))
+    (Module_comment (Comment "%%     terminate        <-----              ."))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%%                      ----->             reply"))
+    (Module_comment (Comment %%)) (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment "% API"))
+    (Module_attribute
+      ((atr_name (Atom export))
+        (atr_value
+          (Expr_list
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom start)))
+                 (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom start)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom start_link)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom start_link)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom start_monitor)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom start_monitor)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom stop)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom stop)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom call)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom call)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom send_request)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom wait_response)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom check_response)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom cast)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom reply)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom abcast)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom abcast)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom multi_call)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom multi_call)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom multi_call)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom enter_loop)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom enter_loop)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom enter_loop)))
+                  (Expr_literal (Lit_integer 5))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom wake_hib)))
+                  (Expr_literal (Lit_integer 6)))))))))
+    (Module_comment (Comment "% System exports"))
+    (Module_attribute
+      ((atr_name (Atom export))
+        (atr_value
+          (Expr_list
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom system_continue)))
+                 (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom system_terminate)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom system_code_change)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom system_get_state)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom system_replace_state)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom format_status)))
+                  (Expr_literal (Lit_integer 2)))))))))
+    (Module_comment (Comment "% logger callback"))
+    (Module_attribute
+      ((atr_name (Atom export))
+        (atr_value
+          (Expr_list
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom format_log)))
+                 (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom format_log)))
+                  (Expr_literal (Lit_integer 2)))))))))
+    (Module_comment (Comment "% Internal exports"))
+    (Module_attribute
+      ((atr_name (Atom export))
+        (atr_value
+          (Expr_list
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom init_it)))
+                 (Expr_literal (Lit_integer 6)))))))))
+    (Module_comment (Comment " FIXME: this should be \"logger.hrl\""))
+    (Module_attribute
+      ((atr_name (Atom include))
+        (atr_value (Expr_literal (Lit_binary logger.hrl)))))
+    (Module_attribute
+      ((atr_name (Atom define))
+        (atr_value
+          (Expr_list
+            ((Expr_apply
+               ((fa_name (Expr_name (Var_name STACKTRACE))) (fa_args ())))
+              (Expr_apply
+                ((fa_name (Expr_name (Atom_name (Atom element))))
+                  (fa_args
+                    ((Expr_literal (Lit_integer 2))
+                      (Expr_apply
+                        ((fa_name
+                           (Expr_name
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom process_info))))))
+                          (fa_args
+                            ((Expr_apply
+                               ((fa_name (Expr_name (Atom_name (Atom self))))
+                                 (fa_args ())))
+                              (Expr_literal
+                                (Lit_atom (Atom current_stacktrace))))))))))))))))
+    (Module_comment (Comment " FIXME: parenthesizing isn't supported yet"))
+    (Module_comment (Comment " | (LocalName :: atom())"))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_constr ((tc_name (Atom_name (Atom pid))) (tc_args ())))
+             (Type_variant
+               ((Type_tuple
+                  ((Type_constr
+                     ((tc_name (Atom_name (Atom atom))) (tc_args ())))
+                    (Type_constr
+                      ((tc_name (Atom_name (Atom atom))) (tc_args ())))))
+                 (Type_variant
+                   ((Type_tuple
+                      ((Type_const (Lit_atom (Atom global)))
+                        (Type_constr
+                          ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+                     (Type_tuple
+                       ((Type_const (Lit_atom (Atom via)))
+                         (Type_constr
+                           ((tc_name (Atom_name (Atom module))) (tc_args ())))
+                         (Type_constr
+                           ((tc_name (Atom_name (Atom term))) (tc_args ()))))))))))))
+        (typ_kind Type) (typ_name (Atom server_ref)) (typ_params ())))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ()))))
+        (typ_kind Type) (typ_name (Atom request_id)) (typ_params ())))
+    (Module_comment
+      (Comment
+        %%=========================================================================))
+    (Module_comment (Comment "%%  API"))
+    (Module_comment
+      (Comment
+        %%=========================================================================))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom ok)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_variant
+               ((Type_tuple
+                  ((Type_const (Lit_atom (Atom ok)))
+                    (Type_constr
+                      ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                    (Type_variant
+                      ((Type_constr
+                         ((tc_name (Atom_name (Atom timeout))) (tc_args ())))
+                        (Type_variant
+                          ((Type_const (Lit_atom (Atom hibernate)))
+                            (Type_tuple
+                              ((Type_const (Lit_atom (Atom continue)))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))))))))))
+                 (Type_variant
+                   ((Type_tuple
+                      ((Type_const (Lit_atom (Atom stop)))
+                        (Type_constr
+                          ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+                     (Type_const (Lit_atom (Atom ignore))))))))))
+        (typ_kind Callback) (typ_name (Atom init))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom reply)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_variant
+               ((Type_tuple
+                  ((Type_const (Lit_atom (Atom reply)))
+                    (Type_constr
+                      ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                    (Type_constr
+                      ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                    (Type_variant
+                      ((Type_constr
+                         ((tc_name (Atom_name (Atom timeout))) (tc_args ())))
+                        (Type_variant
+                          ((Type_const (Lit_atom (Atom hibernate)))
+                            (Type_tuple
+                              ((Type_const (Lit_atom (Atom continue)))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))))))))))
+                 (Type_variant
+                   ((Type_tuple
+                      ((Type_const (Lit_atom (Atom noreply)))
+                        (Type_constr
+                          ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+                     (Type_variant
+                       ((Type_tuple
+                          ((Type_const (Lit_atom (Atom noreply)))
+                            (Type_constr
+                              ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                            (Type_variant
+                              ((Type_constr
+                                 ((tc_name (Atom_name (Atom timeout)))
+                                   (tc_args ())))
+                                (Type_variant
+                                  ((Type_const (Lit_atom (Atom hibernate)))
+                                    (Type_tuple
+                                      ((Type_const (Lit_atom (Atom continue)))
+                                        (Type_constr
+                                          ((tc_name (Atom_name (Atom term)))
+                                            (tc_args ())))))))))))
+                         (Type_variant
+                           ((Type_tuple
+                              ((Type_const (Lit_atom (Atom stop)))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))))
+                             (Type_tuple
+                               ((Type_const (Lit_atom (Atom stop)))
+                                 (Type_constr
+                                   ((tc_name (Atom_name (Atom term)))
+                                     (tc_args ())))
+                                 (Type_constr
+                                   ((tc_name (Atom_name (Atom term)))
+                                     (tc_args ()))))))))))))))))
+        (typ_kind Callback) (typ_name (Atom handle_call))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))
+            (Type_tuple
+              ((Type_constr ((tc_name (Atom_name (Atom pid))) (tc_args ())))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom noreply)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_variant
+               ((Type_tuple
+                  ((Type_const (Lit_atom (Atom noreply)))
+                    (Type_constr
+                      ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                    (Type_variant
+                      ((Type_constr
+                         ((tc_name (Atom_name (Atom timeout))) (tc_args ())))
+                        (Type_variant
+                          ((Type_const (Lit_atom (Atom hibernate)))
+                            (Type_tuple
+                              ((Type_const (Lit_atom (Atom continue)))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))))))))))
+                 (Type_tuple
+                   ((Type_const (Lit_atom (Atom stop)))
+                     (Type_constr
+                       ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                     (Type_constr
+                       ((tc_name (Atom_name (Atom term))) (tc_args ()))))))))))
+        (typ_kind Callback) (typ_name (Atom handle_cast))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom noreply)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_variant
+               ((Type_tuple
+                  ((Type_const (Lit_atom (Atom noreply)))
+                    (Type_constr
+                      ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                    (Type_variant
+                      ((Type_constr
+                         ((tc_name (Atom_name (Atom timeout))) (tc_args ())))
+                        (Type_variant
+                          ((Type_const (Lit_atom (Atom hibernate)))
+                            (Type_tuple
+                              ((Type_const (Lit_atom (Atom continue)))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))))))))))
+                 (Type_tuple
+                   ((Type_const (Lit_atom (Atom stop)))
+                     (Type_constr
+                       ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                     (Type_constr
+                       ((tc_name (Atom_name (Atom term))) (tc_args ()))))))))))
+        (typ_kind Callback) (typ_name (Atom handle_info))
+        (typ_params
+          ((Type_variant
+             ((Type_const (Lit_atom (Atom timeout)))
+               (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom noreply)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_variant
+               ((Type_tuple
+                  ((Type_const (Lit_atom (Atom noreply)))
+                    (Type_constr
+                      ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                    (Type_variant
+                      ((Type_constr
+                         ((tc_name (Atom_name (Atom timeout))) (tc_args ())))
+                        (Type_variant
+                          ((Type_const (Lit_atom (Atom hibernate)))
+                            (Type_tuple
+                              ((Type_const (Lit_atom (Atom continue)))
+                                (Type_constr
+                                  ((tc_name (Atom_name (Atom term)))
+                                    (tc_args ())))))))))))
+                 (Type_tuple
+                   ((Type_const (Lit_atom (Atom stop)))
+                     (Type_constr
+                       ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                     (Type_constr
+                       ((tc_name (Atom_name (Atom term))) (tc_args ()))))))))))
+        (typ_kind Callback) (typ_name (Atom handle_continue))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ()))))
+        (typ_kind Callback) (typ_name (Atom terminate))
+        (typ_params
+          ((Type_variant
+             ((Type_const (Lit_atom (Atom normal)))
+               (Type_variant
+                 ((Type_const (Lit_atom (Atom shutdown)))
+                   (Type_variant
+                     ((Type_tuple
+                        ((Type_const (Lit_atom (Atom shutdown)))
+                          (Type_constr
+                            ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+                       (Type_constr
+                         ((tc_name (Atom_name (Atom term))) (tc_args ())))))))))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom ok)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_tuple
+               ((Type_const (Lit_atom (Atom error)))
+                 (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ()))))))))
+        (typ_kind Callback) (typ_name (Atom code_change))
+        (typ_params
+          ((Type_variant
+             ((Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))
+               (Type_tuple
+                 ((Type_const (Lit_atom (Atom down)))
+                   (Type_constr
+                     ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Type_decl
+      ((typ_expr (Type_variable (Var_name Status))) (typ_kind Callback)
+        (typ_name (Atom format_status))
+        (typ_params
+          ((Type_variable (Var_name Opt))
+            (Type_variable (Var_name StatusData))))))
+    (Module_attribute
+      ((atr_name (Atom optional_callbacks))
+        (atr_value
+          (Expr_list
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom handle_info)))
+                 (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom handle_continue)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom terminate)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom code_change)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom format_status)))
+                  (Expr_literal (Lit_integer 2)))))))))
+    (Module_comment
+      (Comment
+        "%%  -----------------------------------------------------------------"))
+    (Module_comment (Comment "%% Starts a generic server."))
+    (Module_comment (Comment "%% start(Mod, Args, Options)"))
+    (Module_comment (Comment "%% start(Name, Mod, Args, Options)"))
+    (Module_comment (Comment "%% start_link(Mod, Args, Options)"))
+    (Module_comment (Comment "%% start_link(Name, Mod, Args, Options) where:"))
+    (Module_comment
+      (Comment
+        "%%    Name ::= {local, atom()} | {global, term()} | {via, atom(), term()}"))
+    (Module_comment
+      (Comment
+        "%%    Mod  ::= atom(), callback module implementing the 'real' server"))
+    (Module_comment
+      (Comment "%%    Args ::= term(), init arguments (to Mod:init/1)"))
+    (Module_comment
+      (Comment "%%    Options ::= [{timeout, Timeout} | {debug, [Flag]}]"))
+    (Module_comment
+      (Comment
+        "%%      Flag ::= trace | log | {logfile, File} | statistics | debug"))
+    (Module_comment (Comment "%%          (debug == log && statistics)"))
+    (Module_comment (Comment "%% Returns: {ok, Pid} |"))
+    (Module_comment (Comment "%%          {error, {already_started, Pid}} |"))
+    (Module_comment (Comment "%%          {error, Reason}"))
+    (Module_comment
+      (Comment
+        "%% -----------------------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom start)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))
+                (Pattern_binding (Var_name Options))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom start))))))
+                   (fa_args
+                     ((Expr_macro ?MODULE)
+                       (Expr_literal (Lit_atom (Atom nolink)))
+                       (Expr_name (Var_name Mod)) (Expr_name (Var_name Args))
+                       (Expr_name (Var_name Options))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom start)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))
+                (Pattern_binding (Var_name Options))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom start))))))
+                   (fa_args
+                     ((Expr_macro ?MODULE)
+                       (Expr_literal (Lit_atom (Atom nolink)))
+                       (Expr_name (Var_name Name)) (Expr_name (Var_name Mod))
+                       (Expr_name (Var_name Args))
+                       (Expr_name (Var_name Options))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom start_link)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))
+                (Pattern_binding (Var_name Options))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom start))))))
+                   (fa_args
+                     ((Expr_macro ?MODULE)
+                       (Expr_literal (Lit_atom (Atom link)))
+                       (Expr_name (Var_name Mod)) (Expr_name (Var_name Args))
+                       (Expr_name (Var_name Options))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom start_link)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))
+                (Pattern_binding (Var_name Options))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom start))))))
+                   (fa_args
+                     ((Expr_macro ?MODULE)
+                       (Expr_literal (Lit_atom (Atom link)))
+                       (Expr_name (Var_name Name)) (Expr_name (Var_name Mod))
+                       (Expr_name (Var_name Args))
+                       (Expr_name (Var_name Options))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom start_monitor)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))
+                (Pattern_binding (Var_name Options))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom start))))))
+                   (fa_args
+                     ((Expr_macro ?MODULE)
+                       (Expr_literal (Lit_atom (Atom monitor)))
+                       (Expr_name (Var_name Mod)) (Expr_name (Var_name Args))
+                       (Expr_name (Var_name Options))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom start_monitor)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))
+                (Pattern_binding (Var_name Options))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom start))))))
+                   (fa_args
+                     ((Expr_macro ?MODULE)
+                       (Expr_literal (Lit_atom (Atom monitor)))
+                       (Expr_name (Var_name Name)) (Expr_name (Var_name Mod))
+                       (Expr_name (Var_name Args))
+                       (Expr_name (Var_name Options))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Module_comment
+      (Comment "% Stop a generic server and wait for it to terminate."))
+    (Module_comment
+      (Comment "% If the server is located at another node, that node will"))
+    (Module_comment (Comment "% be monitored."))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom stop)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs ((Pattern_binding (Var_name Name)))) (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom stop))))))
+                   (fa_args ((Expr_name (Var_name Name))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom stop)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Reason))
+                (Pattern_binding (Var_name Timeout))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom stop))))))
+                   (fa_args
+                     ((Expr_name (Var_name Name)) (Expr_name (Var_name Reason))
+                       (Expr_name (Var_name Timeout))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Module_comment (Comment "% Make a call to a generic server."))
+    (Module_comment
+      (Comment "% If the server is located at another node, that node will"))
+    (Module_comment (Comment "% be monitored."))
+    (Module_comment
+      (Comment
+        "% If the client is trapping exits and is linked server termination"))
+    (Module_comment
+      (Comment
+        "% is handled here (? Shall we do that here (or rely on timeouts) ?)."))
+    (Module_comment
+      (Comment
+        "% ----------------------------------------------------------------- "))
+    (Function_decl
+      ((fd_name (Atom call)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Request))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case
+                 (Expr_catch
+                   (Expr_apply
+                     ((fa_name
+                        (Expr_name
+                          (Qualified_name (n_mod (Atom_name (Atom gen)))
+                            (n_name (Atom_name (Atom call))))))
+                       (fa_args
+                         ((Expr_name (Var_name Name))
+                           (Expr_literal (Lit_atom (Atom '$gen_call')))
+                           (Expr_name (Var_name Request)))))))
+                 (((c_lhs
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom ok)))
+                          (Pattern_binding (Var_name Res))))))
+                    (c_guard ()) (c_rhs (Expr_name (Var_name Res))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                           (Pattern_binding (Var_name Reason))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom exit))))
+                           (fa_args
+                             ((Expr_tuple
+                                ((Expr_name (Var_name Reason))
+                                  (Expr_tuple
+                                    ((Expr_macro ?MODULE)
+                                      (Expr_literal (Lit_atom (Atom call)))
+                                      (Expr_list
+                                        ((Expr_name (Var_name Name))
+                                          (Expr_name (Var_name Request))))))))))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom call)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Request))
+                (Pattern_binding (Var_name Timeout))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case
+                 (Expr_catch
+                   (Expr_apply
+                     ((fa_name
+                        (Expr_name
+                          (Qualified_name (n_mod (Atom_name (Atom gen)))
+                            (n_name (Atom_name (Atom call))))))
+                       (fa_args
+                         ((Expr_name (Var_name Name))
+                           (Expr_literal (Lit_atom (Atom '$gen_call')))
+                           (Expr_name (Var_name Request))
+                           (Expr_name (Var_name Timeout)))))))
+                 (((c_lhs
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom ok)))
+                          (Pattern_binding (Var_name Res))))))
+                    (c_guard ()) (c_rhs (Expr_name (Var_name Res))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                           (Pattern_binding (Var_name Reason))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom exit))))
+                           (fa_args
+                             ((Expr_tuple
+                                ((Expr_name (Var_name Reason))
+                                  (Expr_tuple
+                                    ((Expr_macro ?MODULE)
+                                      (Expr_literal (Lit_atom (Atom call)))
+                                      (Expr_list
+                                        ((Expr_name (Var_name Name))
+                                          (Expr_name (Var_name Request))
+                                          (Expr_name (Var_name Timeout))))))))))))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Module_comment
+      (Comment
+        "% Send a request to a generic server and return a Key which should be"))
+    (Module_comment
+      (Comment "% used with wait_response/2 or check_response/2 to fetch the"))
+    (Module_comment (Comment "% result of the request."))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom request_id))) (tc_args ()))))
+        (typ_kind Spec) (typ_name (Atom send_request))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom server_ref))) (tc_args ())))
+            (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))))
+    (Function_decl
+      ((fd_name (Atom send_request)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Request))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom send_request))))))
+                   (fa_args
+                     ((Expr_name (Var_name Name))
+                       (Expr_literal (Lit_atom (Atom '$gen_call')))
+                       (Expr_name (Var_name Request))))))))))
+        (fd_spec ())))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom reply)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_variant
+               ((Type_const (Lit_atom (Atom timeout)))
+                 (Type_tuple
+                   ((Type_const (Lit_atom (Atom error)))
+                     (Type_tuple
+                       ((Type_constr
+                          ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                         (Type_constr
+                           ((tc_name (Atom_name (Atom server_ref)))
+                             (tc_args ()))))))))))))
+        (typ_kind Spec) (typ_name (Atom wait_response))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom request_id))) (tc_args ())))
+            (Type_constr ((tc_name (Atom_name (Atom timeout))) (tc_args ())))))))
+    (Function_decl
+      ((fd_name (Atom wait_response)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name RequestId))
+                (Pattern_binding (Var_name Timeout))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom wait_response))))))
+                   (fa_args
+                     ((Expr_name (Var_name RequestId))
+                       (Expr_name (Var_name Timeout))))))))))
+        (fd_spec ())))
+    (Type_decl
+      ((typ_expr
+         (Type_variant
+           ((Type_tuple
+              ((Type_const (Lit_atom (Atom reply)))
+                (Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))))
+             (Type_variant
+               ((Type_const (Lit_atom (Atom no_reply)))
+                 (Type_tuple
+                   ((Type_const (Lit_atom (Atom error)))
+                     (Type_tuple
+                       ((Type_constr
+                          ((tc_name (Atom_name (Atom term))) (tc_args ())))
+                         (Type_constr
+                           ((tc_name (Atom_name (Atom server_ref)))
+                             (tc_args ()))))))))))))
+        (typ_kind Spec) (typ_name (Atom check_response))
+        (typ_params
+          ((Type_constr ((tc_name (Atom_name (Atom term))) (tc_args ())))
+            (Type_constr
+              ((tc_name (Atom_name (Atom request_id))) (tc_args ())))))))
+    (Function_decl
+      ((fd_name (Atom check_response)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name RequestId))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom gen)))
+                        (n_name (Atom_name (Atom check_response))))))
+                   (fa_args
+                     ((Expr_name (Var_name Msg))
+                       (Expr_name (Var_name RequestId))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Module_comment (Comment "% Make a cast to a generic server."))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom cast)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_tuple
+                 ((Pattern_match (Lit_atom (Atom global)))
+                   (Pattern_binding (Var_name Name))))
+                (Pattern_binding (Var_name Request))))
+             (c_guard ())
+             (c_rhs
+               (Expr_comment
+                 (Comment " FIXME: ignored let bindings are not supported yet")
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name _)))
+                     (lb_rhs
+                       (Expr_catch
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom global)))
+                                  (n_name (Atom_name (Atom send))))))
+                             (fa_args
+                               ((Expr_name (Var_name Name))
+                                 (Expr_apply
+                                   ((fa_name
+                                      (Expr_name (Atom_name (Atom cast_msg))))
+                                     (fa_args ((Expr_name (Var_name Request)))))))))))))
+                   (Expr_literal (Lit_atom (Atom ok)))))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_match (Lit_atom (Atom via)))
+                    (Pattern_binding (Var_name Mod))
+                    (Pattern_binding (Var_name Name))))
+                 (Pattern_binding (Var_name Request))))
+              (c_guard ())
+              (c_rhs
+                (Expr_comment
+                  (Comment
+                    " FIXME: ignored let bindings are not supported yet")
+                  (Expr_let
+                    ((lb_lhs (Pattern_binding (Var_name _)))
+                      (lb_rhs
+                        (Expr_catch
+                          (Expr_apply
+                            ((fa_name
+                               (Expr_name
+                                 (Qualified_name (n_mod (Var_name Mod))
+                                   (n_name (Atom_name (Atom send))))))
+                              (fa_args
+                                ((Expr_name (Var_name Name))
+                                  (Expr_apply
+                                    ((fa_name
+                                       (Expr_name (Atom_name (Atom cast_msg))))
+                                      (fa_args
+                                        ((Expr_name (Var_name Request)))))))))))))
+                    (Expr_literal (Lit_atom (Atom ok)))))))
+            ((c_lhs
+               ((Pattern_with_name
+                  (Pattern_tuple
+                    ((Pattern_binding (Var_name Name))
+                      (Pattern_binding (Var_name Node))))
+                  (Pattern_binding (Var_name Dest)))))
+              (c_guard
+                (((Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                      (fa_args ((Expr_name (Var_name Name))))))
+                   (Expr_apply
+                     ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                       (fa_args ((Expr_name (Var_name Node)))))))))
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom do_cast))))
+                    (fa_args
+                      ((Expr_name (Var_name Dest))
+                        (Expr_name (Var_name Request))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Dest))
+                 (Pattern_binding (Var_name Request))))
+              (c_guard
+                (((Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                      (fa_args ((Expr_name (Var_name Dest)))))))))
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom do_cast))))
+                    (fa_args
+                      ((Expr_name (Var_name Dest))
+                        (Expr_name (Var_name Request))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Dest))
+                 (Pattern_binding (Var_name Request))))
+              (c_guard
+                (((Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_pid))))
+                      (fa_args ((Expr_name (Var_name Dest)))))))))
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom do_cast))))
+                    (fa_args
+                      ((Expr_name (Var_name Dest))
+                        (Expr_name (Var_name Request))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom do_cast)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Dest))
+                (Pattern_binding (Var_name Request))))
+             (c_guard ())
+             (c_rhs
+               (Expr_comment
+                 (Comment " FIXME: ignored let bindings are not supported yet")
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name _)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom do_send))))
+                           (fa_args
+                             ((Expr_name (Var_name Dest))
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name (Atom_name (Atom cast_msg))))
+                                   (fa_args ((Expr_name (Var_name Request))))))))))))
+                   (Expr_literal (Lit_atom (Atom ok)))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom cast_msg)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs ((Pattern_binding (Var_name Request)))) (c_guard ())
+             (c_rhs
+               (Expr_tuple
+                 ((Expr_literal (Lit_atom (Atom '$gen_cast')))
+                   (Expr_name (Var_name Request))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Module_comment (Comment "% Send a reply to the client."))
+    (Module_comment
+      (Comment
+        "% -----------------------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom reply)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_tuple
+                 ((Pattern_binding (Var_name To))
+                   (Pattern_binding (Var_name Tag))))
+                (Pattern_binding (Var_name Reply))))
+             (c_guard ())
+             (c_rhs
+               (Expr_comment
+                 (Comment " FIXME: ignored let bindings are not supported yet")
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name _)))
+                     (lb_rhs
+                       (Expr_catch
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom send))))))
+                             (fa_args
+                               ((Expr_name (Var_name To))
+                                 (Expr_tuple
+                                   ((Expr_name (Var_name Tag))
+                                     (Expr_name (Var_name Reply)))))))))))
+                   (Expr_literal (Lit_atom (Atom ok)))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "% ----------------------------------------------------------------- "))
+    (Module_comment
+      (Comment
+        "% Asynchronous broadcast, returns nothing, it's just send 'n' pray"))
+    (Module_comment
+      (Comment
+        "%-----------------------------------------------------------------  "))
+    (Function_decl
+      ((fd_name (Atom abcast)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Request))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                     (fa_args ((Expr_name (Var_name Name)))))))))
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom do_abcast))))
+                   (fa_args
+                     ((Expr_cons
+                        ((Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom node))))
+                             (fa_args ()))))
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom nodes))))
+                            (fa_args ()))))
+                       (Expr_name (Var_name Name))
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom cast_msg))))
+                           (fa_args ((Expr_name (Var_name Request))))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom abcast)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Nodes))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Request))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom is_list))))
+                     (fa_args ((Expr_name (Var_name Nodes))))))
+                  (Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                      (fa_args ((Expr_name (Var_name Name)))))))))
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom do_abcast))))
+                   (fa_args
+                     ((Expr_name (Var_name Nodes)) (Expr_name (Var_name Name))
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom cast_msg))))
+                           (fa_args ((Expr_name (Var_name Request))))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom do_abcast)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_cons ((Pattern_binding (Var_name Node)))
+                 (Pattern_binding (Var_name Nodes)))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Msg))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                     (fa_args ((Expr_name (Var_name Node)))))))))
+             (c_rhs
+               (Expr_comment
+                 (Comment " FIXME: ignored let bindings are not supported yet")
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name _)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom do_send))))
+                           (fa_args
+                             ((Expr_tuple
+                                ((Expr_name (Var_name Name))
+                                  (Expr_name (Var_name Node))))
+                               (Expr_name (Var_name Msg))))))))
+                   (Expr_apply
+                     ((fa_name (Expr_name (Atom_name (Atom do_abcast))))
+                       (fa_args
+                         ((Expr_name (Var_name Nodes))
+                           (Expr_name (Var_name Name))
+                           (Expr_name (Var_name Msg))))))))))
+            ((c_lhs
+               ((Pattern_list ()) (Pattern_binding (Var_name _))
+                 (Pattern_binding (Var_name _))))
+              (c_guard ()) (c_rhs (Expr_literal (Lit_atom (Atom abcast)))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "%% -----------------------------------------------------------------"))
+    (Module_comment (Comment "%% Make a call to servers at several nodes."))
+    (Module_comment (Comment "%% Returns: {[Replies],[BadNodes]}"))
+    (Module_comment (Comment "%% A Timeout can be given"))
+    (Module_comment (Comment "%% "))
+    (Module_comment
+      (Comment
+        "%% A middleman process is used in case late answers arrives after"))
+    (Module_comment
+      (Comment
+        "%% the timeout. If they would be allowed to glog the callers message"))
+    (Module_comment
+      (Comment
+        "%% queue, it would probably become confused. Late answers will "))
+    (Module_comment
+      (Comment
+        "%% now arrive to the terminated middleman and so be discarded."))
+    (Module_comment
+      (Comment
+        "%% -----------------------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom multi_call)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Req))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                     (fa_args ((Expr_name (Var_name Name)))))))))
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom do_multi_call))))
+                   (fa_args
+                     ((Expr_cons
+                        ((Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom node))))
+                             (fa_args ()))))
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom nodes))))
+                            (fa_args ()))))
+                       (Expr_name (Var_name Name)) (Expr_name (Var_name Req))
+                       (Expr_literal (Lit_atom (Atom infinity)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom multi_call)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Nodes))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Req))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom is_list))))
+                     (fa_args ((Expr_name (Var_name Nodes))))))
+                  (Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                      (fa_args ((Expr_name (Var_name Name)))))))))
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom do_multi_call))))
+                   (fa_args
+                     ((Expr_name (Var_name Nodes)) (Expr_name (Var_name Name))
+                       (Expr_name (Var_name Req))
+                       (Expr_literal (Lit_atom (Atom infinity)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom multi_call)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Nodes))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Req))
+                (Pattern_match (Lit_atom (Atom infinity)))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom do_multi_call))))
+                   (fa_args
+                     ((Expr_name (Var_name Nodes)) (Expr_name (Var_name Name))
+                       (Expr_name (Var_name Req))
+                       (Expr_literal (Lit_atom (Atom infinity)))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Nodes))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name Req))
+                 (Pattern_binding (Var_name Timeout))))
+              (c_guard
+                (((Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_list))))
+                      (fa_args ((Expr_name (Var_name Nodes))))))
+                   (Expr_apply
+                     ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                       (fa_args ((Expr_name (Var_name Name))))))
+                   (Expr_apply
+                     ((fa_name (Expr_name (Atom_name (Atom is_integer))))
+                       (fa_args ((Expr_name (Var_name Timeout))))))
+                   (Expr_apply
+                     ((fa_name
+                        (Expr_name
+                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                            (n_name (Atom_name (Atom '>='))))))
+                       (fa_args
+                         ((Expr_name (Var_name Timeout))
+                           (Expr_literal (Lit_integer 0)))))))))
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom do_multi_call))))
+                    (fa_args
+                      ((Expr_name (Var_name Nodes)) (Expr_name (Var_name Name))
+                        (Expr_name (Var_name Req))
+                        (Expr_name (Var_name Timeout))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Module_comment
+      (Comment
+        "% enter_loop(Mod, Options, State, <ServerName>, <TimeOut>) ->_ "))
+    (Module_comment (Comment "%   "))
+    (Module_comment
+      (Comment "% Description: Makes an existing process into a gen_server. "))
+    (Module_comment
+      (Comment
+        "%              The calling process will enter the gen_server receive "))
+    (Module_comment
+      (Comment "%              loop and become a gen_server process."))
+    (Module_comment
+      (Comment
+        "%              The process *must* have been started using one of the "))
+    (Module_comment
+      (Comment "%              start functions in proc_lib, see proc_lib(3). "))
+    (Module_comment
+      (Comment
+        "%              The user is responsible for any initialization of the "))
+    (Module_comment
+      (Comment "%              process, including registering a name for it."))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Function_decl
+      ((fd_name (Atom enter_loop)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Options))
+                (Pattern_binding (Var_name State))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom enter_loop))))
+                   (fa_args
+                     ((Expr_name (Var_name Mod)) (Expr_name (Var_name Options))
+                       (Expr_name (Var_name State))
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom self))))
+                           (fa_args ())))
+                       (Expr_literal (Lit_atom (Atom infinity)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom enter_loop)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Options))
+                (Pattern_binding (Var_name State))
+                (Pattern_with_name (Pattern_binding (Var_name ServerName))
+                  (Pattern_tuple
+                    ((Pattern_binding (Var_name Scope))
+                      (Pattern_binding (Var_name _)))))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name
+                      (Expr_name
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '=='))))))
+                     (fa_args
+                       ((Expr_name (Var_name Scope))
+                         (Expr_literal (Lit_atom (Atom local)))))))
+                  (Expr_apply
+                    ((fa_name
+                       (Expr_name
+                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                           (n_name (Atom_name (Atom '=='))))))
+                      (fa_args
+                        ((Expr_name (Var_name Scope))
+                          (Expr_literal (Lit_atom (Atom global))))))))))
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom enter_loop))))
+                   (fa_args
+                     ((Expr_name (Var_name Mod)) (Expr_name (Var_name Options))
+                       (Expr_name (Var_name State))
+                       (Expr_name (Var_name ServerName))
+                       (Expr_literal (Lit_atom (Atom infinity)))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name Options))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_with_name (Pattern_binding (Var_name ServerName))
+                   (Pattern_tuple
+                     ((Pattern_match (Lit_atom (Atom via)))
+                       (Pattern_binding (Var_name _))
+                       (Pattern_binding (Var_name _)))))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom enter_loop))))
+                    (fa_args
+                      ((Expr_name (Var_name Mod))
+                        (Expr_name (Var_name Options))
+                        (Expr_name (Var_name State))
+                        (Expr_name (Var_name ServerName))
+                        (Expr_literal (Lit_atom (Atom infinity)))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name Options))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_binding (Var_name Timeout))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom enter_loop))))
+                    (fa_args
+                      ((Expr_name (Var_name Mod))
+                        (Expr_name (Var_name Options))
+                        (Expr_name (Var_name State))
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom self))))
+                            (fa_args ())))
+                        (Expr_name (Var_name Timeout))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom enter_loop)) (fd_arity 5)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Options))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name ServerName))
+                (Pattern_binding (Var_name Timeout))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Name)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name
+                          (Expr_name
+                            (Qualified_name (n_mod (Atom_name (Atom gen)))
+                              (n_name (Atom_name (Atom get_proc_name))))))
+                         (fa_args ((Expr_name (Var_name ServerName))))))))
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name Parent)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom gen)))
+                                (n_name (Atom_name (Atom get_parent))))))
+                           (fa_args ())))))
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding (Var_name Debug)))
+                       (lb_rhs
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name (n_mod (Atom_name (Atom gen)))
+                                  (n_name (Atom_name (Atom debug_options))))))
+                             (fa_args
+                               ((Expr_name (Var_name Name))
+                                 (Expr_name (Var_name Options))))))))
+                     (Expr_let
+                       ((lb_lhs
+                          (Pattern_binding (Var_name HibernateAfterTimeout)))
+                         (lb_rhs
+                           (Expr_apply
+                             ((fa_name
+                                (Expr_name
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom gen)))
+                                    (n_name (Atom_name (Atom hibernate_after))))))
+                               (fa_args ((Expr_name (Var_name Options))))))))
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom loop))))
+                           (fa_args
+                             ((Expr_name (Var_name Parent))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name State))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name Timeout))
+                               (Expr_name (Var_name HibernateAfterTimeout))
+                               (Expr_name (Var_name Debug))))))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        %%========================================================================))
+    (Module_comment (Comment "%% Gen-callback functions"))
+    (Module_comment
+      (Comment
+        %%========================================================================))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment "%% Initiate the new process."))
+    (Module_comment (Comment "%% Register the name using the Rfunc function"))
+    (Module_comment (Comment "%% Calls the Mod:init/Args function."))
+    (Module_comment
+      (Comment "%% Finally an acknowledge is sent to Parent and the main"))
+    (Module_comment (Comment "%% loop is entered."))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom init_it)) (fd_arity 6)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Starter))
+                (Pattern_match (Lit_atom (Atom self)))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))
+                (Pattern_binding (Var_name Options))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom init_it))))
+                   (fa_args
+                     ((Expr_name (Var_name Starter))
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom self))))
+                           (fa_args ())))
+                       (Expr_name (Var_name Name)) (Expr_name (Var_name Mod))
+                       (Expr_name (Var_name Args))
+                       (Expr_name (Var_name Options))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Starter))
+                 (Pattern_binding (Var_name Parent))
+                 (Pattern_binding (Var_name Name0))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name Args))
+                 (Pattern_binding (Var_name Options))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name Name)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name
+                           (Expr_name
+                             (Qualified_name (n_mod (Atom_name (Atom gen)))
+                               (n_name (Atom_name (Atom name))))))
+                          (fa_args ((Expr_name (Var_name Name0))))))))
+                  (Expr_let
+                    ((lb_lhs (Pattern_binding (Var_name Debug)))
+                      (lb_rhs
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name (n_mod (Atom_name (Atom gen)))
+                                 (n_name (Atom_name (Atom debug_options))))))
+                            (fa_args
+                              ((Expr_name (Var_name Name))
+                                (Expr_name (Var_name Options))))))))
+                    (Expr_let
+                      ((lb_lhs
+                         (Pattern_binding (Var_name HibernateAfterTimeout)))
+                        (lb_rhs
+                          (Expr_apply
+                            ((fa_name
+                               (Expr_name
+                                 (Qualified_name (n_mod (Atom_name (Atom gen)))
+                                   (n_name (Atom_name (Atom hibernate_after))))))
+                              (fa_args ((Expr_name (Var_name Options))))))))
+                      (Expr_case
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom init_it))))
+                            (fa_args
+                              ((Expr_name (Var_name Mod))
+                                (Expr_name (Var_name Args))))))
+                        (((c_lhs
+                            ((Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom ok)))
+                                 (Pattern_tuple
+                                   ((Pattern_match (Lit_atom (Atom ok)))
+                                     (Pattern_binding (Var_name State))))))))
+                           (c_guard ())
+                           (c_rhs
+                             (Expr_comment
+                               (Comment
+                                 " FIXME: ignored let bindings are not supported yet")
+                               (Expr_let
+                                 ((lb_lhs (Pattern_binding (Var_name _)))
+                                   (lb_rhs
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Qualified_name
+                                              (n_mod
+                                                (Atom_name (Atom proc_lib)))
+                                              (n_name
+                                                (Atom_name (Atom init_ack))))))
+                                         (fa_args
+                                           ((Expr_name (Var_name Starter))
+                                             (Expr_tuple
+                                               ((Expr_literal
+                                                  (Lit_atom (Atom ok)))
+                                                 (Expr_apply
+                                                   ((fa_name
+                                                      (Expr_name
+                                                        (Atom_name (Atom self))))
+                                                     (fa_args ())))))))))))
+                                 (Expr_apply
+                                   ((fa_name
+                                      (Expr_name (Atom_name (Atom loop))))
+                                     (fa_args
+                                       ((Expr_name (Var_name Parent))
+                                         (Expr_name (Var_name Name))
+                                         (Expr_name (Var_name State))
+                                         (Expr_name (Var_name Mod))
+                                         (Expr_literal
+                                           (Lit_atom (Atom infinity)))
+                                         (Expr_name
+                                           (Var_name HibernateAfterTimeout))
+                                         (Expr_name (Var_name Debug))))))))))
+                          ((c_lhs
+                             ((Pattern_tuple
+                                ((Pattern_match (Lit_atom (Atom ok)))
+                                  (Pattern_tuple
+                                    ((Pattern_match (Lit_atom (Atom ok)))
+                                      (Pattern_binding (Var_name State))
+                                      (Pattern_binding (Var_name Timeout))))))))
+                            (c_guard ())
+                            (c_rhs
+                              (Expr_comment
+                                (Comment
+                                  " FIXME: ignored let bindings are not supported yet")
+                                (Expr_let
+                                  ((lb_lhs (Pattern_binding (Var_name _)))
+                                    (lb_rhs
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Qualified_name
+                                               (n_mod
+                                                 (Atom_name (Atom proc_lib)))
+                                               (n_name
+                                                 (Atom_name (Atom init_ack))))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Starter))
+                                              (Expr_tuple
+                                                ((Expr_literal
+                                                   (Lit_atom (Atom ok)))
+                                                  (Expr_apply
+                                                    ((fa_name
+                                                       (Expr_name
+                                                         (Atom_name
+                                                           (Atom self))))
+                                                      (fa_args ())))))))))))
+                                  (Expr_apply
+                                    ((fa_name
+                                       (Expr_name (Atom_name (Atom loop))))
+                                      (fa_args
+                                        ((Expr_name (Var_name Parent))
+                                          (Expr_name (Var_name Name))
+                                          (Expr_name (Var_name State))
+                                          (Expr_name (Var_name Mod))
+                                          (Expr_name (Var_name Timeout))
+                                          (Expr_name
+                                            (Var_name HibernateAfterTimeout))
+                                          (Expr_name (Var_name Debug))))))))))
+                          ((c_lhs
+                             ((Pattern_tuple
+                                ((Pattern_match (Lit_atom (Atom ok)))
+                                  (Pattern_tuple
+                                    ((Pattern_match (Lit_atom (Atom stop)))
+                                      (Pattern_binding (Var_name Reason))))))))
+                            (c_guard ())
+                            (c_rhs
+                              (Expr_comment
+                                (Comment
+                                  "% For consistency, we must make sure that the")
+                                (Expr_comment
+                                  (Comment
+                                    "% registered name (if any) is unregistered before")
+                                  (Expr_comment
+                                    (Comment
+                                      "% the parent process is notified about the failure.")
+                                    (Expr_comment
+                                      (Comment
+                                        "% (Otherwise, the parent process could get")
+                                      (Expr_comment
+                                        (Comment
+                                          "% an 'already_started' error if it immediately")
+                                        (Expr_comment
+                                          (Comment
+                                            "% tried starting the process again.)")
+                                          (Expr_comment
+                                            (Comment
+                                              " FIXME: ignored let bindings are not supported yet")
+                                            (Expr_let
+                                              ((lb_lhs
+                                                 (Pattern_binding (Var_name _)))
+                                                (lb_rhs
+                                                  (Expr_apply
+                                                    ((fa_name
+                                                       (Expr_name
+                                                         (Qualified_name
+                                                           (n_mod
+                                                             (Atom_name
+                                                               (Atom gen)))
+                                                           (n_name
+                                                             (Atom_name
+                                                               (Atom
+                                                                 unregister_name))))))
+                                                      (fa_args
+                                                        ((Expr_name
+                                                           (Var_name Name0))))))))
+                                              (Expr_let
+                                                ((lb_lhs
+                                                   (Pattern_binding
+                                                     (Var_name _)))
+                                                  (lb_rhs
+                                                    (Expr_apply
+                                                      ((fa_name
+                                                         (Expr_name
+                                                           (Qualified_name
+                                                             (n_mod
+                                                               (Atom_name
+                                                                 (Atom
+                                                                   proc_lib)))
+                                                             (n_name
+                                                               (Atom_name
+                                                                 (Atom
+                                                                   init_ack))))))
+                                                        (fa_args
+                                                          ((Expr_name
+                                                             (Var_name Starter))
+                                                            (Expr_tuple
+                                                              ((Expr_literal
+                                                                 (Lit_atom
+                                                                   (Atom error)))
+                                                                (Expr_name
+                                                                  (Var_name
+                                                                    Reason))))))))))
+                                                (Expr_apply
+                                                  ((fa_name
+                                                     (Expr_name
+                                                       (Atom_name (Atom exit))))
+                                                    (fa_args
+                                                      ((Expr_name
+                                                         (Var_name Reason)))))))))))))))))
+                          ((c_lhs
+                             ((Pattern_tuple
+                                ((Pattern_match (Lit_atom (Atom ok)))
+                                  (Pattern_match (Lit_atom (Atom ignore)))))))
+                            (c_guard ())
+                            (c_rhs
+                              (Expr_comment
+                                (Comment
+                                  " FIXME: ignored let bindings are not supported yet")
+                                (Expr_let
+                                  ((lb_lhs (Pattern_binding (Var_name _)))
+                                    (lb_rhs
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Qualified_name
+                                               (n_mod (Atom_name (Atom gen)))
+                                               (n_name
+                                                 (Atom_name
+                                                   (Atom unregister_name))))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Name0))))))))
+                                  (Expr_let
+                                    ((lb_lhs (Pattern_binding (Var_name _)))
+                                      (lb_rhs
+                                        (Expr_apply
+                                          ((fa_name
+                                             (Expr_name
+                                               (Qualified_name
+                                                 (n_mod
+                                                   (Atom_name (Atom proc_lib)))
+                                                 (n_name
+                                                   (Atom_name (Atom init_ack))))))
+                                            (fa_args
+                                              ((Expr_name (Var_name Starter))
+                                                (Expr_literal
+                                                  (Lit_atom (Atom ignore)))))))))
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name (Atom_name (Atom exit))))
+                                        (fa_args
+                                          ((Expr_literal
+                                             (Lit_atom (Atom normal))))))))))))
+                          ((c_lhs
+                             ((Pattern_tuple
+                                ((Pattern_match (Lit_atom (Atom ok)))
+                                  (Pattern_binding (Var_name Else))))))
+                            (c_guard ())
+                            (c_rhs
+                              (Expr_comment
+                                (Comment
+                                  " FIXME: ignored let bindings are not supported yet")
+                                (Expr_let
+                                  ((lb_lhs (Pattern_binding (Var_name Error)))
+                                    (lb_rhs
+                                      (Expr_tuple
+                                        ((Expr_literal
+                                           (Lit_atom (Atom bad_return_value)))
+                                          (Expr_name (Var_name Else))))))
+                                  (Expr_let
+                                    ((lb_lhs (Pattern_binding (Var_name _)))
+                                      (lb_rhs
+                                        (Expr_apply
+                                          ((fa_name
+                                             (Expr_name
+                                               (Qualified_name
+                                                 (n_mod
+                                                   (Atom_name (Atom proc_lib)))
+                                                 (n_name
+                                                   (Atom_name (Atom init_ack))))))
+                                            (fa_args
+                                              ((Expr_name (Var_name Starter))
+                                                (Expr_tuple
+                                                  ((Expr_literal
+                                                     (Lit_atom (Atom error)))
+                                                    (Expr_name
+                                                      (Var_name Error))))))))))
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name (Atom_name (Atom exit))))
+                                        (fa_args
+                                          ((Expr_name (Var_name Error)))))))))))
+                          ((c_lhs
+                             ((Pattern_tuple
+                                ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                                  (Pattern_binding (Var_name Class))
+                                  (Pattern_binding (Var_name Reason))
+                                  (Pattern_binding (Var_name Stacktrace))))))
+                            (c_guard ())
+                            (c_rhs
+                              (Expr_comment
+                                (Comment
+                                  " FIXME: ignored let bindings are not supported yet")
+                                (Expr_let
+                                  ((lb_lhs (Pattern_binding (Var_name _)))
+                                    (lb_rhs
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Qualified_name
+                                               (n_mod (Atom_name (Atom gen)))
+                                               (n_name
+                                                 (Atom_name
+                                                   (Atom unregister_name))))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Name0))))))))
+                                  (Expr_let
+                                    ((lb_lhs (Pattern_binding (Var_name _)))
+                                      (lb_rhs
+                                        (Expr_apply
+                                          ((fa_name
+                                             (Expr_name
+                                               (Qualified_name
+                                                 (n_mod
+                                                   (Atom_name (Atom proc_lib)))
+                                                 (n_name
+                                                   (Atom_name (Atom init_ack))))))
+                                            (fa_args
+                                              ((Expr_name (Var_name Starter))
+                                                (Expr_tuple
+                                                  ((Expr_literal
+                                                     (Lit_atom (Atom error)))
+                                                    (Expr_apply
+                                                      ((fa_name
+                                                         (Expr_name
+                                                           (Atom_name
+                                                             (Atom
+                                                               terminate_reason))))
+                                                        (fa_args
+                                                          ((Expr_name
+                                                             (Var_name Class))
+                                                            (Expr_name
+                                                              (Var_name Reason))
+                                                            (Expr_name
+                                                              (Var_name
+                                                                Stacktrace))))))))))))))
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name (Atom_name (Atom raise))))))
+                                        (fa_args
+                                          ((Expr_name (Var_name Class))
+                                            (Expr_name (Var_name Reason))
+                                            (Expr_name (Var_name Stacktrace))))))))))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom init_it)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Args))))
+             (c_guard ())
+             (c_rhs
+               (Expr_try
+                 ((try_expr
+                    (Expr_tuple
+                      ((Expr_literal (Lit_atom (Atom ok)))
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name (n_mod (Var_name Mod))
+                                 (n_name (Atom_name (Atom init))))))
+                            (fa_args ((Expr_name (Var_name Args)))))))))
+                   (try_catch
+                     ((((c_lhs
+                          ((Pattern_catch ((Atom_name (Atom throw)))
+                             (Pattern_binding (Var_name R)) ())))
+                         (c_guard ())
+                         (c_rhs
+                           (Expr_tuple
+                             ((Expr_literal (Lit_atom (Atom ok)))
+                               (Expr_name (Var_name R))))))
+                        ((c_lhs
+                           ((Pattern_catch ((Var_name Class))
+                              (Pattern_binding (Var_name R)) ((Var_name S)))))
+                          (c_guard ())
+                          (c_rhs
+                            (Expr_tuple
+                              ((Expr_literal (Lit_atom (Atom 'EXIT')))
+                                (Expr_name (Var_name Class))
+                                (Expr_name (Var_name R))
+                                (Expr_name (Var_name S)))))))))
+                   (try_after ())))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        %%========================================================================))
+    (Module_comment (Comment "%% Internal functions"))
+    (Module_comment
+      (Comment
+        %%========================================================================))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment "%% The MAIN loop."))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom loop)) (fd_arity 6)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_with_name
+                  (Pattern_tuple
+                    ((Pattern_match (Lit_atom (Atom continue)))
+                      (Pattern_binding (Var_name Continue))))
+                  (Pattern_binding (Var_name Msg)))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Reply)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name (Atom try_dispatch))))
+                         (fa_args
+                           ((Expr_name (Var_name Mod))
+                             (Expr_literal (Lit_atom (Atom handle_continue)))
+                             (Expr_name (Var_name Continue))
+                             (Expr_name (Var_name State))))))))
+                 (Expr_case (Expr_name (Var_name Debug))
+                   (((c_lhs ((Pattern_list ()))) (c_guard ())
+                      (c_rhs
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name (Atom_name (Atom handle_common_reply))))
+                            (fa_args
+                              ((Expr_name (Var_name Reply))
+                                (Expr_name (Var_name Parent))
+                                (Expr_name (Var_name Name))
+                                (Expr_literal (Lit_atom (Atom undefined)))
+                                (Expr_name (Var_name Msg))
+                                (Expr_name (Var_name Mod))
+                                (Expr_name (Var_name HibernateAfterTimeout))
+                                (Expr_name (Var_name State))))))))
+                     ((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+                       (c_rhs
+                         (Expr_let
+                           ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                             (lb_rhs
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom sys)))
+                                        (n_name
+                                          (Atom_name (Atom handle_debug))))))
+                                   (fa_args
+                                     ((Expr_name (Var_name Debug))
+                                       (Expr_fun_ref
+                                         (fref_name
+                                           (Atom_name (Atom print_event)))
+                                         (fref_arity 3))
+                                       (Expr_name (Var_name Name))
+                                       (Expr_name (Var_name Msg))))))))
+                           (Expr_apply
+                             ((fa_name
+                                (Expr_name
+                                  (Atom_name (Atom handle_common_reply))))
+                               (fa_args
+                                 ((Expr_name (Var_name Reply))
+                                   (Expr_name (Var_name Parent))
+                                   (Expr_name (Var_name Name))
+                                   (Expr_literal (Lit_atom (Atom undefined)))
+                                   (Expr_name (Var_name Msg))
+                                   (Expr_name (Var_name Mod))
+                                   (Expr_name (Var_name HibernateAfterTimeout))
+                                   (Expr_name (Var_name State))
+                                   (Expr_name (Var_name Debug1))))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Parent))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_match (Lit_atom (Atom hibernate)))
+                 (Pattern_binding (Var_name HibernateAfterTimeout))
+                 (Pattern_binding (Var_name Debug))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name
+                     (Expr_name
+                       (Qualified_name (n_mod (Atom_name (Atom proc_lib)))
+                         (n_name (Atom_name (Atom hibernate))))))
+                    (fa_args
+                      ((Expr_macro ?MODULE)
+                        (Expr_literal (Lit_atom (Atom wake_hib)))
+                        (Expr_list
+                          ((Expr_name (Var_name Parent))
+                            (Expr_name (Var_name Name))
+                            (Expr_name (Var_name State))
+                            (Expr_name (Var_name Mod))
+                            (Expr_name (Var_name HibernateAfterTimeout))
+                            (Expr_name (Var_name Debug))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Parent))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_match (Lit_atom (Atom infinity)))
+                 (Pattern_binding (Var_name HibernateAfterTimeout))
+                 (Pattern_binding (Var_name Debug))))
+              (c_guard ())
+              (c_rhs
+                (Expr_recv
+                  ((rcv_cases
+                     (((c_lhs ((Pattern_binding (Var_name Msg)))) (c_guard ())
+                        (c_rhs
+                          (Expr_apply
+                            ((fa_name
+                               (Expr_name (Atom_name (Atom decode_msg))))
+                              (fa_args
+                                ((Expr_name (Var_name Msg))
+                                  (Expr_name (Var_name Parent))
+                                  (Expr_name (Var_name Name))
+                                  (Expr_name (Var_name State))
+                                  (Expr_name (Var_name Mod))
+                                  (Expr_literal (Lit_atom (Atom infinity)))
+                                  (Expr_name (Var_name HibernateAfterTimeout))
+                                  (Expr_name (Var_name Debug))
+                                  (Expr_literal (Lit_atom (Atom false)))))))))))
+                    (rcv_after
+                      (((c_lhs
+                          ((Pattern_binding (Var_name HibernateAfterTimeout))))
+                         (c_guard ())
+                         (c_rhs
+                           (Expr_apply
+                             ((fa_name (Expr_name (Atom_name (Atom loop))))
+                               (fa_args
+                                 ((Expr_name (Var_name Parent))
+                                   (Expr_name (Var_name Name))
+                                   (Expr_name (Var_name State))
+                                   (Expr_name (Var_name Mod))
+                                   (Expr_literal (Lit_atom (Atom hibernate)))
+                                   (Expr_name (Var_name HibernateAfterTimeout))
+                                   (Expr_name (Var_name Debug))))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Parent))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name Time))
+                 (Pattern_binding (Var_name HibernateAfterTimeout))
+                 (Pattern_binding (Var_name Debug))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name Msg)))
+                    (lb_rhs
+                      (Expr_recv
+                        ((rcv_cases
+                           (((c_lhs ((Pattern_binding (Var_name Input))))
+                              (c_guard ())
+                              (c_rhs (Expr_name (Var_name Input))))))
+                          (rcv_after
+                            (((c_lhs ((Pattern_binding (Var_name Time))))
+                               (c_guard ())
+                               (c_rhs (Expr_literal (Lit_atom (Atom timeout)))))))))))
+                  (Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom decode_msg))))
+                      (fa_args
+                        ((Expr_name (Var_name Msg))
+                          (Expr_name (Var_name Parent))
+                          (Expr_name (Var_name Name))
+                          (Expr_name (Var_name State))
+                          (Expr_name (Var_name Mod))
+                          (Expr_name (Var_name Time))
+                          (Expr_name (Var_name HibernateAfterTimeout))
+                          (Expr_name (Var_name Debug))
+                          (Expr_literal (Lit_atom (Atom false))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom wake_hib)) (fd_arity 6)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name HibernateAfterTimeout))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Msg)))
+                   (lb_rhs
+                     (Expr_recv
+                       ((rcv_cases
+                          (((c_lhs ((Pattern_binding (Var_name Input))))
+                             (c_guard ()) (c_rhs (Expr_name (Var_name Input))))))
+                         (rcv_after ())))))
+                 (Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom decode_msg))))
+                     (fa_args
+                       ((Expr_name (Var_name Msg))
+                         (Expr_name (Var_name Parent))
+                         (Expr_name (Var_name Name))
+                         (Expr_name (Var_name State))
+                         (Expr_name (Var_name Mod))
+                         (Expr_literal (Lit_atom (Atom hibernate)))
+                         (Expr_name (Var_name HibernateAfterTimeout))
+                         (Expr_name (Var_name Debug))
+                         (Expr_literal (Lit_atom (Atom true))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom decode_msg)) (fd_arity 9)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Time))
+                (Pattern_binding (Var_name HibernateAfterTimeout))
+                (Pattern_binding (Var_name Debug))
+                (Pattern_binding (Var_name Hib))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case (Expr_name (Var_name Msg))
+                 (((c_lhs
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom system)))
+                          (Pattern_binding (Var_name From))
+                          (Pattern_binding (Var_name Req))))))
+                    (c_guard ())
+                    (c_rhs
+                      (Expr_apply
+                        ((fa_name
+                           (Expr_name
+                             (Qualified_name (n_mod (Atom_name (Atom sys)))
+                               (n_name (Atom_name (Atom handle_system_msg))))))
+                          (fa_args
+                            ((Expr_name (Var_name Req))
+                              (Expr_name (Var_name From))
+                              (Expr_name (Var_name Parent))
+                              (Expr_macro ?MODULE) (Expr_name (Var_name Debug))
+                              (Expr_list
+                                ((Expr_name (Var_name Name))
+                                  (Expr_name (Var_name State))
+                                  (Expr_name (Var_name Mod))
+                                  (Expr_name (Var_name Time))
+                                  (Expr_name (Var_name HibernateAfterTimeout))))
+                              (Expr_name (Var_name Hib))))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                           (Pattern_binding (Var_name Parent))
+                           (Pattern_binding (Var_name Reason))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                           (fa_args
+                             ((Expr_name (Var_name Reason))
+                               (Expr_apply
+                                 ((fa_name (Expr_macro ?STACKTRACE))
+                                   (fa_args ())))
+                               (Expr_name (Var_name Name))
+                               (Expr_literal (Lit_atom (Atom undefined)))
+                               (Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name State))
+                               (Expr_name (Var_name Debug))))))))
+                   ((c_lhs ((Pattern_binding (Var_name _Msg))))
+                     (c_guard
+                       (((Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom '=:='))))))
+                             (fa_args
+                               ((Expr_name (Var_name Debug)) (Expr_list ()))))))))
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom handle_msg))))
+                           (fa_args
+                             ((Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Parent))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name State))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name HibernateAfterTimeout))))))))
+                   ((c_lhs ((Pattern_binding (Var_name _Msg)))) (c_guard ())
+                     (c_rhs
+                       (Expr_let
+                         ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                           (lb_rhs
+                             (Expr_apply
+                               ((fa_name
+                                  (Expr_name
+                                    (Qualified_name
+                                      (n_mod (Atom_name (Atom sys)))
+                                      (n_name (Atom_name (Atom handle_debug))))))
+                                 (fa_args
+                                   ((Expr_name (Var_name Debug))
+                                     (Expr_fun_ref
+                                       (fref_name
+                                         (Atom_name (Atom print_event)))
+                                       (fref_arity 3))
+                                     (Expr_name (Var_name Name))
+                                     (Expr_tuple
+                                       ((Expr_literal (Lit_atom (Atom in)))
+                                         (Expr_name (Var_name Msg))))))))))
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom handle_msg))))
+                             (fa_args
+                               ((Expr_name (Var_name Msg))
+                                 (Expr_name (Var_name Parent))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_name (Var_name State))
+                                 (Expr_name (Var_name Mod))
+                                 (Expr_name (Var_name HibernateAfterTimeout))
+                                 (Expr_name (Var_name Debug1)))))))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment "%% Send/receive functions"))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom do_send)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Dest))
+                (Pattern_binding (Var_name Msg))))
+             (c_guard ())
+             (c_rhs
+               (Expr_comment
+                 (Comment " FIXME: ignored let bindings are not supported yet")
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name _)))
+                     (lb_rhs
+                       (Expr_try
+                         ((try_expr
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom erlang)))
+                                     (n_name (Atom_name (Atom send))))))
+                                (fa_args
+                                  ((Expr_name (Var_name Dest))
+                                    (Expr_name (Var_name Msg)))))))
+                           (try_catch
+                             ((((c_lhs
+                                  ((Pattern_catch ((Atom_name (Atom error)))
+                                     (Pattern_binding (Var_name _)) ())))
+                                 (c_guard ())
+                                 (c_rhs (Expr_literal (Lit_atom (Atom ok))))))))
+                           (try_after ())))))
+                   (Expr_literal (Lit_atom (Atom ok)))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom do_multi_call)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Nodes))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Req))
+                (Pattern_match (Lit_atom (Atom infinity)))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Tag)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name (Atom make_ref))))
+                         (fa_args ())))))
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name Monitors)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom send_nodes))))
+                           (fa_args
+                             ((Expr_name (Var_name Nodes))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name Tag))
+                               (Expr_name (Var_name Req))))))))
+                   (Expr_apply
+                     ((fa_name (Expr_name (Atom_name (Atom rec_nodes))))
+                       (fa_args
+                         ((Expr_name (Var_name Tag))
+                           (Expr_name (Var_name Monitors))
+                           (Expr_name (Var_name Name))
+                           (Expr_literal (Lit_atom (Atom undefined)))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Nodes))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name Req))
+                 (Pattern_binding (Var_name Timeout))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name Tag)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom make_ref))))
+                          (fa_args ())))))
+                  (Expr_let
+                    ((lb_lhs (Pattern_binding (Var_name Caller)))
+                      (lb_rhs
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom self))))
+                            (fa_args ())))))
+                    (Expr_let
+                      ((lb_lhs (Pattern_binding (Var_name Receiver)))
+                        (lb_rhs
+                          (Expr_apply
+                            ((fa_name (Expr_name (Atom_name (Atom spawn))))
+                              (fa_args
+                                ((Expr_fun
+                                   (((c_lhs ()) (c_guard ())
+                                      (c_rhs
+                                        (Expr_comment
+                                          (Comment
+                                            "% Middleman process. Should be unsensitive to regular")
+                                          (Expr_comment
+                                            (Comment
+                                              "% exit signals. The sychronization is needed in case")
+                                            (Expr_comment
+                                              (Comment
+                                                "% the receiver would exit before the caller started")
+                                              (Expr_comment
+                                                (Comment "% the monitor.")
+                                                (Expr_comment
+                                                  (Comment
+                                                    " FIXME: ignored let bindings are not supported yet")
+                                                  (Expr_let
+                                                    ((lb_lhs
+                                                       (Pattern_binding
+                                                         (Var_name _)))
+                                                      (lb_rhs
+                                                        (Expr_apply
+                                                          ((fa_name
+                                                             (Expr_name
+                                                               (Atom_name
+                                                                 (Atom
+                                                                   process_flag))))
+                                                            (fa_args
+                                                              ((Expr_literal
+                                                                 (Lit_atom
+                                                                   (Atom
+                                                                     trap_exit)))
+                                                                (Expr_literal
+                                                                  (Lit_atom
+                                                                    (Atom true)))))))))
+                                                    (Expr_let
+                                                      ((lb_lhs
+                                                         (Pattern_binding
+                                                           (Var_name Mref)))
+                                                        (lb_rhs
+                                                          (Expr_apply
+                                                            ((fa_name
+                                                               (Expr_name
+                                                                 (Qualified_name
+                                                                   (n_mod
+                                                                     (Atom_name
+                                                                      (Atom
+                                                                      erlang)))
+                                                                   (n_name
+                                                                     (Atom_name
+                                                                      (Atom
+                                                                      monitor))))))
+                                                              (fa_args
+                                                                ((Expr_literal
+                                                                   (Lit_atom
+                                                                     (Atom
+                                                                      process)))
+                                                                  (Expr_name
+                                                                    (Var_name
+                                                                      Caller))))))))
+                                                      (Expr_recv
+                                                        ((rcv_cases
+                                                           (((c_lhs
+                                                               ((Pattern_tuple
+                                                                  ((Pattern_binding
+                                                                     (Var_name
+                                                                      Caller))
+                                                                    (Pattern_binding
+                                                                      (Var_name
+                                                                      Tag))))))
+                                                              (c_guard ())
+                                                              (c_rhs
+                                                                (Expr_let
+                                                                  ((lb_lhs
+                                                                     (Pattern_binding
+                                                                      (Var_name
+                                                                      Monitors)))
+                                                                    (lb_rhs
+                                                                      (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      send_nodes))))
+                                                                      (fa_args
+                                                                      ((Expr_name
+                                                                      (Var_name
+                                                                      Nodes))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Name))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Tag))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Req))))))))
+                                                                  (Expr_let
+                                                                    ((lb_lhs
+                                                                      (Pattern_binding
+                                                                      (Var_name
+                                                                      TimerId)))
+                                                                      (lb_rhs
+                                                                      (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      erlang)))
+                                                                      (n_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      start_timer))))))
+                                                                      (fa_args
+                                                                      ((Expr_name
+                                                                      (Var_name
+                                                                      Timeout))
+                                                                      (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      self))))
+                                                                      (fa_args
+                                                                      ())))
+                                                                      (Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom ok)))))))))
+                                                                    (Expr_let
+                                                                      ((lb_lhs
+                                                                      (Pattern_binding
+                                                                      (Var_name
+                                                                      Result)))
+                                                                      (lb_rhs
+                                                                      (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      rec_nodes))))
+                                                                      (fa_args
+                                                                      ((Expr_name
+                                                                      (Var_name
+                                                                      Tag))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Monitors))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Name))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      TimerId))))))))
+                                                                      (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      exit))))
+                                                                      (fa_args
+                                                                      ((Expr_tuple
+                                                                      ((Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      self))))
+                                                                      (fa_args
+                                                                      ())))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Tag))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Result)))))))))))))
+                                                             ((c_lhs
+                                                                ((Pattern_tuple
+                                                                   ((Pattern_match
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      'DOWN')))
+                                                                     (Pattern_binding
+                                                                      (Var_name
+                                                                      Mref))
+                                                                     (Pattern_binding
+                                                                      (Var_name
+                                                                      _))
+                                                                     (Pattern_binding
+                                                                      (Var_name
+                                                                      _))
+                                                                     (Pattern_binding
+                                                                      (Var_name
+                                                                      _))))))
+                                                               (c_guard ())
+                                                               (c_rhs
+                                                                 (Expr_comment
+                                                                   (Comment
+                                                                     "% Caller died before sending us the go-ahead.")
+                                                                   (Expr_comment
+                                                                     (Comment
+                                                                      "% Give up silently.")
+                                                                     (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      exit))))
+                                                                      (fa_args
+                                                                      ((Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      normal)))))))))))))
+                                                          (rcv_after ()))))))))))))))))))))
+                      (Expr_let
+                        ((lb_lhs (Pattern_binding (Var_name Mref)))
+                          (lb_rhs
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom erlang)))
+                                     (n_name (Atom_name (Atom monitor))))))
+                                (fa_args
+                                  ((Expr_literal (Lit_atom (Atom process)))
+                                    (Expr_name (Var_name Receiver))))))))
+                        (Expr_comment
+                          (Comment
+                            " FIXME: ignored let bindings are not supported yet")
+                          (Expr_let
+                            ((lb_lhs (Pattern_binding (Var_name _)))
+                              (lb_rhs
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name
+                                       (Qualified_name
+                                         (n_mod (Atom_name (Atom erlang)))
+                                         (n_name (Atom_name (Atom send))))))
+                                    (fa_args
+                                      ((Expr_name (Var_name Receiver))
+                                        (Expr_tuple
+                                          ((Expr_apply
+                                             ((fa_name
+                                                (Expr_name
+                                                  (Atom_name (Atom self))))
+                                               (fa_args ())))
+                                            (Expr_name (Var_name Tag))))))))))
+                            (Expr_recv
+                              ((rcv_cases
+                                 (((c_lhs
+                                     ((Pattern_tuple
+                                        ((Pattern_match
+                                           (Lit_atom (Atom 'DOWN')))
+                                          (Pattern_binding (Var_name Mref))
+                                          (Pattern_binding (Var_name _))
+                                          (Pattern_binding (Var_name _))
+                                          (Pattern_tuple
+                                            ((Pattern_binding
+                                               (Var_name Receiver))
+                                              (Pattern_binding (Var_name Tag))
+                                              (Pattern_binding
+                                                (Var_name Result))))))))
+                                    (c_guard ())
+                                    (c_rhs (Expr_name (Var_name Result))))
+                                   ((c_lhs
+                                      ((Pattern_tuple
+                                         ((Pattern_match
+                                            (Lit_atom (Atom 'DOWN')))
+                                           (Pattern_binding (Var_name Mref))
+                                           (Pattern_binding (Var_name _))
+                                           (Pattern_binding (Var_name _))
+                                           (Pattern_binding (Var_name Reason))))))
+                                     (c_guard ())
+                                     (c_rhs
+                                       (Expr_comment
+                                         (Comment
+                                           "% The middleman code failed. Or someone did ")
+                                         (Expr_comment
+                                           (Comment
+                                             "% exit(_, kill) on the middleman process => Reason==killed")
+                                           (Expr_apply
+                                             ((fa_name
+                                                (Expr_name
+                                                  (Atom_name (Atom exit))))
+                                               (fa_args
+                                                 ((Expr_name (Var_name Reason))))))))))))
+                                (rcv_after ())))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom send_nodes)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Nodes))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Tag))
+                (Pattern_binding (Var_name Req))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom send_nodes))))
+                   (fa_args
+                     ((Expr_name (Var_name Nodes)) (Expr_name (Var_name Name))
+                       (Expr_name (Var_name Tag)) (Expr_name (Var_name Req))
+                       (Expr_list ())))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom send_nodes)) (fd_arity 5)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_cons ((Pattern_binding (Var_name Node)))
+                 (Pattern_binding (Var_name Tail)))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Tag))
+                (Pattern_binding (Var_name Req))
+                (Pattern_binding (Var_name Monitors))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                     (fa_args ((Expr_name (Var_name Node)))))))))
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Monitor)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name (Atom start_monitor))))
+                         (fa_args
+                           ((Expr_name (Var_name Node))
+                             (Expr_name (Var_name Name))))))))
+                 (Expr_comment
+                   (Comment "% Handle non-existing names in rec_nodes.")
+                   (Expr_comment
+                     (Comment
+                       " FIXME: ignored let bindings are not supported yet")
+                     (Expr_let
+                       ((lb_lhs (Pattern_binding (Var_name _)))
+                         (lb_rhs
+                           (Expr_catch
+                             (Expr_apply
+                               ((fa_name
+                                  (Expr_name
+                                    (Qualified_name
+                                      (n_mod (Atom_name (Atom erlang)))
+                                      (n_name (Atom_name (Atom send))))))
+                                 (fa_args
+                                   ((Expr_tuple
+                                      ((Expr_name (Var_name Name))
+                                        (Expr_name (Var_name Node))))
+                                     (Expr_tuple
+                                       ((Expr_literal
+                                          (Lit_atom (Atom '$gen_call')))
+                                         (Expr_tuple
+                                           ((Expr_apply
+                                              ((fa_name
+                                                 (Expr_name
+                                                   (Atom_name (Atom self))))
+                                                (fa_args ())))
+                                             (Expr_tuple
+                                               ((Expr_name (Var_name Tag))
+                                                 (Expr_name (Var_name Node))))))
+                                         (Expr_name (Var_name Req)))))))))))
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom send_nodes))))
+                           (fa_args
+                             ((Expr_name (Var_name Tail))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name Tag))
+                               (Expr_name (Var_name Req))
+                               (Expr_cons ((Expr_name (Var_name Monitor)))
+                                 (Expr_name (Var_name Monitors)))))))))))))
+            ((c_lhs
+               ((Pattern_cons ((Pattern_binding (Var_name _Node)))
+                  (Pattern_binding (Var_name Tail)))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name Tag))
+                 (Pattern_binding (Var_name Req))
+                 (Pattern_binding (Var_name Monitors))))
+              (c_guard ())
+              (c_rhs
+                (Expr_comment (Comment "% Skip non-atom Node")
+                  (Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom send_nodes))))
+                      (fa_args
+                        ((Expr_name (Var_name Tail))
+                          (Expr_name (Var_name Name))
+                          (Expr_name (Var_name Tag)) (Expr_name (Var_name Req))
+                          (Expr_name (Var_name Monitors)))))))))
+            ((c_lhs
+               ((Pattern_list ()) (Pattern_binding (Var_name _Name))
+                 (Pattern_binding (Var_name _Tag))
+                 (Pattern_binding (Var_name _Req))
+                 (Pattern_binding (Var_name Monitors))))
+              (c_guard ()) (c_rhs (Expr_name (Var_name Monitors))))))
+        (fd_spec ())))
+    (Module_comment (Comment "% Against old nodes:"))
+    (Module_comment
+      (Comment
+        "% If no reply has been delivered within 2 secs. (per node) check that"))
+    (Module_comment
+      (Comment "% the server really exists and wait for ever for the answer."))
+    (Module_comment (Comment %))
+    (Module_comment (Comment "% Against contemporary nodes:"))
+    (Module_comment
+      (Comment "% Wait for reply, server 'DOWN', or timeout from TimerId."))
+    (Function_decl
+      ((fd_name (Atom rec_nodes)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Tag))
+                (Pattern_binding (Var_name Nodes))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name TimerId))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom rec_nodes))))
+                   (fa_args
+                     ((Expr_name (Var_name Tag)) (Expr_name (Var_name Nodes))
+                       (Expr_name (Var_name Name)) (Expr_list ())
+                       (Expr_list ()) (Expr_literal (Lit_integer 2000))
+                       (Expr_name (Var_name TimerId))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom rec_nodes)) (fd_arity 7)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Tag))
+                (Pattern_cons
+                  ((Pattern_tuple
+                     ((Pattern_binding (Var_name N))
+                       (Pattern_binding (Var_name R)))))
+                  (Pattern_binding (Var_name Tail)))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Badnodes))
+                (Pattern_binding (Var_name Replies))
+                (Pattern_binding (Var_name Time))
+                (Pattern_binding (Var_name TimerId))))
+             (c_guard ())
+             (c_rhs
+               (Expr_recv
+                 ((rcv_cases
+                    (((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom 'DOWN')))
+                             (Pattern_binding (Var_name R))
+                             (Pattern_binding (Var_name _))
+                             (Pattern_binding (Var_name _))
+                             (Pattern_binding (Var_name _))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom rec_nodes))))
+                             (fa_args
+                               ((Expr_name (Var_name Tag))
+                                 (Expr_name (Var_name Tail))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_cons ((Expr_name (Var_name N)))
+                                   (Expr_name (Var_name Badnodes)))
+                                 (Expr_name (Var_name Replies))
+                                 (Expr_name (Var_name Time))
+                                 (Expr_name (Var_name TimerId))))))))
+                      ((c_lhs
+                         ((Pattern_tuple
+                            ((Pattern_tuple
+                               ((Pattern_binding (Var_name Tag))
+                                 (Pattern_binding (Var_name N))))
+                              (Pattern_binding (Var_name Reply))))))
+                        (c_guard ())
+                        (c_rhs
+                          (Expr_comment (Comment "% Tag is bound !!!")
+                            (Expr_comment
+                              (Comment
+                                " FIXME: ignored let bindings are not supported yet")
+                              (Expr_let
+                                ((lb_lhs (Pattern_binding (Var_name _)))
+                                  (lb_rhs
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name
+                                               (Atom_name (Atom demonitor))))))
+                                        (fa_args
+                                          ((Expr_name (Var_name R))
+                                            (Expr_list
+                                              ((Expr_literal
+                                                 (Lit_atom (Atom flush)))))))))))
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name (Atom_name (Atom rec_nodes))))
+                                    (fa_args
+                                      ((Expr_name (Var_name Tag))
+                                        (Expr_name (Var_name Tail))
+                                        (Expr_name (Var_name Name))
+                                        (Expr_name (Var_name Badnodes))
+                                        (Expr_cons
+                                          ((Expr_tuple
+                                             ((Expr_name (Var_name N))
+                                               (Expr_name (Var_name Reply)))))
+                                          (Expr_name (Var_name Replies)))
+                                        (Expr_name (Var_name Time))
+                                        (Expr_name (Var_name TimerId)))))))))))
+                      ((c_lhs
+                         ((Pattern_tuple
+                            ((Pattern_match (Lit_atom (Atom timeout)))
+                              (Pattern_binding (Var_name TimerId))
+                              (Pattern_binding (Var_name _))))))
+                        (c_guard ())
+                        (c_rhs
+                          (Expr_comment
+                            (Comment
+                              " FIXME: ignored let bindings are not supported yet")
+                            (Expr_let
+                              ((lb_lhs (Pattern_binding (Var_name _)))
+                                (lb_rhs
+                                  (Expr_apply
+                                    ((fa_name
+                                       (Expr_name
+                                         (Qualified_name
+                                           (n_mod (Atom_name (Atom erlang)))
+                                           (n_name
+                                             (Atom_name (Atom demonitor))))))
+                                      (fa_args
+                                        ((Expr_name (Var_name R))
+                                          (Expr_list
+                                            ((Expr_literal
+                                               (Lit_atom (Atom flush)))))))))))
+                              (Expr_comment
+                                (Comment
+                                  "% Collect all replies that already have arrived")
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name
+                                       (Atom_name (Atom rec_nodes_rest))))
+                                    (fa_args
+                                      ((Expr_name (Var_name Tag))
+                                        (Expr_name (Var_name Tail))
+                                        (Expr_name (Var_name Name))
+                                        (Expr_cons ((Expr_name (Var_name N)))
+                                          (Expr_name (Var_name Badnodes)))
+                                        (Expr_name (Var_name Replies)))))))))))))
+                   (rcv_after ())))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Tag))
+                 (Pattern_cons ((Pattern_binding (Var_name N)))
+                   (Pattern_binding (Var_name Tail)))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name Badnodes))
+                 (Pattern_binding (Var_name Replies))
+                 (Pattern_binding (Var_name Time))
+                 (Pattern_binding (Var_name TimerId))))
+              (c_guard ())
+              (c_rhs
+                (Expr_comment (Comment "% R6 node")
+                  (Expr_recv
+                    ((rcv_cases
+                       (((c_lhs
+                           ((Pattern_tuple
+                              ((Pattern_match (Lit_atom (Atom nodedown)))
+                                (Pattern_binding (Var_name N))))))
+                          (c_guard ())
+                          (c_rhs
+                            (Expr_comment
+                              (Comment
+                                " FIXME: ignored let bindings are not supported yet")
+                              (Expr_let
+                                ((lb_lhs (Pattern_binding (Var_name _)))
+                                  (lb_rhs
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Atom_name (Atom monitor_node))))
+                                        (fa_args
+                                          ((Expr_name (Var_name N))
+                                            (Expr_literal
+                                              (Lit_atom (Atom false)))))))))
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name (Atom_name (Atom rec_nodes))))
+                                    (fa_args
+                                      ((Expr_name (Var_name Tag))
+                                        (Expr_name (Var_name Tail))
+                                        (Expr_name (Var_name Name))
+                                        (Expr_cons ((Expr_name (Var_name N)))
+                                          (Expr_name (Var_name Badnodes)))
+                                        (Expr_name (Var_name Replies))
+                                        (Expr_literal (Lit_integer 2000))
+                                        (Expr_name (Var_name TimerId))))))))))
+                         ((c_lhs
+                            ((Pattern_tuple
+                               ((Pattern_tuple
+                                  ((Pattern_binding (Var_name Tag))
+                                    (Pattern_binding (Var_name N))))
+                                 (Pattern_binding (Var_name Reply))))))
+                           (c_guard ())
+                           (c_rhs
+                             (Expr_comment (Comment "% Tag is bound !!!")
+                               (Expr_comment
+                                 (Comment
+                                   " FIXME: ignored let bindings are not supported yet")
+                                 (Expr_let
+                                   ((lb_lhs (Pattern_binding (Var_name _)))
+                                     (lb_rhs
+                                       (Expr_recv
+                                         ((rcv_cases
+                                            (((c_lhs
+                                                ((Pattern_tuple
+                                                   ((Pattern_match
+                                                      (Lit_atom
+                                                        (Atom nodedown)))
+                                                     (Pattern_binding
+                                                       (Var_name N))))))
+                                               (c_guard ())
+                                               (c_rhs
+                                                 (Expr_literal
+                                                   (Lit_atom (Atom ok)))))))
+                                           (rcv_after
+                                             (((c_lhs
+                                                 ((Pattern_match
+                                                    (Lit_integer 0))))
+                                                (c_guard ())
+                                                (c_rhs
+                                                  (Expr_literal
+                                                    (Lit_atom (Atom ok)))))))))))
+                                   (Expr_let
+                                     ((lb_lhs (Pattern_binding (Var_name _)))
+                                       (lb_rhs
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Atom_name (Atom monitor_node))))
+                                             (fa_args
+                                               ((Expr_name (Var_name N))
+                                                 (Expr_literal
+                                                   (Lit_atom (Atom false)))))))))
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Atom_name (Atom rec_nodes))))
+                                         (fa_args
+                                           ((Expr_name (Var_name Tag))
+                                             (Expr_name (Var_name Tail))
+                                             (Expr_name (Var_name Name))
+                                             (Expr_name (Var_name Badnodes))
+                                             (Expr_cons
+                                               ((Expr_tuple
+                                                  ((Expr_name (Var_name N))
+                                                    (Expr_name
+                                                      (Var_name Reply)))))
+                                               (Expr_name (Var_name Replies)))
+                                             (Expr_literal (Lit_integer 2000))
+                                             (Expr_name (Var_name TimerId))))))))))))
+                         ((c_lhs
+                            ((Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom timeout)))
+                                 (Pattern_binding (Var_name TimerId))
+                                 (Pattern_binding (Var_name _))))))
+                           (c_guard ())
+                           (c_rhs
+                             (Expr_let
+                               ((lb_lhs (Pattern_binding (Var_name _)))
+                                 (lb_rhs
+                                   (Expr_recv
+                                     ((rcv_cases
+                                        (((c_lhs
+                                            ((Pattern_tuple
+                                               ((Pattern_match
+                                                  (Lit_atom (Atom nodedown)))
+                                                 (Pattern_binding (Var_name N))))))
+                                           (c_guard ())
+                                           (c_rhs
+                                             (Expr_literal
+                                               (Lit_atom (Atom ok)))))))
+                                       (rcv_after
+                                         (((c_lhs
+                                             ((Pattern_match (Lit_integer 0))))
+                                            (c_guard ())
+                                            (c_rhs
+                                              (Expr_literal
+                                                (Lit_atom (Atom ok)))))))))))
+                               (Expr_let
+                                 ((lb_lhs (Pattern_binding (Var_name _)))
+                                   (lb_rhs
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Atom_name (Atom monitor_node))))
+                                         (fa_args
+                                           ((Expr_name (Var_name N))
+                                             (Expr_literal
+                                               (Lit_atom (Atom false)))))))))
+                                 (Expr_comment
+                                   (Comment
+                                     "% Collect all replies that already have arrived")
+                                   (Expr_apply
+                                     ((fa_name
+                                        (Expr_name
+                                          (Atom_name (Atom rec_nodes_rest))))
+                                       (fa_args
+                                         ((Expr_name (Var_name Tag))
+                                           (Expr_name (Var_name Tail))
+                                           (Expr_name (Var_name Name))
+                                           (Expr_cons
+                                             ((Expr_name (Var_name N)))
+                                             (Expr_name (Var_name Badnodes)))
+                                           (Expr_name (Var_name Replies)))))))))))))
+                      (rcv_after
+                        (((c_lhs ((Pattern_binding (Var_name Time))))
+                           (c_guard ())
+                           (c_rhs
+                             (Expr_case
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom rpc)))
+                                        (n_name (Atom_name (Atom call))))))
+                                   (fa_args
+                                     ((Expr_name (Var_name N))
+                                       (Expr_literal (Lit_atom (Atom erlang)))
+                                       (Expr_literal (Lit_atom (Atom whereis)))
+                                       (Expr_list
+                                         ((Expr_name (Var_name Name))))))))
+                               (((c_lhs ((Pattern_binding (Var_name Pid))))
+                                  (c_guard
+                                    (((Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Atom_name (Atom is_pid))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Pid)))))))))
+                                  (c_rhs
+                                    (Expr_comment
+                                      (Comment " It exists try again.")
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Atom_name (Atom rec_nodes))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Tag))
+                                              (Expr_cons
+                                                ((Expr_name (Var_name N)))
+                                                (Expr_name (Var_name Tail)))
+                                              (Expr_name (Var_name Name))
+                                              (Expr_name (Var_name Badnodes))
+                                              (Expr_name (Var_name Replies))
+                                              (Expr_literal
+                                                (Lit_atom (Atom infinity)))
+                                              (Expr_name (Var_name TimerId)))))))))
+                                 ((c_lhs ((Pattern_binding (Var_name _))))
+                                   (c_guard ())
+                                   (c_rhs
+                                     (Expr_comment (Comment " badnode")
+                                       (Expr_comment
+                                         (Comment
+                                           " FIXME: ignored let bindings are not supported yet")
+                                         (Expr_let
+                                           ((lb_lhs
+                                              (Pattern_binding (Var_name _)))
+                                             (lb_rhs
+                                               (Expr_recv
+                                                 ((rcv_cases
+                                                    (((c_lhs
+                                                        ((Pattern_tuple
+                                                           ((Pattern_match
+                                                              (Lit_atom
+                                                                (Atom nodedown)))
+                                                             (Pattern_binding
+                                                               (Var_name N))))))
+                                                       (c_guard ())
+                                                       (c_rhs
+                                                         (Expr_literal
+                                                           (Lit_atom (Atom ok)))))))
+                                                   (rcv_after
+                                                     (((c_lhs
+                                                         ((Pattern_match
+                                                            (Lit_integer 0))))
+                                                        (c_guard ())
+                                                        (c_rhs
+                                                          (Expr_literal
+                                                            (Lit_atom
+                                                              (Atom ok)))))))))))
+                                           (Expr_let
+                                             ((lb_lhs
+                                                (Pattern_binding (Var_name _)))
+                                               (lb_rhs
+                                                 (Expr_apply
+                                                   ((fa_name
+                                                      (Expr_name
+                                                        (Atom_name
+                                                          (Atom monitor_node))))
+                                                     (fa_args
+                                                       ((Expr_name
+                                                          (Var_name N))
+                                                         (Expr_literal
+                                                           (Lit_atom
+                                                             (Atom false)))))))))
+                                             (Expr_apply
+                                               ((fa_name
+                                                  (Expr_name
+                                                    (Atom_name
+                                                      (Atom rec_nodes))))
+                                                 (fa_args
+                                                   ((Expr_name (Var_name Tag))
+                                                     (Expr_name
+                                                       (Var_name Tail))
+                                                     (Expr_name
+                                                       (Var_name Name))
+                                                     (Expr_cons
+                                                       ((Expr_name
+                                                          (Var_name N)))
+                                                       (Expr_name
+                                                         (Var_name Badnodes)))
+                                                     (Expr_name
+                                                       (Var_name Replies))
+                                                     (Expr_literal
+                                                       (Lit_integer 2000))
+                                                     (Expr_name
+                                                       (Var_name TimerId)))))))))))))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name _)) (Pattern_list ())
+                 (Pattern_binding (Var_name _))
+                 (Pattern_binding (Var_name Badnodes))
+                 (Pattern_binding (Var_name Replies))
+                 (Pattern_binding (Var_name _))
+                 (Pattern_binding (Var_name TimerId))))
+              (c_guard ())
+              (c_rhs
+                (Expr_comment
+                  (Comment
+                    " FIXME: ignored let bindings are not supported yet")
+                  (Expr_let
+                    ((lb_lhs (Pattern_binding (Var_name _)))
+                      (lb_rhs
+                        (Expr_case
+                          (Expr_catch
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom erlang)))
+                                     (n_name (Atom_name (Atom cancel_timer))))))
+                                (fa_args ((Expr_name (Var_name TimerId)))))))
+                          (((c_lhs ((Pattern_match (Lit_atom (Atom false)))))
+                             (c_guard ())
+                             (c_rhs
+                               (Expr_comment
+                                 (Comment " It has already sent it's message")
+                                 (Expr_recv
+                                   ((rcv_cases
+                                      (((c_lhs
+                                          ((Pattern_tuple
+                                             ((Pattern_match
+                                                (Lit_atom (Atom timeout)))
+                                               (Pattern_binding
+                                                 (Var_name TimerId))
+                                               (Pattern_binding (Var_name _))))))
+                                         (c_guard ())
+                                         (c_rhs
+                                           (Expr_literal (Lit_atom (Atom ok)))))))
+                                     (rcv_after
+                                       (((c_lhs
+                                           ((Pattern_match (Lit_integer 0))))
+                                          (c_guard ())
+                                          (c_rhs
+                                            (Expr_literal (Lit_atom (Atom ok))))))))))))
+                            ((c_lhs ((Pattern_binding (Var_name _))))
+                              (c_guard ())
+                              (c_rhs
+                                (Expr_comment
+                                  (Comment
+                                    " Timer was cancelled, or TimerId was 'undefined'")
+                                  (Expr_literal (Lit_atom (Atom ok))))))))))
+                    (Expr_tuple
+                      ((Expr_name (Var_name Replies))
+                        (Expr_name (Var_name Badnodes))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment "% Collect all replies that already have arrived"))
+    (Function_decl
+      ((fd_name (Atom rec_nodes_rest)) (fd_arity 5)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Tag))
+                (Pattern_cons
+                  ((Pattern_tuple
+                     ((Pattern_binding (Var_name N))
+                       (Pattern_binding (Var_name R)))))
+                  (Pattern_binding (Var_name Tail)))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name Badnodes))
+                (Pattern_binding (Var_name Replies))))
+             (c_guard ())
+             (c_rhs
+               (Expr_recv
+                 ((rcv_cases
+                    (((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom 'DOWN')))
+                             (Pattern_binding (Var_name R))
+                             (Pattern_binding (Var_name _))
+                             (Pattern_binding (Var_name _))
+                             (Pattern_binding (Var_name _))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name (Atom_name (Atom rec_nodes_rest))))
+                             (fa_args
+                               ((Expr_name (Var_name Tag))
+                                 (Expr_name (Var_name Tail))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_cons ((Expr_name (Var_name N)))
+                                   (Expr_name (Var_name Badnodes)))
+                                 (Expr_name (Var_name Replies))))))))
+                      ((c_lhs
+                         ((Pattern_tuple
+                            ((Pattern_tuple
+                               ((Pattern_binding (Var_name Tag))
+                                 (Pattern_binding (Var_name N))))
+                              (Pattern_binding (Var_name Reply))))))
+                        (c_guard ())
+                        (c_rhs
+                          (Expr_comment (Comment "% Tag is bound !!!")
+                            (Expr_comment
+                              (Comment
+                                " FIXME: ignored let bindings are not supported yet")
+                              (Expr_let
+                                ((lb_lhs (Pattern_binding (Var_name _)))
+                                  (lb_rhs
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name
+                                               (Atom_name (Atom demonitor))))))
+                                        (fa_args
+                                          ((Expr_name (Var_name R))
+                                            (Expr_list
+                                              ((Expr_literal
+                                                 (Lit_atom (Atom flush)))))))))))
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name
+                                       (Atom_name (Atom rec_nodes_rest))))
+                                    (fa_args
+                                      ((Expr_name (Var_name Tag))
+                                        (Expr_name (Var_name Tail))
+                                        (Expr_name (Var_name Name))
+                                        (Expr_name (Var_name Badnodes))
+                                        (Expr_cons
+                                          ((Expr_tuple
+                                             ((Expr_name (Var_name N))
+                                               (Expr_name (Var_name Reply)))))
+                                          (Expr_name (Var_name Replies))))))))))))))
+                   (rcv_after
+                     (((c_lhs ((Pattern_match (Lit_integer 0)))) (c_guard ())
+                        (c_rhs
+                          (Expr_comment
+                            (Comment
+                              " FIXME: ignored let bindings are not supported yet")
+                            (Expr_let
+                              ((lb_lhs (Pattern_binding (Var_name _)))
+                                (lb_rhs
+                                  (Expr_apply
+                                    ((fa_name
+                                       (Expr_name
+                                         (Qualified_name
+                                           (n_mod (Atom_name (Atom erlang)))
+                                           (n_name
+                                             (Atom_name (Atom demonitor))))))
+                                      (fa_args
+                                        ((Expr_name (Var_name R))
+                                          (Expr_list
+                                            ((Expr_literal
+                                               (Lit_atom (Atom flush)))))))))))
+                              (Expr_apply
+                                ((fa_name
+                                   (Expr_name
+                                     (Atom_name (Atom rec_nodes_rest))))
+                                  (fa_args
+                                    ((Expr_name (Var_name Tag))
+                                      (Expr_name (Var_name Tail))
+                                      (Expr_name (Var_name Name))
+                                      (Expr_cons ((Expr_name (Var_name N)))
+                                        (Expr_name (Var_name Badnodes)))
+                                      (Expr_name (Var_name Replies))))))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Tag))
+                 (Pattern_cons ((Pattern_binding (Var_name N)))
+                   (Pattern_binding (Var_name Tail)))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name Badnodes))
+                 (Pattern_binding (Var_name Replies))))
+              (c_guard ())
+              (c_rhs
+                (Expr_comment (Comment "% R6 node")
+                  (Expr_recv
+                    ((rcv_cases
+                       (((c_lhs
+                           ((Pattern_tuple
+                              ((Pattern_match (Lit_atom (Atom nodedown)))
+                                (Pattern_binding (Var_name N))))))
+                          (c_guard ())
+                          (c_rhs
+                            (Expr_comment
+                              (Comment
+                                " FIXME: ignored let bindings are not supported yet")
+                              (Expr_let
+                                ((lb_lhs (Pattern_binding (Var_name _)))
+                                  (lb_rhs
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Atom_name (Atom monitor_node))))
+                                        (fa_args
+                                          ((Expr_name (Var_name N))
+                                            (Expr_literal
+                                              (Lit_atom (Atom false)))))))))
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name
+                                       (Atom_name (Atom rec_nodes_rest))))
+                                    (fa_args
+                                      ((Expr_name (Var_name Tag))
+                                        (Expr_name (Var_name Tail))
+                                        (Expr_name (Var_name Name))
+                                        (Expr_cons ((Expr_name (Var_name N)))
+                                          (Expr_name (Var_name Badnodes)))
+                                        (Expr_name (Var_name Replies))))))))))
+                         ((c_lhs
+                            ((Pattern_tuple
+                               ((Pattern_tuple
+                                  ((Pattern_binding (Var_name Tag))
+                                    (Pattern_binding (Var_name N))))
+                                 (Pattern_binding (Var_name Reply))))))
+                           (c_guard ())
+                           (c_rhs
+                             (Expr_comment (Comment "% Tag is bound !!!")
+                               (Expr_comment
+                                 (Comment
+                                   " FIXME: ignored let bindings are not supported yet")
+                                 (Expr_let
+                                   ((lb_lhs (Pattern_binding (Var_name _)))
+                                     (lb_rhs
+                                       (Expr_recv
+                                         ((rcv_cases
+                                            (((c_lhs
+                                                ((Pattern_tuple
+                                                   ((Pattern_match
+                                                      (Lit_atom
+                                                        (Atom nodedown)))
+                                                     (Pattern_binding
+                                                       (Var_name N))))))
+                                               (c_guard ())
+                                               (c_rhs
+                                                 (Expr_literal
+                                                   (Lit_atom (Atom ok)))))))
+                                           (rcv_after
+                                             (((c_lhs
+                                                 ((Pattern_match
+                                                    (Lit_integer 0))))
+                                                (c_guard ())
+                                                (c_rhs
+                                                  (Expr_literal
+                                                    (Lit_atom (Atom ok)))))))))))
+                                   (Expr_let
+                                     ((lb_lhs (Pattern_binding (Var_name _)))
+                                       (lb_rhs
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Atom_name (Atom monitor_node))))
+                                             (fa_args
+                                               ((Expr_name (Var_name N))
+                                                 (Expr_literal
+                                                   (Lit_atom (Atom false)))))))))
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Atom_name (Atom rec_nodes_rest))))
+                                         (fa_args
+                                           ((Expr_name (Var_name Tag))
+                                             (Expr_name (Var_name Tail))
+                                             (Expr_name (Var_name Name))
+                                             (Expr_name (Var_name Badnodes))
+                                             (Expr_cons
+                                               ((Expr_tuple
+                                                  ((Expr_name (Var_name N))
+                                                    (Expr_name
+                                                      (Var_name Reply)))))
+                                               (Expr_name (Var_name Replies)))))))))))))))
+                      (rcv_after
+                        (((c_lhs ((Pattern_match (Lit_integer 0))))
+                           (c_guard ())
+                           (c_rhs
+                             (Expr_comment
+                               (Comment
+                                 " FIXME: ignored let bindings are not supported yet")
+                               (Expr_let
+                                 ((lb_lhs (Pattern_binding (Var_name _)))
+                                   (lb_rhs
+                                     (Expr_recv
+                                       ((rcv_cases
+                                          (((c_lhs
+                                              ((Pattern_tuple
+                                                 ((Pattern_match
+                                                    (Lit_atom (Atom nodedown)))
+                                                   (Pattern_binding
+                                                     (Var_name N))))))
+                                             (c_guard ())
+                                             (c_rhs
+                                               (Expr_literal
+                                                 (Lit_atom (Atom ok)))))))
+                                         (rcv_after
+                                           (((c_lhs
+                                               ((Pattern_match (Lit_integer 0))))
+                                              (c_guard ())
+                                              (c_rhs
+                                                (Expr_literal
+                                                  (Lit_atom (Atom ok)))))))))))
+                                 (Expr_let
+                                   ((lb_lhs (Pattern_binding (Var_name _)))
+                                     (lb_rhs
+                                       (Expr_apply
+                                         ((fa_name
+                                            (Expr_name
+                                              (Atom_name (Atom monitor_node))))
+                                           (fa_args
+                                             ((Expr_name (Var_name N))
+                                               (Expr_literal
+                                                 (Lit_atom (Atom false)))))))))
+                                   (Expr_apply
+                                     ((fa_name
+                                        (Expr_name
+                                          (Atom_name (Atom rec_nodes_rest))))
+                                       (fa_args
+                                         ((Expr_name (Var_name Tag))
+                                           (Expr_name (Var_name Tail))
+                                           (Expr_name (Var_name Name))
+                                           (Expr_cons
+                                             ((Expr_name (Var_name N)))
+                                             (Expr_name (Var_name Badnodes)))
+                                           (Expr_name (Var_name Replies))))))))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name _Tag)) (Pattern_list ())
+                 (Pattern_binding (Var_name _Name))
+                 (Pattern_binding (Var_name Badnodes))
+                 (Pattern_binding (Var_name Replies))))
+              (c_guard ())
+              (c_rhs
+                (Expr_tuple
+                  ((Expr_name (Var_name Replies))
+                    (Expr_name (Var_name Badnodes))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment "%% Monitor functions"))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom start_monitor)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Node))
+                (Pattern_binding (Var_name Name))))
+             (c_guard
+               (((Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                     (fa_args ((Expr_name (Var_name Node))))))
+                  (Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_atom))))
+                      (fa_args ((Expr_name (Var_name Name)))))))))
+             (c_rhs
+               (Expr_if
+                 (((((Expr_apply
+                       ((fa_name
+                          (Expr_name
+                            (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                              (n_name (Atom_name (Atom '=:='))))))
+                         (fa_args
+                           ((Expr_apply
+                              ((fa_name (Expr_name (Atom_name (Atom node))))
+                                (fa_args ())))
+                             (Expr_literal (Lit_atom (Atom nonode@nohost)))))))
+                      (Expr_apply
+                        ((fa_name
+                           (Expr_name
+                             (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                               (n_name (Atom_name (Atom '=/='))))))
+                          (fa_args
+                            ((Expr_name (Var_name Node))
+                              (Expr_literal (Lit_atom (Atom nonode@nohost)))))))))
+                    (Expr_let
+                      ((lb_lhs (Pattern_binding (Var_name Ref)))
+                        (lb_rhs
+                          (Expr_apply
+                            ((fa_name (Expr_name (Atom_name (Atom make_ref))))
+                              (fa_args ())))))
+                      (Expr_comment
+                        (Comment
+                          " FIXME: ignored let bindings are not supported yet")
+                        (Expr_let
+                          ((lb_lhs (Pattern_binding (Var_name _)))
+                            (lb_rhs
+                              (Expr_apply
+                                ((fa_name
+                                   (Expr_name
+                                     (Qualified_name
+                                       (n_mod (Atom_name (Atom erlang)))
+                                       (n_name (Atom_name (Atom send))))))
+                                  (fa_args
+                                    ((Expr_apply
+                                       ((fa_name
+                                          (Expr_name (Atom_name (Atom self))))
+                                         (fa_args ())))
+                                      (Expr_tuple
+                                        ((Expr_literal
+                                           (Lit_atom (Atom 'DOWN')))
+                                          (Expr_name (Var_name Ref))
+                                          (Expr_literal
+                                            (Lit_atom (Atom process)))
+                                          (Expr_tuple
+                                            ((Expr_name (Var_name Name))
+                                              (Expr_name (Var_name Node))))
+                                          (Expr_literal
+                                            (Lit_atom (Atom noconnection)))))))))))
+                          (Expr_tuple
+                            ((Expr_name (Var_name Node))
+                              (Expr_name (Var_name Ref))))))))
+                   ((((Expr_literal (Lit_atom (Atom true)))))
+                     (Expr_case
+                       (Expr_catch
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom monitor))))))
+                             (fa_args
+                               ((Expr_literal (Lit_atom (Atom process)))
+                                 (Expr_tuple
+                                   ((Expr_name (Var_name Name))
+                                     (Expr_name (Var_name Node)))))))))
+                       (((c_lhs
+                           ((Pattern_tuple
+                              ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                                (Pattern_binding (Var_name _))))))
+                          (c_guard ())
+                          (c_rhs
+                            (Expr_comment (Comment "% Remote node is R6")
+                              (Expr_comment
+                                (Comment
+                                  " FIXME: ignored let bindings are not supported yet")
+                                (Expr_let
+                                  ((lb_lhs (Pattern_binding (Var_name _)))
+                                    (lb_rhs
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Atom_name (Atom monitor_node))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Node))
+                                              (Expr_literal
+                                                (Lit_atom (Atom true)))))))))
+                                  (Expr_name (Var_name Node)))))))
+                         ((c_lhs ((Pattern_binding (Var_name Ref))))
+                           (c_guard
+                             (((Expr_apply
+                                 ((fa_name
+                                    (Expr_name (Atom_name (Atom is_reference))))
+                                   (fa_args ((Expr_name (Var_name Ref)))))))))
+                           (c_rhs
+                             (Expr_tuple
+                               ((Expr_name (Var_name Node))
+                                 (Expr_name (Var_name Ref)))))))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment "% ---------------------------------------------------"))
+    (Module_comment (Comment "% Helper functions for try-catch of callbacks."))
+    (Module_comment (Comment "% Returns the return value of the callback, or"))
+    (Module_comment
+      (Comment "% {'EXIT', Class, Reason, Stack} (if an exception occurs)"))
+    (Module_comment (Comment %))
+    (Module_comment
+      (Comment "% The Class, Reason and Stack are given to erlang:raise/3"))
+    (Module_comment
+      (Comment "% to make sure proc_lib receives the proper reasons and"))
+    (Module_comment (Comment "% stacktraces."))
+    (Module_comment
+      (Comment "% ---------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom try_dispatch)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_tuple
+                 ((Pattern_match (Lit_atom (Atom '$gen_cast')))
+                   (Pattern_binding (Var_name Msg))))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name State))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom try_dispatch))))
+                   (fa_args
+                     ((Expr_name (Var_name Mod))
+                       (Expr_literal (Lit_atom (Atom handle_cast)))
+                       (Expr_name (Var_name Msg)) (Expr_name (Var_name State))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Info))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name State))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom try_dispatch))))
+                    (fa_args
+                      ((Expr_name (Var_name Mod))
+                        (Expr_literal (Lit_atom (Atom handle_info)))
+                        (Expr_name (Var_name Info))
+                        (Expr_name (Var_name State))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom try_dispatch)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Func))
+                (Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name State))))
+             (c_guard ())
+             (c_rhs
+               (Expr_try
+                 ((try_expr
+                    (Expr_tuple
+                      ((Expr_literal (Lit_atom (Atom ok)))
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name (n_mod (Var_name Mod))
+                                 (n_name (Var_name Func)))))
+                            (fa_args
+                              ((Expr_name (Var_name Msg))
+                                (Expr_name (Var_name State)))))))))
+                   (try_catch
+                     ((((c_lhs
+                          ((Pattern_catch ((Atom_name (Atom throw)))
+                             (Pattern_binding (Var_name R)) ())))
+                         (c_guard ())
+                         (c_rhs
+                           (Expr_tuple
+                             ((Expr_literal (Lit_atom (Atom ok)))
+                               (Expr_name (Var_name R))))))
+                        ((c_lhs
+                           ((Pattern_catch ((Var_name R))
+                              (Pattern_binding (Var_name Stacktrace)) ())))
+                          (c_guard
+                            (((Expr_apply
+                                ((fa_name
+                                   (Expr_name
+                                     (Qualified_name
+                                       (n_mod (Atom_name (Atom erlang)))
+                                       (n_name (Atom_name (Atom '=='))))))
+                                  (fa_args
+                                    ((Expr_name (Var_name Func))
+                                      (Expr_literal
+                                        (Lit_atom (Atom handle_info))))))))))
+                          (c_rhs
+                            (Expr_comment
+                              (Comment
+                                " FIXME: this form of pattern matching on")
+                              (Expr_comment
+                                (Comment
+                                  " catch clauses is not supported yet:")
+                                (Expr_comment (Comment "")
+                                  (Expr_comment
+                                    (Comment
+                                      "   error:undef = R:Stacktrace when Func == handle_info ->")
+                                    (Expr_case
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Qualified_name
+                                               (n_mod
+                                                 (Atom_name (Atom erlang)))
+                                               (n_name
+                                                 (Atom_name
+                                                   (Atom function_exported))))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Mod))
+                                              (Expr_literal
+                                                (Lit_atom (Atom handle_info)))
+                                              (Expr_literal (Lit_integer 2))))))
+                                      (((c_lhs
+                                          ((Pattern_match
+                                             (Lit_atom (Atom false)))))
+                                         (c_guard ())
+                                         (c_rhs
+                                           (Expr_comment
+                                             (Comment
+                                               " FIXME: ignored let bindings are not supported yet")
+                                             (Expr_let
+                                               ((lb_lhs
+                                                  (Pattern_binding
+                                                    (Var_name _)))
+                                                 (lb_rhs
+                                                   (Expr_apply
+                                                     ((fa_name
+                                                        (Expr_macro
+                                                          ?LOG_WARNING))
+                                                       (fa_args
+                                                         ((Expr_map
+                                                            (((mf_name
+                                                                (Expr_literal
+                                                                  (Lit_atom
+                                                                    (Atom
+                                                                      label))))
+                                                               (mf_value
+                                                                 (Expr_tuple
+                                                                   ((Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      gen_server)))
+                                                                     (Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      no_handle_info)))))))
+                                                              ((mf_name
+                                                                 (Expr_literal
+                                                                   (Lit_atom
+                                                                     (Atom
+                                                                      module))))
+                                                                (mf_value
+                                                                  (Expr_name
+                                                                    (Var_name
+                                                                      Mod))))
+                                                              ((mf_name
+                                                                 (Expr_literal
+                                                                   (Lit_atom
+                                                                     (Atom
+                                                                      message))))
+                                                                (mf_value
+                                                                  (Expr_name
+                                                                    (Var_name
+                                                                      Msg))))))
+                                                           (Expr_map
+                                                             (((mf_name
+                                                                 (Expr_literal
+                                                                   (Lit_atom
+                                                                     (Atom
+                                                                      domain))))
+                                                                (mf_value
+                                                                  (Expr_list
+                                                                    ((Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      otp)))))))
+                                                               ((mf_name
+                                                                  (Expr_literal
+                                                                    (Lit_atom
+                                                                      (Atom
+                                                                      report_cb))))
+                                                                 (mf_value
+                                                                   (Expr_fun_ref
+                                                                     (fref_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      gen_server)))
+                                                                      (n_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      format_log)))))
+                                                                     (fref_arity
+                                                                      2))))
+                                                               ((mf_name
+                                                                  (Expr_literal
+                                                                    (Lit_atom
+                                                                      (Atom
+                                                                      error_logger))))
+                                                                 (mf_value
+                                                                   (Expr_map
+                                                                     (((mf_name
+                                                                      (Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      tag))))
+                                                                      (mf_value
+                                                                      (Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      warning_msg)))))
+                                                                      ((mf_name
+                                                                      (Expr_literal
+                                                                      (Lit_atom
+                                                                      (Atom
+                                                                      report_cb))))
+                                                                      (mf_value
+                                                                      (Expr_fun_ref
+                                                                      (fref_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      gen_server)))
+                                                                      (n_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      format_log)))))
+                                                                      (fref_arity
+                                                                      1))))))))))))))))
+                                               (Expr_tuple
+                                                 ((Expr_literal
+                                                    (Lit_atom (Atom ok)))
+                                                   (Expr_tuple
+                                                     ((Expr_literal
+                                                        (Lit_atom
+                                                          (Atom noreply)))
+                                                       (Expr_name
+                                                         (Var_name State))))))))))
+                                        ((c_lhs
+                                           ((Pattern_match
+                                              (Lit_atom (Atom true)))))
+                                          (c_guard ())
+                                          (c_rhs
+                                            (Expr_tuple
+                                              ((Expr_literal
+                                                 (Lit_atom (Atom 'EXIT')))
+                                                (Expr_literal
+                                                  (Lit_atom (Atom error)))
+                                                (Expr_name (Var_name R))
+                                                (Expr_name
+                                                  (Var_name Stacktrace))))))))))))))
+                        ((c_lhs
+                           ((Pattern_catch ((Var_name Class))
+                              (Pattern_binding (Var_name R))
+                              ((Var_name Stacktrace)))))
+                          (c_guard ())
+                          (c_rhs
+                            (Expr_tuple
+                              ((Expr_literal (Lit_atom (Atom 'EXIT')))
+                                (Expr_name (Var_name Class))
+                                (Expr_name (Var_name R))
+                                (Expr_name (Var_name Stacktrace)))))))))
+                   (try_after ())))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom try_handle_call)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name From))
+                (Pattern_binding (Var_name State))))
+             (c_guard ())
+             (c_rhs
+               (Expr_try
+                 ((try_expr
+                    (Expr_tuple
+                      ((Expr_literal (Lit_atom (Atom ok)))
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name (n_mod (Var_name Mod))
+                                 (n_name (Atom_name (Atom handle_call))))))
+                            (fa_args
+                              ((Expr_name (Var_name Msg))
+                                (Expr_name (Var_name From))
+                                (Expr_name (Var_name State)))))))))
+                   (try_catch
+                     ((((c_lhs
+                          ((Pattern_catch ((Atom_name (Atom throw)))
+                             (Pattern_binding (Var_name R)) ())))
+                         (c_guard ())
+                         (c_rhs
+                           (Expr_tuple
+                             ((Expr_literal (Lit_atom (Atom ok)))
+                               (Expr_name (Var_name R))))))
+                        ((c_lhs
+                           ((Pattern_catch ((Var_name Class))
+                              (Pattern_binding (Var_name R))
+                              ((Var_name Stacktrace)))))
+                          (c_guard ())
+                          (c_rhs
+                            (Expr_tuple
+                              ((Expr_literal (Lit_atom (Atom 'EXIT')))
+                                (Expr_name (Var_name Class))
+                                (Expr_name (Var_name R))
+                                (Expr_name (Var_name Stacktrace)))))))))
+                   (try_after ())))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom try_terminate)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Reason))
+                (Pattern_binding (Var_name State))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case
+                 (Expr_apply
+                   ((fa_name
+                      (Expr_name
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom function_exported))))))
+                     (fa_args
+                       ((Expr_name (Var_name Mod))
+                         (Expr_literal (Lit_atom (Atom terminate)))
+                         (Expr_literal (Lit_integer 2))))))
+                 (((c_lhs ((Pattern_match (Lit_atom (Atom true)))))
+                    (c_guard ())
+                    (c_rhs
+                      (Expr_try
+                        ((try_expr
+                           (Expr_tuple
+                             ((Expr_literal (Lit_atom (Atom ok)))
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name
+                                      (Qualified_name (n_mod (Var_name Mod))
+                                        (n_name (Atom_name (Atom terminate))))))
+                                   (fa_args
+                                     ((Expr_name (Var_name Reason))
+                                       (Expr_name (Var_name State)))))))))
+                          (try_catch
+                            ((((c_lhs
+                                 ((Pattern_catch ((Atom_name (Atom throw)))
+                                    (Pattern_binding (Var_name R)) ())))
+                                (c_guard ())
+                                (c_rhs
+                                  (Expr_tuple
+                                    ((Expr_literal (Lit_atom (Atom ok)))
+                                      (Expr_name (Var_name R))))))
+                               ((c_lhs
+                                  ((Pattern_catch ((Var_name Class))
+                                     (Pattern_binding (Var_name R))
+                                     ((Var_name Stacktrace)))))
+                                 (c_guard ())
+                                 (c_rhs
+                                   (Expr_tuple
+                                     ((Expr_literal (Lit_atom (Atom 'EXIT')))
+                                       (Expr_name (Var_name Class))
+                                       (Expr_name (Var_name R))
+                                       (Expr_name (Var_name Stacktrace)))))))))
+                          (try_after ())))))
+                   ((c_lhs ((Pattern_match (Lit_atom (Atom false)))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_tuple
+                         ((Expr_literal (Lit_atom (Atom ok)))
+                           (Expr_literal (Lit_atom (Atom ok)))))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment "%% Message handling functions"))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Function_decl
+      ((fd_name (Atom handle_msg)) (fd_arity 6)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_tuple
+                 ((Pattern_match (Lit_atom (Atom '$gen_call')))
+                   (Pattern_binding (Var_name From))
+                   (Pattern_binding (Var_name Msg))))
+                (Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name HibernateAfterTimeout))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Result)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name
+                          (Expr_name (Atom_name (Atom try_handle_call))))
+                         (fa_args
+                           ((Expr_name (Var_name Mod))
+                             (Expr_name (Var_name Msg))
+                             (Expr_name (Var_name From))
+                             (Expr_name (Var_name State))))))))
+                 (Expr_case (Expr_name (Var_name Result))
+                   (((c_lhs
+                       ((Pattern_tuple
+                          ((Pattern_match (Lit_atom (Atom ok)))
+                            (Pattern_tuple
+                              ((Pattern_match (Lit_atom (Atom reply)))
+                                (Pattern_binding (Var_name Reply))
+                                (Pattern_binding (Var_name NState))))))))
+                      (c_guard ())
+                      (c_rhs
+                        (Expr_comment
+                          (Comment
+                            " FIXME: ignored let bindings are not supported yet")
+                          (Expr_let
+                            ((lb_lhs (Pattern_binding (Var_name _)))
+                              (lb_rhs
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name (Atom_name (Atom reply))))
+                                    (fa_args
+                                      ((Expr_name (Var_name From))
+                                        (Expr_name (Var_name Reply))))))))
+                            (Expr_apply
+                              ((fa_name (Expr_name (Atom_name (Atom loop))))
+                                (fa_args
+                                  ((Expr_name (Var_name Parent))
+                                    (Expr_name (Var_name Name))
+                                    (Expr_name (Var_name NState))
+                                    (Expr_name (Var_name Mod))
+                                    (Expr_literal (Lit_atom (Atom infinity)))
+                                    (Expr_name
+                                      (Var_name HibernateAfterTimeout))
+                                    (Expr_list ())))))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom reply)))
+                                 (Pattern_binding (Var_name Reply))
+                                 (Pattern_binding (Var_name NState))
+                                 (Pattern_binding (Var_name Time1))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_comment
+                           (Comment
+                             " FIXME: ignored let bindings are not supported yet")
+                           (Expr_let
+                             ((lb_lhs (Pattern_binding (Var_name _)))
+                               (lb_rhs
+                                 (Expr_apply
+                                   ((fa_name
+                                      (Expr_name (Atom_name (Atom reply))))
+                                     (fa_args
+                                       ((Expr_name (Var_name From))
+                                         (Expr_name (Var_name Reply))))))))
+                             (Expr_apply
+                               ((fa_name (Expr_name (Atom_name (Atom loop))))
+                                 (fa_args
+                                   ((Expr_name (Var_name Parent))
+                                     (Expr_name (Var_name Name))
+                                     (Expr_name (Var_name NState))
+                                     (Expr_name (Var_name Mod))
+                                     (Expr_name (Var_name Time1))
+                                     (Expr_name
+                                       (Var_name HibernateAfterTimeout))
+                                     (Expr_list ())))))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom noreply)))
+                                 (Pattern_binding (Var_name NState))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom loop))))
+                             (fa_args
+                               ((Expr_name (Var_name Parent))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_name (Var_name NState))
+                                 (Expr_name (Var_name Mod))
+                                 (Expr_literal (Lit_atom (Atom infinity)))
+                                 (Expr_name (Var_name HibernateAfterTimeout))
+                                 (Expr_list ())))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom noreply)))
+                                 (Pattern_binding (Var_name NState))
+                                 (Pattern_binding (Var_name Time1))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom loop))))
+                             (fa_args
+                               ((Expr_name (Var_name Parent))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_name (Var_name NState))
+                                 (Expr_name (Var_name Mod))
+                                 (Expr_name (Var_name Time1))
+                                 (Expr_name (Var_name HibernateAfterTimeout))
+                                 (Expr_list ())))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom stop)))
+                                 (Pattern_binding (Var_name Reason))
+                                 (Pattern_binding (Var_name Reply))
+                                 (Pattern_binding (Var_name NState))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_try
+                           ((try_expr
+                              (Expr_apply
+                                ((fa_name
+                                   (Expr_name (Atom_name (Atom terminate))))
+                                  (fa_args
+                                    ((Expr_name (Var_name Reason))
+                                      (Expr_apply
+                                        ((fa_name (Expr_macro ?STACKTRACE))
+                                          (fa_args ())))
+                                      (Expr_name (Var_name Name))
+                                      (Expr_name (Var_name From))
+                                      (Expr_name (Var_name Msg))
+                                      (Expr_name (Var_name Mod))
+                                      (Expr_name (Var_name NState))
+                                      (Expr_list ()))))))
+                             (try_catch ())
+                             (try_after
+                               ((Expr_apply
+                                  ((fa_name
+                                     (Expr_name (Atom_name (Atom reply))))
+                                    (fa_args
+                                      ((Expr_name (Var_name From))
+                                        (Expr_name (Var_name Reply))))))))))))
+                     ((c_lhs ((Pattern_binding (Var_name Other)))) (c_guard ())
+                       (c_rhs
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Atom_name (Atom handle_common_reply))))
+                             (fa_args
+                               ((Expr_name (Var_name Other))
+                                 (Expr_name (Var_name Parent))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_name (Var_name From))
+                                 (Expr_name (Var_name Msg))
+                                 (Expr_name (Var_name Mod))
+                                 (Expr_name (Var_name HibernateAfterTimeout))
+                                 (Expr_name (Var_name State)))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Msg))
+                 (Pattern_binding (Var_name Parent))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name HibernateAfterTimeout))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name Reply)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom try_dispatch))))
+                          (fa_args
+                            ((Expr_name (Var_name Msg))
+                              (Expr_name (Var_name Mod))
+                              (Expr_name (Var_name State))))))))
+                  (Expr_apply
+                    ((fa_name
+                       (Expr_name (Atom_name (Atom handle_common_reply))))
+                      (fa_args
+                        ((Expr_name (Var_name Reply))
+                          (Expr_name (Var_name Parent))
+                          (Expr_name (Var_name Name))
+                          (Expr_literal (Lit_atom (Atom undefined)))
+                          (Expr_name (Var_name Msg)) (Expr_name (Var_name Mod))
+                          (Expr_name (Var_name HibernateAfterTimeout))
+                          (Expr_name (Var_name State)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom handle_msg)) (fd_arity 7)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_tuple
+                 ((Pattern_match (Lit_atom (Atom '$gen_call')))
+                   (Pattern_binding (Var_name From))
+                   (Pattern_binding (Var_name Msg))))
+                (Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name HibernateAfterTimeout))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Result)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name
+                          (Expr_name (Atom_name (Atom try_handle_call))))
+                         (fa_args
+                           ((Expr_name (Var_name Mod))
+                             (Expr_name (Var_name Msg))
+                             (Expr_name (Var_name From))
+                             (Expr_name (Var_name State))))))))
+                 (Expr_case (Expr_name (Var_name Result))
+                   (((c_lhs
+                       ((Pattern_tuple
+                          ((Pattern_match (Lit_atom (Atom ok)))
+                            (Pattern_tuple
+                              ((Pattern_match (Lit_atom (Atom reply)))
+                                (Pattern_binding (Var_name Reply))
+                                (Pattern_binding (Var_name NState))))))))
+                      (c_guard ())
+                      (c_rhs
+                        (Expr_let
+                          ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                            (lb_rhs
+                              (Expr_apply
+                                ((fa_name (Expr_name (Atom_name (Atom reply))))
+                                  (fa_args
+                                    ((Expr_name (Var_name Name))
+                                      (Expr_name (Var_name From))
+                                      (Expr_name (Var_name Reply))
+                                      (Expr_name (Var_name NState))
+                                      (Expr_name (Var_name Debug))))))))
+                          (Expr_apply
+                            ((fa_name (Expr_name (Atom_name (Atom loop))))
+                              (fa_args
+                                ((Expr_name (Var_name Parent))
+                                  (Expr_name (Var_name Name))
+                                  (Expr_name (Var_name NState))
+                                  (Expr_name (Var_name Mod))
+                                  (Expr_literal (Lit_atom (Atom infinity)))
+                                  (Expr_name (Var_name HibernateAfterTimeout))
+                                  (Expr_name (Var_name Debug1)))))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom reply)))
+                                 (Pattern_binding (Var_name Reply))
+                                 (Pattern_binding (Var_name NState))
+                                 (Pattern_binding (Var_name Time1))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_let
+                           ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                             (lb_rhs
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name (Atom_name (Atom reply))))
+                                   (fa_args
+                                     ((Expr_name (Var_name Name))
+                                       (Expr_name (Var_name From))
+                                       (Expr_name (Var_name Reply))
+                                       (Expr_name (Var_name NState))
+                                       (Expr_name (Var_name Debug))))))))
+                           (Expr_apply
+                             ((fa_name (Expr_name (Atom_name (Atom loop))))
+                               (fa_args
+                                 ((Expr_name (Var_name Parent))
+                                   (Expr_name (Var_name Name))
+                                   (Expr_name (Var_name NState))
+                                   (Expr_name (Var_name Mod))
+                                   (Expr_name (Var_name Time1))
+                                   (Expr_name (Var_name HibernateAfterTimeout))
+                                   (Expr_name (Var_name Debug1)))))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom noreply)))
+                                 (Pattern_binding (Var_name NState))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_let
+                           ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                             (lb_rhs
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom sys)))
+                                        (n_name
+                                          (Atom_name (Atom handle_debug))))))
+                                   (fa_args
+                                     ((Expr_name (Var_name Debug))
+                                       (Expr_fun_ref
+                                         (fref_name
+                                           (Atom_name (Atom print_event)))
+                                         (fref_arity 3))
+                                       (Expr_name (Var_name Name))
+                                       (Expr_tuple
+                                         ((Expr_literal
+                                            (Lit_atom (Atom noreply)))
+                                           (Expr_name (Var_name NState))))))))))
+                           (Expr_apply
+                             ((fa_name (Expr_name (Atom_name (Atom loop))))
+                               (fa_args
+                                 ((Expr_name (Var_name Parent))
+                                   (Expr_name (Var_name Name))
+                                   (Expr_name (Var_name NState))
+                                   (Expr_name (Var_name Mod))
+                                   (Expr_literal (Lit_atom (Atom infinity)))
+                                   (Expr_name (Var_name HibernateAfterTimeout))
+                                   (Expr_name (Var_name Debug1)))))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom noreply)))
+                                 (Pattern_binding (Var_name NState))
+                                 (Pattern_binding (Var_name Time1))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_let
+                           ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                             (lb_rhs
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom sys)))
+                                        (n_name
+                                          (Atom_name (Atom handle_debug))))))
+                                   (fa_args
+                                     ((Expr_name (Var_name Debug))
+                                       (Expr_fun_ref
+                                         (fref_name
+                                           (Atom_name (Atom print_event)))
+                                         (fref_arity 3))
+                                       (Expr_name (Var_name Name))
+                                       (Expr_tuple
+                                         ((Expr_literal
+                                            (Lit_atom (Atom noreply)))
+                                           (Expr_name (Var_name NState))))))))))
+                           (Expr_apply
+                             ((fa_name (Expr_name (Atom_name (Atom loop))))
+                               (fa_args
+                                 ((Expr_name (Var_name Parent))
+                                   (Expr_name (Var_name Name))
+                                   (Expr_name (Var_name NState))
+                                   (Expr_name (Var_name Mod))
+                                   (Expr_name (Var_name Time1))
+                                   (Expr_name (Var_name HibernateAfterTimeout))
+                                   (Expr_name (Var_name Debug1)))))))))
+                     ((c_lhs
+                        ((Pattern_tuple
+                           ((Pattern_match (Lit_atom (Atom ok)))
+                             (Pattern_tuple
+                               ((Pattern_match (Lit_atom (Atom stop)))
+                                 (Pattern_binding (Var_name Reason))
+                                 (Pattern_binding (Var_name Reply))
+                                 (Pattern_binding (Var_name NState))))))))
+                       (c_guard ())
+                       (c_rhs
+                         (Expr_try
+                           ((try_expr
+                              (Expr_apply
+                                ((fa_name
+                                   (Expr_name (Atom_name (Atom terminate))))
+                                  (fa_args
+                                    ((Expr_name (Var_name Reason))
+                                      (Expr_apply
+                                        ((fa_name (Expr_macro ?STACKTRACE))
+                                          (fa_args ())))
+                                      (Expr_name (Var_name Name))
+                                      (Expr_name (Var_name From))
+                                      (Expr_name (Var_name Msg))
+                                      (Expr_name (Var_name Mod))
+                                      (Expr_name (Var_name NState))
+                                      (Expr_name (Var_name Debug)))))))
+                             (try_catch ())
+                             (try_after
+                               ((Expr_let
+                                  ((lb_lhs (Pattern_binding (Var_name _)))
+                                    (lb_rhs
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name (Atom_name (Atom reply))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Name))
+                                              (Expr_name (Var_name From))
+                                              (Expr_name (Var_name Reply))
+                                              (Expr_name (Var_name NState))
+                                              (Expr_name (Var_name Debug))))))))
+                                  (Expr_name (Var_name _)))))))))
+                     ((c_lhs ((Pattern_binding (Var_name Other)))) (c_guard ())
+                       (c_rhs
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Atom_name (Atom handle_common_reply))))
+                             (fa_args
+                               ((Expr_name (Var_name Other))
+                                 (Expr_name (Var_name Parent))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_name (Var_name From))
+                                 (Expr_name (Var_name Msg))
+                                 (Expr_name (Var_name Mod))
+                                 (Expr_name (Var_name HibernateAfterTimeout))
+                                 (Expr_name (Var_name State))
+                                 (Expr_name (Var_name Debug)))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Msg))
+                 (Pattern_binding (Var_name Parent))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name HibernateAfterTimeout))
+                 (Pattern_binding (Var_name Debug))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name Reply)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom try_dispatch))))
+                          (fa_args
+                            ((Expr_name (Var_name Msg))
+                              (Expr_name (Var_name Mod))
+                              (Expr_name (Var_name State))))))))
+                  (Expr_apply
+                    ((fa_name
+                       (Expr_name (Atom_name (Atom handle_common_reply))))
+                      (fa_args
+                        ((Expr_name (Var_name Reply))
+                          (Expr_name (Var_name Parent))
+                          (Expr_name (Var_name Name))
+                          (Expr_literal (Lit_atom (Atom undefined)))
+                          (Expr_name (Var_name Msg)) (Expr_name (Var_name Mod))
+                          (Expr_name (Var_name HibernateAfterTimeout))
+                          (Expr_name (Var_name State))
+                          (Expr_name (Var_name Debug)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom handle_common_reply)) (fd_arity 8)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Reply))
+                (Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name From))
+                (Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name HibernateAfterTimeout))
+                (Pattern_binding (Var_name State))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case (Expr_name (Var_name Reply))
+                 (((c_lhs
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom ok)))
+                          (Pattern_tuple
+                            ((Pattern_match (Lit_atom (Atom noreply)))
+                              (Pattern_binding (Var_name NState))))))))
+                    (c_guard ())
+                    (c_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom loop))))
+                          (fa_args
+                            ((Expr_name (Var_name Parent))
+                              (Expr_name (Var_name Name))
+                              (Expr_name (Var_name NState))
+                              (Expr_name (Var_name Mod))
+                              (Expr_literal (Lit_atom (Atom infinity)))
+                              (Expr_name (Var_name HibernateAfterTimeout))
+                              (Expr_list ())))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom ok)))
+                           (Pattern_tuple
+                             ((Pattern_match (Lit_atom (Atom noreply)))
+                               (Pattern_binding (Var_name NState))
+                               (Pattern_binding (Var_name Time1))))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom loop))))
+                           (fa_args
+                             ((Expr_name (Var_name Parent))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name NState))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name Time1))
+                               (Expr_name (Var_name HibernateAfterTimeout))
+                               (Expr_list ())))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom ok)))
+                           (Pattern_tuple
+                             ((Pattern_match (Lit_atom (Atom stop)))
+                               (Pattern_binding (Var_name Reason))
+                               (Pattern_binding (Var_name NState))))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                           (fa_args
+                             ((Expr_name (Var_name Reason))
+                               (Expr_apply
+                                 ((fa_name (Expr_macro ?STACKTRACE))
+                                   (fa_args ())))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name From))
+                               (Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name NState)) (Expr_list ())))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                           (Pattern_binding (Var_name Class))
+                           (Pattern_binding (Var_name Reason))
+                           (Pattern_binding (Var_name Stacktrace))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                           (fa_args
+                             ((Expr_name (Var_name Class))
+                               (Expr_name (Var_name Reason))
+                               (Expr_name (Var_name Stacktrace))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name From))
+                               (Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name State)) (Expr_list ())))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom ok)))
+                           (Pattern_binding (Var_name BadReply))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                           (fa_args
+                             ((Expr_tuple
+                                ((Expr_literal
+                                   (Lit_atom (Atom bad_return_value)))
+                                  (Expr_name (Var_name BadReply))))
+                               (Expr_apply
+                                 ((fa_name (Expr_macro ?STACKTRACE))
+                                   (fa_args ())))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name From))
+                               (Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name State)) (Expr_list ())))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom handle_common_reply)) (fd_arity 9)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Reply))
+                (Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name From))
+                (Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name HibernateAfterTimeout))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case (Expr_name (Var_name Reply))
+                 (((c_lhs
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom ok)))
+                          (Pattern_tuple
+                            ((Pattern_match (Lit_atom (Atom noreply)))
+                              (Pattern_binding (Var_name NState))))))))
+                    (c_guard ())
+                    (c_rhs
+                      (Expr_let
+                        ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                          (lb_rhs
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom sys)))
+                                     (n_name (Atom_name (Atom handle_debug))))))
+                                (fa_args
+                                  ((Expr_name (Var_name Debug))
+                                    (Expr_fun_ref
+                                      (fref_name
+                                        (Atom_name (Atom print_event)))
+                                      (fref_arity 3))
+                                    (Expr_name (Var_name Name))
+                                    (Expr_tuple
+                                      ((Expr_literal (Lit_atom (Atom noreply)))
+                                        (Expr_name (Var_name NState))))))))))
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom loop))))
+                            (fa_args
+                              ((Expr_name (Var_name Parent))
+                                (Expr_name (Var_name Name))
+                                (Expr_name (Var_name NState))
+                                (Expr_name (Var_name Mod))
+                                (Expr_literal (Lit_atom (Atom infinity)))
+                                (Expr_name (Var_name HibernateAfterTimeout))
+                                (Expr_name (Var_name Debug1)))))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom ok)))
+                           (Pattern_tuple
+                             ((Pattern_match (Lit_atom (Atom noreply)))
+                               (Pattern_binding (Var_name NState))
+                               (Pattern_binding (Var_name Time1))))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_let
+                         ((lb_lhs (Pattern_binding (Var_name Debug1)))
+                           (lb_rhs
+                             (Expr_apply
+                               ((fa_name
+                                  (Expr_name
+                                    (Qualified_name
+                                      (n_mod (Atom_name (Atom sys)))
+                                      (n_name (Atom_name (Atom handle_debug))))))
+                                 (fa_args
+                                   ((Expr_name (Var_name Debug))
+                                     (Expr_fun_ref
+                                       (fref_name
+                                         (Atom_name (Atom print_event)))
+                                       (fref_arity 3))
+                                     (Expr_name (Var_name Name))
+                                     (Expr_tuple
+                                       ((Expr_literal
+                                          (Lit_atom (Atom noreply)))
+                                         (Expr_name (Var_name NState))))))))))
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom loop))))
+                             (fa_args
+                               ((Expr_name (Var_name Parent))
+                                 (Expr_name (Var_name Name))
+                                 (Expr_name (Var_name NState))
+                                 (Expr_name (Var_name Mod))
+                                 (Expr_name (Var_name Time1))
+                                 (Expr_name (Var_name HibernateAfterTimeout))
+                                 (Expr_name (Var_name Debug1)))))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom ok)))
+                           (Pattern_tuple
+                             ((Pattern_match (Lit_atom (Atom stop)))
+                               (Pattern_binding (Var_name Reason))
+                               (Pattern_binding (Var_name NState))))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                           (fa_args
+                             ((Expr_name (Var_name Reason))
+                               (Expr_apply
+                                 ((fa_name (Expr_macro ?STACKTRACE))
+                                   (fa_args ())))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name From))
+                               (Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name NState))
+                               (Expr_name (Var_name Debug))))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                           (Pattern_binding (Var_name Class))
+                           (Pattern_binding (Var_name Reason))
+                           (Pattern_binding (Var_name Stacktrace))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                           (fa_args
+                             ((Expr_name (Var_name Class))
+                               (Expr_name (Var_name Reason))
+                               (Expr_name (Var_name Stacktrace))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name From))
+                               (Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name State))
+                               (Expr_name (Var_name Debug))))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom ok)))
+                           (Pattern_binding (Var_name BadReply))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                           (fa_args
+                             ((Expr_tuple
+                                ((Expr_literal
+                                   (Lit_atom (Atom bad_return_value)))
+                                  (Expr_name (Var_name BadReply))))
+                               (Expr_apply
+                                 ((fa_name (Expr_macro ?STACKTRACE))
+                                   (fa_args ())))
+                               (Expr_name (Var_name Name))
+                               (Expr_name (Var_name From))
+                               (Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Mod))
+                               (Expr_name (Var_name State))
+                               (Expr_name (Var_name Debug))))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom reply)) (fd_arity 5)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name From))
+                (Pattern_binding (Var_name Reply))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_comment
+                 (Comment " FIXME: ignored let bindings are not supported yet")
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name _)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name (Expr_name (Atom_name (Atom reply))))
+                           (fa_args
+                             ((Expr_name (Var_name From))
+                               (Expr_name (Var_name Reply))))))))
+                   (Expr_apply
+                     ((fa_name
+                        (Expr_name
+                          (Qualified_name (n_mod (Atom_name (Atom sys)))
+                            (n_name (Atom_name (Atom handle_debug))))))
+                       (fa_args
+                         ((Expr_name (Var_name Debug))
+                           (Expr_fun_ref
+                             (fref_name (Atom_name (Atom print_event)))
+                             (fref_arity 3))
+                           (Expr_name (Var_name Name))
+                           (Expr_tuple
+                             ((Expr_literal (Lit_atom (Atom out)))
+                               (Expr_name (Var_name Reply))
+                               (Expr_name (Var_name From))
+                               (Expr_name (Var_name State))))))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Module_comment
+      (Comment "% Callback functions for system messages handling."))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Function_decl
+      ((fd_name (Atom system_continue)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Parent))
+                (Pattern_binding (Var_name Debug))
+                (Pattern_list
+                  ((Pattern_binding (Var_name Name))
+                    (Pattern_binding (Var_name State))
+                    (Pattern_binding (Var_name Mod))
+                    (Pattern_binding (Var_name Time))
+                    (Pattern_binding (Var_name HibernateAfterTimeout))))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom loop))))
+                   (fa_args
+                     ((Expr_name (Var_name Parent)) (Expr_name (Var_name Name))
+                       (Expr_name (Var_name State)) (Expr_name (Var_name Mod))
+                       (Expr_name (Var_name Time))
+                       (Expr_name (Var_name HibernateAfterTimeout))
+                       (Expr_name (Var_name Debug))))))))))
+        (fd_spec ())))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom no_return))) (tc_args ()))))
+        (typ_kind Spec) (typ_name (Atom system_terminate))
+        (typ_params
+          ((Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _))
+            (Type_list (Type_variable (Var_name _)))))))
+    (Function_decl
+      ((fd_name (Atom system_terminate)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Reason))
+                (Pattern_binding (Var_name _Parent))
+                (Pattern_binding (Var_name Debug))
+                (Pattern_list
+                  ((Pattern_binding (Var_name Name))
+                    (Pattern_binding (Var_name State))
+                    (Pattern_binding (Var_name Mod))
+                    (Pattern_binding (Var_name _Time))
+                    (Pattern_binding (Var_name _HibernateAfterTimeout))))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                   (fa_args
+                     ((Expr_name (Var_name Reason))
+                       (Expr_apply
+                         ((fa_name (Expr_macro ?STACKTRACE)) (fa_args ())))
+                       (Expr_name (Var_name Name))
+                       (Expr_literal (Lit_atom (Atom undefined)))
+                       (Expr_list ()) (Expr_name (Var_name Mod))
+                       (Expr_name (Var_name State))
+                       (Expr_name (Var_name Debug))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom system_code_change)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_list
+                 ((Pattern_binding (Var_name Name))
+                   (Pattern_binding (Var_name State))
+                   (Pattern_binding (Var_name Mod))
+                   (Pattern_binding (Var_name Time))
+                   (Pattern_binding (Var_name HibernateAfterTimeout))))
+                (Pattern_binding (Var_name _Module))
+                (Pattern_binding (Var_name OldVsn))
+                (Pattern_binding (Var_name Extra))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case
+                 (Expr_catch
+                   (Expr_apply
+                     ((fa_name
+                        (Expr_name
+                          (Qualified_name (n_mod (Var_name Mod))
+                            (n_name (Atom_name (Atom code_change))))))
+                       (fa_args
+                         ((Expr_name (Var_name OldVsn))
+                           (Expr_name (Var_name State))
+                           (Expr_name (Var_name Extra)))))))
+                 (((c_lhs
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom ok)))
+                          (Pattern_binding (Var_name NewState))))))
+                    (c_guard ())
+                    (c_rhs
+                      (Expr_tuple
+                        ((Expr_literal (Lit_atom (Atom ok)))
+                          (Expr_list
+                            ((Expr_name (Var_name Name))
+                              (Expr_name (Var_name NewState))
+                              (Expr_name (Var_name Mod))
+                              (Expr_name (Var_name Time))
+                              (Expr_name (Var_name HibernateAfterTimeout))))))))
+                   ((c_lhs ((Pattern_binding (Var_name Else)))) (c_guard ())
+                     (c_rhs (Expr_name (Var_name Else))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom system_get_state)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_list
+                 ((Pattern_binding (Var_name _Name))
+                   (Pattern_binding (Var_name State))
+                   (Pattern_binding (Var_name _Mod))
+                   (Pattern_binding (Var_name _Time))
+                   (Pattern_binding (Var_name _HibernateAfterTimeout))))))
+             (c_guard ())
+             (c_rhs
+               (Expr_tuple
+                 ((Expr_literal (Lit_atom (Atom ok)))
+                   (Expr_name (Var_name State))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom system_replace_state)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name StateFun))
+                (Pattern_list
+                  ((Pattern_binding (Var_name Name))
+                    (Pattern_binding (Var_name State))
+                    (Pattern_binding (Var_name Mod))
+                    (Pattern_binding (Var_name Time))
+                    (Pattern_binding (Var_name HibernateAfterTimeout))))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name NState)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Var_name StateFun)))
+                         (fa_args ((Expr_name (Var_name State))))))))
+                 (Expr_tuple
+                   ((Expr_literal (Lit_atom (Atom ok)))
+                     (Expr_name (Var_name NState))
+                     (Expr_list
+                       ((Expr_name (Var_name Name))
+                         (Expr_name (Var_name NState))
+                         (Expr_name (Var_name Mod)) (Expr_name (Var_name Time))
+                         (Expr_name (Var_name HibernateAfterTimeout)))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Module_comment
+      (Comment
+        "% Format debug messages.  Print them as the call-back module sees"))
+    (Module_comment
+      (Comment "% them, not as the real erlang messages.  Use trace for that."))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Function_decl
+      ((fd_name (Atom print_event)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Dev))
+                (Pattern_tuple
+                  ((Pattern_match (Lit_atom (Atom in)))
+                    (Pattern_binding (Var_name Msg))))
+                (Pattern_binding (Var_name Name))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case (Expr_name (Var_name Msg))
+                 (((c_lhs
+                     ((Pattern_tuple
+                        ((Pattern_match (Lit_atom (Atom '$gen_call')))
+                          (Pattern_tuple
+                            ((Pattern_binding (Var_name From))
+                              (Pattern_binding (Var_name _Tag))))
+                          (Pattern_binding (Var_name Call))))))
+                    (c_guard ())
+                    (c_rhs
+                      (Expr_apply
+                        ((fa_name
+                           (Expr_name
+                             (Qualified_name (n_mod (Atom_name (Atom io)))
+                               (n_name (Atom_name (Atom format))))))
+                          (fa_args
+                            ((Expr_name (Var_name Dev))
+                              (Expr_literal
+                                (Lit_string
+                                  "*DBG* ~tp got call ~tp from ~tw~n"))
+                              (Expr_list
+                                ((Expr_name (Var_name Name))
+                                  (Expr_name (Var_name Call))
+                                  (Expr_name (Var_name From))))))))))
+                   ((c_lhs
+                      ((Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom '$gen_cast')))
+                           (Pattern_binding (Var_name Cast))))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom io)))
+                                (n_name (Atom_name (Atom format))))))
+                           (fa_args
+                             ((Expr_name (Var_name Dev))
+                               (Expr_literal
+                                 (Lit_string "*DBG* ~tp got cast ~tp~n"))
+                               (Expr_list
+                                 ((Expr_name (Var_name Name))
+                                   (Expr_name (Var_name Cast))))))))))
+                   ((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+                     (c_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom io)))
+                                (n_name (Atom_name (Atom format))))))
+                           (fa_args
+                             ((Expr_name (Var_name Dev))
+                               (Expr_literal
+                                 (Lit_string "*DBG* ~tp got ~tp~n"))
+                               (Expr_list
+                                 ((Expr_name (Var_name Name))
+                                   (Expr_name (Var_name Msg))))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Dev))
+                 (Pattern_tuple
+                   ((Pattern_match (Lit_atom (Atom out)))
+                     (Pattern_binding (Var_name Msg))
+                     (Pattern_tuple
+                       ((Pattern_binding (Var_name To))
+                         (Pattern_binding (Var_name _Tag))))
+                     (Pattern_binding (Var_name State))))
+                 (Pattern_binding (Var_name Name))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name
+                     (Expr_name
+                       (Qualified_name (n_mod (Atom_name (Atom io)))
+                         (n_name (Atom_name (Atom format))))))
+                    (fa_args
+                      ((Expr_name (Var_name Dev))
+                        (Expr_literal
+                          (Lit_string
+                            "*DBG* ~tp sent ~tp to ~tw, new state ~tp~n"))
+                        (Expr_list
+                          ((Expr_name (Var_name Name))
+                            (Expr_name (Var_name Msg))
+                            (Expr_name (Var_name To))
+                            (Expr_name (Var_name State))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Dev))
+                 (Pattern_tuple
+                   ((Pattern_match (Lit_atom (Atom noreply)))
+                     (Pattern_binding (Var_name State))))
+                 (Pattern_binding (Var_name Name))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name
+                     (Expr_name
+                       (Qualified_name (n_mod (Atom_name (Atom io)))
+                         (n_name (Atom_name (Atom format))))))
+                    (fa_args
+                      ((Expr_name (Var_name Dev))
+                        (Expr_literal (Lit_string "*DBG* ~tp new state ~tp~n"))
+                        (Expr_list
+                          ((Expr_name (Var_name Name))
+                            (Expr_name (Var_name State))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Dev))
+                 (Pattern_binding (Var_name Event))
+                 (Pattern_binding (Var_name Name))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name
+                     (Expr_name
+                       (Qualified_name (n_mod (Atom_name (Atom io)))
+                         (n_name (Atom_name (Atom format))))))
+                    (fa_args
+                      ((Expr_name (Var_name Dev))
+                        (Expr_literal (Lit_string "*DBG* ~tp dbg  ~tp~n"))
+                        (Expr_list
+                          ((Expr_name (Var_name Name))
+                            (Expr_name (Var_name Event))))))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Module_comment (Comment "%% Terminate the server."))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%% terminate/8 is triggered by {stop, Reason} or bad"))
+    (Module_comment
+      (Comment "%% return values. The stacktrace is generated via the"))
+    (Module_comment
+      (Comment "%% ?STACKTRACE() macro and the ReportReason must not"))
+    (Module_comment (Comment "%% be wrapped in tuples."))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%% terminate/9 is triggered in case of error/exit in"))
+    (Module_comment
+      (Comment "%% the user callback. In this case the report reason"))
+    (Module_comment (Comment "%% always includes the user stacktrace."))
+    (Module_comment (Comment %%))
+    (Module_comment
+      (Comment "%% The reason received in the terminate/2 callbacks"))
+    (Module_comment
+      (Comment "%% always includes the stacktrace for errors and never"))
+    (Module_comment (Comment "%% for exits."))
+    (Module_comment
+      (Comment "%% ---------------------------------------------------"))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom no_return))) (tc_args ()))))
+        (typ_kind Spec) (typ_name (Atom terminate))
+        (typ_params
+          ((Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))))))
+    (Function_decl
+      ((fd_name (Atom terminate)) (fd_arity 8)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Reason))
+                (Pattern_binding (Var_name Stacktrace))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name From))
+                (Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                   (fa_args
+                     ((Expr_literal (Lit_atom (Atom exit)))
+                       (Expr_name (Var_name Reason))
+                       (Expr_name (Var_name Stacktrace))
+                       (Expr_name (Var_name Reason))
+                       (Expr_name (Var_name Name)) (Expr_name (Var_name From))
+                       (Expr_name (Var_name Msg)) (Expr_name (Var_name Mod))
+                       (Expr_name (Var_name State))
+                       (Expr_name (Var_name Debug))))))))))
+        (fd_spec ())))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom no_return))) (tc_args ()))))
+        (typ_kind Spec) (typ_name (Atom terminate))
+        (typ_params
+          ((Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _))))))
+    (Function_decl
+      ((fd_name (Atom terminate)) (fd_arity 9)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Class))
+                (Pattern_binding (Var_name Reason))
+                (Pattern_binding (Var_name Stacktrace))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name From))
+                (Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name ReportReason)))
+                   (lb_rhs
+                     (Expr_tuple
+                       ((Expr_name (Var_name Reason))
+                         (Expr_name (Var_name Stacktrace))))))
+                 (Expr_apply
+                   ((fa_name (Expr_name (Atom_name (Atom terminate))))
+                     (fa_args
+                       ((Expr_name (Var_name Class))
+                         (Expr_name (Var_name Reason))
+                         (Expr_name (Var_name Stacktrace))
+                         (Expr_name (Var_name ReportReason))
+                         (Expr_name (Var_name Name))
+                         (Expr_name (Var_name From)) (Expr_name (Var_name Msg))
+                         (Expr_name (Var_name Mod))
+                         (Expr_name (Var_name State))
+                         (Expr_name (Var_name Debug)))))))))))
+        (fd_spec ())))
+    (Type_decl
+      ((typ_expr
+         (Type_constr ((tc_name (Atom_name (Atom no_return))) (tc_args ()))))
+        (typ_kind Spec) (typ_name (Atom terminate))
+        (typ_params
+          ((Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))
+            (Type_variable (Var_name _)) (Type_variable (Var_name _))))))
+    (Function_decl
+      ((fd_name (Atom terminate)) (fd_arity 10)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Class))
+                (Pattern_binding (Var_name Reason))
+                (Pattern_binding (Var_name Stacktrace))
+                (Pattern_binding (Var_name ReportReason))
+                (Pattern_binding (Var_name Name))
+                (Pattern_binding (Var_name From))
+                (Pattern_binding (Var_name Msg))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name State))
+                (Pattern_binding (Var_name Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Reply)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name (Atom try_terminate))))
+                         (fa_args
+                           ((Expr_name (Var_name Mod))
+                             (Expr_apply
+                               ((fa_name
+                                  (Expr_name
+                                    (Atom_name (Atom terminate_reason))))
+                                 (fa_args
+                                   ((Expr_name (Var_name Class))
+                                     (Expr_name (Var_name Reason))
+                                     (Expr_name (Var_name Stacktrace))))))
+                             (Expr_name (Var_name State))))))))
+                 (Expr_comment
+                   (Comment
+                     " FIXME: ignored let bindings are not supported yet")
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding (Var_name _)))
+                       (lb_rhs
+                         (Expr_case (Expr_name (Var_name Reply))
+                           (((c_lhs
+                               ((Pattern_tuple
+                                  ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                                    (Pattern_binding (Var_name C))
+                                    (Pattern_binding (Var_name R))
+                                    (Pattern_binding (Var_name S))))))
+                              (c_guard ())
+                              (c_rhs
+                                (Expr_comment
+                                  (Comment
+                                    " FIXME: ignored let bindings are not supported yet")
+                                  (Expr_let
+                                    ((lb_lhs (Pattern_binding (Var_name _)))
+                                      (lb_rhs
+                                        (Expr_apply
+                                          ((fa_name
+                                             (Expr_name
+                                               (Atom_name (Atom error_info))))
+                                            (fa_args
+                                              ((Expr_tuple
+                                                 ((Expr_name (Var_name R))
+                                                   (Expr_name (Var_name S))))
+                                                (Expr_name (Var_name Name))
+                                                (Expr_name (Var_name From))
+                                                (Expr_name (Var_name Msg))
+                                                (Expr_name (Var_name Mod))
+                                                (Expr_name (Var_name State))
+                                                (Expr_name (Var_name Debug))))))))
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name (Atom_name (Atom raise))))))
+                                        (fa_args
+                                          ((Expr_name (Var_name C))
+                                            (Expr_name (Var_name R))
+                                            (Expr_name (Var_name S))))))))))
+                             ((c_lhs ((Pattern_binding (Var_name _))))
+                               (c_guard ())
+                               (c_rhs
+                                 (Expr_case
+                                   (Expr_tuple
+                                     ((Expr_name (Var_name Class))
+                                       (Expr_name (Var_name Reason))))
+                                   (((c_lhs
+                                       ((Pattern_tuple
+                                          ((Pattern_match
+                                             (Lit_atom (Atom exit)))
+                                            (Pattern_match
+                                              (Lit_atom (Atom normal)))))))
+                                      (c_guard ())
+                                      (c_rhs
+                                        (Expr_literal (Lit_atom (Atom ok)))))
+                                     ((c_lhs
+                                        ((Pattern_tuple
+                                           ((Pattern_match
+                                              (Lit_atom (Atom exit)))
+                                             (Pattern_match
+                                               (Lit_atom (Atom shutdown)))))))
+                                       (c_guard ())
+                                       (c_rhs
+                                         (Expr_literal (Lit_atom (Atom ok)))))
+                                     ((c_lhs
+                                        ((Pattern_tuple
+                                           ((Pattern_match
+                                              (Lit_atom (Atom exit)))
+                                             (Pattern_tuple
+                                               ((Pattern_match
+                                                  (Lit_atom (Atom shutdown)))
+                                                 (Pattern_binding (Var_name _))))))))
+                                       (c_guard ())
+                                       (c_rhs
+                                         (Expr_literal (Lit_atom (Atom ok)))))
+                                     ((c_lhs ((Pattern_binding (Var_name _))))
+                                       (c_guard ())
+                                       (c_rhs
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Atom_name (Atom error_info))))
+                                             (fa_args
+                                               ((Expr_name
+                                                  (Var_name ReportReason))
+                                                 (Expr_name (Var_name Name))
+                                                 (Expr_name (Var_name From))
+                                                 (Expr_name (Var_name Msg))
+                                                 (Expr_name (Var_name Mod))
+                                                 (Expr_name (Var_name State))
+                                                 (Expr_name (Var_name Debug))))))))))))))))
+                     (Expr_comment
+                       (Comment
+                         " FIXME: ignored let bindings are not supported yet")
+                       (Expr_let
+                         ((lb_lhs (Pattern_binding (Var_name _)))
+                           (lb_rhs
+                             (Expr_case (Expr_name (Var_name Stacktrace))
+                               (((c_lhs ((Pattern_list ()))) (c_guard ())
+                                  (c_rhs
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name (Var_name Class)))))
+                                        (fa_args
+                                          ((Expr_name (Var_name Reason))))))))
+                                 ((c_lhs ((Pattern_binding (Var_name _))))
+                                   (c_guard ())
+                                   (c_rhs
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Qualified_name
+                                              (n_mod (Atom_name (Atom erlang)))
+                                              (n_name (Atom_name (Atom raise))))))
+                                         (fa_args
+                                           ((Expr_name (Var_name Class))
+                                             (Expr_name (Var_name Reason))
+                                             (Expr_name (Var_name Stacktrace))))))))))))
+                         (Expr_name (Var_name _)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom terminate_reason)) (fd_arity 3)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_match (Lit_atom (Atom error)))
+                (Pattern_binding (Var_name Reason))
+                (Pattern_binding (Var_name Stacktrace))))
+             (c_guard ())
+             (c_rhs
+               (Expr_tuple
+                 ((Expr_name (Var_name Reason))
+                   (Expr_name (Var_name Stacktrace))))))
+            ((c_lhs
+               ((Pattern_match (Lit_atom (Atom exit)))
+                 (Pattern_binding (Var_name Reason))
+                 (Pattern_binding (Var_name _Stacktrace))))
+              (c_guard ()) (c_rhs (Expr_name (Var_name Reason))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom error_info)) (fd_arity 7)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name _Reason))
+                (Pattern_match (Lit_atom (Atom application_controller)))
+                (Pattern_binding (Var_name _From))
+                (Pattern_binding (Var_name _Msg))
+                (Pattern_binding (Var_name _Mod))
+                (Pattern_binding (Var_name _State))
+                (Pattern_binding (Var_name _Debug))))
+             (c_guard ())
+             (c_rhs
+               (Expr_comment
+                 (Comment
+                   "% OTP-5811 Don't send an error report if it's the system process")
+                 (Expr_comment
+                   (Comment
+                     "% application_controller which is terminating - let init take care")
+                   (Expr_comment (Comment "% of it instead")
+                     (Expr_literal (Lit_atom (Atom ok))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Reason))
+                 (Pattern_binding (Var_name Name))
+                 (Pattern_binding (Var_name From))
+                 (Pattern_binding (Var_name Msg))
+                 (Pattern_binding (Var_name Mod))
+                 (Pattern_binding (Var_name State))
+                 (Pattern_binding (Var_name Debug))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name Log)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name
+                           (Expr_name
+                             (Qualified_name (n_mod (Atom_name (Atom sys)))
+                               (n_name (Atom_name (Atom get_log))))))
+                          (fa_args ((Expr_name (Var_name Debug))))))))
+                  (Expr_comment
+                    (Comment
+                      " FIXME: ignored let bindings are not supported yet")
+                    (Expr_let
+                      ((lb_lhs (Pattern_binding (Var_name _)))
+                        (lb_rhs
+                          (Expr_apply
+                            ((fa_name (Expr_macro ?LOG_ERROR))
+                              (fa_args
+                                ((Expr_map
+                                   (((mf_name
+                                       (Expr_literal (Lit_atom (Atom label))))
+                                      (mf_value
+                                        (Expr_tuple
+                                          ((Expr_literal
+                                             (Lit_atom (Atom gen_server)))
+                                            (Expr_literal
+                                              (Lit_atom (Atom terminate)))))))
+                                     ((mf_name
+                                        (Expr_literal (Lit_atom (Atom name))))
+                                       (mf_value (Expr_name (Var_name Name))))
+                                     ((mf_name
+                                        (Expr_literal
+                                          (Lit_atom (Atom last_message))))
+                                       (mf_value (Expr_name (Var_name Msg))))
+                                     ((mf_name
+                                        (Expr_literal (Lit_atom (Atom state))))
+                                       (mf_value
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Atom_name
+                                                  (Atom format_status))))
+                                             (fa_args
+                                               ((Expr_literal
+                                                  (Lit_atom (Atom terminate)))
+                                                 (Expr_name (Var_name Mod))
+                                                 (Expr_apply
+                                                   ((fa_name
+                                                      (Expr_name
+                                                        (Atom_name (Atom get))))
+                                                     (fa_args ())))
+                                                 (Expr_name (Var_name State))))))))
+                                     ((mf_name
+                                        (Expr_literal (Lit_atom (Atom log))))
+                                       (mf_value
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Atom_name
+                                                  (Atom format_log_state))))
+                                             (fa_args
+                                               ((Expr_name (Var_name Mod))
+                                                 (Expr_name (Var_name Log))))))))
+                                     ((mf_name
+                                        (Expr_literal (Lit_atom (Atom reason))))
+                                       (mf_value (Expr_name (Var_name Reason))))
+                                     ((mf_name
+                                        (Expr_literal
+                                          (Lit_atom (Atom client_info))))
+                                       (mf_value
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Atom_name
+                                                  (Atom client_stacktrace))))
+                                             (fa_args
+                                               ((Expr_name (Var_name From))))))))))
+                                  (Expr_map
+                                    (((mf_name
+                                        (Expr_literal (Lit_atom (Atom domain))))
+                                       (mf_value
+                                         (Expr_list
+                                           ((Expr_literal
+                                              (Lit_atom (Atom otp)))))))
+                                      ((mf_name
+                                         (Expr_literal
+                                           (Lit_atom (Atom report_cb))))
+                                        (mf_value
+                                          (Expr_fun_ref
+                                            (fref_name
+                                              (Qualified_name
+                                                (n_mod
+                                                  (Atom_name (Atom gen_server)))
+                                                (n_name
+                                                  (Atom_name (Atom format_log)))))
+                                            (fref_arity 2))))
+                                      ((mf_name
+                                         (Expr_literal
+                                           (Lit_atom (Atom error_logger))))
+                                        (mf_value
+                                          (Expr_map
+                                            (((mf_name
+                                                (Expr_literal
+                                                  (Lit_atom (Atom tag))))
+                                               (mf_value
+                                                 (Expr_literal
+                                                   (Lit_atom (Atom error)))))
+                                              ((mf_name
+                                                 (Expr_literal
+                                                   (Lit_atom (Atom report_cb))))
+                                                (mf_value
+                                                  (Expr_fun_ref
+                                                    (fref_name
+                                                      (Qualified_name
+                                                        (n_mod
+                                                          (Atom_name
+                                                            (Atom gen_server)))
+                                                        (n_name
+                                                          (Atom_name
+                                                            (Atom format_log)))))
+                                                    (fref_arity 1))))))))))))))))
+                      (Expr_literal (Lit_atom (Atom ok))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom client_stacktrace)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs ((Pattern_match (Lit_atom (Atom undefined))))) (c_guard ())
+             (c_rhs (Expr_literal (Lit_atom (Atom undefined)))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_binding (Var_name From))
+                    (Pattern_binding (Var_name _Tag))))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom client_stacktrace))))
+                    (fa_args ((Expr_name (Var_name From))))))))
+            ((c_lhs ((Pattern_binding (Var_name From))))
+              (c_guard
+                (((Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_pid))))
+                      (fa_args ((Expr_name (Var_name From))))))
+                   (Expr_apply
+                     ((fa_name
+                        (Expr_name
+                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                            (n_name (Atom_name (Atom '=:='))))))
+                       (fa_args
+                         ((Expr_apply
+                            ((fa_name (Expr_name (Atom_name (Atom node))))
+                              (fa_args ((Expr_name (Var_name From))))))
+                           (Expr_apply
+                             ((fa_name (Expr_name (Atom_name (Atom node))))
+                               (fa_args ()))))))))))
+              (c_rhs
+                (Expr_case
+                  (Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom process_info))))
+                      (fa_args
+                        ((Expr_name (Var_name From))
+                          (Expr_list
+                            ((Expr_literal
+                               (Lit_atom (Atom current_stacktrace)))
+                              (Expr_literal (Lit_atom (Atom registered_name)))))))))
+                  (((c_lhs ((Pattern_match (Lit_atom (Atom undefined)))))
+                     (c_guard ())
+                     (c_rhs
+                       (Expr_tuple
+                         ((Expr_name (Var_name From))
+                           (Expr_literal (Lit_atom (Atom dead)))))))
+                    ((c_lhs
+                       ((Pattern_list
+                          ((Pattern_tuple
+                             ((Pattern_match
+                                (Lit_atom (Atom current_stacktrace)))
+                               (Pattern_binding (Var_name Stacktrace))))
+                            (Pattern_tuple
+                              ((Pattern_match
+                                 (Lit_atom (Atom registered_name)))
+                                (Pattern_list ())))))))
+                      (c_guard ())
+                      (c_rhs
+                        (Expr_tuple
+                          ((Expr_name (Var_name From))
+                            (Expr_tuple
+                              ((Expr_name (Var_name From))
+                                (Expr_name (Var_name Stacktrace))))))))
+                    ((c_lhs
+                       ((Pattern_list
+                          ((Pattern_tuple
+                             ((Pattern_match
+                                (Lit_atom (Atom current_stacktrace)))
+                               (Pattern_binding (Var_name Stacktrace))))
+                            (Pattern_tuple
+                              ((Pattern_match
+                                 (Lit_atom (Atom registered_name)))
+                                (Pattern_binding (Var_name Name))))))))
+                      (c_guard ())
+                      (c_rhs
+                        (Expr_tuple
+                          ((Expr_name (Var_name From))
+                            (Expr_tuple
+                              ((Expr_name (Var_name Name))
+                                (Expr_name (Var_name Stacktrace))))))))))))
+            ((c_lhs ((Pattern_binding (Var_name From))))
+              (c_guard
+                (((Expr_apply
+                    ((fa_name (Expr_name (Atom_name (Atom is_pid))))
+                      (fa_args ((Expr_name (Var_name From)))))))))
+              (c_rhs
+                (Expr_tuple
+                  ((Expr_name (Var_name From))
+                    (Expr_literal (Lit_atom (Atom remote)))))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment "% format_log/1 is the report callback used by Logger handler"))
+    (Module_comment
+      (Comment
+        "% error_logger only. It is kept for backwards compatibility with"))
+    (Module_comment
+      (Comment
+        "% legacy error_logger event handlers. This function must always"))
+    (Module_comment
+      (Comment
+        "% return {Format,Args} compatible with the arguments in this module's"))
+    (Module_comment (Comment "% calls to error_logger prior to OTP-21.0."))
+    (Function_decl
+      ((fd_name (Atom format_log)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs ((Pattern_binding (Var_name Report)))) (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Depth)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name
+                          (Expr_name
+                            (Qualified_name
+                              (n_mod (Atom_name (Atom error_logger)))
+                              (n_name (Atom_name (Atom get_format_depth))))))
+                         (fa_args ())))))
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name FormatOpts)))
+                     (lb_rhs
+                       (Expr_map
+                         (((mf_name
+                             (Expr_literal (Lit_atom (Atom chars_limit))))
+                            (mf_value
+                              (Expr_literal (Lit_atom (Atom unlimited)))))
+                           ((mf_name (Expr_literal (Lit_atom (Atom depth))))
+                             (mf_value (Expr_name (Var_name Depth))))
+                           ((mf_name
+                              (Expr_literal (Lit_atom (Atom single_line))))
+                             (mf_value (Expr_literal (Lit_atom (Atom false)))))
+                           ((mf_name (Expr_literal (Lit_atom (Atom encoding))))
+                             (mf_value (Expr_literal (Lit_atom (Atom utf8)))))))))
+                   (Expr_apply
+                     ((fa_name (Expr_name (Atom_name (Atom format_log_multi))))
+                       (fa_args
+                         ((Expr_apply
+                            ((fa_name
+                               (Expr_name (Atom_name (Atom limit_report))))
+                              (fa_args
+                                ((Expr_name (Var_name Report))
+                                  (Expr_name (Var_name Depth))))))
+                           (Expr_name (Var_name FormatOpts))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom limit_report)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Report))
+                (Pattern_match (Lit_atom (Atom unlimited)))))
+             (c_guard ()) (c_rhs (Expr_name (Var_name Report))))
+            ((c_lhs
+               ((Pattern_with_name
+                  (Pattern_map
+                    (((Pattern_match (Lit_atom (Atom label)))
+                       (Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom gen_server)))
+                           (Pattern_match (Lit_atom (Atom terminate))))))
+                      ((Pattern_match (Lit_atom (Atom last_message)))
+                        (Pattern_binding (Var_name Msg)))
+                      ((Pattern_match (Lit_atom (Atom state)))
+                        (Pattern_binding (Var_name State)))
+                      ((Pattern_match (Lit_atom (Atom log)))
+                        (Pattern_binding (Var_name Log)))
+                      ((Pattern_match (Lit_atom (Atom reason)))
+                        (Pattern_binding (Var_name Reason)))
+                      ((Pattern_match (Lit_atom (Atom client_info)))
+                        (Pattern_binding (Var_name Client)))))
+                  (Pattern_binding (Var_name Report)))))
+              (c_guard ())
+              (c_rhs
+                (Expr_map_update (Expr_name (Var_name Report))
+                  (((mf_name (Expr_literal (Lit_atom (Atom last_message))))
+                     (mf_value
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom io_lib)))
+                                (n_name (Atom_name (Atom limit_term))))))
+                           (fa_args
+                             ((Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Depth))))))))
+                    ((mf_name (Expr_literal (Lit_atom (Atom state))))
+                      (mf_value
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom io_lib)))
+                                 (n_name (Atom_name (Atom limit_term))))))
+                            (fa_args
+                              ((Expr_name (Var_name State))
+                                (Expr_name (Var_name Depth))))))))
+                    ((mf_name
+                       (Expr_comment
+                         (Comment
+                           " FIXME: list comprehensions are not yet supported")
+                         (Expr_comment
+                           (Comment
+                             " log=>[io_lib:limit_term(L,Depth)||L<-Log],")
+                           (Expr_literal (Lit_atom (Atom reason))))))
+                      (mf_value
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name
+                                 (n_mod (Atom_name (Atom io_lib)))
+                                 (n_name (Atom_name (Atom limit_term))))))
+                            (fa_args
+                              ((Expr_name (Var_name Reason))
+                                (Expr_name (Var_name Depth))))))))
+                    ((mf_name (Expr_literal (Lit_atom (Atom client_info))))
+                      (mf_value
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name (Atom_name (Atom limit_client_report))))
+                            (fa_args
+                              ((Expr_name (Var_name Client))
+                                (Expr_name (Var_name Depth))))))))))))
+            ((c_lhs
+               ((Pattern_with_name
+                  (Pattern_map
+                    (((Pattern_match (Lit_atom (Atom label)))
+                       (Pattern_tuple
+                         ((Pattern_match (Lit_atom (Atom gen_server)))
+                           (Pattern_match (Lit_atom (Atom no_handle_info))))))
+                      ((Pattern_match (Lit_atom (Atom message)))
+                        (Pattern_binding (Var_name Msg)))))
+                  (Pattern_binding (Var_name Report)))))
+              (c_guard ())
+              (c_rhs
+                (Expr_map_update (Expr_name (Var_name Report))
+                  (((mf_name (Expr_literal (Lit_atom (Atom message))))
+                     (mf_value
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom io_lib)))
+                                (n_name (Atom_name (Atom limit_term))))))
+                           (fa_args
+                             ((Expr_name (Var_name Msg))
+                               (Expr_name (Var_name Depth))))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom limit_client_report)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_tuple
+                 ((Pattern_binding (Var_name From))
+                   (Pattern_tuple
+                     ((Pattern_binding (Var_name Name))
+                       (Pattern_binding (Var_name Stacktrace))))))
+                (Pattern_binding (Var_name Depth))))
+             (c_guard ())
+             (c_rhs
+               (Expr_tuple
+                 ((Expr_name (Var_name From))
+                   (Expr_tuple
+                     ((Expr_name (Var_name Name))
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom io_lib)))
+                                (n_name (Atom_name (Atom limit_term))))))
+                           (fa_args
+                             ((Expr_name (Var_name Stacktrace))
+                               (Expr_name (Var_name Depth))))))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Client))
+                 (Pattern_binding (Var_name _))))
+              (c_guard ()) (c_rhs (Expr_name (Var_name Client))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        "% format_log/2 is the report callback for any Logger handler, except"))
+    (Module_comment (Comment "% error_logger."))
+    (Function_decl
+      ((fd_name (Atom format_log)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Report))
+                (Pattern_binding (Var_name FormatOpts0))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Default)))
+                   (lb_rhs
+                     (Expr_map
+                       (((mf_name (Expr_literal (Lit_atom (Atom chars_limit))))
+                          (mf_value (Expr_literal (Lit_atom (Atom unlimited)))))
+                         ((mf_name (Expr_literal (Lit_atom (Atom depth))))
+                           (mf_value
+                             (Expr_literal (Lit_atom (Atom unlimited)))))
+                         ((mf_name
+                            (Expr_literal (Lit_atom (Atom single_line))))
+                           (mf_value (Expr_literal (Lit_atom (Atom false)))))
+                         ((mf_name (Expr_literal (Lit_atom (Atom encoding))))
+                           (mf_value (Expr_literal (Lit_atom (Atom utf8)))))))))
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name FormatOpts)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom maps)))
+                                (n_name (Atom_name (Atom merge))))))
+                           (fa_args
+                             ((Expr_name (Var_name Default))
+                               (Expr_name (Var_name FormatOpts0))))))))
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding (Var_name IoOpts)))
+                       (lb_rhs
+                         (Expr_case (Expr_name (Var_name FormatOpts))
+                           (((c_lhs
+                               ((Pattern_map
+                                  (((Pattern_match
+                                      (Lit_atom (Atom chars_limit)))
+                                     (Pattern_match
+                                       (Lit_atom (Atom unlimited))))))))
+                              (c_guard ()) (c_rhs (Expr_list ())))
+                             ((c_lhs
+                                ((Pattern_map
+                                   (((Pattern_match
+                                       (Lit_atom (Atom chars_limit)))
+                                      (Pattern_binding (Var_name Limit)))))))
+                               (c_guard ())
+                               (c_rhs
+                                 (Expr_list
+                                   ((Expr_tuple
+                                      ((Expr_literal
+                                         (Lit_atom (Atom chars_limit)))
+                                        (Expr_name (Var_name Limit))))))))))))
+                     (Expr_let
+                       ((lb_lhs
+                          (Pattern_tuple
+                            ((Pattern_binding (Var_name Format))
+                              (Pattern_binding (Var_name Args)))))
+                         (lb_rhs
+                           (Expr_apply
+                             ((fa_name
+                                (Expr_name
+                                  (Atom_name (Atom format_log_single))))
+                               (fa_args
+                                 ((Expr_name (Var_name Report))
+                                   (Expr_name (Var_name FormatOpts))))))))
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom io_lib)))
+                                (n_name (Atom_name (Atom format))))))
+                           (fa_args
+                             ((Expr_name (Var_name Format))
+                               (Expr_name (Var_name Args))
+                               (Expr_name (Var_name IoOpts))))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom format_log_single)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_map
+                 (((Pattern_match (Lit_atom (Atom label)))
+                    (Pattern_tuple
+                      ((Pattern_match (Lit_atom (Atom gen_server)))
+                        (Pattern_match (Lit_atom (Atom terminate))))))
+                   ((Pattern_match (Lit_atom (Atom name)))
+                     (Pattern_binding (Var_name Name)))
+                   ((Pattern_match (Lit_atom (Atom last_message)))
+                     (Pattern_binding (Var_name Msg)))
+                   ((Pattern_match (Lit_atom (Atom state)))
+                     (Pattern_binding (Var_name State)))
+                   ((Pattern_match (Lit_atom (Atom log)))
+                     (Pattern_binding (Var_name Log)))
+                   ((Pattern_match (Lit_atom (Atom reason)))
+                     (Pattern_binding (Var_name Reason)))
+                   ((Pattern_match (Lit_atom (Atom client_info)))
+                     (Pattern_binding (Var_name Client)))))
+                (Pattern_with_name
+                  (Pattern_map
+                    (((Pattern_match (Lit_atom (Atom single_line)))
+                       (Pattern_match (Lit_atom (Atom true))))
+                      ((Pattern_match (Lit_atom (Atom depth)))
+                        (Pattern_binding (Var_name Depth)))))
+                  (Pattern_binding (Var_name FormatOpts)))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name P)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name (Atom p))))
+                         (fa_args ((Expr_name (Var_name FormatOpts))))))))
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name Format1)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom lists)))
+                                (n_name (Atom_name (Atom append))))))
+                           (fa_args
+                             ((Expr_list
+                                ((Expr_literal (Lit_string "Generic server "))
+                                  (Expr_name (Var_name P))
+                                  (Expr_literal
+                                    (Lit_string " terminating. Reason: "))
+                                  (Expr_name (Var_name P))
+                                  (Expr_literal
+                                    (Lit_string ". Last message: "))
+                                  (Expr_name (Var_name P))
+                                  (Expr_literal (Lit_string ". State: "))
+                                  (Expr_name (Var_name P))
+                                  (Expr_literal (Lit_string .))))))))))
+                   (Expr_let
+                     ((lb_lhs
+                        (Pattern_tuple
+                          ((Pattern_binding (Var_name ServerLogFormat))
+                            (Pattern_binding (Var_name ServerLogArgs)))))
+                       (lb_rhs
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Atom_name (Atom format_server_log_single))))
+                             (fa_args
+                               ((Expr_name (Var_name Log))
+                                 (Expr_name (Var_name FormatOpts))))))))
+                     (Expr_let
+                       ((lb_lhs
+                          (Pattern_tuple
+                            ((Pattern_binding (Var_name ClientLogFormat))
+                              (Pattern_binding (Var_name ClientLogArgs)))))
+                         (lb_rhs
+                           (Expr_apply
+                             ((fa_name
+                                (Expr_name
+                                  (Atom_name (Atom format_client_log_single))))
+                               (fa_args
+                                 ((Expr_name (Var_name Client))
+                                   (Expr_name (Var_name FormatOpts))))))))
+                       (Expr_let
+                         ((lb_lhs (Pattern_binding (Var_name Args1)))
+                           (lb_rhs
+                             (Expr_case (Expr_name (Var_name Depth))
+                               (((c_lhs
+                                   ((Pattern_match (Lit_atom (Atom unlimited)))))
+                                  (c_guard ())
+                                  (c_rhs
+                                    (Expr_list
+                                      ((Expr_name (Var_name Name))
+                                        (Expr_apply
+                                          ((fa_name
+                                             (Expr_name
+                                               (Atom_name (Atom fix_reason))))
+                                            (fa_args
+                                              ((Expr_name (Var_name Reason))))))
+                                        (Expr_name (Var_name Msg))
+                                        (Expr_name (Var_name State))))))
+                                 ((c_lhs ((Pattern_binding (Var_name _))))
+                                   (c_guard ())
+                                   (c_rhs
+                                     (Expr_list
+                                       ((Expr_name (Var_name Name))
+                                         (Expr_name (Var_name Depth))
+                                         (Expr_apply
+                                           ((fa_name
+                                              (Expr_name
+                                                (Atom_name (Atom fix_reason))))
+                                             (fa_args
+                                               ((Expr_name (Var_name Reason))))))
+                                         (Expr_name (Var_name Depth))
+                                         (Expr_name (Var_name Msg))
+                                         (Expr_name (Var_name Depth))
+                                         (Expr_name (Var_name State))
+                                         (Expr_name (Var_name Depth))))))))))
+                         (Expr_tuple
+                           ((Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom erlang)))
+                                     (n_name (Atom_name (Atom '++'))))))
+                                (fa_args
+                                  ((Expr_name (Var_name Format1))
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name (Atom_name (Atom '++'))))))
+                                        (fa_args
+                                          ((Expr_name
+                                             (Var_name ServerLogFormat))
+                                            (Expr_name
+                                              (Var_name ClientLogFormat))))))))))
+                             (Expr_apply
+                               ((fa_name
+                                  (Expr_name
+                                    (Qualified_name
+                                      (n_mod (Atom_name (Atom erlang)))
+                                      (n_name (Atom_name (Atom '++'))))))
+                                 (fa_args
+                                   ((Expr_name (Var_name Args1))
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Qualified_name
+                                              (n_mod (Atom_name (Atom erlang)))
+                                              (n_name (Atom_name (Atom '++'))))))
+                                         (fa_args
+                                           ((Expr_name
+                                              (Var_name ServerLogArgs))
+                                             (Expr_name
+                                               (Var_name ClientLogArgs)))))))))))))))))))
+            ((c_lhs
+               ((Pattern_map
+                  (((Pattern_match (Lit_atom (Atom label)))
+                     (Pattern_tuple
+                       ((Pattern_match (Lit_atom (Atom gen_server)))
+                         (Pattern_match (Lit_atom (Atom no_handle_info))))))
+                    ((Pattern_match (Lit_atom (Atom module)))
+                      (Pattern_binding (Var_name Mod)))
+                    ((Pattern_match (Lit_atom (Atom message)))
+                      (Pattern_binding (Var_name Msg)))))
+                 (Pattern_with_name
+                   (Pattern_map
+                     (((Pattern_match (Lit_atom (Atom single_line)))
+                        (Pattern_match (Lit_atom (Atom true))))
+                       ((Pattern_match (Lit_atom (Atom depth)))
+                         (Pattern_binding (Var_name Depth)))))
+                   (Pattern_binding (Var_name FormatOpts)))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name P)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom p))))
+                          (fa_args ((Expr_name (Var_name FormatOpts))))))))
+                  (Expr_let
+                    ((lb_lhs (Pattern_binding (Var_name Format)))
+                      (lb_rhs
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name (n_mod (Atom_name (Atom lists)))
+                                 (n_name (Atom_name (Atom append))))))
+                            (fa_args
+                              ((Expr_list
+                                 ((Expr_literal
+                                    (Lit_string "Undefined handle_info in "))
+                                   (Expr_name (Var_name P))
+                                   (Expr_literal
+                                     (Lit_string ". Unhandled message: "))
+                                   (Expr_name (Var_name P))
+                                   (Expr_literal (Lit_string .))))))))))
+                    (Expr_let
+                      ((lb_lhs (Pattern_binding (Var_name Args)))
+                        (lb_rhs
+                          (Expr_case (Expr_name (Var_name Depth))
+                            (((c_lhs
+                                ((Pattern_match (Lit_atom (Atom unlimited)))))
+                               (c_guard ())
+                               (c_rhs
+                                 (Expr_list
+                                   ((Expr_name (Var_name Mod))
+                                     (Expr_name (Var_name Msg))))))
+                              ((c_lhs ((Pattern_binding (Var_name _))))
+                                (c_guard ())
+                                (c_rhs
+                                  (Expr_list
+                                    ((Expr_name (Var_name Mod))
+                                      (Expr_name (Var_name Depth))
+                                      (Expr_name (Var_name Msg))
+                                      (Expr_name (Var_name Depth))))))))))
+                      (Expr_tuple
+                        ((Expr_name (Var_name Format))
+                          (Expr_name (Var_name Args)))))))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Report))
+                 (Pattern_binding (Var_name FormatOpts))))
+              (c_guard ())
+              (c_rhs
+                (Expr_apply
+                  ((fa_name (Expr_name (Atom_name (Atom format_log_multi))))
+                    (fa_args
+                      ((Expr_name (Var_name Report))
+                        (Expr_name (Var_name FormatOpts))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom format_log_multi)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_map
+                 (((Pattern_match (Lit_atom (Atom label)))
+                    (Pattern_tuple
+                      ((Pattern_match (Lit_atom (Atom gen_server)))
+                        (Pattern_match (Lit_atom (Atom terminate))))))
+                   ((Pattern_match (Lit_atom (Atom name)))
+                     (Pattern_binding (Var_name Name)))
+                   ((Pattern_match (Lit_atom (Atom last_message)))
+                     (Pattern_binding (Var_name Msg)))
+                   ((Pattern_match (Lit_atom (Atom state)))
+                     (Pattern_binding (Var_name State)))
+                   ((Pattern_match (Lit_atom (Atom log)))
+                     (Pattern_binding (Var_name Log)))
+                   ((Pattern_match (Lit_atom (Atom reason)))
+                     (Pattern_binding (Var_name Reason)))
+                   ((Pattern_match (Lit_atom (Atom client_info)))
+                     (Pattern_binding (Var_name Client)))))
+                (Pattern_with_name
+                  (Pattern_map
+                    (((Pattern_match (Lit_atom (Atom depth)))
+                       (Pattern_binding (Var_name Depth)))))
+                  (Pattern_binding (Var_name FormatOpts)))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name Reason1)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Atom_name (Atom fix_reason))))
+                         (fa_args ((Expr_name (Var_name Reason))))))))
+                 (Expr_let
+                   ((lb_lhs
+                      (Pattern_tuple
+                        ((Pattern_binding (Var_name ClientFmt))
+                          (Pattern_binding (Var_name ClientArgs)))))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name (Atom_name (Atom format_client_log))))
+                           (fa_args
+                             ((Expr_name (Var_name Client))
+                               (Expr_name (Var_name FormatOpts))))))))
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding (Var_name P)))
+                       (lb_rhs
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom p))))
+                             (fa_args ((Expr_name (Var_name FormatOpts))))))))
+                     (Expr_let
+                       ((lb_lhs (Pattern_binding (Var_name Format)))
+                         (lb_rhs
+                           (Expr_apply
+                             ((fa_name
+                                (Expr_name
+                                  (Qualified_name
+                                    (n_mod (Atom_name (Atom erlang)))
+                                    (n_name (Atom_name (Atom '++'))))))
+                               (fa_args
+                                 ((Expr_apply
+                                    ((fa_name
+                                       (Expr_name
+                                         (Qualified_name
+                                           (n_mod (Atom_name (Atom lists)))
+                                           (n_name (Atom_name (Atom append))))))
+                                      (fa_args
+                                        ((Expr_comment
+                                           (Comment
+                                             "% FIXME: multi-line strings are not supported yet")
+                                           (Expr_apply
+                                             ((fa_name
+                                                (Expr_name
+                                                  (Qualified_name
+                                                    (n_mod
+                                                      (Atom_name (Atom erlang)))
+                                                    (n_name
+                                                      (Atom_name (Atom '++'))))))
+                                               (fa_args
+                                                 ((Expr_list
+                                                    ((Expr_literal
+                                                       (Lit_string
+                                                         "** Generic server "))
+                                                      (Expr_name (Var_name P))
+                                                      (Expr_literal
+                                                        (Lit_string
+                                                          " terminating \n"))
+                                                      (Expr_literal
+                                                        (Lit_string
+                                                          "** Last message in was "))
+                                                      (Expr_name (Var_name P))
+                                                      (Expr_literal
+                                                        (Lit_string ~n))
+                                                      (Expr_literal
+                                                        (Lit_string
+                                                          "** When Server state == "))
+                                                      (Expr_name (Var_name P))
+                                                      (Expr_literal
+                                                        (Lit_string ~n))
+                                                      (Expr_literal
+                                                        (Lit_string
+                                                          "** Reason for termination ==~n** "))
+                                                      (Expr_name (Var_name P))
+                                                      (Expr_literal
+                                                        (Lit_string ~n))))
+                                                   (Expr_case
+                                                     (Expr_name (Var_name Log))
+                                                     (((c_lhs
+                                                         ((Pattern_list ())))
+                                                        (c_guard ())
+                                                        (c_rhs (Expr_list ())))
+                                                       ((c_lhs
+                                                          ((Pattern_binding
+                                                             (Var_name _))))
+                                                         (c_guard ())
+                                                         (c_rhs
+                                                           (Expr_apply
+                                                             ((fa_name
+                                                                (Expr_name
+                                                                  (Qualified_name
+                                                                    (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      erlang)))
+                                                                    (n_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      '++'))))))
+                                                               (fa_args
+                                                                 ((Expr_cons
+                                                                    ((Expr_literal
+                                                                      (Lit_string
+                                                                      "** Log ==~n** [")))
+                                                                    (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      lists)))
+                                                                      (n_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      join))))))
+                                                                      (fa_args
+                                                                      ((Expr_literal
+                                                                      (Lit_string
+                                                                      ",~n    "))
+                                                                      (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      lists)))
+                                                                      (n_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      duplicate))))))
+                                                                      (fa_args
+                                                                      ((Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      length))))
+                                                                      (fa_args
+                                                                      ((Expr_name
+                                                                      (Var_name
+                                                                      Log))))))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      P)))))))))))
+                                                                   (Expr_list
+                                                                     ((Expr_literal
+                                                                      (Lit_string
+                                                                      ]~n)))))))))))))))))))))
+                                   (Expr_name (Var_name ClientFmt))))))))
+                       (Expr_let
+                         ((lb_lhs (Pattern_binding (Var_name Args)))
+                           (lb_rhs
+                             (Expr_case (Expr_name (Var_name Depth))
+                               (((c_lhs
+                                   ((Pattern_match (Lit_atom (Atom unlimited)))))
+                                  (c_guard ())
+                                  (c_rhs
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name (Atom_name (Atom '++'))))))
+                                        (fa_args
+                                          ((Expr_list
+                                             ((Expr_name (Var_name Name))
+                                               (Expr_name (Var_name Msg))
+                                               (Expr_name (Var_name State))
+                                               (Expr_name (Var_name Reason1))))
+                                            (Expr_apply
+                                              ((fa_name
+                                                 (Expr_name
+                                                   (Qualified_name
+                                                     (n_mod
+                                                       (Atom_name
+                                                         (Atom erlang)))
+                                                     (n_name
+                                                       (Atom_name (Atom '++'))))))
+                                                (fa_args
+                                                  ((Expr_case
+                                                     (Expr_name (Var_name Log))
+                                                     (((c_lhs
+                                                         ((Pattern_list ())))
+                                                        (c_guard ())
+                                                        (c_rhs (Expr_list ())))
+                                                       ((c_lhs
+                                                          ((Pattern_binding
+                                                             (Var_name _))))
+                                                         (c_guard ())
+                                                         (c_rhs
+                                                           (Expr_name
+                                                             (Var_name Log))))))
+                                                    (Expr_name
+                                                      (Var_name ClientArgs))))))))))))
+                                 ((c_lhs ((Pattern_binding (Var_name _))))
+                                   (c_guard ())
+                                   (c_rhs
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Qualified_name
+                                              (n_mod (Atom_name (Atom erlang)))
+                                              (n_name (Atom_name (Atom '++'))))))
+                                         (fa_args
+                                           ((Expr_list
+                                              ((Expr_name (Var_name Name))
+                                                (Expr_name (Var_name Depth))
+                                                (Expr_name (Var_name Msg))
+                                                (Expr_name (Var_name Depth))
+                                                (Expr_name (Var_name State))
+                                                (Expr_name (Var_name Depth))
+                                                (Expr_name (Var_name Reason1))
+                                                (Expr_name (Var_name Depth))))
+                                             (Expr_apply
+                                               ((fa_name
+                                                  (Expr_name
+                                                    (Qualified_name
+                                                      (n_mod
+                                                        (Atom_name
+                                                          (Atom erlang)))
+                                                      (n_name
+                                                        (Atom_name (Atom '++'))))))
+                                                 (fa_args
+                                                   ((Expr_case
+                                                      (Expr_name
+                                                        (Var_name Log))
+                                                      (((c_lhs
+                                                          ((Pattern_list ())))
+                                                         (c_guard ())
+                                                         (c_rhs (Expr_list ())))
+                                                        ((c_lhs
+                                                           ((Pattern_binding
+                                                              (Var_name _))))
+                                                          (c_guard ())
+                                                          (c_rhs
+                                                            (Expr_apply
+                                                              ((fa_name
+                                                                 (Expr_name
+                                                                   (Qualified_name
+                                                                     (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      lists)))
+                                                                     (n_name
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      flatmap))))))
+                                                                (fa_args
+                                                                  ((Expr_fun
+                                                                     (((c_lhs
+                                                                      ((Pattern_binding
+                                                                      (Var_name
+                                                                      L))))
+                                                                      (c_guard
+                                                                      ())
+                                                                      (c_rhs
+                                                                      (Expr_list
+                                                                      ((Expr_name
+                                                                      (Var_name
+                                                                      L))
+                                                                      (Expr_name
+                                                                      (Var_name
+                                                                      Depth))))))))
+                                                                    (Expr_name
+                                                                      (Var_name
+                                                                      Log))))))))))
+                                                     (Expr_name
+                                                       (Var_name ClientArgs))))))))))))))))
+                         (Expr_tuple
+                           ((Expr_name (Var_name Format))
+                             (Expr_name (Var_name Args)))))))))))
+            ((c_lhs
+               ((Pattern_map
+                  (((Pattern_match (Lit_atom (Atom label)))
+                     (Pattern_tuple
+                       ((Pattern_match (Lit_atom (Atom gen_server)))
+                         (Pattern_match (Lit_atom (Atom no_handle_info))))))
+                    ((Pattern_match (Lit_atom (Atom module)))
+                      (Pattern_binding (Var_name Mod)))
+                    ((Pattern_match (Lit_atom (Atom message)))
+                      (Pattern_binding (Var_name Msg)))))
+                 (Pattern_with_name
+                   (Pattern_map
+                     (((Pattern_match (Lit_atom (Atom depth)))
+                        (Pattern_binding (Var_name Depth)))))
+                   (Pattern_binding (Var_name FormatOpts)))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name P)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom p))))
+                          (fa_args ((Expr_name (Var_name FormatOpts))))))))
+                  (Expr_let
+                    ((lb_lhs (Pattern_binding (Var_name Format)))
+                      (lb_rhs
+                        (Expr_comment
+                          (Comment
+                            "% FIXME: multi-line strings are not supported yet")
+                          (Expr_comment
+                            (Comment
+                              "% this should be broken before the second **")
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom erlang)))
+                                     (n_name (Atom_name (Atom '++'))))))
+                                (fa_args
+                                  ((Expr_literal
+                                     (Lit_string
+                                       "** Undefined handle_info in ~p~n** Unhandled message: "))
+                                    (Expr_apply
+                                      ((fa_name
+                                         (Expr_name
+                                           (Qualified_name
+                                             (n_mod (Atom_name (Atom erlang)))
+                                             (n_name (Atom_name (Atom '++'))))))
+                                        (fa_args
+                                          ((Expr_name (Var_name P))
+                                            (Expr_literal (Lit_string ~n))))))))))))))
+                    (Expr_let
+                      ((lb_lhs (Pattern_binding (Var_name Args)))
+                        (lb_rhs
+                          (Expr_case (Expr_name (Var_name Depth))
+                            (((c_lhs
+                                ((Pattern_match (Lit_atom (Atom unlimited)))))
+                               (c_guard ())
+                               (c_rhs
+                                 (Expr_list
+                                   ((Expr_name (Var_name Mod))
+                                     (Expr_name (Var_name Msg))))))
+                              ((c_lhs ((Pattern_binding (Var_name _))))
+                                (c_guard ())
+                                (c_rhs
+                                  (Expr_list
+                                    ((Expr_name (Var_name Mod))
+                                      (Expr_name (Var_name Msg))
+                                      (Expr_name (Var_name Depth))))))))))
+                      (Expr_tuple
+                        ((Expr_name (Var_name Format))
+                          (Expr_name (Var_name Args)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom fix_reason)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_with_name
+                 (Pattern_tuple
+                   ((Pattern_match (Lit_atom (Atom undef)))
+                     (Pattern_cons
+                       ((Pattern_tuple
+                          ((Pattern_binding (Var_name M))
+                            (Pattern_binding (Var_name F))
+                            (Pattern_binding (Var_name A))
+                            (Pattern_binding (Var_name L)))))
+                       (Pattern_binding (Var_name MFAs)))))
+                 (Pattern_binding (Var_name Reason)))))
+             (c_guard ())
+             (c_rhs
+               (Expr_case
+                 (Expr_apply
+                   ((fa_name
+                      (Expr_name
+                        (Qualified_name (n_mod (Atom_name (Atom code)))
+                          (n_name (Atom_name (Atom is_loaded))))))
+                     (fa_args ((Expr_name (Var_name M))))))
+                 (((c_lhs ((Pattern_match (Lit_atom (Atom false)))))
+                    (c_guard ())
+                    (c_rhs
+                      (Expr_tuple
+                        ((Expr_literal
+                           (Lit_atom (Atom "module could not be loaded")))
+                          (Expr_cons
+                            ((Expr_tuple
+                               ((Expr_name (Var_name M))
+                                 (Expr_name (Var_name F))
+                                 (Expr_name (Var_name A))
+                                 (Expr_name (Var_name L)))))
+                            (Expr_name (Var_name MFAs)))))))
+                   ((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+                     (c_rhs
+                       (Expr_case
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name
+                                  (n_mod (Atom_name (Atom erlang)))
+                                  (n_name (Atom_name (Atom function_exported))))))
+                             (fa_args
+                               ((Expr_name (Var_name M))
+                                 (Expr_name (Var_name F))
+                                 (Expr_apply
+                                   ((fa_name
+                                      (Expr_name (Atom_name (Atom length))))
+                                     (fa_args ((Expr_name (Var_name A))))))))))
+                         (((c_lhs ((Pattern_match (Lit_atom (Atom true)))))
+                            (c_guard ()) (c_rhs (Expr_name (Var_name Reason))))
+                           ((c_lhs ((Pattern_match (Lit_atom (Atom false)))))
+                             (c_guard ())
+                             (c_rhs
+                               (Expr_tuple
+                                 ((Expr_literal
+                                    (Lit_atom (Atom "function not exported")))
+                                   (Expr_cons
+                                     ((Expr_tuple
+                                        ((Expr_name (Var_name M))
+                                          (Expr_name (Var_name F))
+                                          (Expr_name (Var_name A))
+                                          (Expr_name (Var_name L)))))
+                                     (Expr_name (Var_name MFAs)))))))))))))))
+            ((c_lhs ((Pattern_binding (Var_name Reason)))) (c_guard ())
+              (c_rhs (Expr_name (Var_name Reason))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom format_server_log_single)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs ((Pattern_list ()) (Pattern_binding (Var_name _))))
+             (c_guard ())
+             (c_rhs
+               (Expr_tuple ((Expr_literal (Lit_string "")) (Expr_list ())))))
+            ((c_lhs
+               ((Pattern_binding (Var_name Log))
+                 (Pattern_binding (Var_name FormatOpts))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name Args)))
+                    (lb_rhs
+                      (Expr_case
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name (n_mod (Atom_name (Atom maps)))
+                                 (n_name (Atom_name (Atom get))))))
+                            (fa_args
+                              ((Expr_literal (Lit_atom (Atom depth)))
+                                (Expr_name (Var_name FormatOpts))))))
+                        (((c_lhs ((Pattern_match (Lit_atom (Atom unlimited)))))
+                           (c_guard ())
+                           (c_rhs (Expr_list ((Expr_name (Var_name Log))))))
+                          ((c_lhs ((Pattern_binding (Var_name Depth))))
+                            (c_guard ())
+                            (c_rhs
+                              (Expr_list
+                                ((Expr_name (Var_name Log))
+                                  (Expr_name (Var_name Depth))))))))))
+                  (Expr_tuple
+                    ((Expr_apply
+                       ((fa_name
+                          (Expr_name
+                            (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                              (n_name (Atom_name (Atom '++'))))))
+                         (fa_args
+                           ((Expr_literal (Lit_string " Log: "))
+                             (Expr_apply
+                               ((fa_name (Expr_name (Atom_name (Atom p))))
+                                 (fa_args ((Expr_name (Var_name FormatOpts))))))))))
+                      (Expr_name (Var_name Args)))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom format_client_log_single)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_match (Lit_atom (Atom undefined)))
+                (Pattern_binding (Var_name _))))
+             (c_guard ())
+             (c_rhs
+               (Expr_tuple ((Expr_literal (Lit_string "")) (Expr_list ())))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_binding (Var_name From))
+                    (Pattern_match (Lit_atom (Atom dead)))))
+                 (Pattern_binding (Var_name _))))
+              (c_guard ())
+              (c_rhs
+                (Expr_tuple
+                  ((Expr_literal (Lit_string " Client ~0p is dead."))
+                    (Expr_list ((Expr_name (Var_name From))))))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_binding (Var_name From))
+                    (Pattern_match (Lit_atom (Atom remote)))))
+                 (Pattern_binding (Var_name _))))
+              (c_guard ())
+              (c_rhs
+                (Expr_tuple
+                  ((Expr_literal
+                     (Lit_string " Client ~0p is remote on node ~0p."))
+                    (Expr_list
+                      ((Expr_name (Var_name From))
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom node))))
+                            (fa_args ((Expr_name (Var_name From))))))))))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_binding (Var_name _From))
+                    (Pattern_tuple
+                      ((Pattern_binding (Var_name Name))
+                        (Pattern_binding (Var_name Stacktrace0))))))
+                 (Pattern_binding (Var_name FormatOpts))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name P)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom p))))
+                          (fa_args ((Expr_name (Var_name FormatOpts))))))))
+                  (Expr_comment
+                    (Comment
+                      "% Minimize the stacktrace a bit for single line reports. This is")
+                    (Expr_comment
+                      (Comment "% hopefully enough to point out the position.")
+                      (Expr_let
+                        ((lb_lhs (Pattern_binding (Var_name Stacktrace)))
+                          (lb_rhs
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom lists)))
+                                     (n_name (Atom_name (Atom sublist))))))
+                                (fa_args
+                                  ((Expr_name (Var_name Stacktrace0))
+                                    (Expr_literal (Lit_integer 4))))))))
+                        (Expr_let
+                          ((lb_lhs (Pattern_binding (Var_name Args)))
+                            (lb_rhs
+                              (Expr_case
+                                (Expr_apply
+                                  ((fa_name
+                                     (Expr_name
+                                       (Qualified_name
+                                         (n_mod (Atom_name (Atom maps)))
+                                         (n_name (Atom_name (Atom get))))))
+                                    (fa_args
+                                      ((Expr_literal (Lit_atom (Atom depth)))
+                                        (Expr_name (Var_name FormatOpts))))))
+                                (((c_lhs
+                                    ((Pattern_match
+                                       (Lit_atom (Atom unlimited)))))
+                                   (c_guard ())
+                                   (c_rhs
+                                     (Expr_list
+                                       ((Expr_name (Var_name Name))
+                                         (Expr_name (Var_name Stacktrace))))))
+                                  ((c_lhs ((Pattern_binding (Var_name Depth))))
+                                    (c_guard ())
+                                    (c_rhs
+                                      (Expr_list
+                                        ((Expr_name (Var_name Name))
+                                          (Expr_name (Var_name Depth))
+                                          (Expr_name (Var_name Stacktrace))
+                                          (Expr_name (Var_name Depth))))))))))
+                          (Expr_tuple
+                            ((Expr_apply
+                               ((fa_name
+                                  (Expr_name
+                                    (Qualified_name
+                                      (n_mod (Atom_name (Atom erlang)))
+                                      (n_name (Atom_name (Atom '++'))))))
+                                 (fa_args
+                                   ((Expr_literal (Lit_string " Client "))
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name
+                                            (Qualified_name
+                                              (n_mod (Atom_name (Atom erlang)))
+                                              (n_name (Atom_name (Atom '++'))))))
+                                         (fa_args
+                                           ((Expr_name (Var_name P))
+                                             (Expr_apply
+                                               ((fa_name
+                                                  (Expr_name
+                                                    (Qualified_name
+                                                      (n_mod
+                                                        (Atom_name
+                                                          (Atom erlang)))
+                                                      (n_name
+                                                        (Atom_name (Atom '++'))))))
+                                                 (fa_args
+                                                   ((Expr_literal
+                                                      (Lit_string
+                                                        " stacktrace: "))
+                                                     (Expr_apply
+                                                       ((fa_name
+                                                          (Expr_name
+                                                            (Qualified_name
+                                                              (n_mod
+                                                                (Atom_name
+                                                                  (Atom erlang)))
+                                                              (n_name
+                                                                (Atom_name
+                                                                  (Atom '++'))))))
+                                                         (fa_args
+                                                           ((Expr_name
+                                                              (Var_name P))
+                                                             (Expr_literal
+                                                               (Lit_string .))))))))))))))))))
+                              (Expr_name (Var_name Args)))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom format_client_log)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_match (Lit_atom (Atom undefined)))
+                (Pattern_binding (Var_name _))))
+             (c_guard ())
+             (c_rhs
+               (Expr_tuple ((Expr_literal (Lit_string "")) (Expr_list ())))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_binding (Var_name From))
+                    (Pattern_match (Lit_atom (Atom dead)))))
+                 (Pattern_binding (Var_name _))))
+              (c_guard ())
+              (c_rhs
+                (Expr_tuple
+                  ((Expr_literal (Lit_string "** Client ~p is dead~n"))
+                    (Expr_list ((Expr_name (Var_name From))))))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_binding (Var_name From))
+                    (Pattern_match (Lit_atom (Atom remote)))))
+                 (Pattern_binding (Var_name _))))
+              (c_guard ())
+              (c_rhs
+                (Expr_tuple
+                  ((Expr_literal
+                     (Lit_string "** Client ~p is remote on node ~p~n"))
+                    (Expr_list
+                      ((Expr_name (Var_name From))
+                        (Expr_apply
+                          ((fa_name (Expr_name (Atom_name (Atom node))))
+                            (fa_args ((Expr_name (Var_name From))))))))))))
+            ((c_lhs
+               ((Pattern_tuple
+                  ((Pattern_binding (Var_name _From))
+                    (Pattern_tuple
+                      ((Pattern_binding (Var_name Name))
+                        (Pattern_binding (Var_name Stacktrace))))))
+                 (Pattern_binding (Var_name FormatOpts))))
+              (c_guard ())
+              (c_rhs
+                (Expr_let
+                  ((lb_lhs (Pattern_binding (Var_name P)))
+                    (lb_rhs
+                      (Expr_apply
+                        ((fa_name (Expr_name (Atom_name (Atom p))))
+                          (fa_args ((Expr_name (Var_name FormatOpts))))))))
+                  (Expr_let
+                    ((lb_lhs (Pattern_binding (Var_name Format)))
+                      (lb_rhs
+                        (Expr_apply
+                          ((fa_name
+                             (Expr_name
+                               (Qualified_name (n_mod (Atom_name (Atom lists)))
+                                 (n_name (Atom_name (Atom append))))))
+                            (fa_args
+                              ((Expr_list
+                                 ((Expr_literal (Lit_string "** Client "))
+                                   (Expr_name (Var_name P))
+                                   (Expr_literal (Lit_string " stacktrace~n"))
+                                   (Expr_literal (Lit_string "** "))
+                                   (Expr_name (Var_name P))
+                                   (Expr_literal (Lit_string ~n))))))))))
+                    (Expr_let
+                      ((lb_lhs (Pattern_binding (Var_name Args)))
+                        (lb_rhs
+                          (Expr_case
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name
+                                     (n_mod (Atom_name (Atom maps)))
+                                     (n_name (Atom_name (Atom get))))))
+                                (fa_args
+                                  ((Expr_literal (Lit_atom (Atom depth)))
+                                    (Expr_name (Var_name FormatOpts))))))
+                            (((c_lhs
+                                ((Pattern_match (Lit_atom (Atom unlimited)))))
+                               (c_guard ())
+                               (c_rhs
+                                 (Expr_list
+                                   ((Expr_name (Var_name Name))
+                                     (Expr_name (Var_name Stacktrace))))))
+                              ((c_lhs ((Pattern_binding (Var_name Depth))))
+                                (c_guard ())
+                                (c_rhs
+                                  (Expr_list
+                                    ((Expr_name (Var_name Name))
+                                      (Expr_name (Var_name Depth))
+                                      (Expr_name (Var_name Stacktrace))
+                                      (Expr_name (Var_name Depth))))))))))
+                      (Expr_tuple
+                        ((Expr_name (Var_name Format))
+                          (Expr_name (Var_name Args)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom p)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_map
+                 (((Pattern_match (Lit_atom (Atom single_line)))
+                    (Pattern_binding (Var_name Single)))
+                   ((Pattern_match (Lit_atom (Atom depth)))
+                     (Pattern_binding (Var_name Depth)))
+                   ((Pattern_match (Lit_atom (Atom encoding)))
+                     (Pattern_binding (Var_name Enc)))))))
+             (c_guard ())
+             (c_rhs
+               (Expr_apply
+                 ((fa_name
+                    (Expr_name
+                      (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                        (n_name (Atom_name (Atom '++'))))))
+                   (fa_args
+                     ((Expr_literal (Lit_string ~))
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom '++'))))))
+                           (fa_args
+                             ((Expr_apply
+                                ((fa_name
+                                   (Expr_name (Atom_name (Atom single))))
+                                  (fa_args ((Expr_name (Var_name Single))))))
+                               (Expr_apply
+                                 ((fa_name
+                                    (Expr_name
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom erlang)))
+                                        (n_name (Atom_name (Atom '++'))))))
+                                   (fa_args
+                                     ((Expr_apply
+                                        ((fa_name
+                                           (Expr_name (Atom_name (Atom mod))))
+                                          (fa_args
+                                            ((Expr_name (Var_name Enc))))))
+                                       (Expr_apply
+                                         ((fa_name
+                                            (Expr_name (Atom_name (Atom p))))
+                                           (fa_args
+                                             ((Expr_name (Var_name Depth))))))))))))))))))))
+            ((c_lhs ((Pattern_match (Lit_atom (Atom unlimited))))) (c_guard ())
+              (c_rhs (Expr_literal (Lit_string p))))
+            ((c_lhs ((Pattern_binding (Var_name _Depth)))) (c_guard ())
+              (c_rhs (Expr_literal (Lit_string P))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom single)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs ((Pattern_match (Lit_atom (Atom true))))) (c_guard ())
+             (c_rhs (Expr_literal (Lit_string 0))))
+            ((c_lhs ((Pattern_match (Lit_atom (Atom false))))) (c_guard ())
+              (c_rhs (Expr_literal (Lit_string ""))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom mod)) (fd_arity 1)
+        (fd_cases
+          (((c_lhs ((Pattern_match (Lit_atom (Atom latin1))))) (c_guard ())
+             (c_rhs (Expr_literal (Lit_string ""))))
+            ((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+              (c_rhs (Expr_literal (Lit_string t))))))
+        (fd_spec ())))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Module_comment (Comment "% Status information"))
+    (Module_comment
+      (Comment
+        %-----------------------------------------------------------------))
+    (Function_decl
+      ((fd_name (Atom format_status)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Opt))
+                (Pattern_binding (Var_name StatusData))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs
+                    (Pattern_list
+                      ((Pattern_binding (Var_name PDict))
+                        (Pattern_binding (Var_name SysState))
+                        (Pattern_binding (Var_name Parent))
+                        (Pattern_binding (Var_name Debug))
+                        (Pattern_list
+                          ((Pattern_binding (Var_name Name))
+                            (Pattern_binding (Var_name State))
+                            (Pattern_binding (Var_name Mod))
+                            (Pattern_binding (Var_name _Time))
+                            (Pattern_binding (Var_name _HibernateAfterTimeout)))))))
+                   (lb_rhs (Expr_name (Var_name StatusData))))
+                 (Expr_let
+                   ((lb_lhs (Pattern_binding (Var_name Header)))
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom gen)))
+                                (n_name
+                                  (Atom_name (Atom format_status_header))))))
+                           (fa_args
+                             ((Expr_literal
+                                (Lit_string "Status for generic server"))
+                               (Expr_name (Var_name Name))))))))
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding (Var_name Log)))
+                       (lb_rhs
+                         (Expr_apply
+                           ((fa_name
+                              (Expr_name
+                                (Qualified_name (n_mod (Atom_name (Atom sys)))
+                                  (n_name (Atom_name (Atom get_log))))))
+                             (fa_args ((Expr_name (Var_name Debug))))))))
+                     (Expr_let
+                       ((lb_lhs (Pattern_binding (Var_name Specific)))
+                         (lb_rhs
+                           (Expr_case
+                             (Expr_apply
+                               ((fa_name
+                                  (Expr_name (Atom_name (Atom format_status))))
+                                 (fa_args
+                                   ((Expr_name (Var_name Opt))
+                                     (Expr_name (Var_name Mod))
+                                     (Expr_name (Var_name PDict))
+                                     (Expr_name (Var_name State))))))
+                             (((c_lhs ((Pattern_binding (Var_name S))))
+                                (c_guard
+                                  (((Expr_apply
+                                      ((fa_name
+                                         (Expr_name (Atom_name (Atom is_list))))
+                                        (fa_args ((Expr_name (Var_name S)))))))))
+                                (c_rhs (Expr_name (Var_name S))))
+                               ((c_lhs ((Pattern_binding (Var_name S))))
+                                 (c_guard ())
+                                 (c_rhs (Expr_list ((Expr_name (Var_name S))))))))))
+                       (Expr_cons
+                         ((Expr_tuple
+                            ((Expr_literal (Lit_atom (Atom header)))
+                              (Expr_name (Var_name Header))))
+                           (Expr_tuple
+                             ((Expr_literal (Lit_atom (Atom data)))
+                               (Expr_list
+                                 ((Expr_tuple
+                                    ((Expr_literal (Lit_string Status))
+                                      (Expr_name (Var_name SysState))))
+                                   (Expr_tuple
+                                     ((Expr_literal (Lit_string Parent))
+                                       (Expr_name (Var_name Parent))))
+                                   (Expr_tuple
+                                     ((Expr_literal
+                                        (Lit_string "Logged events"))
+                                       (Expr_apply
+                                         ((fa_name
+                                            (Expr_name
+                                              (Atom_name
+                                                (Atom format_log_state))))
+                                           (fa_args
+                                             ((Expr_name (Var_name Mod))
+                                               (Expr_name (Var_name Log)))))))))))))
+                         (Expr_name (Var_name Specific)))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom format_log_state)) (fd_arity 2)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name Log))))
+             (c_guard ())
+             (c_rhs
+               (Expr_comment
+                 (Comment "% FIXME: list comprehesions are not supported yet")
+                 (Expr_comment (Comment " [case Event of")
+                   (Expr_comment (Comment "      {out,Msg,From,State} ->")
+                     (Expr_comment
+                       (Comment
+                         "          {out,Msg,From,format_status(terminate, Mod, get(), State)};")
+                       (Expr_comment (Comment "      {noreply,State} ->")
+                         (Expr_comment
+                           (Comment
+                             "          {noreply,format_status(terminate, Mod, get(), State)};")
+                           (Expr_comment (Comment "      _ -> Event")
+                             (Expr_comment (Comment "  end || Event <- Log].")
+                               (Expr_list ())))))))))))))
+        (fd_spec ())))
+    (Function_decl
+      ((fd_name (Atom format_status)) (fd_arity 4)
+        (fd_cases
+          (((c_lhs
+              ((Pattern_binding (Var_name Opt))
+                (Pattern_binding (Var_name Mod))
+                (Pattern_binding (Var_name PDict))
+                (Pattern_binding (Var_name State))))
+             (c_guard ())
+             (c_rhs
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name DefStatus)))
+                   (lb_rhs
+                     (Expr_case (Expr_name (Var_name Opt))
+                       (((c_lhs ((Pattern_match (Lit_atom (Atom terminate)))))
+                          (c_guard ()) (c_rhs (Expr_name (Var_name State))))
+                         ((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+                           (c_rhs
+                             (Expr_list
+                               ((Expr_tuple
+                                  ((Expr_literal (Lit_atom (Atom data)))
+                                    (Expr_list
+                                      ((Expr_tuple
+                                         ((Expr_literal (Lit_string State))
+                                           (Expr_name (Var_name State))))))))))))))))
+                 (Expr_case
+                   (Expr_apply
+                     ((fa_name
+                        (Expr_name
+                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                            (n_name (Atom_name (Atom function_exported))))))
+                       (fa_args
+                         ((Expr_name (Var_name Mod))
+                           (Expr_literal (Lit_atom (Atom format_status)))
+                           (Expr_literal (Lit_integer 2))))))
+                   (((c_lhs ((Pattern_match (Lit_atom (Atom true)))))
+                      (c_guard ())
+                      (c_rhs
+                        (Expr_case
+                          (Expr_catch
+                            (Expr_apply
+                              ((fa_name
+                                 (Expr_name
+                                   (Qualified_name (n_mod (Var_name Mod))
+                                     (n_name (Atom_name (Atom format_status))))))
+                                (fa_args
+                                  ((Expr_name (Var_name Opt))
+                                    (Expr_list
+                                      ((Expr_name (Var_name PDict))
+                                        (Expr_name (Var_name State)))))))))
+                          (((c_lhs
+                              ((Pattern_tuple
+                                 ((Pattern_match (Lit_atom (Atom 'EXIT')))
+                                   (Pattern_binding (Var_name _))))))
+                             (c_guard ())
+                             (c_rhs (Expr_name (Var_name DefStatus))))
+                            ((c_lhs ((Pattern_binding (Var_name Else))))
+                              (c_guard ()) (c_rhs (Expr_name (Var_name Else))))))))
+                     ((c_lhs ((Pattern_binding (Var_name _)))) (c_guard ())
+                       (c_rhs (Expr_name (Var_name DefStatus)))))))))))
         (fd_spec ()))))
