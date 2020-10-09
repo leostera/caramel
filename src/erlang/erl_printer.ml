@@ -254,15 +254,13 @@ and pp_expression_list prefix ppf expressions ~module_ =
   Format.pp_print_list
     ~pp_sep:(fun ppf () -> Format.fprintf ppf ", ")
     (pp_expression prefix ~module_)
-    ppf
-    expressions
+    ppf expressions
 
 and pp_if_case_branch prefix ppf (lhs, rhs) ~module_ =
   Format.pp_print_list
     ~pp_sep:(fun ppf () -> Format.fprintf ppf ";\n")
     (pp_expression_list prefix ~module_)
-    ppf
-    lhs;
+    ppf lhs;
   Format.fprintf ppf " -> ";
   pp_expression "" ppf rhs ~module_
 
@@ -272,8 +270,7 @@ and pp_if_case_branches prefix ppf branches ~module_ =
   Format.pp_print_list
     ~pp_sep:(fun ppf () -> Format.fprintf ppf ";\n")
     (pp_if_case_branch prefix ~module_)
-    ppf
-    branches
+    ppf branches
 
 and pp_case_branches prefix ppf branches ~module_ =
   match branches with
@@ -511,10 +508,9 @@ let pp_types ppf types =
            let f = Format.formatter_of_buffer buf in
            Format.pp_print_list
              ~pp_sep:(fun ppf () -> Format.fprintf ppf ", ")
-             (pp_type_expr "")
-             f
-             typ_params;
-            Buffer.contents buf
+             (pp_type_expr "") f typ_params;
+           Format.fprintf f "%!";
+           Buffer.contents buf
          in
          let prefix =
            Format.sprintf "-%s %s(%s) :: " visibility (Atom.to_string typ_name)
