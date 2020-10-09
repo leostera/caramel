@@ -114,6 +114,8 @@ module Pat = struct
 
   let map kvs = Pattern_map kvs
 
+  let with_name p1 p2 = Pattern_with_name (p1, p2)
+
   let const literal = Pattern_match literal
 
   let catch ?(class_ = None) ?(stacktrace = None) pat =

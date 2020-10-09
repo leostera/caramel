@@ -31,14 +31,16 @@ let throw x =
 let rec expr_to_pattern expr =
   match expr with
   | Expr_name (Var_name name) -> Pat.bind (Name.var name)
-  | Expr_name (Atom_name atom) -> Pattern_match (Lit_atom atom)
-  | Expr_literal literal -> Pattern_match literal
-  | Expr_list exprs -> Pattern_list (List.map expr_to_pattern exprs)
-  | Expr_cons (lhs, rhs) -> Pattern_cons (List.map expr_to_pattern lhs, expr_to_pattern rhs)
-  | Expr_tuple exprs -> Pattern_tuple (List.map expr_to_pattern exprs)
-  | Expr_nil -> Pattern_list []
-  | Expr_let ({ lb_lhs; lb_rhs = (Expr_name (Var_name name))}, _) -> Pattern_with_name (lb_lhs, (Pat.bind (Name.var name)))
-  | Expr_let ({ lb_lhs; lb_rhs }, _) -> Pattern_with_name (lb_lhs, expr_to_pattern lb_rhs)
+  | Expr_name (Atom_name atom) -> Pat.const (Const.atom atom)
+  | Expr_literal literal -> Pat.const literal
+  | Expr_list exprs -> Pat.list (List.map expr_to_pattern exprs)
+  | Expr_cons (lhs, rhs) -> Pat.cons (List.map expr_to_pattern lhs) (expr_to_pattern rhs)
+  | Expr_tuple exprs -> Pat.tuple (List.map expr_to_pattern exprs)
+  | Expr_nil -> Pat.list []
+  | Expr_let ({ lb_lhs; lb_rhs = (Expr_name (Var_name name))}, _) ->
+      Pat.with_name lb_lhs (Pat.bind (Name.var name))
+  | Expr_let ({ lb_lhs; lb_rhs }, _) ->
+      Pat.with_name lb_lhs (expr_to_pattern lb_rhs)
   | Expr_map fields ->
       Pat.map
         (List.map
@@ -60,7 +62,7 @@ let rec expr_to_mod_attribute expr =
                  fa_args = [ Expr_literal (Lit_atom f); Expr_literal (Lit_integer a) ] } ->
       Expr.tuple [ Expr.const (Const.atom f); Expr.const (Const.integer a) ]
   | Expr_list els ->
-      Expr_list (List.map expr_to_mod_attribute els)
+      Expr.list (List.map expr_to_mod_attribute els)
   | _ ->
     expr
 
@@ -251,7 +253,9 @@ let expr_let :=
     { Expr.let_  (Expr.let_bind (expr_to_pattern lb_lhs) lb_rhs) lb_lhs }
 
 let expr_recv :=
-  | RECEIVE; cases = separated_list(SEMICOLON, case_branch); END;
+  | RECEIVE;
+      cases = separated_list(SEMICOLON, case_branch);
+    END;
     { Expr.recv ~cases ~after:None }
 
   | RECEIVE;
@@ -262,7 +266,9 @@ let expr_recv :=
     { Expr.recv ~cases ~after:(Some after) }
 
 let expr_if :=
-  | IF; clauses = separated_list(SEMICOLON, if_branch); END;
+  | IF;
+      clauses = separated_list(SEMICOLON, if_branch);
+    END;
     { Expr.if_ ~clauses }
 
 let if_branch :=
@@ -279,7 +285,7 @@ let expr_name  :=
   | n = name; { Expr.ident n }
 
 let expr_literal :=
-  | ~ = literal; { Expr_literal literal }
+  | ~ = literal; { Expr.const literal }
 
 let expr_fun_ref :=
   | FUN; m = name; COLON; f = name; SLASH; (arity,_) = INTEGER;
@@ -313,7 +319,7 @@ let map_field :=
 
 let expr_case :=
   | CASE; ~ = expr; OF; cases = separated_list(SEMICOLON, case_branch); END;
-    { Expr_case (expr, cases) }
+    { Expr.case expr cases }
 
 let case_branch :=
   | lhs = expr; ARROW; guard = guard?; rhs = expr;

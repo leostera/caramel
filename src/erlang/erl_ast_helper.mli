@@ -104,6 +104,8 @@ module Pat : sig
 
   val map : (pattern * pattern) list -> pattern
 
+  val with_name : pattern -> pattern -> pattern
+
   val const : literal -> pattern
 
   val catch :
