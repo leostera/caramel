@@ -29,6 +29,7 @@ let mk_constant lit =
   | Lit_integer int -> Const.integer int
   | Lit_char char -> Const.char char.[0]
   | Lit_binary bin -> Const.string bin
+  | Lit_string str -> Const.string str
   | Lit_float float -> Const.float float
   | Lit_atom _ -> raise Unsupported_constant
 
@@ -36,26 +37,33 @@ let mk_name name =
   match name with
   | Var_name name -> Exp.ident (mk_lid (String.lowercase_ascii name))
   | Atom_name (Atom name) -> Exp.ident (mk_lid name)
-  | Qualified_name { n_mod = Atom "erlang"; n_name = Atom "spawn" } -> (
+  | Qualified_name
+      { n_mod = Atom_name (Atom "erlang"); n_name = Atom_name (Atom "spawn") }
+    -> (
       match Longident.unflatten [ "Erlang"; "spawn" ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
-  | Qualified_name { n_mod = Atom "erlang"; n_name = Atom "send" } -> (
+  | Qualified_name
+      { n_mod = Atom_name (Atom "erlang"); n_name = Atom_name (Atom "send") }
+    -> (
       match Longident.unflatten [ "Erlang"; "send" ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
-  | Qualified_name { n_mod = Atom "erlang"; n_name } -> (
-      match Longident.unflatten [ "Stdlib"; Erl.Atom.to_string n_name ] with
+  | Qualified_name { n_mod = Atom_name (Atom "erlang"); n_name } -> (
+      match Longident.unflatten [ "Stdlib"; Erl.Name.to_string n_name ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
-  | Qualified_name { n_mod = Atom n_mod; n_name = Atom n_name } -> (
+  | Qualified_name
+      { n_mod = Atom_name (Atom n_mod); n_name = Atom_name (Atom n_name) } -> (
       match Longident.unflatten [ String.capitalize_ascii n_mod; n_name ] with
       | None -> raise (Invalid_name name)
       | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
+  | _ -> raise Unsupported_expression
 
 let rec mk_expression expr =
   match expr with
-  | Expr_fun_ref { fref_name = Atom name; _ } -> Exp.ident (mk_lid name)
+  | Expr_fun_ref { fref_name = Atom_name (Atom name); _ } ->
+      Exp.ident (mk_lid name)
   | Expr_name name -> mk_name name
   | Expr_literal (Lit_atom (Atom atom)) -> Exp.variant (mk_label atom) None
   | Expr_literal literal -> Exp.constant (mk_constant literal)
@@ -71,7 +79,11 @@ let rec mk_expression expr =
       {
         fa_name =
           Expr_name
-            (Qualified_name { n_mod = Atom "erlang"; n_name = Atom "spawn" });
+            (Qualified_name
+              {
+                n_mod = Atom_name (Atom "erlang");
+                n_name = Atom_name (Atom "spawn");
+              });
         fa_args = [ Expr_fun [ case ] ];
       } ->
       mk_spawn case
@@ -97,7 +109,12 @@ let rec mk_expression expr =
 
 and mk_spawn fn_case =
   Exp.apply
-    (mk_name (Qualified_name { n_mod = Atom "Erlang"; n_name = Atom "spawn" }))
+    (mk_name
+       (Qualified_name
+          {
+            n_mod = Atom_name (Atom "Erlang");
+            n_name = Atom_name (Atom "spawn");
+          }))
     [
       ( Nolabel,
         Exp.fun_ Nolabel None

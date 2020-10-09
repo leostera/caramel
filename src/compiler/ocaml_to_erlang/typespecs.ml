@@ -203,10 +203,10 @@ let mk_record labels =
     let rf_type =
       match mk_type_expr ld_type with Some t -> t | None -> Type.any
     in
-    Type.field rf_name rf_type
+    Type.map_field ~presence:Mandatory (Type.const (Const.atom rf_name)) rf_type
   in
   let fields = List.map mk_field labels in
-  Type.record fields
+  Type.map fields
 
 let mk_abstract name params type_decl core_type signature =
   match mk_type_expr core_type with

@@ -4,8 +4,16 @@ let translation_table : (Erlang.Ast.name, Erlang.Ast.name) Hashtbl.t =
   let h = Hashtbl.create 1024 in
   [ (("list", "length"), ("erlang", "length")) ]
   |> List.iter (fun ((m1, n1), (m2, n2)) ->
-         let k = Name.qualified ~module_name:(Atom.mk m1) (Atom.mk n1) in
-         let v = Name.qualified ~module_name:(Atom.mk m2) (Atom.mk n2) in
+         let k =
+           Name.qualified
+             ~m:(Name.atom (Atom.mk m1))
+             ~f:(Name.atom (Atom.mk n1))
+         in
+         let v =
+           Name.qualified
+             ~m:(Name.atom (Atom.mk m2))
+             ~f:(Name.atom (Atom.mk n2))
+         in
          Hashtbl.add h k v);
   h
 
@@ -36,17 +44,24 @@ let name_of_longident x =
   | n_name :: mods ->
       let module_name =
         mods |> List.rev |> String.concat "__" |> Atom.mk |> Atom.lowercase
+        |> Name.atom
       in
-      let n_name = Atom.mk n_name |> Atom.lowercase in
-      Name.qualified ~module_name n_name |> translate
+      let n_name = Atom.mk n_name |> Atom.lowercase |> Name.atom in
+      Name.qualified ~m:module_name ~f:n_name |> translate
 
 let ocaml_to_erlang_type t =
   match t with
   | "string" -> Name.atom (Atom.mk "binary")
   | "int" -> Name.atom (Atom.mk "integer")
   | "bool" -> Name.atom (Atom.mk "boolean")
-  | "option" -> Name.qualified ~module_name:(Atom.mk "option") (Atom.mk "t")
-  | "result" -> Name.qualified ~module_name:(Atom.mk "result") (Atom.mk "t")
+  | "option" ->
+      Name.qualified
+        ~m:(Name.atom (Atom.mk "option"))
+        ~f:(Name.atom (Atom.mk "t"))
+  | "result" ->
+      Name.qualified
+        ~m:(Name.atom (Atom.mk "result"))
+        ~f:(Name.atom (Atom.mk "t"))
   | u -> Name.atom (Atom.mk u)
 
 let type_name_of_parts parts =
@@ -61,10 +76,14 @@ let type_name_of_parts parts =
       match (n_mod, n_name) with
       | _, x when x = "option" || x = "result" ->
           Name.qualified
-            ~module_name:(Atom.mk x |> Atom.lowercase)
-            (Atom.mk "t")
-      | "erlang", "process" -> Name.qualified ~module_name (Atom.mk "pid")
-      | _, _ -> Name.qualified ~module_name (Atom.mk n_name |> Atom.lowercase) )
+            ~m:(Atom.mk x |> Atom.lowercase |> Name.atom)
+            ~f:(Name.atom (Atom.mk "t"))
+      | "erlang", "process" ->
+          Name.qualified ~m:(Name.atom module_name)
+            ~f:(Name.atom (Atom.mk "pid"))
+      | _, _ ->
+          Name.qualified ~m:(Name.atom module_name)
+            ~f:(Atom.mk n_name |> Atom.lowercase |> Name.atom) )
 
 let type_name_of_path p =
   match Path.flatten p with
@@ -76,13 +95,17 @@ let type_name_of_path p =
 let longident_to_type_name x = x |> Longident.flatten |> type_name_of_parts
 
 let to_erl_op t =
-  Name.qualified ~module_name:(Atom.mk "erlang") (Atom.mk t |> Atom.lowercase)
+  Name.qualified
+    ~m:(Name.atom (Atom.mk "erlang"))
+    ~f:(Atom.mk t |> Atom.lowercase |> Name.atom)
 
 let ocaml_to_erlang_primitive_op t =
   match t with
   | "!" | "++" | "-" | "--" | "/" | "<" | ">" | "*" | "+" -> to_erl_op t
   | "^" ->
-      Name.qualified ~module_name:(Atom.mk "caramel") (Atom.mk "binary_concat")
+      Name.qualified
+        ~m:(Name.atom (Atom.mk "caramel"))
+        ~f:(Name.atom (Atom.mk "binary_concat"))
   | "<>" -> to_erl_op "=/="
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="

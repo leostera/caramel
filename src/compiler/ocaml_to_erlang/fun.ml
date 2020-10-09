@@ -91,7 +91,8 @@ and mk_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
       Erlang.Ast.Pattern_map
         ( fields
         |> List.map (fun (Asttypes.{ txt; _ }, _, pattern) ->
-               (Names.atom_of_longident txt, mk_pattern pattern)) )
+               ( Pat.bind (Name.atom (Names.atom_of_longident txt)),
+                 mk_pattern pattern )) )
   (* FIXME: don't compare atoms like this, just refer to is_unit *)
   | Tpat_construct ({ txt; _ }, _, _) when Longident.last txt = "()" ->
       Pat.tuple []
@@ -150,7 +151,9 @@ and mk_expression exp ~var_names ~modules ~module_name =
       let namespace_qualified_name n_mod n_name =
         let module_name = Atom.lowercase (Atom.concat module_name n_mod "__") in
         match is_nested_module ~modules module_name with
-        | true -> Name.qualified ~module_name (Atom.lowercase n_name)
+        | true ->
+            Name.qualified ~m:(Name.atom module_name)
+              ~f:(Name.atom (Atom.lowercase n_name))
         | _ -> name
       in
 
@@ -162,9 +165,10 @@ and mk_expression exp ~var_names ~modules ~module_name =
       if name_in_var_names ~var_names var_name then Expr.ident var_name
       else
         match name with
-        | Erlang.Ast.Qualified_name { n_mod; n_name } ->
+        | Erlang.Ast.Qualified_name
+            { n_mod = Atom_name n_mod; n_name = Atom_name n_name } ->
             Expr.ident (namespace_qualified_name n_mod n_name)
-        | _ -> Expr.fun_ref ~arity:0 (Names.atom_of_longident txt) )
+        | _ -> Expr.fun_ref ~arity:0 (Name.atom (Names.atom_of_longident txt)) )
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
@@ -197,7 +201,7 @@ and mk_expression exp ~var_names ~modules ~module_name =
       let name =
         match mk_expression expr ~var_names ~modules ~module_name with
         | Erlang.Ast.Expr_fun_ref { fref_name = n; _ } ->
-            Expr.ident (Names.ocaml_to_erlang_primitive_op (Atom.to_string n))
+            Expr.ident (Names.ocaml_to_erlang_primitive_op (Name.to_string n))
         | x -> x
       in
       let args =
@@ -220,13 +224,14 @@ and mk_expression exp ~var_names ~modules ~module_name =
                  | Overridden (_, exp) ->
                      mk_expression exp ~var_names ~modules ~module_name
                in
-               Erlang.Ast.{ mf_name = Atom.mk field.lbl_name; mf_value = value })
-        )
+               Expr.map_field
+                 (Expr.const (Const.atom (Atom.mk field.lbl_name)))
+                 value) )
   | Texp_field (expr, _, { lbl_name; _ }) ->
       let name =
-        let module_name = Atom.mk "maps" in
-        let name = Atom.mk "get" in
-        Expr.ident (Name.qualified ~module_name name)
+        let m = Atom.mk "maps" |> Name.atom in
+        let f = Atom.mk "get" |> Name.atom in
+        Expr.ident (Name.qualified ~m ~f)
       in
       let args =
         [
