@@ -39,31 +39,19 @@
       ((atr_name (Atom export))
         (atr_value
           (Expr_list
-            ((Expr_apply
-               ((fa_name
-                  (Expr_name
-                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                 (fa_args
-                   ((Expr_literal (Lit_atom (Atom replace)))
-                     (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom replace)))
-                      (Expr_literal (Lit_integer 4)))))))))))
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom replace)))
+                 (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom replace)))
+                  (Expr_literal (Lit_integer 4)))))))))
     (Module_attribute
       ((atr_name (Atom export_type))
         (atr_value
           (Expr_list
-            ((Expr_apply
-               ((fa_name
-                  (Expr_name
-                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                 (fa_args
-                   ((Expr_literal (Lit_atom (Atom cp)))
-                     (Expr_literal (Lit_integer 0)))))))))))
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom cp)))
+                 (Expr_literal (Lit_integer 0)))))))))
     (Type_decl
       ((typ_expr
          (Type_tuple
@@ -85,181 +73,81 @@
       ((atr_name (Atom export))
         (atr_value
           (Expr_list
-            ((Expr_apply
-               ((fa_name
-                  (Expr_name
-                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                 (fa_args
-                   ((Expr_literal (Lit_atom (Atom at)))
-                     (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom bin_to_list)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom bin_to_list)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom bin_to_list)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom compile_pattern)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom copy)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom copy)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom decode_unsigned)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom decode_unsigned)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom encode_unsigned)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom encode_unsigned)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom first)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom last)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom list_to_bin)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom longest_common_prefix)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom longest_common_suffix)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom match)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom match)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom matches)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom matches)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom part)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom part)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom referenced_byte_size)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom split)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom split)))
-                      (Expr_literal (Lit_integer 3)))))))))))
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom at)))
+                 (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom bin_to_list)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom bin_to_list)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom bin_to_list)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom compile_pattern)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom copy)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom copy)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom decode_unsigned)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom decode_unsigned)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom encode_unsigned)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom encode_unsigned)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom first)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom last)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom list_to_bin)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom longest_common_prefix)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom longest_common_suffix)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom match)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom match)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom matches)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom matches)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom part)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom part)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom referenced_byte_size)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom split)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom split)))
+                  (Expr_literal (Lit_integer 3)))))))))
     (Type_decl
       ((typ_expr
          (Type_constr ((tc_name (Atom_name (Atom byte))) (tc_args ()))))
@@ -1452,593 +1340,265 @@
       ((atr_name (Atom export))
         (atr_value
           (Expr_list
-            ((Expr_apply
-               ((fa_name
-                  (Expr_name
-                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                 (fa_args
-                   ((Expr_literal (Lit_atom (Atom append)))
-                     (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom append)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom subtract)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom reverse)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom nth)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom nthtail)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom prefix)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom suffix)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom droplast)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom last)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom seq)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom seq)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom sum)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom duplicate)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom min)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom max)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom sublist)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom sublist)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom delete)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom unzip)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom unzip3)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom zip)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom zip3)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom zipwith)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom zipwith3)))
-                      (Expr_literal (Lit_integer 4))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom sort)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom merge)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom merge)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rmerge)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom merge3)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rmerge3)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom usort)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom umerge)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom umerge3)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom umerge)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rumerge3)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rumerge)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom concat)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom flatten)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom flatten)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom flatlength)))
-                      (Expr_literal (Lit_integer 1))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keydelete)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keyreplace)))
-                      (Expr_literal (Lit_integer 4))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keytake)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keystore)))
-                      (Expr_literal (Lit_integer 4))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keysort)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keymerge)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rkeymerge)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rukeymerge)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom ukeysort)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom ukeymerge)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keymap)))
-                      (Expr_literal (Lit_integer 3)))))))))))
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom append)))
+                 (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom append)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom subtract)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom reverse)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom nth)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom nthtail)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom prefix)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom suffix)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom droplast)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom last)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom seq)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom seq)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom sum)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom duplicate)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom min)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom max)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom sublist)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom sublist)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom delete)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom unzip)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom unzip3)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom zip)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom zip3)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom zipwith)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom zipwith3)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom sort)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom merge)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom merge)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rmerge)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom merge3)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rmerge3)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom usort)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom umerge)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom umerge3)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom umerge)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rumerge3)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rumerge)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom concat)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom flatten)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom flatten)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom flatlength)))
+                  (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keydelete)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keyreplace)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keytake)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keystore)))
+                  (Expr_literal (Lit_integer 4))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keysort)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keymerge)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rkeymerge)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rukeymerge)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom ukeysort)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom ukeymerge)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keymap)))
+                  (Expr_literal (Lit_integer 3)))))))))
     (Module_attribute
       ((atr_name (Atom export))
         (atr_value
           (Expr_list
-            ((Expr_apply
-               ((fa_name
-                  (Expr_name
-                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                 (fa_args
-                   ((Expr_literal (Lit_atom (Atom merge)))
-                     (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rmerge)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom sort)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom umerge)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom rumerge)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom usort)))
-                      (Expr_literal (Lit_integer 2)))))))))))
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom merge)))
+                 (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rmerge)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom sort)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom umerge)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom rumerge)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom usort)))
+                  (Expr_literal (Lit_integer 2)))))))))
     (Module_attribute
       ((atr_name (Atom export))
         (atr_value
           (Expr_list
-            ((Expr_apply
-               ((fa_name
-                  (Expr_name
-                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                 (fa_args
-                   ((Expr_literal (Lit_atom (Atom all)))
-                     (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom any)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom map)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom flatmap)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom foldl)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom foldr)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom filter)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom partition)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom zf)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom filtermap)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom mapfoldl)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom mapfoldr)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom foreach)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom takewhile)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom dropwhile)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom search)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom splitwith)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom split)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom join)))
-                      (Expr_literal (Lit_integer 2)))))))))))
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom all)))
+                 (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom any)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom map)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom flatmap)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom foldl)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom foldr)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom filter)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom partition)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom zf)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom filtermap)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom mapfoldl)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom mapfoldr)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom foreach)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom takewhile)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom dropwhile)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom search)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom splitwith)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom split)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom join)))
+                  (Expr_literal (Lit_integer 2)))))))))
     (Module_comment (Comment "%% BIFs"))
     (Module_attribute
       ((atr_name (Atom export))
         (atr_value
           (Expr_list
-            ((Expr_apply
-               ((fa_name
-                  (Expr_name
-                    (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                 (fa_args
-                   ((Expr_literal (Lit_atom (Atom keyfind)))
-                     (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keymember)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom keysearch)))
-                      (Expr_literal (Lit_integer 3))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom member)))
-                      (Expr_literal (Lit_integer 2))))))
-              (Expr_apply
-                ((fa_name
-                   (Expr_name
-                     (Qualified_name (n_mod (Atom erlang)) (n_name (Atom '/')))))
-                  (fa_args
-                    ((Expr_literal (Lit_atom (Atom reverse)))
-                      (Expr_literal (Lit_integer 2)))))))))))
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom keyfind)))
+                 (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keymember)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom keysearch)))
+                  (Expr_literal (Lit_integer 3))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom member)))
+                  (Expr_literal (Lit_integer 2))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom reverse)))
+                  (Expr_literal (Lit_integer 2)))))))))
     (Module_comment (Comment "% Shadowed by erl_bif_types: lists:keyfind/3"))
     (Type_decl
       ((typ_expr

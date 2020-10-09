@@ -43,6 +43,25 @@ let rec expr_to_pattern expr =
   | Expr_let ({ lb_lhs; lb_rhs = (Expr_name (Var_name name))}, _) -> Pattern_with_name (lb_lhs, (Name.var name))
   | _ -> throw (Expression_is_invalid_pattern expr)
 
+let rec expr_to_mod_attribute expr =
+  match expr with
+	(* TODO: we're going to need some "Well Known" values so some of these aren't
+		 sprinkled everywhere. Eg, I imagine this working:
+
+  | Expr_apply { fa_name; fa_args = [ f; a ] }
+			when Erlang.Well_known.is_div fa_name
+			 and Erlang.Ast_helper.Expr.is_atom f
+       and Erlang.Ast_helper.Expr.is_integer a ->
+
+*)
+  | Expr_apply { fa_name = Expr_name (Qualified_name { n_mod = (Atom "erlang"); n_name = Atom "'/'" });
+							   fa_args = [ Expr_literal (Lit_atom f); Expr_literal (Lit_integer a) ] } ->
+			Expr.tuple [ Expr.const (Const.atom f); Expr.const (Const.integer a) ]
+  | Expr_list els ->
+			Expr_list (List.map expr_to_mod_attribute els)
+  | _ ->
+		expr
+
 %}
 
 (******************************************************************************
@@ -93,7 +112,7 @@ let module_item :=
 (** Module Attributes *)
 let module_attribute :=
   | DASH; atr_name = atom; atr_value = parens(expr); DOT;
-    { { atr_name; atr_value} }
+    { { atr_name; atr_value = expr_to_mod_attribute atr_value } }
 
 (** Type Language *)
 let type_decl :=
