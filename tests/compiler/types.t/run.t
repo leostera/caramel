@@ -155,8 +155,8 @@
   -type inlined_record() :: {simpler, boolean()}
                           | {many, boolean(), boolean()}
                           | {compound, #{ ir_a => float()
-                                        , ir_b => boolean()
-                                        }}
+                               , ir_b => boolean()
+                               }}
                           .
   
   -type small_record() :: #{ a => binary() }.

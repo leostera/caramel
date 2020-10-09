@@ -489,7 +489,7 @@
     Y.
   
   -spec run_nested() -> {version, kind_of_working
-                  }
+          }
           .
   run_nested() ->
     names__nested:x(),
@@ -515,7 +515,7 @@
   x() -> {compiler, <<"caramel">>}.
   
   -spec w() -> {version, kind_of_working
-         }
+  }
   .
   w() -> {version, kind_of_working}.
   
