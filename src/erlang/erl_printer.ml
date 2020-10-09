@@ -29,18 +29,21 @@ end
 
 let pp_atom ppf (Atom atom) = Format.fprintf ppf "%s" atom
 
-let name_to_string name =
+let rec name_to_string name =
   match name with
   | Var_name name -> String.capitalize_ascii name
   | Atom_name (Atom name) -> name
-  | Qualified_name { n_mod = Atom n_mod; n_name = Atom n_name; _ } ->
-      Format.sprintf "%s:%s" (String.lowercase_ascii n_mod) n_name
+  | Qualified_name { n_mod; n_name } ->
+      Format.sprintf "%s:%s" (name_to_string n_mod) (name_to_string n_name)
 
 let is_caramel_support { fa_name; _ } =
   match fa_name with
   | Expr_name
       (Qualified_name
-        { n_mod = Atom "caramel"; n_name = Atom "binary_concat"; _ }) ->
+        {
+          n_mod = Atom_name (Atom "caramel");
+          n_name = Atom_name (Atom "binary_concat");
+        }) ->
       true
   | _ -> false
 
@@ -70,7 +73,11 @@ let rec pp_caramel_support_function _prefix ppf { fa_name; fa_args; _ } ~module_
   match (fa_name, fa_args) with
   | ( Expr_name
         (Qualified_name
-          { n_mod = Atom "caramel"; n_name = Atom "binary_concat"; _ }),
+          {
+            n_mod = Atom_name (Atom "caramel");
+            n_name = Atom_name (Atom "binary_concat");
+            _;
+          }),
       [ lhs; rhs ] ) ->
       Format.fprintf ppf "<< (";
       pp_expression "" ppf lhs ~module_;
@@ -113,23 +120,28 @@ and pp_type_expr prefix ppf typ_expr =
              Format.fprintf ppf ", ";
              pp_type_expr prefix ppf p);
       Format.fprintf ppf "}"
-  | Type_record { tyrec_fields = fields; _ } -> (
-      let padding = H.pad (String.length prefix + 1) in
-      match fields with
-      | [] -> Format.fprintf ppf "#{}"
-      | { rf_name = Atom rf_name; rf_type; _ } :: fs -> (
-          Format.fprintf ppf "#{ %s => " rf_name;
-          pp_type_expr prefix ppf rf_type;
-          match fs with
-          | [] -> Format.fprintf ppf " }"
-          | fs ->
-              Format.fprintf ppf "\n";
-              fs
-              |> List.iter (fun { rf_name = Atom rf_name; rf_type; _ } ->
-                     Format.fprintf ppf "%s, %s => " padding rf_name;
-                     pp_type_expr prefix ppf rf_type;
-                     Format.fprintf ppf "\n");
-              Format.fprintf ppf "%s}" padding ) )
+  | Type_map fields ->
+      let padding = H.pad (String.length prefix) in
+      Format.fprintf ppf "#{ ";
+      Format.pp_print_list
+        ~pp_sep:(fun ppf () -> Format.fprintf ppf "\n%s , " padding)
+        (fun ppf { tmf_presence; tmf_name; tmf_value } ->
+          Format.fprintf ppf "%a %s %a" (pp_type_expr prefix) tmf_name
+            (match tmf_presence with Optional -> ":=" | Mandatory -> "=>")
+            (pp_type_expr prefix) tmf_value)
+        ppf fields;
+      if List.length fields == 1 then Format.fprintf ppf " }"
+      else Format.fprintf ppf "\n%s }" padding
+  (* FIXME: records should be printed as records, not maps! *)
+  | Type_record (name, fields) ->
+      Format.fprintf ppf "#%a{" pp_name name;
+      Format.pp_print_list
+        ~pp_sep:(fun ppf () -> Format.fprintf ppf ", ")
+        (fun ppf { rf_name; rf_type } ->
+          Format.fprintf ppf "%a => %a" pp_atom rf_name (pp_type_expr prefix)
+            rf_type)
+        ppf fields;
+      Format.fprintf ppf "}"
   | Type_variant tks ->
       let padding = H.pad (String.length prefix - 2) in
       let t = List.hd tks in
@@ -162,20 +174,15 @@ and pp_pattern_match ppf pm =
   | Pattern_catch (None, pat, Some n) ->
       Format.fprintf ppf "%a:%a" pp_pattern_match pat pp_name n
   | Pattern_catch (Some class_, pat, None) ->
-      let class_ =
-        match class_ with Class_throw -> "throw" | Class_error -> "error"
-      in
-      Format.fprintf ppf "%s:%a" class_ pp_pattern_match pat
+      Format.fprintf ppf "%a:%a" pp_name class_ pp_pattern_match pat
   | Pattern_catch (Some class_, pat, Some n) ->
-      let class_ =
-        match class_ with Class_throw -> "throw" | Class_error -> "error"
-      in
-      Format.fprintf ppf "%s:%a:%a" class_ pp_pattern_match pat pp_name n
+      Format.fprintf ppf "%a:%a:%a" pp_name class_ pp_pattern_match pat pp_name
+        n
   | Pattern_ignore -> Format.fprintf ppf "_"
   | Pattern_with_name (pat, name) ->
       pp_pattern_match ppf pat;
       Format.fprintf ppf " = ";
-      pp_name ppf name
+      pp_pattern_match ppf name
   | Pattern_binding name -> pp_name ppf name
   | Pattern_match lit -> pp_literal ppf lit
   | Pattern_tuple [] -> Format.fprintf ppf "ok"
@@ -220,15 +227,15 @@ and pp_pattern_match ppf pm =
       Format.fprintf ppf "]"
   | Pattern_map [] -> Format.fprintf ppf "#{}"
   | Pattern_map [ (name, pat) ] ->
-      Format.fprintf ppf "#{ %a := " pp_atom name;
+      Format.fprintf ppf "#{ %a := " pp_pattern_match name;
       pp_pattern_match ppf pat;
       Format.fprintf ppf " }"
   | Pattern_map ((name, pat) :: ps) ->
-      Format.fprintf ppf "#{ %a := " pp_atom name;
+      Format.fprintf ppf "#{ %a := " pp_pattern_match name;
       pp_pattern_match ppf pat;
       ps
       |> List.iter (fun (name, p) ->
-             Format.fprintf ppf ", %a := " pp_atom name;
+             Format.fprintf ppf ", %a := " pp_pattern_match name;
              pp_pattern_match ppf p);
       Format.fprintf ppf " }"
 
@@ -237,6 +244,7 @@ and pp_literal ppf lit =
   | Lit_float str | Lit_integer str -> Format.fprintf ppf "%s" str
   | Lit_char str -> Format.fprintf ppf "'%s'" str
   | Lit_binary str -> Format.fprintf ppf "<<\"%s\">>" (String.escaped str)
+  | Lit_string str -> Format.fprintf ppf "\"%s\"" (String.escaped str)
   | Lit_atom atom -> pp_atom ppf atom
 
 and pp_name ppf name =
@@ -248,7 +256,7 @@ and pp_name ppf name =
        * figure out what it actually translates to since it could be a external
        * call!
        *)
-      Format.fprintf ppf "%a:%a" pp_atom n_mod pp_atom n_name
+      Format.fprintf ppf "%a:%a" pp_name n_mod pp_name n_name
 
 and pp_expression_list prefix ppf expressions ~module_ =
   Format.pp_print_list
@@ -296,11 +304,22 @@ and pp_case_branches prefix ppf branches ~module_ =
 and pp_expression prefix ppf expr ~module_ =
   Format.fprintf ppf "%s" prefix;
   match expr with
-  | Expr_try { try_expr = e; try_catch = catches } ->
+  | Expr_macro macro -> Format.fprintf ppf "?%s" macro
+  | Expr_catch expr ->
+      Format.fprintf ppf "catch %a" (pp_expression prefix ~module_) expr
+  | Expr_try { try_expr = e; try_catch; try_after } ->
       Format.fprintf ppf "try\n%s" prefix;
       pp_expression prefix ppf e ~module_;
-      Format.fprintf ppf "\n%scatch\n%s" prefix prefix;
-      pp_case_branches prefix ppf catches ~module_;
+      ( match try_catch with
+      | Some catches ->
+          Format.fprintf ppf "\n%scatch\n%s" prefix prefix;
+          pp_case_branches prefix ppf catches ~module_
+      | _ -> () );
+      ( match try_after with
+      | Some afterbody ->
+          Format.fprintf ppf "\n%safter\n%s" prefix prefix;
+          pp_expression prefix ppf afterbody ~module_
+      | _ -> () );
       Format.fprintf ppf "end"
   | Expr_comment (c, e) ->
       pp_comment ppf c;
@@ -328,17 +347,14 @@ and pp_expression prefix ppf expr ~module_ =
       pp_expression "" ppf binding.lb_rhs ~module_;
       Format.fprintf ppf ",\n";
       pp_expression prefix ppf expr ~module_
-  | Expr_fun_ref { fref_name = Atom "__caramel_recv"; _ } ->
+  | Expr_fun_ref { fref_name = Atom_name (Atom "__caramel_recv"); _ } ->
       Format.fprintf ppf "fun (T) -> ";
       Format.fprintf ppf "receive X -> {some, X} ";
       Format.fprintf ppf "after T -> none ";
       Format.fprintf ppf "end ";
       Format.fprintf ppf "end"
-  | Expr_fun_ref { fref_name = name; _ } -> (
-      match find_fun_by_name module_ name with
-      | None -> ()
-      | Some { fd_arity; _ } ->
-          Format.fprintf ppf "fun %a/%d" pp_atom name fd_arity )
+  | Expr_fun_ref { fref_name = name; fref_arity } ->
+      Format.fprintf ppf "fun %a/%d" pp_name name fref_arity
   | Expr_apply apply when is_caramel_support apply ->
       pp_caramel_support_function prefix ppf apply ~module_
   | Expr_apply { fa_name; fa_args; _ } -> (
@@ -418,7 +434,7 @@ and pp_expression prefix ppf expr ~module_ =
       match fields with
       | [] -> Format.fprintf ppf "#{}"
       | { mf_name; mf_value; _ } :: fs -> (
-          Format.fprintf ppf "#{ %a => " pp_atom mf_name;
+          Format.fprintf ppf "#{ %a => " (pp_expression "" ~module_) mf_name;
           pp_expression "" ppf mf_value ~module_;
           match fs with
           | [] -> Format.fprintf ppf " }"
@@ -426,7 +442,29 @@ and pp_expression prefix ppf expr ~module_ =
               Format.fprintf ppf "\n";
               fs
               |> List.iter (fun { mf_name; mf_value; _ } ->
-                     Format.fprintf ppf "%s, %a => " padding pp_atom mf_name;
+                     Format.fprintf ppf "%s, %a => " padding
+                       (pp_expression "" ~module_)
+                       mf_name;
+                     pp_expression "" ppf mf_value ~module_;
+                     Format.fprintf ppf "\n");
+              Format.fprintf ppf "%s}" padding ) )
+  | Expr_map_update (m, fields) -> (
+      let padding = H.pad (String.length prefix + 1) in
+      pp_expression "" ppf m ~module_;
+      match fields with
+      | [] -> Format.fprintf ppf "#{}"
+      | { mf_name; mf_value; _ } :: fs -> (
+          Format.fprintf ppf "#{ %a => " (pp_expression "" ~module_) mf_name;
+          pp_expression "" ppf mf_value ~module_;
+          match fs with
+          | [] -> Format.fprintf ppf " }"
+          | fs ->
+              Format.fprintf ppf "\n";
+              fs
+              |> List.iter (fun { mf_name; mf_value; _ } ->
+                     Format.fprintf ppf "%s, %a => " padding
+                       (pp_expression "" ~module_)
+                       mf_name;
                      pp_expression "" ppf mf_value ~module_;
                      Format.fprintf ppf "\n");
               Format.fprintf ppf "%s}" padding ) )
@@ -452,8 +490,10 @@ and pp_fun_case _prefix ppf { c_lhs; c_rhs; _ } ~module_ =
     | Expr_case _ | Expr_recv _ ->
         Format.fprintf ppf "\n";
         "  "
-    | Expr_nil | Expr_fun _ | Expr_apply _ | Expr_fun_ref _ | Expr_list _
-    | Expr_tuple _ | Expr_cons _ | Expr_literal _ | Expr_name _ ->
+    | Expr_map_update (_, _)
+    | Expr_catch _ | Expr_macro _ | Expr_nil | Expr_fun _ | Expr_apply _
+    | Expr_fun_ref _ | Expr_list _ | Expr_tuple _ | Expr_cons _ | Expr_literal _
+    | Expr_name _ ->
         " "
   in
   pp_expression prefix ppf c_rhs ~module_
@@ -502,6 +542,7 @@ let pp_types ppf types =
            | Opaque -> "opaque"
            | Type -> "type"
            | Spec -> "spec"
+           | Callback -> "callback"
          in
          let params =
            let buf = Buffer.create 1024 in
