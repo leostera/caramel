@@ -23,8 +23,8 @@
                  (Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom '+')))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom '+'))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom fib))))
@@ -32,8 +32,9 @@
                               ((Expr_apply
                                  ((fa_name
                                     (Expr_name
-                                      (Qualified_name (n_mod (Atom erlang))
-                                        (n_name (Atom '-')))))
+                                      (Qualified_name
+                                        (n_mod (Atom_name (Atom erlang)))
+                                        (n_name (Atom_name (Atom '-'))))))
                                    (fa_args
                                      ((Expr_name (Var_name N))
                                        (Expr_literal (Lit_integer 1))))))))))
@@ -43,8 +44,9 @@
                                ((Expr_apply
                                   ((fa_name
                                      (Expr_name
-                                       (Qualified_name (n_mod (Atom erlang))
-                                         (n_name (Atom '-')))))
+                                       (Qualified_name
+                                         (n_mod (Atom_name (Atom erlang)))
+                                         (n_name (Atom_name (Atom '-'))))))
                                     (fa_args
                                       ((Expr_name (Var_name N))
                                         (Expr_literal (Lit_integer 2))))))))))))))))))

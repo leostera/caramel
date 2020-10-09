@@ -61,8 +61,8 @@
                  (Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom spawn)))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom spawn))))))
                      (fa_args
                        ((Expr_fun
                           (((c_lhs ()) (c_guard ())
@@ -78,8 +78,8 @@
                  (Expr_apply
                    ((fa_name
                       (Expr_name
-                        (Qualified_name (n_mod (Atom erlang))
-                          (n_name (Atom send)))))
+                        (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                          (n_name (Atom_name (Atom send))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom spawn_int))))
