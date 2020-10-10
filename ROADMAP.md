@@ -21,14 +21,14 @@ cores in OCaml, and surround these with good old Erlang seamlessly.
 
 To achieve this we will need to work primarily on:
 
-* the translation from the OCaml Typedtree to the Erlang AST (See [Issue
+* the translation from the OCaml Typedtree to the Erlang AST (see [issue
   #6](https://github.com/AbstractMachinesLab/caramel/issues/6)),
-* the checking of certain invariants of both ASTs (See [Issue
+* the checking of certain invariants of both ASTs (see [issue
   #6](https://github.com/AbstractMachinesLab/caramel/issues/6)),
-* the printing of the Erlang AST (See [Issue
+* the printing of the Erlang AST (see [issue
   #7](https://github.com/AbstractMachinesLab/caramel/issues/7)), and on
-* the runtime support required to execute the generated source code (See [Issue
-  [#8](https://github.com/AbstractMachinesLab/caramel/issues/8)]).
+* the runtime support required to execute the generated source code (see [issue
+  #8](https://github.com/AbstractMachinesLab/caramel/issues/8)).
 
 
 ### Future work
