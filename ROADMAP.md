@@ -30,6 +30,9 @@ To achieve this we will need to work primarily on:
 * the runtime support required to execute the generated source code (see [issue
   #8](https://github.com/AbstractMachinesLab/caramel/issues/8)).
 
+The __next milestone__, v0.2, will likely focus on parsing the generated Erlang
+source code to verify that it is still type-safe. This would help us really
+define the subset of Erlang that is well-typed.
 
 ### Future work
 
