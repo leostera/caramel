@@ -1,63 +1,76 @@
 # Roadmap
 
-These are some things I intend to work on in the near future,
-somewhat ordered:
+## 2020 Q4: [Milestone v0.1](https://github.com/AbstractMachinesLab/caramel/milestone/1)
 
-## OCaml to Erlang compilation
+The initial goal, to type-check Erlang, let me to the thesis that a subset of a
+well-typed language like OCaml could be used to discover a well-typed subset of
+Erlang, and that subset could then be successfully type-checked.
 
-* multiple branches in a match should not be supported (or their code should be
-  duplicated for each branch)
+This yielded an OCaml to Erlang compiler as a byproduct, that is the focus of
+the current milestone.
 
-* refactor fun refs to resolve arity at compile time
+Caramel doesn't at the moment intend to support all of the existing OCaml
+software, and not even all of the OCaml language. Only some of it, as it would
+have to be a good citizen of the BEAM, allowing for interop with existing BEAM
+languages. And it would have to be a subset of OCaml expressive enough to solve
+meaningful, real-life problems, in a type-safe way.
 
-* investigate how to flatten out functors
+This is why the **v0.1 milestone is focused on getting the compilation from
+OCaml to Erlang to a good place**, where we can write type-safe application
+cores in OCaml, and surround these with good old Erlang seamlessly.
 
-* figure out labeled function arguments
+To achieve this we will need to work primarily on:
 
-* safe variable names:
-  * deal with prime's
-  * rebinding = renaming (X = 1, X = X + 1, becomes X2 = X + 1)
-  * if a type variable is unbound on the return side, we should `any()` it
+* the translation from the OCaml Typedtree to the Erlang AST (See [Issue
+  #6](https://github.com/AbstractMachinesLab/caramel/issues/6)),
+* the checking of certain invariants of both ASTs (See [Issue
+  #6](https://github.com/AbstractMachinesLab/caramel/issues/6)),
+* the printing of the Erlang AST (See [Issue
+  #7](https://github.com/AbstractMachinesLab/caramel/issues/7)), and on
+* the runtime support required to execute the generated source code (See [Issue
+  [#8](https://github.com/AbstractMachinesLab/caramel/issues/8)]).
 
-* support for guards:
-  * any expression in most places
-  * only allowlisted ones in function cases
 
-*  consider [adding support for reason syntax](https://github.com/anmonteiro/bucklescript/blob/fork/jscomp/syntax/ast_reason_pp.ml)
+### Future work
 
-## Standard Erlang libraries
+I'd like to build a foundation in the OCaml ecosystem to engage and benefit
+from the BEAM, and I think this can be done by providing good libraries to work
+with Erlang sources in OCaml programs.
 
-* work through feature parity list
+This roughly means support for both Standard Erlang and Core Erlang:
 
-erl(parser): Extend Erlang parser to parse some OTP modules
+* being able to read and parse sources with good error reports,
 
-erl(ast): parametrize the ast to include a context, we can then use that on
-  parse time to include location information in case of ast invariants being
-  broken, or at typed-tree->ast translation time to include information about
-  the exact Erlang terms that failed type checking
-  
-## Core Erlang libraries
+* providing AST definitions and helpers to construct, manipulate, and check
+  different properites in them
 
-* work through feature parity list
+* and printers to generate sources in a readable fashion
 
-core(parser): figure out overlap with erlang parser, steal it!
+The work has already been started, as Caramel currently supports parsing a
+subset of Erlang, and can produce Core Erlang sources for a very very small
+subset of the lower level OCaml Lambda language.
 
-core(printer): Finish pretty printer of Core AST
+On the other hand, having both an Erlang frontend _and_ backend to the OCaml
+compiler means the BEAM can leverage from the broader OCaml ecosystem as well:
 
-## OCaml Lambda to Core Erlang compilation
+* Reason code (and other alternative OCaml syntaxes) could be transparently
+  compiled to Erlang
 
-comp(ml,core): Scout out what parts of Lambda are not compileable to Core (e.g, `Passign`)
+* Erlang code could be compiled to Javascript with the Js_of_ocaml backend
 
-comp(ml,core): Finish mapping from Lambda
+* Erlang code that uses the OCaml standard library could be compiled to small
+  native binaries running on the OCaml Runtime
 
-comp(ml,core): Brainstorm ways to verify the semantics have not changed from
-  `erlc +to_core` to `caramelc compile --to-core`
+* Erlang code could be compiled to Core Erlang ensuring type-safety
 
-comp(ml,core): Figure out what type information is available at Lambda stage
-  and if it makes sense to use that, or pull in the Signature to decore the
-  Core AST
+* Core Erlang code from any BEAM language could be type-checked as OCaml
 
-## Erlang type-checker
+* Type-driven tools for refactoring and verification could be used on Erlang
+  sources
 
-typ(invariants): do not allow tuples of 1 element
+And many other ideas that have come up on discussions about this project so far.
 
+The art is long but the life is short, so we'll do one thing at a time and
+we'll see how far along we get.
+
+/ Leandro
