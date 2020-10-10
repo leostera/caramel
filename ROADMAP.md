@@ -71,6 +71,9 @@ compiler means the BEAM can leverage from the broader OCaml ecosystem as well:
 * Type-driven tools for refactoring and verification could be used on Erlang
   sources
 
+* Lower level languages like the OCaml Bytecode could run on an interpreter on
+  the BEAM, allowing the bulk of OCaml programs to run on the BEAM
+
 And many other ideas that have come up on discussions about this project so far.
 
 The art is long but the life is short, so we'll do one thing at a time and
