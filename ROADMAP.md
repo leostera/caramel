@@ -2,7 +2,7 @@
 
 ## 2020 Q4: [Milestone v0.1](https://github.com/AbstractMachinesLab/caramel/milestone/1)
 
-The initial goal, to type-check Erlang, let me to the thesis that a subset of a
+The initial goal, to type-check Erlang, led me to the thesis that a subset of a
 well-typed language like OCaml could be used to discover a well-typed subset of
 Erlang, and that subset could then be successfully type-checked.
 
@@ -42,7 +42,7 @@ This roughly means support for both Standard Erlang and Core Erlang:
 * being able to read and parse sources with good error reports,
 
 * providing AST definitions and helpers to construct, manipulate, and check
-  different properites in them
+  different properties in them
 
 * and printers to generate sources in a readable fashion
 
