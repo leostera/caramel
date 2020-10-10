@@ -256,6 +256,14 @@
   -export([call_op_2/3]).
   -export([do_add/2]).
   -export([do_nested_add/2]).
+  -export([f/1]).
+  -export([g/0]).
+  
+  -spec f(fun(() -> A)) -> A.
+  f(G) -> G().
+  
+  -spec g() -> A.
+  g(_) -> f(fun g/0).
   
   -spec add(integer(), integer()) -> integer().
   add(X, Y) -> erlang:'+'(X, Y).
@@ -264,7 +272,7 @@
   call_op_2(F, X, Y) -> F(X, Y).
   
   -spec do_add(integer(), integer()) -> integer().
-  do_add(X, Y) -> call_op_2(fun add/2, X, Y).
+  do_add(X, Y) -> call_op_2(fun add/0, X, Y).
   
   -spec do_nested_add(integer(), integer()) -> integer().
   do_nested_add(X, Y) -> call_op_2(funref__nested:add, X, Y).
@@ -396,6 +404,7 @@
   -export_type([int_pair/0]).
   
   -export([match_atoms/0]).
+  -export([match_fall_through/0]).
   -export([match_ignore/0]).
   -export([match_int/0]).
   -export([match_list/0]).
@@ -473,6 +482,13 @@
       _ -> false
     end.
   
+  -spec match_fall_through() -> boolean().
+  match_fall_through() ->
+    case 0 of
+      _ -> true;
+      _ -> false
+    end.
+  
   
   % Source code generated with Caramel.
   -module(names).
@@ -484,7 +500,7 @@
   -spec run_local() -> atom
          .
   run_local() ->
-    X = fun run_local/1,
+    X = fun run_local/0,
     Y = atom,
     Y.
   
