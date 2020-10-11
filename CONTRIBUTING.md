@@ -1,4 +1,6 @@
-# Hacking Caramel
+# Contributing to Caramel :candy:
+
+First of all, thanks for taking the time to contribute! :heart::tada::+1:
 
 [See the Caramel architecture drawing](./docs/caramel_arch.jpg)
 
