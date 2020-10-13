@@ -80,56 +80,72 @@
         (fd_cases
           (((c_lhs ()) (c_guard ())
              (c_rhs
-               (Expr_comment (Comment "% Let bindings")
+               (Expr_let
+                 ((lb_lhs (Pattern_binding (Var_name _)))
+                   (lb_rhs
+                     (Expr_apply
+                       ((fa_name (Expr_name (Var_name A))) (fa_args ())))))
                  (Expr_let
                    ((lb_lhs (Pattern_binding (Var_name A)))
-                     (lb_rhs (Expr_literal (Lit_integer 1))))
-                   (Expr_let
-                     ((lb_lhs (Pattern_binding (Var_name B)))
-                       (lb_rhs (Expr_name (Var_name A))))
-                     (Expr_let
-                       ((lb_lhs (Pattern_binding (Var_name _)))
-                         (lb_rhs (Expr_name (Var_name C))))
-                       (Expr_comment (Comment "% Using variables")
-                         (Expr_let
-                           ((lb_lhs (Pattern_binding (Var_name _)))
-                             (lb_rhs
+                     (lb_rhs
+                       (Expr_apply
+                         ((fa_name
+                            (Expr_name
+                              (Qualified_name (n_mod (Atom_name (Atom erlang)))
+                                (n_name (Atom_name (Atom send))))))
+                           (fa_args
+                             ((Expr_apply
+                                ((fa_name
+                                   (Expr_name
+                                     (Qualified_name
+                                       (n_mod (Atom_name (Atom erlang)))
+                                       (n_name (Atom_name (Atom '*'))))))
+                                  (fa_args
+                                    ((Expr_literal (Lit_integer 3))
+                                      (Expr_apply
+                                        ((fa_name
+                                           (Expr_name
+                                             (Qualified_name
+                                               (n_mod
+                                                 (Atom_name (Atom erlang)))
+                                               (n_name (Atom_name (Atom '+'))))))
+                                          (fa_args
+                                            ((Expr_literal (Lit_integer 1))
+                                              (Expr_literal (Lit_integer 2))))))))))
                                (Expr_apply
-                                 ((fa_name (Expr_name (Atom_name (Atom f))))
-                                   (fa_args ((Expr_name (Var_name A))))))))
-                           (Expr_comment (Comment "% Function references")
-                             (Expr_let
-                               ((lb_lhs (Pattern_binding (Var_name A)))
-                                 (lb_rhs
-                                   (Expr_fun_ref
-                                     (fref_name (Atom_name (Atom f)))
-                                     (fref_arity 0))))
+                                 ((fa_name (Expr_name (Atom_name (Atom g))))
+                                   (fa_args ())))))))))
+                   (Expr_let
+                     ((lb_lhs (Pattern_binding (Var_name _)))
+                       (lb_rhs
+                         (Expr_apply
+                           ((fa_name (Expr_name (Atom_name (Atom f))))
+                             (fa_args ())))))
+                     (Expr_comment (Comment "% Let bindings")
+                       (Expr_let
+                         ((lb_lhs (Pattern_binding (Var_name A)))
+                           (lb_rhs (Expr_literal (Lit_integer 1))))
+                         (Expr_let
+                           ((lb_lhs (Pattern_binding (Var_name B)))
+                             (lb_rhs (Expr_name (Var_name A))))
+                           (Expr_let
+                             ((lb_lhs (Pattern_binding (Var_name _)))
+                               (lb_rhs (Expr_name (Var_name C))))
+                             (Expr_comment (Comment "% Using variables")
                                (Expr_let
-                                 ((lb_lhs (Pattern_binding (Var_name A)))
+                                 ((lb_lhs (Pattern_binding (Var_name _)))
                                    (lb_rhs
-                                     (Expr_fun_ref
-                                       (fref_name
-                                         (Qualified_name
-                                           (n_mod
-                                             (Atom_name (Atom expressions)))
-                                           (n_name (Atom_name (Atom f)))))
-                                       (fref_arity 0))))
-                                 (Expr_let
-                                   ((lb_lhs (Pattern_binding (Var_name A)))
-                                     (lb_rhs
-                                       (Expr_fun_ref
-                                         (fref_name
-                                           (Qualified_name (n_mod (Var_name A))
-                                             (n_name (Atom_name (Atom f)))))
-                                         (fref_arity 0))))
+                                     (Expr_apply
+                                       ((fa_name
+                                          (Expr_name (Atom_name (Atom f))))
+                                         (fa_args ((Expr_name (Var_name A))))))))
+                                 (Expr_comment
+                                   (Comment "% Function references")
                                    (Expr_let
                                      ((lb_lhs (Pattern_binding (Var_name A)))
                                        (lb_rhs
                                          (Expr_fun_ref
-                                           (fref_name
-                                             (Qualified_name
-                                               (n_mod (Var_name A))
-                                               (n_name (Var_name B))))
+                                           (fref_name (Atom_name (Atom f)))
                                            (fref_arity 0))))
                                      (Expr_let
                                        ((lb_lhs (Pattern_binding (Var_name A)))
@@ -140,70 +156,70 @@
                                                  (n_mod
                                                    (Atom_name
                                                      (Atom expressions)))
-                                                 (n_name (Var_name B))))
+                                                 (n_name (Atom_name (Atom f)))))
                                              (fref_arity 0))))
-                                       (Expr_comment (Comment "% Lambdas")
+                                       (Expr_let
+                                         ((lb_lhs
+                                            (Pattern_binding (Var_name A)))
+                                           (lb_rhs
+                                             (Expr_fun_ref
+                                               (fref_name
+                                                 (Qualified_name
+                                                   (n_mod (Var_name A))
+                                                   (n_name
+                                                     (Atom_name (Atom f)))))
+                                               (fref_arity 0))))
                                          (Expr_let
                                            ((lb_lhs
                                               (Pattern_binding (Var_name A)))
                                              (lb_rhs
-                                               (Expr_fun
-                                                 (((c_lhs ()) (c_guard ())
-                                                    (c_rhs
-                                                      (Expr_literal
-                                                        (Lit_atom (Atom ok)))))))))
+                                               (Expr_fun_ref
+                                                 (fref_name
+                                                   (Qualified_name
+                                                     (n_mod (Var_name A))
+                                                     (n_name (Var_name B))))
+                                                 (fref_arity 0))))
                                            (Expr_let
                                              ((lb_lhs
                                                 (Pattern_binding (Var_name A)))
                                                (lb_rhs
-                                                 (Expr_fun
-                                                   (((c_lhs
-                                                       ((Pattern_binding
-                                                          (Var_name B))))
-                                                      (c_guard ())
-                                                      (c_rhs
-                                                        (Expr_name
-                                                          (Var_name B))))))))
+                                                 (Expr_fun_ref
+                                                   (fref_name
+                                                     (Qualified_name
+                                                       (n_mod
+                                                         (Atom_name
+                                                           (Atom expressions)))
+                                                       (n_name (Var_name B))))
+                                                   (fref_arity 0))))
                                              (Expr_comment
-                                               (Comment "% application")
+                                               (Comment "% Lambdas")
                                                (Expr_let
                                                  ((lb_lhs
                                                     (Pattern_binding
-                                                      (Var_name _)))
+                                                      (Var_name A)))
                                                    (lb_rhs
-                                                     (Expr_apply
-                                                       ((fa_name
-                                                          (Expr_name
-                                                            (Var_name A)))
-                                                         (fa_args ())))))
+                                                     (Expr_fun
+                                                       (((c_lhs ())
+                                                          (c_guard ())
+                                                          (c_rhs
+                                                            (Expr_literal
+                                                              (Lit_atom
+                                                                (Atom ok)))))))))
                                                  (Expr_let
                                                    ((lb_lhs
                                                       (Pattern_binding
-                                                        (Var_name _)))
+                                                        (Var_name A)))
                                                      (lb_rhs
-                                                       (Expr_apply
-                                                         ((fa_name
-                                                            (Expr_name
-                                                              (Atom_name
-                                                                (Atom f))))
-                                                           (fa_args ())))))
-                                                   (Expr_let
-                                                     ((lb_lhs
-                                                        (Pattern_binding
-                                                          (Var_name _)))
-                                                       (lb_rhs
-                                                         (Expr_apply
-                                                           ((fa_name
+                                                       (Expr_fun
+                                                         (((c_lhs
+                                                             ((Pattern_binding
+                                                                (Var_name B))))
+                                                            (c_guard ())
+                                                            (c_rhs
                                                               (Expr_name
-                                                                (Qualified_name
-                                                                  (n_mod
-                                                                    (Atom_name
-                                                                      (Atom
-                                                                      expressions)))
-                                                                  (n_name
-                                                                    (Atom_name
-                                                                      (Atom f))))))
-                                                             (fa_args ())))))
+                                                                (Var_name B))))))))
+                                                   (Expr_comment
+                                                     (Comment "% application")
                                                      (Expr_let
                                                        ((lb_lhs
                                                           (Pattern_binding
@@ -212,13 +228,7 @@
                                                            (Expr_apply
                                                              ((fa_name
                                                                 (Expr_name
-                                                                  (Qualified_name
-                                                                    (n_mod
-                                                                      (Var_name
-                                                                      A))
-                                                                    (n_name
-                                                                      (Atom_name
-                                                                      (Atom f))))))
+                                                                  (Var_name A)))
                                                                (fa_args ())))))
                                                        (Expr_let
                                                          ((lb_lhs
@@ -228,13 +238,8 @@
                                                              (Expr_apply
                                                                ((fa_name
                                                                   (Expr_name
-                                                                    (Qualified_name
-                                                                      (n_mod
-                                                                      (Var_name
-                                                                      A))
-                                                                      (n_name
-                                                                      (Var_name
-                                                                      B)))))
+                                                                    (Atom_name
+                                                                      (Atom f))))
                                                                  (fa_args ())))))
                                                          (Expr_let
                                                            ((lb_lhs
@@ -250,20 +255,74 @@
                                                                       (Atom
                                                                       expressions)))
                                                                       (n_name
-                                                                      (Var_name
-                                                                      B)))))
+                                                                      (Atom_name
+                                                                      (Atom f))))))
                                                                    (fa_args ())))))
-                                                           (Expr_comment
-                                                             (Comment
-                                                               "% Map expressions")
+                                                           (Expr_let
+                                                             ((lb_lhs
+                                                                (Pattern_binding
+                                                                  (Var_name _)))
+                                                               (lb_rhs
+                                                                 (Expr_apply
+                                                                   ((fa_name
+                                                                      (Expr_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Var_name
+                                                                      A))
+                                                                      (n_name
+                                                                      (Atom_name
+                                                                      (Atom f))))))
+                                                                     (fa_args
+                                                                      ())))))
                                                              (Expr_let
                                                                ((lb_lhs
                                                                   (Pattern_binding
                                                                     (Var_name
-                                                                      A)))
+                                                                      _)))
                                                                  (lb_rhs
-                                                                   (Expr_map
-                                                                     (((mf_name
+                                                                   (Expr_apply
+                                                                     ((fa_name
+                                                                      (Expr_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Var_name
+                                                                      A))
+                                                                      (n_name
+                                                                      (Var_name
+                                                                      B)))))
+                                                                      (fa_args
+                                                                      ())))))
+                                                               (Expr_let
+                                                                 ((lb_lhs
+                                                                    (Pattern_binding
+                                                                      (Var_name
+                                                                      _)))
+                                                                   (lb_rhs
+                                                                     (Expr_apply
+                                                                      ((fa_name
+                                                                      (Expr_name
+                                                                      (Qualified_name
+                                                                      (n_mod
+                                                                      (Atom_name
+                                                                      (Atom
+                                                                      expressions)))
+                                                                      (n_name
+                                                                      (Var_name
+                                                                      B)))))
+                                                                      (fa_args
+                                                                      ())))))
+                                                                 (Expr_comment
+                                                                   (Comment
+                                                                     "% Map expressions")
+                                                                   (Expr_let
+                                                                     ((lb_lhs
+                                                                      (Pattern_binding
+                                                                      (Var_name
+                                                                      A)))
+                                                                      (lb_rhs
+                                                                      (Expr_map
+                                                                      (((mf_name
                                                                       (Expr_literal
                                                                       (Lit_atom
                                                                       (Atom a))))
@@ -285,13 +344,13 @@
                                                                       (Expr_literal
                                                                       (Lit_atom
                                                                       (Atom d)))))))))))))
-                                                               (Expr_let
-                                                                 ((lb_lhs
-                                                                    (Pattern_binding
+                                                                     (Expr_let
+                                                                      ((lb_lhs
+                                                                      (Pattern_binding
                                                                       (Var_name
                                                                       B)))
-                                                                   (lb_rhs
-                                                                     (Expr_map_update
+                                                                      (lb_rhs
+                                                                      (Expr_map_update
                                                                       (Expr_name
                                                                       (Var_name
                                                                       A))
@@ -303,13 +362,13 @@
                                                                       (Expr_literal
                                                                       (Lit_integer
                                                                       2))))))))
-                                                                 (Expr_comment
-                                                                   (Comment
-                                                                     "% Record expressions")
-                                                                   (Expr_comment
-                                                                     (Comment
+                                                                      (Expr_comment
+                                                                      (Comment
+                                                                      "% Record expressions")
+                                                                      (Expr_comment
+                                                                      (Comment
                                                                       " A = #record{ a=1 },")
-                                                                     (Expr_comment
+                                                                      (Expr_comment
                                                                       (Comment
                                                                       " B = A#record{ a=1 },")
                                                                       (Expr_comment
@@ -541,7 +600,7 @@
                                                                       (Atom ok)))))))))))
                                                                       (Expr_literal
                                                                       (Lit_atom
-                                                                      (Atom ok)))))))))))))))))))))))))))))))))))))))))))))))))))
+                                                                      (Atom ok))))))))))))))))))))))))))))))))))))))))))))))))))))))
         (fd_spec ()))))
   ((Module_attribute
      ((atr_name (Atom module))

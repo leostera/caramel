@@ -1,6 +1,11 @@
 -module(expressions).
 
 f() ->
+  _ = (A)(),
+  A = ((3 * (1 + 2)) ! g()),
+
+  _ = (f()),
+
   %% Let bindings
   A = 1,
   B = A,

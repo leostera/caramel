@@ -28,6 +28,11 @@ let throw x =
   Format.fprintf Format.std_formatter "\n%!";
   raise (Parse_error x)
 
+let normalize_literals expr =
+  match expr with
+  | Expr_literal (Lit_atom atom) -> Expr.ident (Name.atom atom)
+  | _ -> expr
+
 let rec expr_to_pattern expr =
   match expr with
   | Expr_name (Var_name name) -> Pat.bind (Name.var name)
@@ -184,7 +189,7 @@ let type_expr :=
   | FUN; LEFT_PARENS; args = parlist(type_expr); ARROW; return = type_expr; RIGHT_PARENS;
     { Type.fun_ ~args ~return }
 
-  | ~ = name; args = parlist(type_expr);
+  | name = type_name; args = parlist(type_expr);
     { Type.apply ~args ~name }
 
   | t = type_expr; PIPE; t2 = type_expr;
@@ -225,7 +230,6 @@ let expr :=
   | e = expr_op; { e }
   | e = expr_send; { e }
   | e = expr_recv; { e }
-  | e = expr_apply; { e }
   | e = expr_let; { e }
   | e = expr_name; { e }
   | e = expr_literal; { e }
@@ -239,6 +243,12 @@ let expr :=
   | e = expr_if; { e }
   | e = expr_try_catch; { e }
   | e = expr_catch; { e }
+  | ~ = expr; fa_args = parlist(expr);
+    { Expr.apply (normalize_literals expr) fa_args }
+  | THROW; fa_args = parlist(expr);
+    { let throw = Expr.ident (Name.qualified ~m:(Name.atom (Atom.mk "erlang")) ~f:(Name.atom (Atom.mk "throw"))) in
+      Expr.apply throw fa_args }
+  | LEFT_PARENS; e = expr; RIGHT_PARENS; { e }
 
 let expr_macro :=
   | (m,_ ) = MACRO; { Expr.macro m }
@@ -292,15 +302,6 @@ let expr_fun_ref :=
     { Expr.fun_ref (Name.qualified ~m ~f) ~arity:(int_of_string arity) }
   | FUN; name = atom; SLASH; (arity,_) = INTEGER;
     { Expr.fun_ref (Name.atom name) ~arity:(int_of_string arity) }
-
-let expr_apply :=
-  | ~ = name; fa_args = parlist(expr);
-    { Expr.apply (Expr.ident name) fa_args }
-  | ~ = expr_macro; fa_args = parlist(expr);
-    { Expr.apply expr_macro fa_args }
-  | THROW; fa_args = parlist(expr);
-    { let throw = Expr.ident (Name.qualified ~m:(Name.atom (Atom.mk "erlang")) ~f:(Name.atom (Atom.mk "throw"))) in
-      Expr.apply throw fa_args }
 
 let expr_list := l = list(expr); { l }
 
@@ -400,6 +401,10 @@ let literal :=
   | (n, _) = FLOAT; { Const.float n }
   | (a, _) = ATOM; { Const.atom (Atom.mk a) }
   | (s, _) = STRING; { Const.string s }
+
+let type_name :=
+  | (a, _) = ATOM; { Name.atom (Atom.mk a) }
+  | m = type_name; COLON; f = type_name; { Name.qualified ~m ~f }
 
 let name :=
   | (n, _) = VARIABLE; { Name.var n }
