@@ -6,6 +6,6 @@ let initial_agenda () = [
 
 let run () =
   let ia = initial_agenda () in
-  let names = Lists.map (fun (name, _, _) -> name ) ia in
-  let origins = Lists.map (fun (_, _, `origin origin) -> origin ) ia in
-  Lists.zip names origins
+  let origin_names = Lists.map (fun (n, _, `origin o) -> o, n) ia in
+  let m = Maps.merge (Maps.empty ()) (Maps.from_list origin_names) in
+  m
