@@ -144,7 +144,7 @@ and mk_expression exp ~var_names ~modules ~module_name =
   | Texp_constant constant ->
       let v = const_to_literal constant in
       Erlang.Ast.Expr_literal v
-  | Texp_ident (_, { txt; _ }, _) -> (
+  | Texp_ident (_, { txt; _ }, { val_kind; _ }) -> (
       let name = Names.name_of_longident txt in
       let var_name = Names.varname_of_longident txt in
 
@@ -154,7 +154,9 @@ and mk_expression exp ~var_names ~modules ~module_name =
         | true ->
             Name.qualified ~m:(Name.atom module_name)
               ~f:(Name.atom (Atom.lowercase n_name))
-        | _ -> name
+        | _ ->
+            Name.qualified ~m:(Name.atom n_mod)
+              ~f:(Name.atom (Atom.lowercase n_name))
       in
 
       (* NOTE: an identifier may be a currently bound variable name or it may be a function name of 3 kinds:
@@ -167,7 +169,16 @@ and mk_expression exp ~var_names ~modules ~module_name =
         match name with
         | Erlang.Ast.Qualified_name
             { n_mod = Atom_name n_mod; n_name = Atom_name n_name } ->
-            Expr.ident (namespace_qualified_name n_mod n_name)
+            let name =
+              match val_kind with
+              | Val_prim prim -> (
+                  let prim_name = prim.prim_name |> String.trim in
+                  match String.length prim_name > 0 with
+                  | true -> Atom.mk prim_name
+                  | false -> n_name )
+              | _ -> n_name
+            in
+            Expr.ident (namespace_qualified_name n_mod name)
         | _ -> Expr.fun_ref ~arity:0 (Name.atom (Names.atom_of_longident txt)) )
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
