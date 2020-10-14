@@ -15,3 +15,5 @@ external is_atom : 'a -> bool = ""
 external is_pid : 'a -> bool = ""
 
 external is_port : 'a -> bool = ""
+
+external length : 'a list -> int = ""

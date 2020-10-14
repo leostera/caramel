@@ -1,13 +1,23 @@
 (rule
  (alias stdlib)
- (targets beam.cma beam.cmi beam.cmo stdlib_erlang.cma stdlib_erlang.cmi
-   stdlib_erlang.cmo stdlib_process.cma stdlib_process.cmi stdlib_process.cmo
-   stdlib_io.cma stdlib_io.cmi stdlib_io.cmo stdlib_timer.cma
-   stdlib_timer.cmi stdlib_timer.cmo)
+ (targets beam.cma beam.cmi beam.cmo stdlib_binary.cmo stdlib_calendar.cmo
+   stdlib_erlang.cmo stdlib_ets.cmo stdlib_gen_server.cmo
+   stdlib_gen_statem.cmo stdlib_io.cmo stdlib_lists.cmo stdlib_maps.cmo
+   stdlib_process.cmo stdlib_supervisor.cmo stdlib_sys.cmo stdlib_timer.cmo
+   stdlib_binary.cmi stdlib_calendar.cmi stdlib_erlang.cmi stdlib_ets.cmi
+   stdlib_gen_server.cmi stdlib_gen_statem.cmi stdlib_io.cmi stdlib_lists.cmi
+   stdlib_maps.cmi stdlib_process.cmi stdlib_supervisor.cmi stdlib_sys.cmi
+   stdlib_timer.cmi stdlib_binary.cma stdlib_calendar.cma stdlib_erlang.cma
+   stdlib_ets.cma stdlib_gen_server.cma stdlib_gen_statem.cma stdlib_io.cma
+   stdlib_lists.cma stdlib_maps.cma stdlib_process.cma stdlib_supervisor.cma
+   stdlib_sys.cma stdlib_timer.cma)
  (deps ../../bootc.exe)
  (action
   (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive beam.ml
-    stdlib_erlang.ml stdlib_timer.ml stdlib_io.ml stdlib_process.ml)))
+    stdlib_binary.ml stdlib_calendar.ml stdlib_erlang.ml stdlib_ets.ml
+    stdlib_gen_server.ml stdlib_gen_statem.ml stdlib_io.ml stdlib_lists.ml
+    stdlib_maps.ml stdlib_process.ml stdlib_supervisor.ml stdlib_sys.ml
+    stdlib_timer.ml)))
 
 (install
  (section lib)
@@ -15,16 +25,43 @@
   (beam.cmi as ./stdlib/beam/beam.cmi)
   (beam.cma as ./stdlib/beam/beam.cma)
   (beam.cmo as ./stdlib/beam/beam.cmo)
-  (stdlib_erlang.cmi as ./stdlib/beam/stdlib_erlang.cmi)
-  (stdlib_erlang.cma as ./stdlib/beam/stdlib_erlang.cma)
+  (stdlib_binary.cmo as ./stdlib/beam/stdlib_binary.cmo)
+  (stdlib_calendar.cmo as ./stdlib/beam/stdlib_calendar.cmo)
   (stdlib_erlang.cmo as ./stdlib/beam/stdlib_erlang.cmo)
-  (stdlib_process.cmi as ./stdlib/beam/stdlib_process.cmi)
-  (stdlib_process.cma as ./stdlib/beam/stdlib_process.cma)
+  (stdlib_ets.cmo as ./stdlib/beam/stdlib_ets.cmo)
+  (stdlib_gen_server.cmo as ./stdlib/beam/stdlib_gen_server.cmo)
+  (stdlib_gen_statem.cmo as ./stdlib/beam/stdlib_gen_statem.cmo)
+  (stdlib_io.cmo as ./stdlib/beam/stdlib_io.cmo)
+  (stdlib_lists.cmo as ./stdlib/beam/stdlib_lists.cmo)
+  (stdlib_maps.cmo as ./stdlib/beam/stdlib_maps.cmo)
   (stdlib_process.cmo as ./stdlib/beam/stdlib_process.cmo)
-  (stdlib_timer.cmi as ./stdlib/beam/stdlib_timer.cmi)
-  (stdlib_timer.cma as ./stdlib/beam/stdlib_timer.cma)
+  (stdlib_supervisor.cmo as ./stdlib/beam/stdlib_supervisor.cmo)
+  (stdlib_sys.cmo as ./stdlib/beam/stdlib_sys.cmo)
   (stdlib_timer.cmo as ./stdlib/beam/stdlib_timer.cmo)
+  (stdlib_binary.cmi as ./stdlib/beam/stdlib_binary.cmi)
+  (stdlib_calendar.cmi as ./stdlib/beam/stdlib_calendar.cmi)
+  (stdlib_erlang.cmi as ./stdlib/beam/stdlib_erlang.cmi)
+  (stdlib_ets.cmi as ./stdlib/beam/stdlib_ets.cmi)
+  (stdlib_gen_server.cmi as ./stdlib/beam/stdlib_gen_server.cmi)
+  (stdlib_gen_statem.cmi as ./stdlib/beam/stdlib_gen_statem.cmi)
   (stdlib_io.cmi as ./stdlib/beam/stdlib_io.cmi)
+  (stdlib_lists.cmi as ./stdlib/beam/stdlib_lists.cmi)
+  (stdlib_maps.cmi as ./stdlib/beam/stdlib_maps.cmi)
+  (stdlib_process.cmi as ./stdlib/beam/stdlib_process.cmi)
+  (stdlib_supervisor.cmi as ./stdlib/beam/stdlib_supervisor.cmi)
+  (stdlib_sys.cmi as ./stdlib/beam/stdlib_sys.cmi)
+  (stdlib_timer.cmi as ./stdlib/beam/stdlib_timer.cmi)
+  (stdlib_binary.cma as ./stdlib/beam/stdlib_binary.cma)
+  (stdlib_calendar.cma as ./stdlib/beam/stdlib_calendar.cma)
+  (stdlib_erlang.cma as ./stdlib/beam/stdlib_erlang.cma)
+  (stdlib_ets.cma as ./stdlib/beam/stdlib_ets.cma)
+  (stdlib_gen_server.cma as ./stdlib/beam/stdlib_gen_server.cma)
+  (stdlib_gen_statem.cma as ./stdlib/beam/stdlib_gen_statem.cma)
   (stdlib_io.cma as ./stdlib/beam/stdlib_io.cma)
-  (stdlib_io.cmo as ./stdlib/beam/stdlib_io.cmo))
+  (stdlib_lists.cma as ./stdlib/beam/stdlib_lists.cma)
+  (stdlib_maps.cma as ./stdlib/beam/stdlib_maps.cma)
+  (stdlib_process.cma as ./stdlib/beam/stdlib_process.cma)
+  (stdlib_supervisor.cma as ./stdlib/beam/stdlib_supervisor.cma)
+  (stdlib_sys.cma as ./stdlib/beam/stdlib_sys.cma)
+  (stdlib_timer.cma as ./stdlib/beam/stdlib_timer.cma))
  (package caramel))
