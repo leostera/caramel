@@ -36,8 +36,6 @@ jobs:
           - windows-latest
         ocaml-version:
           - 4.11.1
-        skip_test:
-          - false
         include:
           - os: macos-latest
             suffix: x86_64-apple-darwin
@@ -52,7 +50,6 @@ jobs:
             stdlib_path: D:\a\caramel\caramel\_build\default\src\stdlib
 
     env:
-      SKIP_TEST: ${{ matrix.skip_test }}
       OCAML_VERSION: ${{ matrix.ocaml-version }}
       OS: ${{ matrix.os }}
 
