@@ -19,7 +19,7 @@
 
 let where_is : 'a -> 'message Erlang.pid option =
  fun name ->
-  let pid = Erlang.whereis name in
+  let pid = Erlang.where_is name in
   let is_pid = Erlang.is_pid pid in
   match is_pid with true -> Some pid | _ -> None
 
