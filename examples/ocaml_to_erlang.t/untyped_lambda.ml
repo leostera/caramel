@@ -40,7 +40,7 @@ let rec pp_term ctx { expr; info } =
       pp_term ctx arg;
       Io.format ")" []
   | Var (x, n) ->
-      if List.length ctx = n then
+      if Erlang.length ctx = n then
         match index_to_name ctx x with
         | Some y -> Io.format "~p" [ y ]
         | None -> Io.format "[name was missing: ~p]" [ x ]

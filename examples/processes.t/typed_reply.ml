@@ -29,7 +29,7 @@ let rec c_loop pid recv a =
       c_loop pid recv a
 
 let run () =
-  let a = Process.make (fun pid recv -> a_loop pid recv 0) in
-  let _b = Process.make (fun pid recv -> b_loop pid recv a) in
-  let _c = Process.make (fun pid recv -> c_loop pid recv a) in
+  let a = Process.spawn (fun pid recv -> a_loop pid recv 0) in
+  let _b = Process.spawn (fun pid recv -> b_loop pid recv a) in
+  let _c = Process.spawn (fun pid recv -> c_loop pid recv a) in
   ()
