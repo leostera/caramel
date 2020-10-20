@@ -95,7 +95,8 @@ let type_name_of_path ~args p =
       let name = id |> Ident.name |> ocaml_to_erlang_type |> Name.to_string in
       type_name_of_parts ~args (name :: parts)
 
-let longident_to_type_name ~args x = x |> Longident.flatten |> type_name_of_parts ~args
+let longident_to_type_name ~args x =
+  x |> Longident.flatten |> type_name_of_parts ~args
 
 let to_erl_op t =
   Name.qualified
