@@ -1,7 +1,7 @@
 type t = {
   sources : string list;
   dump_ast : bool;
-  target : Target.t;
+  targets : Target.t list;
   no_stdlib : bool;
   stdlib_path : string;
 }

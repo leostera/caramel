@@ -63,11 +63,14 @@ let compile_one source ~target ~opts =
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file)
 
-let compile ({ sources; target; _ } as opts) =
+let compile ({ sources; targets; _ } as opts) =
   match
     initialize_compiler ~opts;
-    Source_tagger.prepare ~sources ~target
-    |> List.iter (compile_one ~target ~opts);
+    let target = List.hd targets in
+    let sorted_sources = Source_tagger.prepare ~sources ~target in
+    List.iter
+      (fun target -> List.iter (compile_one ~target ~opts) sorted_sources)
+      targets;
     Warnings.check_fatal ()
   with
   | exception Env.Error err ->

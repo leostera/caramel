@@ -28,9 +28,10 @@ let check_one source ~opts =
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file)
 
-let check ({ sources; target; _ } as opts) =
+let check ({ sources; targets; _ } as opts) =
   match
     initialize_compiler ~opts;
+    let target = List.hd targets in
     Source_tagger.prepare ~sources ~target |> List.iter (check_one ~opts);
     Warnings.check_fatal ()
   with
