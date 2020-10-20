@@ -44,7 +44,7 @@ module Fun = struct
         Type.tuple parts
     | Tlink t -> mk_type_expr (Btype.repr t)
     | Tvar (Some name) -> Type.var (Name.var name)
-    | Tvar None -> Type.var (Name.var (Type_var_names.find type_expr))
+    | Tvar None -> Type.any
     | Tnil -> Type.apply ~name:(Name.atom (Atom.mk "list")) ~args:[]
     | Tvariant { row_fields; _ } ->
         let row_field_to_type_expr = function
@@ -157,7 +157,7 @@ let rec mk_type_expr core_type =
    * gets compiled to `-type a() :: list(string()).`
    *)
   | Ttyp_constr (_, { txt; _ }, args) ->
-      let (name, args) = Names.longident_to_type_name ~args txt in
+      let name, args = Names.longident_to_type_name ~args txt in
       let args = List.filter_map mk_type_expr args in
       Some (Type.apply ~args ~name)
   | Ttyp_tuple els ->
@@ -179,7 +179,7 @@ let rec mk_type_expr core_type =
                 in
                 all_rows rs' (variant :: acc)
             | Tinherit { ctyp_desc = Ttyp_constr (_, { txt; _ }, args); _ } ->
-                let (name, args) = Names.longident_to_type_name ~args txt in
+                let name, args = Names.longident_to_type_name ~args txt in
                 let args = List.filter_map mk_type_expr args in
                 let t = Type.apply ~name ~args in
                 all_rows rs' (t :: acc)
