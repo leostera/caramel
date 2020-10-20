@@ -19,7 +19,7 @@ module Proc = struct
 
   let start () =
     let loop pid recv = a_loop pid recv 0 in
-    let pid = Process.spawn loop in
+    let pid = Process.make loop in
     Proc_registry.register (name ()) pid
 end
 

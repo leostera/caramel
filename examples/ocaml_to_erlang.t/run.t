@@ -226,7 +226,7 @@
               }).
   initial_agenda() -> [{<<"erlang">>, programming_language, {origin, <<"swedish">>}} | [{<<"ocaml">>, programming_language, {origin, <<"french">>}} | [{<<"elixir">>, programming_language, {origin, <<"brazilian">>}} | []]]].
   
-  -spec run() -> beam__maps:map(binary(), binary()).
+  -spec run() -> beam__maps:t(binary(), binary()).
   run() ->
     Ia = initial_agenda(),
     Origin_names = lists:map(fun

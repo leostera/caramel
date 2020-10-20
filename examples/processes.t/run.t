@@ -54,11 +54,8 @@
     State2 = handle_message(State, Msg),
     loop(Recv, State2).
   
-  -spec start({binary(), integer()}) -> beam__process__erlang:pid({add, integer()}
-     | {hello, binary()}
-     | reset
-     ).
-  start(X) -> process:spawn(fun
+  -spec start({binary(), integer()}) -> erlang:pid(A).
+  start(X) -> process:make(fun
     (_self, Recv) -> loop(Recv, X)
   end).
   
@@ -102,8 +99,8 @@
     State2 = handle_message(State, Msg),
     loop(Recv, State2).
   
-  -spec start(state()) -> beam__process__erlang:pid(msg()).
-  start(X) -> process:spawn(fun
+  -spec start(state()) -> erlang:pid(A).
+  start(X) -> process:make(fun
     (_self, Recv) -> loop(Recv, X)
   end).
   
@@ -203,12 +200,12 @@
   a_loop(Pid, Recv, erlang:'+'(I, J))
     end.
   
-  -spec start() -> result:t(beam__erlang:pid(integer()), binary()).
+  -spec start() -> result:t(beam__erlang:pid(A), binary()).
   start() ->
     Loop = fun
     (Pid, Recv) -> a_loop(Pid, Recv, 0)
   end,
-    Pid = process:spawn(Loop),
+    Pid = process:make(Loop),
     proc_registry:register(name(), Pid).
   
   
@@ -224,8 +221,8 @@
     timer:sleep(T),
     loop(erlang:'*'(T, 2), Recv).
   
-  -spec start(integer()) -> beam__process__erlang:pid(A).
-  start(T) -> process:spawn(fun
+  -spec start(integer()) -> erlang:pid(A).
+  start(T) -> process:make(fun
     (_self, R) -> loop(T, R)
   end).
   
@@ -261,7 +258,7 @@
   b_loop(Pid, Recv, A)
     end.
   
-  -spec c_loop(beam__process__erlang:pid(boolean()), fun((beam__process:after_time()) -> option:t(boolean())), beam__erlang:pid({call, {beam__process__erlang:pid(integer()), integer()}}
+  -spec c_loop(erlang:pid(boolean()), fun((beam__process:after_time()) -> option:t(boolean())), beam__erlang:pid({call, {erlang:pid(A), integer()}}
       )) -> ok.
   c_loop(Pid, Recv, A) ->
     timer:sleep(1000),
@@ -278,13 +275,13 @@
   
   -spec run() -> ok.
   run() ->
-    A = process:spawn(fun
+    A = process:make(fun
     (Pid, Recv) -> a_loop(Pid, Recv, 0)
   end),
-    _b = process:spawn(fun
+    _b = process:make(fun
     (Pid, Recv) -> b_loop(Pid, Recv, A)
   end),
-    _c = process:spawn(fun
+    _c = process:make(fun
     (Pid, Recv) -> c_loop(Pid, Recv, A)
   end),
     ok.

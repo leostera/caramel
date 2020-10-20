@@ -62,7 +62,7 @@ let rec loop ~recv state =
   let state2 = handle_message state msg in
   loop ~recv state2
 
-let start x = Process.spawn (fun _self recv -> loop ~recv x)
+let start x = Process.make (fun _self recv -> loop ~recv x)
 
 let do_work () =
   let pid = start ("hi", 0) in
@@ -105,7 +105,7 @@ loop(Recv, State) ->
   loop(Recv, State2).
 
 -spec start(state()) -> erlang:pid(msg()).
-start(X) -> process:spawn(fun
+start(X) -> process:make(fun
   (_self, Recv) -> loop(Recv, X)
 end).
 
