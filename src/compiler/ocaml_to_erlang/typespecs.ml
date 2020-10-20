@@ -36,7 +36,7 @@ module Fun = struct
             Format.fprintf Format.std_formatter "\n%!";
             Error.unsupported_feature `Uncurryable_functions )
     | Tconstr (p, args, _) ->
-        let name = Names.type_name_of_path p in
+        let name, args = Names.type_name_of_path p ~args in
         let args = List.map mk_type_expr args in
         Type.apply ~name ~args
     | Ttuple els ->
@@ -157,7 +157,7 @@ let rec mk_type_expr core_type =
    * gets compiled to `-type a() :: list(string()).`
    *)
   | Ttyp_constr (_, { txt; _ }, args) ->
-      let name = Names.longident_to_type_name txt in
+      let (name, args) = Names.longident_to_type_name ~args txt in
       let args = List.filter_map mk_type_expr args in
       Some (Type.apply ~args ~name)
   | Ttyp_tuple els ->
@@ -179,7 +179,7 @@ let rec mk_type_expr core_type =
                 in
                 all_rows rs' (variant :: acc)
             | Tinherit { ctyp_desc = Ttyp_constr (_, { txt; _ }, args); _ } ->
-                let name = Names.longident_to_type_name txt in
+                let (name, args) = Names.longident_to_type_name ~args txt in
                 let args = List.filter_map mk_type_expr args in
                 let t = Type.apply ~name ~args in
                 all_rows rs' (t :: acc)

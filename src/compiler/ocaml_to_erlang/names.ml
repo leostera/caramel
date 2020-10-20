@@ -64,10 +64,10 @@ let ocaml_to_erlang_type t =
         ~f:(Name.atom (Atom.mk "t"))
   | u -> Name.atom (Atom.mk u)
 
-let type_name_of_parts parts =
+let type_name_of_parts ~args parts =
   match List.rev parts with
   | [] -> Error.unsupported_empty_identifier ()
-  | [ x ] -> ocaml_to_erlang_type x
+  | [ x ] -> (ocaml_to_erlang_type x, args)
   | n_name :: mods -> (
       let n_mod =
         mods |> List.rev |> String.concat "__" |> String.lowercase_ascii
@@ -75,24 +75,27 @@ let type_name_of_parts parts =
       let module_name = Atom.mk n_mod |> Atom.lowercase in
       match (n_mod, n_name) with
       | _, x when x = "option" || x = "result" ->
-          Name.qualified
-            ~m:(Atom.mk x |> Atom.lowercase |> Name.atom)
-            ~f:(Name.atom (Atom.mk "t"))
-      | "erlang", "process" ->
-          Name.qualified ~m:(Name.atom module_name)
-            ~f:(Name.atom (Atom.mk "pid"))
+          ( Name.qualified
+              ~m:(Atom.mk x |> Atom.lowercase |> Name.atom)
+              ~f:(Name.atom (Atom.mk "t")),
+            args )
+      | "erlang", "pid" ->
+          ( Name.qualified ~m:(Name.atom module_name)
+              ~f:(Name.atom (Atom.mk "pid")),
+            [] )
       | _, _ ->
-          Name.qualified ~m:(Name.atom module_name)
-            ~f:(Atom.mk n_name |> Atom.lowercase |> Name.atom) )
+          ( Name.qualified ~m:(Name.atom module_name)
+              ~f:(Atom.mk n_name |> Atom.lowercase |> Name.atom),
+            args ) )
 
-let type_name_of_path p =
+let type_name_of_path ~args p =
   match Path.flatten p with
   | `Contains_apply -> Error.unsupported_path p
   | `Ok (id, parts) ->
       let name = id |> Ident.name |> ocaml_to_erlang_type |> Name.to_string in
-      type_name_of_parts (name :: parts)
+      type_name_of_parts ~args (name :: parts)
 
-let longident_to_type_name x = x |> Longident.flatten |> type_name_of_parts
+let longident_to_type_name ~args x = x |> Longident.flatten |> type_name_of_parts ~args
 
 let to_erl_op t =
   Name.qualified
