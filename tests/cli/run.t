@@ -7,5 +7,5 @@ Calling compile without inputs will error out.
 
 Calling compile with uncompilable files will error out.
   $ caramelc compile dummy.txt
-  Attempted to compile dummy.txt, but .txt files are not supported with the target flag: --target=erl
+  Attempted to compile dummy.txt, but .txt files are not supported with the target flag: --target=erlang
   [1]
