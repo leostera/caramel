@@ -8,13 +8,15 @@ let recv ~timeout =
   let f = __caramel_recv in
   match timeout with Infinity -> f `Infinity | Bounded t -> f t
 
-let make f =
+let spawn : ('m Erlang.pid -> 'm recv -> 'a) -> 'm Erlang.pid =
+ fun f ->
   Erlang.spawn (fun () ->
       let pid : 'm Erlang.pid = Erlang.self () in
       f pid recv)
 
-let send proc msg = Erlang.send proc msg
+let send : 'm Erlang.pid -> 'm -> unit = fun proc msg -> Erlang.send proc msg
 
-let contramap f pid =
-  make (fun _self recv ->
+let contramap : ('b -> 'a) -> 'a Erlang.pid -> 'b Erlang.pid =
+ fun f pid ->
+  spawn (fun _self recv ->
       match recv ~timeout:Infinity with Some a -> send pid (f a) | None -> ())
