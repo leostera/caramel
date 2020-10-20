@@ -347,7 +347,7 @@ and pp_expression prefix ppf expr ~module_ =
       pp_expression "" ppf binding.lb_rhs ~module_;
       Format.fprintf ppf ",\n";
       pp_expression prefix ppf expr ~module_
-  | Expr_fun_ref { fref_name = Atom_name (Atom "__caramel_recv"); _ } ->
+  | Expr_fun_ref { fref_name = Atom_name (Atom "'__caramel_recv'"); _ } ->
       Format.fprintf ppf "fun (T) -> ";
       Format.fprintf ppf "receive X -> {some, X} ";
       Format.fprintf ppf "after T -> none ";
