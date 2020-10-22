@@ -33,8 +33,6 @@ module Name = struct
     | Var_name n -> n
     | Qualified_name { n_mod; n_name } ->
         Printf.sprintf "%s:%s" (to_string n_mod) (to_string n_name)
-
-  let ignore = var "_"
 end
 
 (* Helpers to work with Literals *)

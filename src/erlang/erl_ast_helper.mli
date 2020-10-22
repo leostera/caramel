@@ -26,8 +26,6 @@ module Name : sig
   val qualified : m:name -> f:name -> name
 
   val to_string : name -> string
-
-  val ignore : name
 end
 
 (* Helpers to work with Literals *)
