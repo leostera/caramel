@@ -6,7 +6,10 @@ module Target = Comp_misc.Target
 let tool_name = "caramelc"
 
 let default_stdlib_path =
-  Filename.concat (Filename.dirname Sys.executable_name) "stdlib"
+  let ( / ) = Filename.concat in
+  let dirname = Filename.dirname in
+  let root = dirname (dirname Sys.executable_name) in
+  root / "lib" / "caramel" / "stdlib"
 
 module Backend = struct
   (* See backend_intf.mli. *)
