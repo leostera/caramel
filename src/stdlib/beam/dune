@@ -2,14 +2,14 @@
  (alias stdlib)
  (targets beam.cma beam.cmi beam.cmo binary.cma binary.cmi binary.cmo
    calendar.cma calendar.cmi calendar.cmo erlang.cma erlang.cmi erlang.cmo
-   ets.cma ets.cmi ets.cmo io.cma io.cmi io.cmo lists.cma
-   lists.cmi lists.cmo maps.cma maps.cmi maps.cmo process.cma process.cmi
-   process.cmo process.erl timer.cma timer.cmi timer.cmo)
+   ets.cma ets.cmi ets.cmo io.cma io.cmi io.cmo lists.cma lists.cmi lists.cmo
+   maps.cma maps.cmi maps.cmo process.cma process.cmi process.cmo process.erl
+   timer.cma timer.cmi timer.cmo)
  (deps ../../bootc.exe)
  (action
   (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive
-    --target=erlang beam.ml binary.ml calendar.ml erlang.ml ets.ml
-    io.mli io.ml lists.ml maps.ml process.ml timer.ml)))
+    --target=erlang beam.ml binary.ml calendar.ml erlang.ml ets.ml io.mli
+    io.ml lists.ml maps.ml process.ml timer.ml)))
 
 (install
  (section lib)
