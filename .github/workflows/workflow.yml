@@ -96,6 +96,9 @@ jobs:
           echo "::set-env name=GITHUB_TAG::$(echo $tag)"
           echo "::set-env name=CARAMELC_STDLIB_PATH::${{ matrix.stdlib_path }}"
 
+      - name: Update Opam
+        run: opam update --yes
+
       - name: Install dependencies
         run: opam exec -- make deps
 
