@@ -2,14 +2,14 @@
  (alias stdlib)
  (targets beam.cma beam.cmi beam.cmo binary.cma binary.cmi binary.cmo
    calendar.cma calendar.cmi calendar.cmo erlang.cma erlang.cmi erlang.cmo
-   ets.cma ets.cmi ets.cmo beam_io.cma beam_io.cmi beam_io.cmo lists.cma
+   ets.cma ets.cmi ets.cmo io.cma io.cmi io.cmo lists.cma
    lists.cmi lists.cmo maps.cma maps.cmi maps.cmo process.cma process.cmi
    process.cmo process.erl timer.cma timer.cmi timer.cmo)
  (deps ../../bootc.exe)
  (action
   (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive
     --target=erlang beam.ml binary.ml calendar.ml erlang.ml ets.ml
-    beam_io.mli beam_io.ml lists.ml maps.ml process.ml timer.ml)))
+    io.mli io.ml lists.ml maps.ml process.ml timer.ml)))
 
 (install
  (section lib)
@@ -29,9 +29,9 @@
   (ets.cma as ./stdlib/beam/ets.cma)
   (ets.cmi as ./stdlib/beam/ets.cmi)
   (ets.cmo as ./stdlib/beam/ets.cmo)
-  (beam_io.cma as ./stdlib/beam/beam_io.cma)
-  (beam_io.cmi as ./stdlib/beam/beam_io.cmi)
-  (beam_io.cmo as ./stdlib/beam/beam_io.cmo)
+  (io.cma as ./stdlib/beam/io.cma)
+  (io.cmi as ./stdlib/beam/io.cmi)
+  (io.cmo as ./stdlib/beam/io.cmo)
   (lists.cma as ./stdlib/beam/lists.cma)
   (lists.cmi as ./stdlib/beam/lists.cmi)
   (lists.cmo as ./stdlib/beam/lists.cmo)

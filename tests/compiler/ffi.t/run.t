@@ -1,5 +1,4 @@
   $ ls *.ml
-  io.ml
   using_io.ml
   $ caramelc compile *.ml
   Compiling using_io.erl	OK

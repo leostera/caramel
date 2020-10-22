@@ -2,7 +2,6 @@
   basic.ml
   hello_joe.ml
   ignored_arguments.ml
-  io.ml
   labeled_arguments.ml
   multiple_clauses.ml
   partial_functions.ml
@@ -49,6 +48,7 @@
   Here is an example of a case that is not matched:
   false
   Compiling uncurry.erl	OK
+  Compiling sequencing.erl	OK
   Compiling qualified_calls_helper__nested.erl	OK
   Compiling qualified_calls_helper.erl	OK
   Compiling qualified_calls__nested.erl	OK
@@ -59,7 +59,6 @@
   Compiling ignored_arguments.erl	OK
   Compiling hello_joe.erl	OK
   Compiling basic.erl	OK
-  Compiling sequencing.erl	OK
   $ echo $?
   0
   $ cat *.erl
