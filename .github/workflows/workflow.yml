@@ -69,7 +69,7 @@ jobs:
            _build
            C:\cygwin
            D:\a\caramel\caramel
-          key: ${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-${{ hashFiles('**/*.opam*') }}
+          key: ${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-${{ hashFiles('**/*.opam*') }}-${{ secrets.CACHE_VERSION }}
           restore-keys: |
             ${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-
             ${{ matrix.os }}-${{ matrix.ocaml-version }}-
