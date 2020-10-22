@@ -17,11 +17,16 @@ install:
 
 .PHONY: deps
 deps:
-	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat
+	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat bisect_ppx
 
 .PHONY: test
 test:
 	dune runtest
+
+.PHONY: coverage
+coverage:
+	dune runtest --instrument-with bisect_ppx --force
+	bisect-ppx-report html --expect src
 
 release:
 	tar czf release.tar.gz \

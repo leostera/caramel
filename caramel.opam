@@ -9,8 +9,9 @@ synopsis:     "Compiler bridging OCaml and Erlang"
 build: [["dune" "build" "-p" name "-j" jobs]]
 
 depends: [
+  "bisect_ppx" {dev & >= "2.5.0"}
   "cmdliner"
-  "dune" {>= "2.5"}
+  "dune" {>= "2.7"}
   "menhir"
   "ocaml" {>= "4.11.1"}
   "ocaml-compiler-libs"

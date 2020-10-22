@@ -1,6 +1,8 @@
 (library
  (name erlang)
  (public_name caramel.erlang)
+ (instrumentation
+  (backend bisect_ppx))
  (preprocess
   (pps ppx_sexp_conv))
  (libraries sexplib))

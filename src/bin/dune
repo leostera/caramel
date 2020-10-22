@@ -1,5 +1,7 @@
 (library
  (name bin)
  (libraries cmdliner caramel.compiler caramel.typing)
+ (instrumentation
+  (backend bisect_ppx))
  (flags
   (:standard -safe-string)))

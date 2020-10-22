@@ -1,6 +1,8 @@
 (executable
  (name bootc)
  (libraries bin)
+ (instrumentation
+  (backend bisect_ppx))
  (modules bootc))
 
 (executable
@@ -9,6 +11,8 @@
  (package caramel)
  (modules caramelc)
  (libraries bin)
+ (instrumentation
+  (backend bisect_ppx))
  (flags
   (:standard -safe-string)))
 

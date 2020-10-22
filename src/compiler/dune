@@ -1,6 +1,8 @@
 (library
  (name caramel_compiler)
  (public_name caramel.compiler)
+ (instrumentation
+  (backend bisect_ppx))
  (libraries caramel.compiler.ocaml_to_erlang
    caramel.compiler.ocaml_to_core_erlang caramel.compiler.ocaml_archive
    caramel.compiler.erlang_to_native caramel.compiler.misc

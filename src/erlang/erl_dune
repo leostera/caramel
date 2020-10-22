@@ -1,7 +1,0 @@
-(library
- (name std_erlang)
- (public_name erlang.std)
- (preprocess
-  (pps ppx_sexp_conv))
- (libraries sexplib))
-

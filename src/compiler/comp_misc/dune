@@ -1,4 +1,6 @@
 (library
  (name comp_misc)
  (public_name caramel.compiler.misc)
+ (instrumentation
+  (backend bisect_ppx))
  (libraries compiler-libs.common))
