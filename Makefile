@@ -28,6 +28,7 @@ coverage:
 	dune runtest --instrument-with bisect_ppx --force
 	bisect-ppx-report html --expect src
 
+.PHONY: release
 release:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
 	rm -rf _release/caramel/lib/caramel/erlang
