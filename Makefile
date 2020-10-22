@@ -29,11 +29,11 @@ coverage:
 	bisect-ppx-report html --expect src
 
 release:
-	dune install --prefix=caramel-$(shell cat VERSION) --force --sandbox=copy --release
-	rm -rf _release/lib/caramel/erlang
-	rm -rf _release/lib/caramel/typing
-	rm -rf _release/lib/caramel/compiler
-	tar czf release.tar.gz caramel-$(shell cat VERSION)
+	dune install --prefix=_release/caramel --force --sandbox=copy --release
+	rm -rf _release/caramel/lib/caramel/erlang
+	rm -rf _release/caramel/lib/caramel/typing
+	rm -rf _release/caramel/lib/caramel/compiler
+	tar czf release.tar.gz -C _release caramel
 
 .PHONY: promote
 promote:
