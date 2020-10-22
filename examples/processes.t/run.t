@@ -139,7 +139,7 @@
   -export([register/2]).
   -export([where_is/1]).
   
-  -spec where_is(A) -> option:t(beam__erlang:pid(Message)).
+  -spec where_is(_a) -> option:t(beam__erlang:pid(_message)).
   where_is(Name) ->
     Pid = erlang:whereis(Name),
     Is_pid = erlang:is_pid(Pid),
@@ -148,7 +148,7 @@
       _ -> none
     end.
   
-  -spec register(A, beam__erlang:pid(Message)) -> result:t(beam__erlang:pid(Message), binary()).
+  -spec register(_a, beam__erlang:pid(_message)) -> result:t(beam__erlang:pid(_message), binary()).
   register(Name, Pid) ->
     case where_is(Name) of
       {some, _} -> {error, <<"pid already registered">>};

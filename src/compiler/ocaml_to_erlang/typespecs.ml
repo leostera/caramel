@@ -43,7 +43,7 @@ module Fun = struct
         let parts = els |> List.map mk_type_expr in
         Type.tuple parts
     | Tlink t -> mk_type_expr (Btype.repr t)
-    | Tvar (Some name) -> Type.var (Name.var name)
+    | Tvar (Some name) -> Type.var (Name.var ("_"^name))
     | Tvar None -> Type.any
     | Tnil -> Type.apply ~name:(Name.atom (Atom.mk "list")) ~args:[]
     | Tvariant { row_fields; _ } ->
