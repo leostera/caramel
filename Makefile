@@ -17,7 +17,7 @@ install:
 
 .PHONY: deps
 deps:
-	opam install ./caramel.opam --deps-only --with-test
+	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat bisect_ppx
 
 .PHONY: test
 test:
