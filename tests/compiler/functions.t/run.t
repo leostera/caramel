@@ -200,7 +200,7 @@
   double(F, X) -> F(F(X)).
   
   -spec add_twice(any()) -> any().
-  add_twice(X) -> double(fun add/0, X).
+  add_twice(X) -> double(fun add/1, X).
   
   -spec call_nested(boolean()) -> ok.
   call_nested(X) -> qualified_calls__nested:f(X).

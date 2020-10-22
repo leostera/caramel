@@ -272,7 +272,7 @@
   call_op_2(F, X, Y) -> F(X, Y).
   
   -spec do_add(integer(), integer()) -> integer().
-  do_add(X, Y) -> call_op_2(fun add/0, X, Y).
+  do_add(X, Y) -> call_op_2(fun add/2, X, Y).
   
   -spec do_nested_add(integer(), integer()) -> integer().
   do_nested_add(X, Y) -> call_op_2(funref__nested:add, X, Y).
