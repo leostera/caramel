@@ -1,3 +1,5 @@
+open Erlang.Ast_helper
+
 exception Unsupported_feature
 
 exception Unsupported_top_level_module_value
@@ -8,6 +10,11 @@ let ppf = Format.err_formatter
 
 let file_a_bug =
   {| If you think this is a bug, please file an issue here: https://github.com/AbstractMachinesLab/caramel/issues/new |}
+
+let referenced_undeclared_function name =
+  Format.fprintf ppf "Referencing undeclared function: %s" (Atom.to_string name);
+  Format.fprintf ppf "\n\n%s" file_a_bug;
+  exit 1
 
 let unsupported_path path =
   Format.fprintf ppf "We have found an unsupported path: ";
