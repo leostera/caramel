@@ -191,7 +191,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             let name = Names.atom_of_longident txt in
             let arity =
               match find_function_arity_by_name ~functions name with
-              | Some (Erlang.Ast.{ fd_arity; _ }) -> fd_arity
+              | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
               | None -> 0
             in
             Expr.fun_ref ~arity (Name.atom name) )
@@ -387,7 +387,8 @@ let mk_functions :
          | Tstr_value (_, vb) ->
              List.map
                (mk_value ~typedtree ~modules ~module_name ~functions:acc)
-               vb @ acc
+               vb
+             @ acc
          | _ -> acc)
        []
   |> List.rev
