@@ -1,40 +1,24 @@
-#**************************************************************************
-#*                                                                        *
-#*                                 OCaml                                  *
-#*                                                                        *
-#*                 Damien Doligez, projet Gallium, INRIA                  *
-#*                                                                        *
-#*   Copyright 2015 Institut National de Recherche en Informatique et     *
-#*     en Automatique.                                                    *
-#*                                                                        *
-#*   All rights reserved.  This file is distributed under the terms of    *
-#*   the GNU Lesser General Public License version 2.1, with the          *
-#*   special exception on linking described in the file LICENSE.          *
-#*                                                                        *
-#**************************************************************************
-
-# general patterns
-
-*.o
 *.a
-*.so
-*.obj
-*.lib
-*.dll
-*.la
-*.cm[ioxat]
-*.cmx[as]
-*.cmti
 *.annot
+*.beam
+*.cm[ioxat]
+*.cmti
+*.cmx[as]
+*.dll
 *.exe
 *.exe.manifest
-.DS_Store
+*.la
+*.lib
+*.o
+*.obj
+*.odoc
 *.out
 *.out.dSYM
+*.so
 *.swp
-_ocamltest
-_ocamltestd
-*.odoc
+.DS_Store
 .merlin
 _build
-*.beam
+_ocamltest
+_ocamltestd
+_release
