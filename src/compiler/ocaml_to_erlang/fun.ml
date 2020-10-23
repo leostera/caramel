@@ -48,7 +48,7 @@ let is_nested_module ~modules name =
     (fun Erlang.Ast.{ module_name = mn; _ } -> Atom.equal mn name)
     modules
 
-let find_function_arity_by_name ~functions name =
+let find_function_by_name ~functions name =
   List.find_opt
     (fun Erlang.Ast.{ fd_name; _ } -> Atom.equal fd_name name)
     functions
@@ -190,7 +190,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
         | _ ->
             let name = Names.atom_of_longident txt in
             let arity =
-              match find_function_arity_by_name ~functions name with
+              match find_function_by_name ~functions name with
               | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
               | None -> 0
             in
@@ -365,11 +365,14 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
 
 let mk_value vb ~modules ~functions ~module_name ~typedtree =
   match (vb.vb_pat.pat_desc, vb.vb_expr.exp_desc) with
-  | Tpat_var (id, _), Texp_function { cases; _ } ->
-      let id = id |> Names.atom_of_ident in
-      mk_function ~module_name ~modules ~functions
-        ~spec:(Typespecs.Fun.find_spec ~typedtree id)
-        ~var_names:[] id cases
+  | Tpat_var (id, _), Texp_function { cases; _ } -> (
+      let fn_name = id |> Names.atom_of_ident in
+      match find_function_by_name ~functions fn_name with
+      | Some _ -> Error.redefining_function ~fn_name ~module_name
+      | None ->
+          mk_function ~module_name ~modules ~functions
+            ~spec:(Typespecs.Fun.find_spec ~typedtree fn_name)
+            ~var_names:[] fn_name cases )
   | _ -> Error.unsupported_top_level_module_value ()
 
 (** Build the actual functions of an Erlang module

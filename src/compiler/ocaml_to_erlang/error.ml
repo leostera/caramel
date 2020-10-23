@@ -11,6 +11,15 @@ let ppf = Format.err_formatter
 let file_a_bug =
   {| If you think this is a bug, please file an issue here: https://github.com/AbstractMachinesLab/caramel/issues/new |}
 
+let redefining_function ~fn_name ~module_name =
+  Format.fprintf ppf
+    {|We have found 2 definitions of the function: %s in module %s, and this is unfortuantely not supported.
+\n
+|}
+    (Atom.to_string fn_name)
+    (Atom.to_string module_name);
+  exit 1
+
 let referenced_undeclared_function name =
   Format.fprintf ppf "Referencing undeclared function: %s" (Atom.to_string name);
   Format.fprintf ppf "\n\n%s" file_a_bug;

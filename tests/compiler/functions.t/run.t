@@ -7,61 +7,14 @@
   partial_functions.ml
   qualified_calls.ml
   qualified_calls_helper.ml
+  redefine.ml
   sequencing.ml
   uncurry.ml
   uncurry.mli
-  $ caramelc compile *.ml *.mli
-  File "partial_functions.ml", line 1, characters 9-21:
-  1 | let head (x :: _) = x
-               ^^^^^^^^^^^^
-  Warning 8: this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  []
-  File "partial_functions.ml", line 3, characters 9-23:
-  3 | let tail (_ :: xs) = xs
-               ^^^^^^^^^^^^^^
-  Warning 8: this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  []
-  File "partial_functions.ml", line 5, characters 11-20:
-  5 | let one_el [ x ] = x
-                 ^^^^^^^^^
-  Warning 8: this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  (_::_::_|[])
-  File "partial_functions.ml", line 7, characters 9-26:
-  7 | let at_2 (_ :: x :: _) = x
-               ^^^^^^^^^^^^^^^^^
-  Warning 8: this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  (_::[]|[])
-  File "partial_functions.ml", line 9, characters 9-31:
-  9 | let at_3 (_ :: _ :: x :: _) = x
-               ^^^^^^^^^^^^^^^^^^^^^^
-  Warning 8: this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  (_::_::[]|_::[]|[])
-  File "multiple_clauses.ml", line 1, characters 22-34:
-  1 | let iff_using_headers true f _ = f
-                            ^^^^^^^^^^^^
-  Warning 8: this pattern-matching is not exhaustive.
-  Here is an example of a case that is not matched:
-  false
-  Compiling uncurry.erl	OK
-  Compiling sequencing.erl	OK
-  Compiling qualified_calls_helper__nested.erl	OK
-  Compiling qualified_calls_helper.erl	OK
-  Compiling qualified_calls__nested.erl	OK
-  Compiling qualified_calls.erl	OK
-  Compiling partial_functions.erl	OK
-  Compiling multiple_clauses.erl	OK
-  Compiling labeled_arguments.erl	OK
-  Compiling ignored_arguments.erl	OK
-  Compiling hello_joe.erl	OK
+
+  $ caramelc compile basic.ml
   Compiling basic.erl	OK
-  $ echo $?
-  0
-  $ cat *.erl
+  $ cat basic.erl
   % Source code generated with Caramel.
   -module(basic).
   
@@ -79,6 +32,10 @@
   ignore() -> ok.
   
   
+
+  $ caramelc compile hello_joe.ml
+  Compiling hello_joe.erl	OK
+  $ cat hello_joe.erl
   % Source code generated with Caramel.
   -module(hello_joe).
   
@@ -90,6 +47,10 @@
     io:format(<<"~p">>, [Text | []]).
   
   
+
+  $ caramelc compile ignored_arguments.ml
+  Compiling ignored_arguments.erl	OK
+  $ cat ignored_arguments.erl
   % Source code generated with Caramel.
   -module(ignored_arguments).
   
@@ -111,6 +72,10 @@
   snd({_, B}) -> B.
   
   
+
+  $ caramelc compile labeled_arguments.ml
+  Compiling labeled_arguments.erl	OK
+  $ cat labeled_arguments.erl
   % Source code generated with Caramel.
   -module(labeled_arguments).
   
@@ -127,6 +92,16 @@
     erlang:'=:='(S1, S2).
   
   
+
+  $ caramelc compile multiple_clauses.ml
+  File "multiple_clauses.ml", line 1, characters 22-34:
+  1 | let iff_using_headers true f _ = f
+                            ^^^^^^^^^^^^
+  Warning 8: this pattern-matching is not exhaustive.
+  Here is an example of a case that is not matched:
+  false
+  Compiling multiple_clauses.erl	OK
+  $ cat multiple_clauses.erl
   % Source code generated with Caramel.
   -module(multiple_clauses).
   
@@ -157,6 +132,40 @@
     end.
   
   
+
+  $ caramelc compile partial_functions.ml
+  File "partial_functions.ml", line 1, characters 9-21:
+  1 | let head (x :: _) = x
+               ^^^^^^^^^^^^
+  Warning 8: this pattern-matching is not exhaustive.
+  Here is an example of a case that is not matched:
+  []
+  File "partial_functions.ml", line 3, characters 9-23:
+  3 | let tail (_ :: xs) = xs
+               ^^^^^^^^^^^^^^
+  Warning 8: this pattern-matching is not exhaustive.
+  Here is an example of a case that is not matched:
+  []
+  File "partial_functions.ml", line 5, characters 11-20:
+  5 | let one_el [ x ] = x
+                 ^^^^^^^^^
+  Warning 8: this pattern-matching is not exhaustive.
+  Here is an example of a case that is not matched:
+  (_::_::_|[])
+  File "partial_functions.ml", line 7, characters 9-26:
+  7 | let at_2 (_ :: x :: _) = x
+               ^^^^^^^^^^^^^^^^^
+  Warning 8: this pattern-matching is not exhaustive.
+  Here is an example of a case that is not matched:
+  (_::[]|[])
+  File "partial_functions.ml", line 9, characters 9-31:
+  9 | let at_3 (_ :: _ :: x :: _) = x
+               ^^^^^^^^^^^^^^^^^^^^^^
+  Warning 8: this pattern-matching is not exhaustive.
+  Here is an example of a case that is not matched:
+  (_::_::[]|_::[]|[])
+  Compiling partial_functions.erl	OK
+  $ cat partial_functions.erl
   % Source code generated with Caramel.
   -module(partial_functions).
   
@@ -182,6 +191,13 @@
   at_3([_ | [_ | [X | _]]]) -> X.
   
   
+
+  $ caramelc compile qualified_calls.ml qualified_calls_helper.ml
+  Compiling qualified_calls_helper__nested.erl	OK
+  Compiling qualified_calls_helper.erl	OK
+  Compiling qualified_calls__nested.erl	OK
+  Compiling qualified_calls.erl	OK
+  $ cat qualified_calls*.erl
   % Source code generated with Caramel.
   -module(qualified_calls).
   
@@ -242,6 +258,10 @@
   f(_x) -> ok.
   
   
+
+  $ caramelc compile sequencing.ml
+  Compiling sequencing.erl	OK
+  $ cat sequencing.erl
   % Source code generated with Caramel.
   -module(sequencing).
   
@@ -257,6 +277,10 @@
     io:format(<<"*micdrop*">>, []).
   
   
+
+  $ caramelc compile uncurry.ml uncurry.mli
+  Compiling uncurry.erl	OK
+  $ cat uncurry.erl
   % Source code generated with Caramel.
   -module(uncurry).
   -export_type([defer/1]).
@@ -284,3 +308,11 @@
   add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
   
   
+
+  $ caramelc compile redefine.ml
+  We have found 2 definitions of the function: f in module redefine, and this is unfortuantely not supported.
+  \n
+  [1]
+  $ cat redefine.erl
+  cat: redefine.erl: No such file or directory
+  [1]
