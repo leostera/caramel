@@ -327,7 +327,9 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       in
       let branches = if_true :: if_false in
       Erlang.Ast.Expr_case (expr, branches)
-  | Texp_let (_, vbs, expr) ->
+  | Texp_let (Recursive, _, _) ->
+      Error.unsupported_let_rec_inside_of_function_body ()
+  | Texp_let (Nonrecursive, vbs, expr) ->
       (* NOTE: consider flattening let-ins ?
          let rec flatten e acc =
            match e with

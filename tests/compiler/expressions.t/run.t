@@ -3,6 +3,7 @@
   binding_on_match.ml
   funref.ml
   let_bindings.ml
+  let_rec.ml
   let_shadowing.ml
   list.ml
   literals.ml
@@ -175,7 +176,6 @@
   -export([let_many/0]).
   -export([let_nested/3]).
   -export([let_one/0]).
-  -export([let_rec/0]).
   
   -spec let_one() -> integer().
   let_one() ->
@@ -209,13 +209,6 @@
     erlang:'+'(B, 1)
   end(),
     F(A).
-  
-  -spec let_rec() -> any().
-  let_rec() ->
-    F = fun
-    (X) -> f(erlang:'+'(X, 1))
-  end,
-    F(0).
   
   
   $ caramelc compile list.ml
@@ -568,6 +561,7 @@
   $ cat let_shadowing.erl
   cat: let_shadowing.erl: No such file or directory
   [1]
+
   $ caramelc compile names_primes.ml
   Compiling names_primes.erl	OK
   $ cat names_primes.erl
@@ -584,3 +578,12 @@
     X_prime_prime.
   
   
+  $ caramelc compile let_rec.ml
+  We have found a let rec binding within a function.
+  
+  This is currently not supported.
+  \n
+  [1]
+  $ cat let_rec.erl
+  cat: let_rec.erl: No such file or directory
+  [1]
