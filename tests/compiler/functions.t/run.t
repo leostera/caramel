@@ -310,7 +310,9 @@
   
 
   $ caramelc compile redefine.ml
-  We have found 2 definitions of the function: f in module redefine, and this is unfortuantely not supported.
+  We have found 2 definitions of the function: f in module redefine.
+  
+  This is currently not supported.
   \n
   [1]
   $ cat redefine.erl

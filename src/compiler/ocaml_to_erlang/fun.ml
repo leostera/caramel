@@ -57,7 +57,7 @@ let rec mk_function name cases ~spec ~var_names ~modules ~functions ~module_name
     =
   (* NOTE: helper function to collect all parameters *)
   let rec params c acc =
-    let acc' = mk_pattern c.c_lhs :: acc in
+    let acc' = mk_pattern ~var_names c.c_lhs :: acc in
     match c.c_rhs.exp_desc with
     | Texp_function { cases = [ c' ]; _ } -> params c' acc'
     | _ -> acc' |> List.rev
@@ -70,7 +70,7 @@ let rec mk_function name cases ~spec ~var_names ~modules ~functions ~module_name
     let rec body c var_names =
       match c.c_rhs.exp_desc with
       | Texp_function { cases = [ c' ]; _ } ->
-          let pattern = mk_pattern c'.c_lhs in
+          let pattern = mk_pattern ~var_names c'.c_lhs in
           let var_names = var_names @ collect_var_names [ pattern ] in
           body c' var_names
       | _ -> mk_expression c.c_rhs ~var_names ~modules ~functions ~module_name
@@ -85,26 +85,30 @@ let rec mk_function name cases ~spec ~var_names ~modules ~functions ~module_name
 
 (* NOTE: We need a universally quantified k here because this function will
  * be called with several types indexing general_pattern *)
-and mk_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
- fun pat ->
+and mk_pattern :
+    type k.
+    k general_pattern -> var_names:Erlang.Ast.pattern list -> Erlang.Ast.pattern
+    =
+ fun pat ~var_names ->
   match pat.pat_desc with
   | Tpat_var (id, _) -> Pat.bind (Names.varname_of_ident id)
   | Tpat_value t ->
       (* NOTE: type casting magic! *)
-      mk_pattern (t :> pattern)
-  | Tpat_tuple tuples -> Erlang.Ast.Pattern_tuple (List.map mk_pattern tuples)
+      mk_pattern ~var_names (t :> pattern)
+  | Tpat_tuple tuples ->
+      Erlang.Ast.Pattern_tuple (List.map (mk_pattern ~var_names) tuples)
   | Tpat_record (fields, _) ->
       Erlang.Ast.Pattern_map
         ( fields
         |> List.map (fun (Asttypes.{ txt; _ }, _, pattern) ->
                ( Pat.bind (Name.atom (Names.atom_of_longident txt)),
-                 mk_pattern pattern )) )
+                 mk_pattern ~var_names pattern )) )
   (* FIXME: don't compare atoms like this, just refer to is_unit *)
   | Tpat_construct ({ txt; _ }, _, _) when Longident.last txt = "()" ->
       Pat.tuple []
   | Tpat_construct ({ txt; _ }, _, patterns)
     when Longident.last txt = "::" || Longident.last txt = "[]" ->
-      Pat.list (List.map mk_pattern patterns)
+      Pat.list (List.map (mk_pattern ~var_names) patterns)
   | Tpat_construct ({ txt; _ }, _, []) ->
       Pat.const (Const.atom (Atom.lowercase (Names.atom_of_longident txt)))
   | Tpat_construct ({ txt; _ }, _, patterns) ->
@@ -112,13 +116,13 @@ and mk_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
         Erlang.Ast.Pattern_match
           (Erlang.Ast.Lit_atom (Atom.lowercase (Names.atom_of_longident txt)))
       in
-      let values = List.map mk_pattern patterns in
+      let values = List.map (mk_pattern ~var_names) patterns in
       Erlang.Ast.Pattern_tuple (tag :: values)
   | Tpat_variant (label, None, _) ->
       Pat.const (Const.atom (Atom.lowercase (Atom.mk label)))
   | Tpat_variant (label, Some expr, _) ->
       let tag = Pat.const (Const.atom (Atom.lowercase (Atom.mk label))) in
-      let value = mk_pattern expr in
+      let value = mk_pattern expr ~var_names in
       Pat.tuple [ tag; value ]
   | Tpat_constant const -> Erlang.Ast.Pattern_match (const_to_literal const)
   (* NOTE: here's where the translation of pattern
@@ -128,7 +132,7 @@ and mk_pattern : type k. k general_pattern -> Erlang.Ast.pattern =
 and mk_bindings vbs ~var_names ~modules ~functions ~module_name =
   match vbs with
   | [ vb ] ->
-      let lb_lhs = mk_pattern vb.vb_pat in
+      let lb_lhs = mk_pattern vb.vb_pat ~var_names in
       let lb_rhs =
         mk_expression vb.vb_expr ~var_names ~modules ~functions ~module_name
       in
@@ -288,7 +292,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       let branches =
         List.map
           (fun c ->
-            let lhs = mk_pattern c.c_lhs in
+            let lhs = mk_pattern ~var_names c.c_lhs in
             let var_names = collect_var_names [ lhs ] @ var_names in
             let rhs =
               mk_expression c.c_rhs ~var_names ~modules ~functions ~module_name
@@ -335,9 +339,20 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       let let_binding =
         mk_bindings vbs ~var_names ~modules ~functions ~module_name
       in
-      let var_names =
-        collect_var_names Erlang.Ast.[ let_binding.lb_lhs ] @ var_names
+      let fresh_var_names =
+        collect_var_names Erlang.Ast.[ let_binding.lb_lhs ]
       in
+
+      List.iter
+        (fun name ->
+          match name with
+          | Erlang.Ast.Pattern_binding x ->
+              if name_in_var_names ~var_names x then
+                Error.unsupported_let_shadowing x
+          | _ -> ())
+        fresh_var_names;
+
+      let var_names = fresh_var_names @ var_names in
       let let_expr =
         mk_expression ~var_names ~modules ~functions ~module_name expr
       in
