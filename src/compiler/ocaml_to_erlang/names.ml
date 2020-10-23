@@ -22,9 +22,12 @@ let translate n =
 
 exception Unsupported_empty_identifier
 
-let varname_of_ident i = i |> Ident.name |> Name.var |> translate
+let prime x = Str.global_replace (Str.regexp_string "'") "_prime" x
 
-let varname_of_longident i = i |> Longident.last |> Name.var |> translate
+let varname_of_ident i = i |> Ident.name |> prime |> Name.var |> translate
+
+let varname_of_longident i =
+  i |> Longident.last |> prime |> Name.var |> translate
 
 let atom_of_ident i = i |> Ident.name |> Atom.mk |> Atom.lowercase
 

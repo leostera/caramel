@@ -8,6 +8,7 @@
   literals.ml
   match.ml
   names.ml
+  names_primes.ml
   records.ml
   $ caramelc compile apply.ml
   File "apply.ml", line 6, characters 4-8:
@@ -567,3 +568,19 @@
   $ cat let_shadowing.erl
   cat: let_shadowing.erl: No such file or directory
   [1]
+  $ caramelc compile names_primes.ml
+  Compiling names_primes.erl	OK
+  $ cat names_primes.erl
+  % Source code generated with Caramel.
+  -module(names_primes).
+  
+  -export([f/0]).
+  
+  -spec f() -> integer().
+  f() ->
+    X = 1,
+    X_prime = erlang:'+'(X, 1),
+    X_prime_prime = erlang:'+'(X_prime, 2),
+    X_prime_prime.
+  
+  
