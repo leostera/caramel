@@ -251,21 +251,32 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           args
       in
       Expr.apply name args
-  (* NOTE: use `extended_expression` to provide map overrides *)
-  | Texp_record { fields; _ } ->
-      Expr.map
-        ( fields |> Array.to_list
-        |> List.map (fun (field, value) ->
-               let value =
-                 match value with
-                 | Kept _ -> Error.unsupported_feature `Record_update
-                 | Overridden (_, exp) ->
+  | Texp_record { fields; extended_expression; _ } -> (
+      let fields =
+        fields |> Array.to_list
+        |> List.filter_map (fun (field, value) ->
+               match value with
+               | Kept _ -> None
+               | Overridden (_, exp) ->
+                   let value =
                      mk_expression exp ~var_names ~modules ~functions
                        ~module_name
-               in
-               Expr.map_field
-                 (Expr.const (Const.atom (Atom.mk field.lbl_name)))
-                 value) )
+                   in
+                   let field =
+                     Expr.map_field
+                       (Expr.const (Const.atom (Atom.mk field.lbl_name)))
+                       value
+                   in
+                   Some field)
+      in
+
+      match extended_expression with
+      | None -> Expr.map fields
+      | Some prior_map ->
+          Expr.map_update
+            (mk_expression prior_map ~var_names ~modules ~functions
+               ~module_name)
+            fields )
   | Texp_field (expr, _, { lbl_name; _ }) ->
       let name =
         let m = Atom.mk "maps" |> Name.atom in

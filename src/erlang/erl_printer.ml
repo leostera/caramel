@@ -454,7 +454,7 @@ and pp_expression prefix ppf expr ~module_ =
       match fields with
       | [] -> Format.fprintf ppf "#{}"
       | { mf_name; mf_value; _ } :: fs -> (
-          Format.fprintf ppf "#{ %a => " (pp_expression "" ~module_) mf_name;
+          Format.fprintf ppf "#{ %a := " (pp_expression "" ~module_) mf_name;
           pp_expression "" ppf mf_value ~module_;
           match fs with
           | [] -> Format.fprintf ppf " }"
@@ -462,7 +462,7 @@ and pp_expression prefix ppf expr ~module_ =
               Format.fprintf ppf "\n";
               fs
               |> List.iter (fun { mf_name; mf_value; _ } ->
-                     Format.fprintf ppf "%s, %a => " padding
+                     Format.fprintf ppf "%s, %a := " padding
                        (pp_expression "" ~module_)
                        mf_name;
                      pp_expression "" ppf mf_value ~module_;

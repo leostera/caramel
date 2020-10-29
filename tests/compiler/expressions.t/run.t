@@ -10,6 +10,7 @@
   match.ml
   names.ml
   names_primes.ml
+  record_update.ml
   records.ml
   $ caramelc compile apply.ml
   File "apply.ml", line 6, characters 4-8:
@@ -587,3 +588,28 @@
   $ cat let_rec.erl
   cat: let_rec.erl: No such file or directory
   [1]
+  $ caramelc compile record_update.ml
+  Compiling record_update.erl	OK
+  $ cat record_update.erl
+  % Source code generated with Caramel.
+  -module(record_update).
+  -export_type([t/0]).
+  
+  -export([f/0]).
+  
+  -type t() :: #{ x => integer()
+                , y => integer()
+                , z => integer()
+                }.
+  
+  -spec f() -> t().
+  f() ->
+    A = #{ x => 0
+   , y => 0
+   , z => 0
+   },
+    A#{ x := 2
+     , y := 2
+     }.
+  
+  
