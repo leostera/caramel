@@ -48,6 +48,7 @@
   -export([f2/2]).
   -export([f3/3]).
   -export([f4/4]).
+  -export([lambda/0]).
   -export([run/0]).
   
   -spec f(any()) -> any().
@@ -72,6 +73,21 @@
     f3(1, 2, 3),
     f4(1, 2, 3, 4),
     apply__funs:apply_fun().
+  
+  -spec lambda() -> integer().
+  lambda() ->
+    F = fun
+    () -> 1
+  end,
+    F_prime = fun
+    (X) -> erlang:'+'(1, X)
+  end,
+    F_prime_prime = fun
+    (X, Y) -> erlang:'+'(erlang:'+'(1, X), Y)
+  end,
+    F(),
+    F_prime(1),
+    F_prime_prime(1, 2).
   
   
   $ caramelc compile binding_on_match.ml

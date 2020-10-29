@@ -24,3 +24,11 @@ let run () =
   f3 1 2 3;
   f4 1 2 3 4;
   Funs.apply_fun ()
+
+let lambda () =
+  let f () = 1 in
+  let f' x = 1 + x in
+  let f'' x y = 1 + x + y in
+  let _ = f () in
+  let _ = f' 1 in
+  f'' 1 2
