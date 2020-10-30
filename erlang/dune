@@ -1,6 +1,6 @@
 (library
  (name erlang)
- (public_name caramel.erlang)
+ (public_name erlang.erlang)
  (instrumentation
   (backend bisect_ppx))
  (preprocess

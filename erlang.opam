@@ -4,18 +4,14 @@ authors:      "Leandro Ostera"
 bug-reports:  "https://github.com/AbstractMachinesLab/caramel/issues"
 homepage:     "https://github.com/AbstractMachinesLab/caramel"
 dev-repo:     "git+https://github.com/AbstractMachinesLab/caramel.git"
-synopsis:     "Compiler bridging OCaml and Erlang"
+synopsis:     "Libraries to manipulate Erlang sources"
 
 build: [["dune" "build" "-p" name "-j" jobs]]
 
 depends: [
   "bisect_ppx" {dev & >= "2.5.0"}
-  "cmdliner"
   "dune" {>= "2.7"}
-  "erlang"
   "menhir"
-  "ocaml" {>= "4.11.1"}
-  "ocaml-compiler-libs"
   "ppx_sexp_conv"
   "sexplib"
 ]
