@@ -1,6 +1,6 @@
 # Roadmap
 
-## 2020 Q4: [Milestone v0.1](https://github.com/AbstractMachinesLab/caramel/milestone/1)
+## 2020 Q4: [Milestone 1](https://github.com/AbstractMachinesLab/caramel/milestone/1)
 
 The initial goal, to type-check Erlang, led me to the thesis that a subset of a
 well-typed language like OCaml could be used to discover a well-typed subset of
@@ -15,7 +15,7 @@ have to be a good citizen of the BEAM, allowing for interop with existing BEAM
 languages. And it would have to be a subset of OCaml expressive enough to solve
 meaningful, real-life problems, in a type-safe way.
 
-This is why the **v0.1 milestone is focused on getting the compilation from
+This is why **milestone 1 is focused on getting the compilation from
 OCaml to Erlang to a good place**, where we can write type-safe application
 cores in OCaml, and surround these with good old Erlang seamlessly.
 
@@ -30,7 +30,7 @@ To achieve this we will need to work primarily on:
 * the runtime support required to execute the generated source code (see [issue
   #8](https://github.com/AbstractMachinesLab/caramel/issues/8)).
 
-The __next milestone__, v0.2, will likely focus on parsing the generated Erlang
+The __next milestone__, will likely focus on parsing the generated Erlang
 source code to verify that it is still type-safe. This would help us really
 define the subset of Erlang that is well-typed.
 
