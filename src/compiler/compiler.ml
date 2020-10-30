@@ -33,16 +33,16 @@ end
 
 let backend = (module Backend : Backend_intf.S)
 
-let initialize_compiler ~opts =
+let initialize_compiler ?(no_stdlib = false)
+    ?(stdlib_path = default_stdlib_path) () =
   Clflags.nopervasives := true;
   Clflags.no_std_include := true;
-  Clflags.open_modules := if opts.no_stdlib then [] else [ "Stdlib"; "Beam" ];
+  Clflags.open_modules := if no_stdlib then [] else [ "Stdlib"; "Beam" ];
   Clflags.include_dirs :=
-    if opts.no_stdlib then []
+    if no_stdlib then []
     else
       [
-        Filename.concat opts.stdlib_path "ocaml";
-        Filename.concat opts.stdlib_path "beam";
+        Filename.concat stdlib_path "ocaml"; Filename.concat stdlib_path "beam";
       ];
   Compmisc.init_path ();
   let _ = Compmisc.initial_env () in
@@ -58,8 +58,7 @@ let compile_one source ~target ~opts =
     | Ml file, Erlang -> (Ocaml_to_erlang.compile ~opts, file)
     | Ml file, Core_erlang -> (Ocaml_to_core_erlang.compile ~opts, file)
     | Ml file, _ -> (Optcompile.implementation ~backend, file)
-    | Erl file, Native | Erl file, Type_check ->
-        (Erlang_to_native.compile ~opts, file)
+    | Erl file, (Native | Type_check) -> (Erlang_to_native.compile ~opts, file)
     | Erl file, t -> raise (Unsupported_file_type_for_target (t, file, ".erl"))
     | Other (t, file, ext), _ ->
         raise (Unsupported_file_type_for_target (t, file, ext))
@@ -68,7 +67,8 @@ let compile_one source ~target ~opts =
 
 let compile ({ sources; targets; _ } as opts) =
   match
-    initialize_compiler ~opts;
+    initialize_compiler ~no_stdlib:opts.no_stdlib ~stdlib_path:opts.stdlib_path
+      ();
     let target = List.hd targets in
     let sorted_sources = Source_tagger.prepare ~sources ~target in
     List.iter
