@@ -31,7 +31,7 @@ coverage:
 .PHONY: release
 release:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
-	rm -rf _release/caramel/lib/caramel/erlang
+	rm -rf _release/caramel/lib/erlang
 	rm -rf _release/caramel/lib/caramel/typing
 	rm -rf _release/caramel/lib/caramel/compiler
 	tar czf release.tar.gz -C _release caramel
