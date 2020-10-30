@@ -125,6 +125,7 @@ and mk_pattern :
       let value = mk_pattern expr ~var_names in
       Pat.tuple [ tag; value ]
   | Tpat_constant const -> Erlang.Ast.Pattern_match (const_to_literal const)
+  | Tpat_or (_, _, _) -> Error.unsupported_fallthrough_cases ()
   (* NOTE: here's where the translation of pattern
    * matching at the function level should happen. *)
   | _ -> Erlang.Ast.Pattern_ignore

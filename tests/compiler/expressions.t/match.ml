@@ -37,8 +37,3 @@ let match_tuples () =
 
 let match_atoms () =
   match `Hello with `Xavier -> true | `Joe -> true | _ -> false
-
-let match_fall_through () =
-  match 0 with
-  | 1 | 2 -> true
-  | _ -> false

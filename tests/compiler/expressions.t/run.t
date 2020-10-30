@@ -8,6 +8,7 @@
   list.ml
   literals.ml
   match.ml
+  match_fallthrough.ml
   names.ml
   names_primes.ml
   record_update.ml
@@ -381,7 +382,6 @@
   -export_type([int_pair/0]).
   
   -export([match_atoms/0]).
-  -export([match_fall_through/0]).
   -export([match_ignore/0]).
   -export([match_int/0]).
   -export([match_list/0]).
@@ -456,13 +456,6 @@
     case hello of
       xavier -> true;
       joe -> true;
-      _ -> false
-    end.
-  
-  -spec match_fall_through() -> boolean().
-  match_fall_through() ->
-    case 0 of
-      _ -> true;
       _ -> false
     end.
   
@@ -629,3 +622,17 @@
      }.
   
   
+  $ caramelc compile match_fallthrough.ml
+  We have found a case expression that falls through to the next case, like:
+  
+    match x with
+    | 0 | 1 -> true   <--- this branch falls through
+    | _ -> false
+  
+  Since these patterns are not possible in Erlang, Caramel does not support them
+  at the moment.
+  \n
+  [1]
+  $ cat match_fallthrough.erl
+  cat: match_fallthrough.erl: No such file or directory
+  [1]

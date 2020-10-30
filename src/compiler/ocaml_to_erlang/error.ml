@@ -11,6 +11,20 @@ let ppf = Format.err_formatter
 let file_a_bug =
   {| If you think this is a bug, please file an issue here: https://github.com/AbstractMachinesLab/caramel/issues/new |}
 
+let unsupported_fallthrough_cases () =
+  Format.fprintf ppf
+    {|We have found a case expression that falls through to the next case, like:
+
+  match x with
+  | 0 | 1 -> true   <--- this branch falls through
+  | _ -> false
+
+Since these patterns are not possible in Erlang, Caramel does not support them
+at the moment.
+\n
+|};
+  exit 1
+
 let unsupported_let_rec_inside_of_function_body () =
   Format.fprintf ppf
     {|We have found a let rec binding within a function.
