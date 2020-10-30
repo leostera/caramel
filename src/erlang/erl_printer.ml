@@ -280,12 +280,23 @@ and pp_if_case_branches prefix ppf branches ~module_ =
     (pp_if_case_branch prefix ~module_)
     ppf branches
 
+and pp_case_guard ppf guard ~module_ =
+  match guard with
+  | None -> ()
+  | Some exprs ->
+      Format.fprintf ppf " when ";
+      Format.pp_print_list
+        ~pp_sep:(fun ppf () -> Format.fprintf ppf " ,")
+        (fun ppf expr -> pp_expression "" ppf expr ~module_)
+        ppf exprs
+
 and pp_case_branches prefix ppf branches ~module_ =
   match branches with
-  | { c_lhs = [ c_lhs ]; c_rhs; _ } :: bs -> (
+  | { c_lhs = [ c_lhs ]; c_rhs; c_guard } :: bs -> (
       let prefix = prefix ^ "  " in
       Format.fprintf ppf "\n%s" prefix;
       pp_pattern_match ppf c_lhs;
+      pp_case_guard ppf c_guard ~module_;
       Format.fprintf ppf " -> ";
       pp_expression "" ppf c_rhs ~module_;
       match bs with
@@ -293,9 +304,10 @@ and pp_case_branches prefix ppf branches ~module_ =
       | bs ->
           bs
           |> List.iter (function
-               | { c_lhs = [ c_lhs ]; c_rhs; _ } ->
+               | { c_lhs = [ c_lhs ]; c_rhs; c_guard } ->
                    Format.fprintf ppf ";\n%s" prefix;
                    pp_pattern_match ppf c_lhs;
+                   pp_case_guard ppf c_guard ~module_;
                    Format.fprintf ppf " -> ";
                    pp_expression "" ppf c_rhs ~module_
                | _ -> raise Invalid_case_branch) )

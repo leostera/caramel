@@ -1,5 +1,7 @@
   $ ls *.ml *.mli
   basic.ml
+  guard_unsupported.ml
+  guards.ml
   hello_joe.ml
   ignored_arguments.ml
   labeled_arguments.ml
@@ -317,4 +319,32 @@
   [1]
   $ cat redefine.erl
   cat: redefine.erl: No such file or directory
+  [1]
+  $ caramelc compile guards.ml
+  Compiling guards.erl	OK
+  $ cat guards.erl
+  % Source code generated with Caramel.
+  -module(guards).
+  
+  -export([f/1]).
+  
+  -spec f(integer()) -> integer().
+  f(X) ->
+    case X of
+      Y when is_number(Y) -> 3;
+      Y when erlang:is_binary(Y) -> 3;
+      Y when erlang:'>'(Y, 3) -> 3;
+      Y when erlang:'=<'(Y, 3) -> 3;
+      _ -> 4
+    end.
+  
+  
+  $ caramelc compile guard_unsupported.ml
+  We have found a guard expression that is not one of the allowlisted Erlang BIFs.
+  
+  This is currently not supported.
+  \n
+  [1]
+  $ cat guard_unsupported.erl
+  cat: guard_unsupported.erl: No such file or directory
   [1]

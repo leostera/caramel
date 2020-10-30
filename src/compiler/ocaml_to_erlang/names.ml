@@ -1,5 +1,44 @@
 open Erlang.Ast_helper
 
+let erlang = Name.atom (Atom.mk "erlang")
+
+let guards =
+  [
+    Name.atom (Atom.mk "!");
+    Name.atom (Atom.mk "*");
+    Name.atom (Atom.mk "+");
+    Name.atom (Atom.mk "++");
+    Name.atom (Atom.mk "-");
+    Name.atom (Atom.mk "--");
+    Name.atom (Atom.mk "/");
+    Name.atom (Atom.mk "/=");
+    Name.atom (Atom.mk ":=");
+    Name.atom (Atom.mk "=/=");
+    Name.atom (Atom.mk "=:=");
+    Name.atom (Atom.mk "=<");
+    Name.atom (Atom.mk "==");
+    Name.atom (Atom.mk ">");
+    Name.atom (Atom.mk ">=");
+    Name.atom (Atom.mk "is_atom");
+    Name.atom (Atom.mk "is_binary");
+    Name.atom (Atom.mk "is_bitstring");
+    Name.atom (Atom.mk "is_boolean");
+    Name.atom (Atom.mk "is_float");
+    Name.atom (Atom.mk "is_integer");
+    Name.atom (Atom.mk "is_list");
+    Name.atom (Atom.mk "is_map");
+    Name.atom (Atom.mk "is_number");
+    Name.atom (Atom.mk "is_pid");
+    Name.atom (Atom.mk "is_port");
+    Name.atom (Atom.mk "is_process_alive");
+    Name.atom (Atom.mk "is_reference");
+    Name.atom (Atom.mk "is_tuple");
+    Name.atom (Atom.mk "is_tuple");
+  ]
+  |> List.concat_map (fun f -> [ f; Name.qualified ~m:erlang ~f ])
+
+let is_guard guard = List.mem guard guards
+
 let translation_table : (Erlang.Ast.name, Erlang.Ast.name) Hashtbl.t =
   let h = Hashtbl.create 1024 in
   [ (("list", "length"), ("erlang", "length")) ]
@@ -114,6 +153,7 @@ let ocaml_to_erlang_primitive_op t =
         ~m:(Name.atom (Atom.mk "caramel"))
         ~f:(Name.atom (Atom.mk "binary_concat"))
   | "<>" -> to_erl_op "=/="
+  | "<=" -> to_erl_op "=<"
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="
   | "@" -> to_erl_op "++"

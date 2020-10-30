@@ -299,16 +299,31 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       let expr =
         mk_expression expr ~var_names ~modules ~functions ~module_name
       in
-      (* NOTE: match on c_guard here to translate guards *)
       let branches =
         List.map
           (fun c ->
             let lhs = mk_pattern ~var_names c.c_lhs in
             let var_names = collect_var_names [ lhs ] @ var_names in
+            let guard =
+              match c.c_guard with
+              | None -> None
+              | Some expr ->
+                  let expr =
+                    mk_expression expr ~var_names ~modules ~functions
+                      ~module_name
+                  in
+                  Erlang.Ast.(
+                    match expr with
+                    | Expr_apply { fa_name = Expr_name name; _ }
+                      when Names.is_guard name ->
+                        ()
+                    | _ -> Error.unsupported_guard_expression ());
+                  Some [ expr ]
+            in
             let rhs =
               mk_expression c.c_rhs ~var_names ~modules ~functions ~module_name
             in
-            FunDecl.case ~lhs:[ lhs ] ~guard:None ~rhs)
+            FunDecl.case ~lhs:[ lhs ] ~guard ~rhs)
           branches
       in
       Erlang.Ast.Expr_case (expr, branches)

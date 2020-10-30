@@ -20,6 +20,15 @@ This is currently not supported.
 |};
   exit 1
 
+let unsupported_guard_expression () =
+  Format.fprintf ppf
+    {|We have found a guard expression that is not one of the allowlisted Erlang BIFs.
+
+This is currently not supported.
+\n
+|};
+  exit 1
+
 let unsupported_let_shadowing name =
   Format.fprintf ppf
     {|We have found that the variable name %s is being shadowed.
