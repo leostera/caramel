@@ -1,5 +1,5 @@
 val from_typedtree :
   module_name:string ->
+  signature:Types.signature option ->
   Typedtree.structure ->
-  Types.signature option ->
   Erlang.Ast.t list

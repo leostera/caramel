@@ -2,6 +2,7 @@ open Comp_misc.Opts
 module Dependency_sorter = Comp_misc.Dependency_sorter
 module Source_tagger = Comp_misc.Source_tagger
 module Target = Comp_misc.Target
+module Ocaml_to_erlang = Ocaml_to_erlang
 
 let tool_name = "caramelc"
 

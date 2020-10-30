@@ -1,4 +1,5 @@
 open Compile_common
+module Ast_transl = Ast_transl
 
 let tool_name = "caramelc:ml-to-erl"
 
@@ -43,7 +44,7 @@ let compile ~source_file ~output_prefix ~opts:_ =
     let _ = emit_bytecode info bytecode in
     let signature = read_signature info in
     let module_name = info.module_name in
-    let erl_ast = Ast_transl.from_typedtree ~module_name typed signature in
+    let erl_ast = Ast_transl.from_typedtree ~module_name ~signature typed in
     Erlang.Printer.to_sources erl_ast
   in
   Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix

@@ -74,10 +74,10 @@ let rec find_modules :
 *)
 let from_typedtree :
     module_name:string ->
+    signature:Types.signature option ->
     Typedtree.structure ->
-    Types.signature option ->
     Erlang.Ast.t list =
- fun ~module_name typedtree signature ->
+ fun ~module_name ~signature typedtree ->
   let top_module = Erl.Atom.(lowercase (mk module_name)) in
   let modules =
     List.fold_left
