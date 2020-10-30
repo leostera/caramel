@@ -25,12 +25,39 @@ inc(X) -> erlang:'+'(X, 1).
 
 > NOTE: idiomatic support for infix operators is still not there :)
 
+Read more about the current and future goals in [the roadmap](./ROADMAP.md).
+
 ## Getting started
 
 You can download the latest pre-release from the [releases
 page](https://github.com/AbstractMachinesLab/caramel/releases). After
 unpacking it you should be able to add it to your PATH env and start playing
 around with the `caramelc` binary.
+
+Like this:
+
+```sh
+# in this example I'm running linux with glibc
+$ wget https://github.com/AbstractMachinesLab/caramel/releases/download/v0.0.12/caramel-v0.0.12-x86_64-unknown-linux-gnu.tar.gz
+$ tar xzf caramel-*
+$ export PATH=$(pwd)/caramel/bin
+```
+
+Now we can do a quick test:
+
+```sh
+$ echo 'let hello () = "world"' > hello_world.ml
+$ caramelc compile hello_world.ml
+Compiling hello_world.erl       OK
+$ erl
+Erlang/OTP 23 [erts-11.0.3] [source] [64-bit] [smp:64:64] [ds:64:64:10] [async-threads:1] [hipe]
+
+Eshell V11.0.3  (abort with ^G)
+1> c(hello_world).
+{ok,hello_world}
+2> hello_world:hello().
+<<"world">>
+```
 
 ## Examples
 
