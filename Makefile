@@ -29,9 +29,7 @@ coverage:
 	bisect-ppx-report html --expect src
 
 .PHONY: release
-release: release-caramel release-erlang
-
-release-caramel:
+release:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
 	rm -rf _release/caramel/lib/erlang
 	rm -rf _release/caramel/lib/caramel/typing

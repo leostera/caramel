@@ -99,10 +99,6 @@ jobs:
       - name: Update Opam
         run: opam update --yes
 
-      - name: Install dune-release to publish libraries
-        if: ${{ startsWith(runner.os, 'macos')}}
-        run: opam install -y dune-release
-
       - name: Install dependencies
         run: opam exec -- make deps
 
@@ -120,6 +116,12 @@ jobs:
         if: ${{ success() }}
         run: |
           opam exec -- make release
+
+      - name: Install dune-release to publish libraries
+        if: ${{ startsWith(runner.os, 'macos')}}
+        run: |
+          opam install -y dune-release
+          opam exec -- make release-erlang
 
       - name: Upload erlang build artifact
         if: ${{ success() && startsWith(runner.os, 'macos')}}
