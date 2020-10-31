@@ -102,3 +102,4 @@
   File "_none_", line 1:
   Error: This expression has type unit but an expression was expected of type
            unit -> [< `print | `replace of int ]
+  [1]

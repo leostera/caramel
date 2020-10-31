@@ -60,3 +60,4 @@
   File "_none_", line 1:
   Error: This expression has type int but an expression was expected of type
            [< `int of int | `str of string ]
+  [1]

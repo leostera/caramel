@@ -25,6 +25,7 @@
   File "_none_", line 1:
   Error: This expression has type string but an expression was expected of type
            int
+  [1]
   $ cat hello_world.ml
   cat: hello_world.ml: No such file or directory
   [1]

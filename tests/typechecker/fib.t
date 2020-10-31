@@ -74,3 +74,4 @@
   File "_none_", line 1:
   Error: This expression has type 'a * 'b
          but an expression was expected of type int
+  [1]
