@@ -41,6 +41,12 @@ release-erlang:
 	dune-release distrib --skip-build --skip-lint --skip-tests -p erlang
 	mv _build/caramel*.tbz erlang.tbz
 
+.PHONY: opam-publish
+opam-publish: build
+	dune-release distrib --skip-tests -p erlang -n erlang
+	dune-release opam pkg -p erlang -n erlang
+	dune-release opam submit -p erlang -n erlang
+
 .PHONY: promote
 promote:
 	dune promote
