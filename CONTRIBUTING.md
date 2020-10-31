@@ -34,12 +34,13 @@ The Caramel codebase is structured to explore a few things:
 
 * `./src/bin` -- the `caramelc` binary
 
-* `./src/erlang` -- a library for working with Erlang and Core Erlang code in
-  OCaml including lexers, parsers, ASTs, and invariant checkers
-
 * `./src/compiler` -- includes the compilation pipelines
 
 * `./src/typing` -- includes the type checking pipelines 
 
 * `./src/stdlib` -- the standard libraries shipped with Caramel
 
+
+The libraries for manipulating Erlang from within OCaml are here:
+
+* `./erlang` -- it has includes lexers, parsers, ASTs, printers
