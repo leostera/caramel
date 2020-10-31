@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <meta name="description" content="Caramel">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://caramel.abstractmachines.dev/">
+    <meta property="og:title" content="Abstract Machines">
+    <meta property="og:description" content="Abstract Machines makes tools to think clearly.">
+    <meta property="og:image" content="https://caramel.abstractmachines.dev/assets/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://caramel.abstractmachines.dev/">
+    <meta property="twitter:title" content="Abstract Machines">
+    <meta property="twitter:description" content="Abstract Machines makes tools to think clearly.">
+    <meta property="twitter:image" content="https://caramel.abstractmachines.dev/assets/logo.png">
+
+    <title>Caramel</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" />
+  </head>
+
+<body>
+    <nav>
+      <section class="content">
+      <h2 class="branded">caramel</h2>
+      <iframe src="https://github.com/sponsors/AbstractMachinesLab/button" title="Sponsor Caramel" height="35" width="116" style="border: 0;"></iframe>
+      </section>
+    </nav>
+  <section class="container center">
+    <header>
+      <img class="logo" src="/assets/isotype.png" alt="Caramel Logo" />
+      <h2>
+        <span class="branded">caramel</span> <span style="font-weight: 400;">&mdash;</span>
+        massively scalable, <br />
+        zero runtime errors, <br />
+        choose two. <br />
+      </h2>
+    </header>
+  </section>
+  <section class="container center">
+    <section class="content">
+      <h3> Industrial-strength Safety </h3>
+      <p>
+        Caramel has a <code>highly expressive, sound type-system</code>, and a
+        blazing fast type-checker. This allows you to rule out entire classes
+        of errors by using types that are closer to your domain, and fearlessly
+        refactor large amounts of code without sacrificing development speed.
+      </p>
+      <p>
+        To achieve this, Caramel is actually <code>a backend to the OCaml compiler</code>,
+        so it reuses its entire type-checking stack, with well over 25 years
+        and millions of hours of academic research and industrial usage, and
+        provides a new compilation target to Erlang.
+      </p>
+      <p>
+        Don't let the candy fool you: this is not a toy.
+      </p>
+      <h3> Write Once, Run Forever </h3>
+      <p>
+        Caramel runs on the <code>Erlang virtual machine</code>, which is
+        perhaps the most mature and reliable functional language runtime in the
+        world. It has built-in error handling mechanisms that make it ideal for
+        building systems that should never stop running, that need to handle
+        massive concurrency in soft-real time, and that need to be built by
+        just a handful of engineers.
+      </p>
+      </p>
+        This is the magic ingredient in companies like Whatsapp, Ericsson,
+        Heroku, Klarna, and Discord, that build and operate their
+        <code>massively scalable systems with unbelievably small teams</code>.
+      </p>
+      <h3> Open Source &amp; Friendly </h3>
+      <p>
+        Caramel is built on Github, and we encourage contributions with
+        the labels: <code>good first issue</code> and <code>help wanted</code>.
+      </p>
+      <p>
+        We aim to build a friendly community where people of any gender,
+        background, and experience level can feel welcomed and are respected.
+        To ensure this, we subscribe to a <code>code of conduct</code>.
+      <h3> Examples </h3>
+      <details>
+        <summary> Hello, Joe! </summary>
+        <pre><code class="language-ocaml">let hello = fun () -> Io.format "~p" ["Hello, Joe!"]</code></pre>
+      </details>
+      <details>
+        <summary> Basic HTTP Server </summary>
+        <pre><code class="language-ocaml">let handle conn =
+  Gen_tcp.send conn "hello world";
+  Gen_tcp.close conn
+
+(* this function will actually new processes per connection, so we
+   can easily handle millions of concurrent connections *)
+let rec loop socket =
+  let Ok conn = Gen_tcp.accept socket in
+  let handler = Process.make (fun _self _recv -> handle conn ) in
+  Gen_tcp.controlling_process conn handler;
+  loop socket
+
+let start port = Process.make (fun _self _recv ->
+  let Ok socket = Gen_tcp.listen port [Active false; Packet Http] in
+  loop socket)
+</code></pre>
+      </details>
+      <p></p>
+      <h3> Is it ready yet? </h3>
+      <p>
+        Not just yet, but you are welcome to take it for a spin in the
+        <a href="https://github.com/AbstractMachinesLab/caramel/releases">releases page</a>.
+      </p>
+      <p>
+        There is still plenty of work to do in getting the right libraries in place,
+        but thankfully we are already over the biggest hump.
+      </p>
+      <p>
+        If you want to stay up to the date with the development,
+        <a href="https://twitter.com/leostera"> follow @leostera </a>
+      </p>
+    </section>
+  </section>
+    <footer>
+      <p>
+      copyright &copy; 2020 <a href="https://abstractmachines.dev">abstractmachines.dev</a>
+      </p>
+      <p>
+      ⚙️ with ❤️ 
+      using
+      🐫
+      </p>
+    </footer>
+    <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+    <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+
+</html>
