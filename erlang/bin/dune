@@ -1,0 +1,17 @@
+(executable
+ (name erldump)
+ (public_name erldump)
+ (package erlang)
+ (modules erldump version)
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries erlang cmdliner)
+ (flags
+  (:standard -safe-string)))
+
+(rule
+ (targets version.ml)
+ (deps
+  (:input-file ../../version.ml.in))
+ (action
+  (copy %{input-file} %{targets})))

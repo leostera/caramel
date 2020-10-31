@@ -1,4 +1,4 @@
-  $ caramelc parse *.erl
+  $ erldump parse *.erl
   ((Module_attribute
      ((atr_name (Atom module))
        (atr_value (Expr_literal (Lit_atom (Atom 'My__path__to__module')))))))

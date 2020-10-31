@@ -1,4 +1,4 @@
-  $ caramelc parse binary.erl
+  $ erldump parse binary.erl
   ((Module_comment (Comment %)) (Module_comment (Comment "% %CopyrightBegin%"))
     (Module_comment (Comment %))
     (Module_comment
@@ -1293,7 +1293,7 @@
                          (n_name (Atom_name (Atom throw))))))
                     (fa_args ((Expr_literal (Lit_atom (Atom badopt)))))))))))
         (fd_spec ()))))
-  $ caramelc parse lists.erl
+  $ erldump parse lists.erl
   ((Module_comment (Comment %)) (Module_comment (Comment "% %CopyrightBegin%"))
     (Module_comment (Comment %))
     (Module_comment
@@ -17566,7 +17566,7 @@
                                     (Expr_name (Var_name H2M)))
                                   (Expr_name (Var_name M)))))))))))))))
         (fd_spec ()))))
-  $ caramelc parse gen_server.erl
+  $ erldump parse gen_server.erl
   ((Module_comment (Comment %)) (Module_comment (Comment "% %CopyrightBegin%"))
     (Module_comment (Comment %))
     (Module_comment
