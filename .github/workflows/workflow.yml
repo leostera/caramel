@@ -99,6 +99,10 @@ jobs:
       - name: Update Opam
         run: opam update --yes
 
+      - name: Install dune-release to publish libraries
+        if: ${{ startsWith(runner.os, 'macos')}}
+        run: opam install -y dune-release
+
       - name: Install dependencies
         run: opam exec -- make deps
 
