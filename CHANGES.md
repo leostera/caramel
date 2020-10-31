@@ -2,6 +2,21 @@
 
 * erlang: prepare erlang library for initial release to opam.
 
+* erlang: add a new `erldump` binary that can be used to dump the parsed ast.
+  This is currently being used for the tests.
+
+* caramelc: binary now exits with status code 0 only if everything went well.
+
+* ci: include necessary erlang artifacts in releases so we can publish this
+  library to opam.
+
+* ci: prefix cache names with the secret version so breaking them is more
+  effective.
+
+* examples: add new `gen_tcp` example.
+
+* docs: publish small website at `caramel.abstractmachines.dev`
+
 ## v0.0.12
 
 * compiler: match expressions with cascading cases are not that
