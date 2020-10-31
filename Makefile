@@ -36,6 +36,13 @@ release:
 	rm -rf _release/caramel/lib/caramel/compiler
 	tar czf release.tar.gz -C _release caramel
 
+.PHONY: publish
+publish:
+	dune-release tag
+	dune-release distrib --skip-build --skip-lint --skip-tests
+	dune-release opam pkg
+	dune-release opam submit
+
 .PHONY: promote
 promote:
 	dune promote
