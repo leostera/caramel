@@ -117,7 +117,15 @@ jobs:
         run: |
           opam exec -- make release
 
-      - name: Upload build artifact
+      - name: Upload erlang build artifact
+        if: ${{ success() && startsWith(runner.os, 'macos')}}
+        uses: actions/upload-artifact@v2
+        with:
+          path: erlang.tbz
+          name: erlang-${{ env.GITHUB_TAG }}.tbz
+          if-no-files-found: error
+
+      - name: Upload caramel build artifact
         if: ${{ success() }}
         uses: actions/upload-artifact@v2
         with:
@@ -125,9 +133,21 @@ jobs:
           name: caramel-${{ env.GITHUB_TAG }}-${{ matrix.suffix }}.tar.gz
           if-no-files-found: error
 
-      - name: Upload release tarball
+      - name: Upload erlang library tarball
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') && startsWith(runner.os, 'macos')}}
+        id: upload-erlang-library-tarball
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_draft_release.outputs.upload_url }}
+          asset_path: erlang.tbz
+          asset_name: erlang-${{ env.GITHUB_TAG }}.tbz
+          asset_content_type: application/zip
+
+      - name: Upload caramel release tarball
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
-        id: upload-release-asset
+        id: upload-caramel-release-tarball
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

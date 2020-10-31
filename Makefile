@@ -17,7 +17,7 @@ install:
 
 .PHONY: deps
 deps:
-	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat bisect_ppx
+	opam install dune dune-release menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat bisect_ppx
 
 .PHONY: test
 test:
@@ -29,19 +29,19 @@ coverage:
 	bisect-ppx-report html --expect src
 
 .PHONY: release
-release:
+release: release-caramel release-erlang
+
+release-caramel:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
 	rm -rf _release/caramel/lib/erlang
 	rm -rf _release/caramel/lib/caramel/typing
 	rm -rf _release/caramel/lib/caramel/compiler
 	tar czf release.tar.gz -C _release caramel
 
-.PHONY: publish
-publish:
-	dune-release tag
-	dune-release distrib --skip-build --skip-lint --skip-tests
-	dune-release opam pkg
-	dune-release opam submit
+release-erlang:
+	rm -f _build/*.tbz
+	dune-release distrib --skip-build --skip-lint --skip-tests -p erlang
+	mv _build/caramel*.tbz erlang.tbz
 
 .PHONY: promote
 promote:

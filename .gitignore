@@ -22,3 +22,5 @@ _build
 _ocamltest
 _ocamltestd
 _release
+*.tar.gz
+*.tbz
