@@ -69,11 +69,11 @@ jobs:
            _build
            C:\cygwin
            D:\a\caramel\caramel
-          key: ${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-${{ hashFiles('**/*.opam*') }}-${{ secrets.CACHE_VERSION }}
+          key: v${{ secrets.CACHE_VERSION }}-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-${{ hashFiles('**/*.opam*') }}
           restore-keys: |
-            ${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-
-            ${{ matrix.os }}-${{ matrix.ocaml-version }}-
-            ${{ matrix.os }}-
+            v${{ secrets.CACHE_VERSION }}-{{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-
+            v${{ secrets.CACHE_VERSION }}-{{ matrix.os }}-${{ matrix.ocaml-version }}-
+            v${{ secrets.CACHE_VERSION }}-{{ matrix.os }}-
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
