@@ -13,4 +13,4 @@ let run () =
   let cmds =
     [ Cmd_compile.cmd; Cmd_sort_deps.cmd; Cmd_check.cmd; Cmd_parse.cmd ]
   in
-  Term.(exit @@ eval_choice Help.cmd cmds)
+  Term.(exit_status @@ eval_choice Help.cmd cmds)

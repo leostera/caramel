@@ -13,8 +13,12 @@ let info = Info.make ~name ~doc ~description
 
 let run sources dump_ast no_stdlib stdlib_path =
   let open Caramel_compiler.Compiler.Target in
-  Caramel_compiler.Compiler.compile
-    { sources; dump_ast; no_stdlib; targets = [ Type_check ]; stdlib_path }
+  match
+    Caramel_compiler.Compiler.compile
+      { sources; dump_ast; no_stdlib; targets = [ Type_check ]; stdlib_path }
+  with
+  | Ok () -> 0
+  | Error _ -> 1
 
 let cmd =
   let sources =

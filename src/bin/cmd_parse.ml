@@ -11,13 +11,16 @@ let description =
 let info = Info.make ~name ~doc ~description
 
 let pp_erlang_parsetree source =
-  ( match Erlang.Parse.from_file source with
+  match Erlang.Parse.from_file source with
   | Ok structure ->
       Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
-        (Erlang.Ast.sexp_of_structure structure)
+        (Erlang.Ast.sexp_of_structure structure);
+      Format.fprintf Format.std_formatter "\n%!";
+      0
   | Error (`Parser_error err) ->
-      Format.fprintf Format.std_formatter "ERROR: %s%!\n" err );
-  Format.fprintf Format.std_formatter "\n%!"
+      Format.fprintf Format.std_formatter "ERROR: %s%!\n" err;
+      Format.fprintf Format.std_formatter "\n%!";
+      1
 
 let pp_ocaml_parsetree source_file =
   let tool_name = "caramelc-" ^ name in
@@ -25,7 +28,8 @@ let pp_ocaml_parsetree source_file =
   Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix:".none" ~dump_ext:"cmo" (fun info ->
       let parsetree = Compile_common.parse_impl info in
-      ignore parsetree)
+      ignore parsetree;
+      0)
 
 let pp_ocaml_typedtree ~stdlib_path source_file =
   let tool_name = "caramelc-" ^ name in
@@ -36,42 +40,48 @@ let pp_ocaml_typedtree ~stdlib_path source_file =
         Compile_common.parse_impl i
         |> Typemod.type_implementation i.source_file i.output_prefix
              i.module_name i.env
-        |> Printtyped.implementation_with_coercion i.ppf_dump
-      with Env.Error err -> Env.report_error i.ppf_dump err)
+        |> Printtyped.implementation_with_coercion i.ppf_dump;
+        0
+      with Env.Error err ->
+        Env.report_error i.ppf_dump err;
+        1)
 
 let pp_ocaml_to_erlang_parsetree ~stdlib_path source_file =
   let tool_name = "caramelc-" ^ name in
   Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix:".none" ~dump_ext:"cmo" (fun i ->
       Caramel_compiler.Compiler.initialize_compiler ~stdlib_path ();
-      let typed, _ =
-        try
+      try
+        let typed, _ =
           Compile_common.parse_impl i
           |> Typemod.type_implementation i.source_file i.output_prefix
                i.module_name i.env
-        with Env.Error err ->
-          Env.report_error i.ppf_dump err;
-          exit 1
-      in
-      let signature =
-        Caramel_compiler.Compiler.Ocaml_to_erlang.read_signature i
-      in
-      typed
-      |> Caramel_compiler.Compiler.Ocaml_to_erlang.Ast_transl.from_typedtree
-           ~module_name:source_file ~signature
-      |> List.iter (fun t ->
-             Erlang.Ast.sexp_of_t t |> Sexplib.Sexp.pp_hum_indent 2 i.ppf_dump;
-             Format.fprintf i.ppf_dump "\n\n%!"))
+        in
+        let signature =
+          Caramel_compiler.Compiler.Ocaml_to_erlang.read_signature i
+        in
+        typed
+        |> Caramel_compiler.Compiler.Ocaml_to_erlang.Ast_transl.from_typedtree
+             ~module_name:source_file ~signature
+        |> List.iter (fun t ->
+               Erlang.Ast.sexp_of_t t |> Sexplib.Sexp.pp_hum_indent 2 i.ppf_dump;
+               Format.fprintf i.ppf_dump "\n\n%!");
+        0
+      with Env.Error err ->
+        Env.report_error i.ppf_dump err;
+        exit 1)
 
 let run stdlib_path sources language tree =
-  let parser =
+  let parse =
     match (language, tree) with
     | `Erlang, _ -> pp_erlang_parsetree
     | `OCaml, `Parsetree -> pp_ocaml_parsetree
     | `OCaml, `Typedtree -> pp_ocaml_typedtree ~stdlib_path
     | `OCaml_to_erlang, _ -> pp_ocaml_to_erlang_parsetree ~stdlib_path
   in
-  List.iter parser sources
+  List.fold_left
+    (fun exit_code src -> if exit_code = 0 then parse src else exit_code)
+    0 sources
 
 let cmd =
   let sources =

@@ -79,11 +79,13 @@ let compile ({ sources; targets; _ } as opts) =
   with
   | exception Env.Error err ->
       Env.report_error Format.std_formatter err;
-      Format.fprintf Format.std_formatter "\n%!"
-  | exception exc -> (
-      match Location.error_of_exn exc with
+      Format.fprintf Format.std_formatter "\n%!";
+      Error `Compilation_error
+  | exception exc ->
+      ( match Location.error_of_exn exc with
       | Some (`Ok error) -> Location.print_report Format.std_formatter error
       | _ ->
           Format.fprintf Format.std_formatter "ERROR: %s\n"
-            (Printexc.to_string exc) )
-  | _ -> ()
+            (Printexc.to_string exc) );
+      Error `Other_error
+  | _ -> Ok ()

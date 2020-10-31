@@ -18,8 +18,12 @@ let description =
 let info = Info.make ~name ~doc ~description
 
 let run sources dump_ast no_stdlib stdlib_path targets =
-  Caramel_compiler.Compiler.compile
-    { sources; dump_ast; targets; no_stdlib; stdlib_path }
+  match
+    Caramel_compiler.Compiler.compile
+      { sources; dump_ast; targets; no_stdlib; stdlib_path }
+  with
+  | Ok () -> 0
+  | Error _ -> 1
 
 let cmd =
   let sources =
