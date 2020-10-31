@@ -2,6 +2,7 @@
   Compiling result.erl	OK
   Compiling option.erl	OK
   Unbound type constructor Erlang.process
+  [1]
   $ cat *.erl
   % Source code generated with Caramel.
   -module(option).
