@@ -21,6 +21,7 @@ depends: [
   "sexplib"
   "odoc" {with-doc}
 ]
+dev-repo: "git+https://github.com/AbstractMachinesLab/caramel.git"
 build: [
   ["dune" "subst"] {dev}
   [
@@ -31,8 +32,7 @@ build: [
     "-j"
     jobs
     "@install"
-    "@runtest" {with-test}
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/AbstractMachinesLab/caramel.git"
+run-test: ["dune" "runtest" "./erlang/tests" "-p" name]

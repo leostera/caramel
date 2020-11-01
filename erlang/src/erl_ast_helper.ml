@@ -188,9 +188,9 @@ end
 module Mod = struct
   let empty =
     {
-      file_name = "caramel_empty_module.erl";
+      file_name = "empty_module.erl";
       behaviours = [];
-      module_name = Atom.mk "caramel_empty_module";
+      module_name = Atom.mk "empty_module";
       attributes = [];
       exports = [];
       types = [];

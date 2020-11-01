@@ -36,17 +36,6 @@ let rec name_to_string name =
   | Qualified_name { n_mod; n_name } ->
       Format.sprintf "%s:%s" (name_to_string n_mod) (name_to_string n_name)
 
-let is_caramel_support { fa_name; _ } =
-  match fa_name with
-  | Expr_name
-      (Qualified_name
-        {
-          n_mod = Atom_name (Atom "caramel");
-          n_name = Atom_name (Atom "binary_concat");
-        }) ->
-      true
-  | _ -> false
-
 (*
  * Pretty printing functions
  *)
@@ -68,25 +57,7 @@ let pp_exports ppf exports =
   Format.fprintf ppf "\n";
   ()
 
-let rec pp_caramel_support_function _prefix ppf { fa_name; fa_args; _ } ~module_
-    =
-  match (fa_name, fa_args) with
-  | ( Expr_name
-        (Qualified_name
-          {
-            n_mod = Atom_name (Atom "caramel");
-            n_name = Atom_name (Atom "binary_concat");
-            _;
-          }),
-      [ lhs; rhs ] ) ->
-      Format.fprintf ppf "<< (";
-      pp_expression "" ppf lhs ~module_;
-      Format.fprintf ppf ")/binary, (";
-      pp_expression "" ppf rhs ~module_;
-      Format.fprintf ppf ")/binary >>"
-  | _, _ -> raise Unknown_support_function
-
-and pp_comment ppf (Comment c) = Format.fprintf ppf "%%%% %s" c
+let rec pp_comment ppf (Comment c) = Format.fprintf ppf "%%%% %s" c
 
 and pp_type_expr prefix ppf typ_expr =
   match typ_expr with
@@ -359,16 +330,8 @@ and pp_expression prefix ppf expr ~module_ =
       pp_expression "" ppf binding.lb_rhs ~module_;
       Format.fprintf ppf ",\n";
       pp_expression prefix ppf expr ~module_
-  | Expr_fun_ref { fref_name = Atom_name (Atom "'__caramel_recv'"); _ } ->
-      Format.fprintf ppf "fun (T) -> ";
-      Format.fprintf ppf "receive X -> {some, X} ";
-      Format.fprintf ppf "after T -> none ";
-      Format.fprintf ppf "end ";
-      Format.fprintf ppf "end"
   | Expr_fun_ref { fref_name = name; fref_arity } ->
       Format.fprintf ppf "fun %a/%d" pp_name name fref_arity
-  | Expr_apply apply when is_caramel_support apply ->
-      pp_caramel_support_function prefix ppf apply ~module_
   | Expr_apply { fa_name; fa_args; _ } -> (
       pp_expression "" ppf fa_name ~module_;
       match fa_args with
