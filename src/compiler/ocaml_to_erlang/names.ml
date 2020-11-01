@@ -150,7 +150,7 @@ let ocaml_to_erlang_primitive_op t =
   | "!" | "++" | "-" | "--" | "/" | "<" | ">" | "*" | "+" -> to_erl_op t
   | "^" ->
       Name.qualified
-        ~m:(Name.atom (Atom.mk "caramel"))
+        ~m:(Name.atom (Atom.mk "caramel_runtime"))
         ~f:(Name.atom (Atom.mk "binary_concat"))
   | "<>" -> to_erl_op "=/="
   | "<=" -> to_erl_op "=<"

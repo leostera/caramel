@@ -55,7 +55,7 @@
   -spec fresh_name(ctx(), binary()) -> {list({binary(), binding()}), binary()}.
   fresh_name(Ctx, X) ->
     case is_bound(Ctx, X) of
-      true -> fresh_name(Ctx, << (X)/binary, (<<"'">>)/binary >>);
+      true -> fresh_name(Ctx, caramel_runtime:binary_concat(X, <<"'">>));
       false -> {[{X, name_bind} | Ctx], X}
     end.
   
@@ -140,7 +140,7 @@
     case Type_ of
       {type_arrow, Ta, Tr} -> Ta2 = t_to_str(Ta),
   Tr2 = t_to_str(Tr),
-  << (<<"(lambda ">>)/binary, (<< (Ta2)/binary, (<< (<<" -> ">>)/binary, (<< (Tr2)/binary, (<<")">>)/binary >>)/binary >>)/binary >>)/binary >>;
+  caramel_runtime:binary_concat(<<"(lambda ">>, caramel_runtime:binary_concat(Ta2, caramel_runtime:binary_concat(<<" -> ">>, caramel_runtime:binary_concat(Tr2, <<")">>))));
       type_bool -> <<"bool">>
     end.
   
@@ -175,7 +175,7 @@
     true -> {ok, Ret_t};
     false -> A = t_to_str(Arr_t),
   B = t_to_str(Arg_t),
-  {error, << (<<"Expected parameter to be of type:  ">>)/binary, (<< (A)/binary, (<< (<<" but instead found: ">>)/binary, (B)/binary >>)/binary >>)/binary >>}
+  {error, caramel_runtime:binary_concat(<<"Expected parameter to be of type:  ">>, caramel_runtime:binary_concat(A, caramel_runtime:binary_concat(<<" but instead found: ">>, B)))}
   end;
     {{ok, _}, _} -> {error, <<"Expected_arrow_type">>};
     {Err, _} -> Err

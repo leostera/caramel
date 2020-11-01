@@ -4,12 +4,13 @@
    calendar.cma calendar.cmi calendar.cmo erlang.cma erlang.cmi erlang.cmo
    ets.cma ets.cmi ets.cmo io.cma io.cmi io.cmo lists.cma lists.cmi lists.cmo
    maps.cma maps.cmi maps.cmo process.cma process.cmi process.cmo process.erl
-   timer.cma timer.cmi timer.cmo)
+   timer.cma timer.cmi timer.cmo caramel_runtime.cma caramel_runtime.cmi
+   caramel_runtime.cmo)
  (deps ../../bootc.exe)
  (action
   (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive
-    --target=erlang beam.ml binary.ml calendar.ml erlang.ml ets.ml io.mli
-    io.ml lists.ml maps.ml process.ml timer.ml)))
+    --target=erlang beam.ml binary.ml calendar.ml caramel_runtime.ml
+    erlang.ml ets.ml io.mli io.ml lists.ml maps.ml process.ml timer.ml)))
 
 (install
  (section lib)
@@ -42,6 +43,7 @@
   (process.cmi as ./stdlib/beam/process.cmi)
   (process.cmo as ./stdlib/beam/process.cmo)
   (process.erl as ./stdlib/beam/process.erl)
+  (caramel_runtime.erl as ./stdlib/beam/caramel_runtime.erl)
   (timer.cma as ./stdlib/beam/timer.cma)
   (timer.cmi as ./stdlib/beam/timer.cmi)
   (timer.cmo as ./stdlib/beam/timer.cmo))

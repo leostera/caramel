@@ -1,4 +1,4 @@
-  $ caramelc compile gen_tcp.ml echo.ml
+  $ caramelc compile gen_tcp_types.ml gen_tcp.ml echo.ml
   File "echo.ml", lines 6-9, characters 2-13:
   6 | ..let Ok conn = Gen_tcp.accept socket in
   7 |   let handler = Process.make (fun _self _recv -> handle conn ) in
@@ -15,6 +15,8 @@
   Error _
   Compiling gen_tcp.erl	OK
   Compiling echo.erl	OK
+  $ cat gen_tcp.erl
+  $ cat gen_tcp_types.erl
   $ cat echo.erl
   % Source code generated with Caramel.
   -module(echo).

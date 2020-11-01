@@ -1,10 +1,4 @@
-type socket
-type connection
-
-type packet = Http
-type listen_opt =
-  | Active of bool
-  | Packet of packet
+open Gen_tcp_types
 
 external accept : socket -> (connection, string) result = ""
 external listen : int -> listen_opt list -> (socket, string) result = ""

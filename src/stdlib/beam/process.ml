@@ -5,8 +5,9 @@ type 'm recv = timeout:after_time -> 'm option
 external __caramel_recv : 'a -> 'm option = ""
 
 let recv ~timeout =
-  let f = __caramel_recv in
-  match timeout with Infinity -> f `Infinity | Bounded t -> f t
+  match timeout with
+  | Infinity -> Caramel_runtime.recv_and_wait ()
+  | Bounded t -> Caramel_runtime.recv_with_timeout t
 
 let make : ('m Erlang.pid -> 'm recv -> 'a) -> 'm Erlang.pid =
  fun f ->
