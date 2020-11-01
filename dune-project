@@ -24,6 +24,7 @@
  (depends
   (dune (>= "2.7"))
   (ocaml (>= "4.11.1"))
+  cmdliner
   menhir
   ppx_sexp_conv
   sexplib

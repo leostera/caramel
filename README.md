@@ -59,6 +59,19 @@ Eshell V11.0.3  (abort with ^G)
 <<"world">>
 ```
 
+To make use of the entire standard library you'll have to run `erlc` to compile it:
+
+```sh
+# after unzipping
+$ erlc ./caramel/lib/caramel/stdlib/beam/*.erl
+$ erl -pa ./caramel/lib/stdlib/beam
+Erlang/OTP 23 [erts-11.0.3] [source] [64-bit] [smp:64:64] [ds:64:64:10] [async-threads:1] [hipe]
+
+Eshell V11.0.3  (abort with ^G)
+1> caramel_runtime:binary_concat(<<"hello, ">>, <<"world!">>).
+<<"hello, world!">>
+```
+
 ## Examples
 
 You can find several examples in [`./examples`](./examples), and in
