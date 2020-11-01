@@ -1,3 +1,17 @@
+## v0.0.14
+
+The `erlang` library is now completely free of references to Caramel and should
+be usable on its own without problems.
+
+The `caramel/stdlib` has now been refactored to include the necessary Erlang
+runtime to not depend anymore on special cases in the Erlang AST printer.
+
+Some tests have been updated accordingly.
+
+The `gen_tcp` example module has been split into an ffi and type definitions to
+leverage the fact that empty modules (full of ffi's) do not generate any Erlang
+code. This way getting the example up and running is more straightforward.
+
 ## v0.0.13
 
 * erlang: prepare erlang library for initial release to opam.
