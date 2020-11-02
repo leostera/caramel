@@ -43,7 +43,7 @@ release-erlang:
 
 .PHONY: opam-publish
 opam-publish: build
-	dune-release distrib --skip-tests -p erlang -n erlang
+	dune-release distrib --skip-build --skip-tests -p erlang -n erlang
 	dune-release opam pkg -p erlang -n erlang
 	dune-release opam submit -p erlang -n erlang
 
