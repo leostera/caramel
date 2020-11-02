@@ -1,8 +1,7 @@
-(executable
- (name erldump)
- (public_name erldump)
+(executables
+ (names erlcheck erlfmt erlcc)
+ (public_names erlcheck erlfmt erlcc)
  (package erlang)
- (modules erldump version)
  (instrumentation
   (backend bisect_ppx))
  (libraries erlang cmdliner)
