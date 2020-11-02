@@ -1,6 +1,6 @@
 (executables
- (names erlcheck erlfmt erlcc)
- (public_names erlcheck erlfmt erlcc)
+ (names erlcheck erlfmt erlcc erldump)
+ (public_names erlcheck erlfmt erlcc erldump)
  (package erlang)
  (instrumentation
   (backend bisect_ppx))
