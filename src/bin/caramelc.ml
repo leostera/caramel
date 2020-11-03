@@ -10,13 +10,11 @@ module Help = struct
 end
 
 let run () =
-  let cmds =
-    [
-      Cmd_compile.cmd;
-      Cmd_sort_deps.cmd;
-      Cmd_check.cmd;
-      Cmd_parse.cmd;
-      Cmd_verify.cmd;
-    ]
-  in
-  Term.(exit_status @@ eval_choice Help.cmd cmds)
+  [
+    Cmd_compile.cmd;
+    Cmd_sort_deps.cmd;
+    Cmd_check.cmd;
+    Cmd_parse.cmd;
+    Cmd_verify.cmd;
+  ]
+  |> Term.eval_choice Help.cmd |> Term.exit_status
