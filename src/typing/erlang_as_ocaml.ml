@@ -27,12 +27,9 @@ let emit_bytecode i (bytecode, required_globals) =
       |> Profile.(record ~accumulate:true generate)
            (Emitcode.to_file oc i.module_name cmofile ~required_globals))
 
-let check ~source_file ~output_prefix ~dump_ast =
-  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
-    ~dump_ext:"cmo"
-  @@ fun i ->
+let parse ~source_file ~dump_ast =
   let erlang_ast =
-    match Erlang.Parse.from_file i.source_file with
+    match Erlang.Parse.from_file source_file with
     | exception exc ->
         Format.fprintf Format.std_formatter "Unhandled parsing error: %s"
           (Printexc.to_string exc);
@@ -42,14 +39,17 @@ let check ~source_file ~output_prefix ~dump_ast =
         exit 1
     | Ok structure -> Erlang.Ast_helper.Mod.of_structure structure
   in
-  if dump_ast then (
-    Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
-      (Erlang.Ast.sexp_of_t erlang_ast);
-    Format.fprintf Format.std_formatter "\n\n%!" );
   let parsetree = Erlang_to_native.Ast_transl.to_parsetree erlang_ast in
   if dump_ast then (
-    Pprintast.structure Format.std_formatter parsetree;
+    Printast.structure 0 Format.std_formatter parsetree;
     Format.fprintf Format.std_formatter "\n\n%!" );
+  parsetree
+
+let check ~source_file ~output_prefix ~dump_ast =
+  Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
+    ~dump_ext:"cmo"
+  @@ fun i ->
+  let parsetree = parse ~source_file ~dump_ast in
   let typedtree =
     parsetree
     |> Profile.(record typing)

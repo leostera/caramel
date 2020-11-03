@@ -23,11 +23,20 @@ end
 
 let backend = (module Backend : Backend_intf.S)
 
+let parse_interface ~source_file = Pparse.parse_interface ~tool_name source_file
+
+let parse_implementation ~source_file ~dump_ast =
+  let parsetree = Pparse.parse_implementation ~tool_name source_file in
+  if dump_ast then (
+    Printast.structure 0 Format.std_formatter parsetree;
+    Format.fprintf Format.std_formatter "\n\n%!" );
+  parsetree
+
 let interface ~source_file ~output_prefix =
   Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
     ~dump_ext:"cmx"
   @@ fun i ->
-  let parse = Pparse.parse_interface ~tool_name i.source_file in
+  let parse = parse_interface ~source_file in
   let typed = Typemod.type_interface i.env parse in
   Typecore.force_delayed_checks ();
   Warnings.check_fatal ();
@@ -37,7 +46,7 @@ let implementation ~source_file ~output_prefix =
   Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
     ~dump_ext:"cmx"
   @@ fun i ->
-  let parse = Pparse.parse_implementation ~tool_name i.source_file in
+  let parse = parse_implementation ~source_file ~dump_ast:false in
   let typed, _coercion =
     Typemod.type_implementation i.source_file i.output_prefix i.module_name
       i.env parse

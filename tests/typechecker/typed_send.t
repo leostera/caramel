@@ -89,15 +89,12 @@
                              (Expr_literal (Lit_atom (Atom yes)))))))))))))
           (fd_spec ())))))
   
-  module Typed_process =
-    struct
-      let rec loop (recv, s) =
-        match recv () with
-        | `replace x -> loop (recv, x)
-        | `print -> let _ = print_int s in loop (recv, s)
-      let rec spawn_int s = Erlang.spawn (fun recv -> loop (recv, s))
-      let rec start () = Erlang.send ((spawn_int 0), (`replace `yes))
-    end
+  let rec loop (recv, s) =
+    match recv () with
+    | `replace x -> loop (recv, x)
+    | `print -> let _ = print_int s in loop (recv, s)
+  let rec spawn_int s = Erlang.spawn (fun recv -> loop (recv, s))
+  let rec start () = Erlang.send ((spawn_int 0), (`replace `yes))
   
   File "_none_", line 1:
   Error: This expression has type unit but an expression was expected of type

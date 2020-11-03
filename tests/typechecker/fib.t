@@ -60,16 +60,12 @@
                      (fa_args ((Expr_literal (Lit_atom (Atom no)))))))))))
           (fd_spec ())))))
   
-  module Fib =
-    struct
-      let rec fib =
-        function
-        | 0 -> 0
-        | 1 -> 1
-        | n ->
-            Stdlib.(+) ((fib (Stdlib.(-) (n, 1))), (fib (Stdlib.(-) (n, 2))))
-      let rec fib () = fib `no
-    end
+  let rec fib =
+    function
+    | 0 -> 0
+    | 1 -> 1
+    | n -> Stdlib.(+) ((fib (Stdlib.(-) (n, 1))), (fib (Stdlib.(-) (n, 2))))
+  let rec fib () = fib `no
   
   File "_none_", line 1:
   Error: This expression has type 'a * 'b

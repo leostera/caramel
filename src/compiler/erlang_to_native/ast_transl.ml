@@ -197,17 +197,7 @@ and mk_fun_value { fd_name; fd_cases; _ } =
   Str.value Recursive [ Vb.mk pat expr ]
 
 let to_parsetree : Erlang.Ast.t -> Parsetree.structure =
- fun { module_name; functions; _ } ->
-  let ocaml_name =
-    module_name |> Erl.Atom.to_string |> String.capitalize_ascii
-  in
-  let module_name = { txt = Some ocaml_name; loc = Location.none } in
-  (* NOTE: not ideal! we are traversing the module twice to thread the
-   * receive function in the functions that are actually run as processes
-   *)
-  let str = functions |> List.map mk_fun_value in
-  let me = Mod.structure str in
-  let mb = Mb.mk module_name me in
-  let ast = [ Str.module_ mb ] in
+ fun { functions; _ } ->
+  let ast = functions |> List.map mk_fun_value in
   Ast_invariants.structure ast;
   ast

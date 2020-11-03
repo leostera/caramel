@@ -50,12 +50,8 @@
                      (fa_args ((Expr_literal (Lit_integer 1))))))))))
           (fd_spec ())))))
   
-  module Case_test =
-    struct
-      let rec f a =
-        match a with | `int i -> print_int i | `str b -> print_string b
-      let rec g () = f 1
-    end
+  let rec f a = match a with | `int i -> print_int i | `str b -> print_string b
+  let rec g () = f 1
   
   File "_none_", line 1:
   Error: This expression has type int but an expression was expected of type
