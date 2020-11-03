@@ -87,13 +87,12 @@ jobs:
 
       - name: Define env (unix)
         if: ${{ runner.os != 'Windows' }}
-        run: echo "GITHUB_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo "GITHUB_TAG=$(git describe --always)" >> $GITHUB_ENV
 
       - name: Define env (windows)
         if: ${{ runner.os == 'Windows' }}
         run: |
-          $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
-          echo "GITHUB_TAG=$(echo $tag)" >> $GITHUB_ENV
+          echo "GITHUB_TAG=$(git describe --always)" >> $GITHUB_ENV
           echo "CARAMELC_STDLIB_PATH=${{ matrix.stdlib_path }}" >> $GITHUB_ENV
 
       - name: Update Opam
