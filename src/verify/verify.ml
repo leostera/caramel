@@ -8,12 +8,12 @@ let compare_parsetree a b = if a = b then Ok () else Error `not_equal
 let remove_locations parsetree =
   let open Ast_mapper in
   let open Parsetree in
-
-  let map_structure_item sub {pstr_loc = loc; pstr_desc = desc} =
+  let map_structure_item sub { pstr_loc = loc; pstr_desc = desc } =
     let open Ast_helper.Str in
     let loc = sub.location sub loc in
     match desc with
-    | Pstr_value (_r, vbs) -> value ~loc Recursive (List.map (sub.value_binding sub) vbs)
+    | Pstr_value (_r, vbs) ->
+        value ~loc Recursive (List.map (sub.value_binding sub) vbs)
     | Pstr_eval (x, attrs) ->
         let attrs = sub.attributes sub attrs in
         eval ~loc ~attrs (sub.expr sub x)
@@ -33,9 +33,8 @@ let remove_locations parsetree =
         let attrs = sub.attributes sub attrs in
         extension ~loc ~attrs (sub.extension sub x)
     | Pstr_attribute x -> attribute ~loc (sub.attribute sub x)
-
-
   in
+
   let mapper =
     {
       Ast_mapper.default_mapper with
