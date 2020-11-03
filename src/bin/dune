@@ -1,6 +1,6 @@
 (library
  (name bin)
- (libraries cmdliner caramel.compiler caramel.typing)
+ (libraries cmdliner caramel.compiler caramel.typing caramel.verify)
  (instrumentation
   (backend bisect_ppx))
  (flags
