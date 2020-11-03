@@ -66,10 +66,9 @@ let compile_one source ~target ~opts =
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file)
 
-let compile ({ sources; targets; _ } as opts) =
+let compile ({ sources; targets; no_stdlib; stdlib_path; _ } as opts) =
   match
-    initialize_compiler ~no_stdlib:opts.no_stdlib ~stdlib_path:opts.stdlib_path
-      ();
+    initialize_compiler ~no_stdlib ~stdlib_path ();
     let target = List.hd targets in
     let sorted_sources = Source_tagger.prepare ~sources ~target in
     List.iter

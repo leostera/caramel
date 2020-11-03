@@ -1,16 +1,15 @@
 open Comp_misc
 open Comp_misc.Opts
 
-let initialize_compiler ~opts =
+let initialize_compiler ~no_stdlib ~stdlib_path =
   Clflags.nopervasives := true;
   Clflags.no_std_include := true;
-  Clflags.open_modules := if opts.no_stdlib then [] else [ "Stdlib"; "Beam" ];
+  Clflags.open_modules := if no_stdlib then [] else [ "Stdlib"; "Beam" ];
   Clflags.include_dirs :=
-    if opts.no_stdlib then []
+    if no_stdlib then []
     else
       [
-        Filename.concat opts.stdlib_path "ocaml";
-        Filename.concat opts.stdlib_path "beam";
+        Filename.concat stdlib_path "ocaml"; Filename.concat stdlib_path "beam";
       ];
   Compmisc.init_path ();
   let _ = Compmisc.initial_env () in
@@ -28,9 +27,9 @@ let check_one source ~opts =
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file) |> ignore
 
-let check ({ sources; targets; _ } as opts) =
+let check ({ sources; targets; stdlib_path; no_stdlib; _ } as opts) =
   match
-    initialize_compiler ~opts;
+    initialize_compiler ~stdlib_path ~no_stdlib;
     let target = List.hd targets in
     Source_tagger.prepare ~sources ~target |> List.iter (check_one ~opts);
     Warnings.check_fatal ()
@@ -41,3 +40,13 @@ let check ({ sources; targets; _ } as opts) =
   | exception exc ->
       Format.fprintf Format.std_formatter "ERROR: %s\n" (Printexc.to_string exc)
   | _ -> ()
+
+let run_check f =
+  try f () with
+  | Env.Error err ->
+      Env.report_error Format.std_formatter err;
+      Format.fprintf Format.std_formatter "\n%!";
+      exit 1
+  | exc ->
+      Format.fprintf Format.std_formatter "ERROR: %s\n" (Printexc.to_string exc);
+      exit 1

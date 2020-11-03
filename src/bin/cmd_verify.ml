@@ -8,8 +8,10 @@ let description = {||}
 
 let info = Info.make ~name ~doc ~description
 
-let run sources =
-  match Caramel_verify.Verify.verify sources with Ok () -> 0 | Error _ -> 1
+let run sources stdlib_path =
+  match Caramel_verify.Verify.verify sources ~stdlib_path with
+  | Ok () -> 0
+  | Error _ -> 1
 
 let cmd =
   let sources =
@@ -17,4 +19,4 @@ let cmd =
       non_empty & pos_all string []
       & info [] ~docv:"SOURCES" ~doc:"A list of source files to compile")
   in
-  (Term.(pure run $ sources), info)
+  (Term.(pure run $ sources $ Common_flags.stdlib_path), info)
