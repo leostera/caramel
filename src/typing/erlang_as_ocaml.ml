@@ -1,5 +1,4 @@
 open Compile_common
-open Comp_misc.Opts
 
 let tool_name = "caramelc:typing:erlang_as_ocaml"
 
@@ -28,7 +27,7 @@ let emit_bytecode i (bytecode, required_globals) =
       |> Profile.(record ~accumulate:true generate)
            (Emitcode.to_file oc i.module_name cmofile ~required_globals))
 
-let check ~source_file ~output_prefix ~opts =
+let check ~source_file ~output_prefix ~dump_ast =
   Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix
     ~dump_ext:"cmo"
   @@ fun i ->
@@ -43,12 +42,12 @@ let check ~source_file ~output_prefix ~opts =
         exit 1
     | Ok structure -> Erlang.Ast_helper.Mod.of_structure structure
   in
-  if opts.dump_ast then (
+  if dump_ast then (
     Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
       (Erlang.Ast.sexp_of_t erlang_ast);
     Format.fprintf Format.std_formatter "\n\n%!" );
   let parsetree = Erlang_to_native.Ast_transl.to_parsetree erlang_ast in
-  if opts.dump_ast then (
+  if dump_ast then (
     Pprintast.structure Format.std_formatter parsetree;
     Format.fprintf Format.std_formatter "\n\n%!" );
   let typedtree =
