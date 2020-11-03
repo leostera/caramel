@@ -14,7 +14,7 @@ license: "Apache-2.0"
 homepage: "https://github.com/AbstractMachinesLab/caramel"
 bug-reports: "https://github.com/AbstractMachinesLab/caramel/issues"
 depends: [
-  "dune" {>= "2.7" }
+  "dune" {>= "2.7" & >= "2.7"}
   "ocaml" {>= "4.11.1"}
   "cmdliner"
   "menhir"

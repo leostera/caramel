@@ -1,6 +1,8 @@
   $ cat rebind.erl
   -module(rebind).
   
+  -export([f/1,g/1]).
+  
   f(X) -> case X of Y -> ok end.
   
   g(Z) -> case Z of [Z] -> Z + 1 end.
@@ -8,6 +10,16 @@
   ((Module_attribute
      ((atr_name (Atom module))
        (atr_value (Expr_literal (Lit_atom (Atom rebind))))))
+    (Module_attribute
+      ((atr_name (Atom export))
+        (atr_value
+          (Expr_list
+            ((Expr_tuple
+               ((Expr_literal (Lit_atom (Atom f)))
+                 (Expr_literal (Lit_integer 1))))
+              (Expr_tuple
+                ((Expr_literal (Lit_atom (Atom g)))
+                  (Expr_literal (Lit_integer 1)))))))))
     (Function_decl
       ((fd_name (Atom f)) (fd_arity 1)
         (fd_cases
