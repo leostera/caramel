@@ -9,8 +9,8 @@ section contains less defined ideas.
 
 #### Milestones
 
-* [2020 Q4 - Milestone 1: OCaml on the BEAM](#2020-q4-milestone-1-ocaml-on-the-beam) :heavy_check_mark:
-* [2020 Q4 - Milestone 2: Sound Compilation](#2020-q4-milestone-2-sound-compilation) :hammer:
+* [2020 Q4 - Milestone 1: OCaml on the BEAM](#2020-q4---milestone-1-ocaml-on-the-beam-heavy_check_mark) :heavy_check_mark:
+* [2020 Q4 - Milestone 2: Sound Compilation](#2020-q1---milestone-2-sound-compilation-hammer) :hammer:
 * [Milestone 3: Typechecker for Erlang](#milestone-3-typechecker-for-erlang)
 * [Future Work](#future-work) :crystal_ball:
 
