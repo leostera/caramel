@@ -59,4 +59,6 @@ let check ~source_file ~output_prefix ~opts =
   in
   let lambda = to_lambda i typedtree in
   let bytecode = to_bytecode i lambda in
-  emit_bytecode i bytecode
+  emit_bytecode i bytecode;
+  let typed, _coerdion = typedtree in
+  `Structure typed

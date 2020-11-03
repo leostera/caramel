@@ -20,13 +20,13 @@ let check_one source ~opts =
   let open Source_tagger in
   let fn, source_file =
     match source with
-    | Mli file -> (Optcompile.interface, file)
-    | Ml file -> (Ocaml_archive.archive ~opts, file)
+    | Mli file -> (Ocaml.interface, file)
+    | Ml file -> (Ocaml.implementation, file)
     | Erl file -> (Erlang_as_ocaml.check ~opts, file)
     | Other (t, file, ext) ->
         raise (Unsupported_file_type_for_target (t, file, ext))
   in
-  fn ~source_file ~output_prefix:(Filename.chop_extension source_file)
+  fn ~source_file ~output_prefix:(Filename.chop_extension source_file) |> ignore
 
 let check ({ sources; targets; _ } as opts) =
   match
