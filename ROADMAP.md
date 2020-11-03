@@ -51,7 +51,7 @@ define the subset of Erlang that is well-typed.
 **Outcomes**:
 - `caramelc compile --target=erlang`
 
-## 2020 Q4 - Milestone 2: [Verified Compilation](https://github.com/AbstractMachinesLab/caramel/milestone/2)
+## 2020 Q4 - Milestone 2: [Verified Compilation](https://github.com/AbstractMachinesLab/caramel/milestone/2) :hammer:
 
 While Milestone 1 gave us the `caramelc compile` command to compile OCaml
 programs to Erlang, its focus was to output idiomatic Erlang sources.
