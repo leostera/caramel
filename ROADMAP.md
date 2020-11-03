@@ -48,8 +48,8 @@ The __next milestone__, will likely focus on parsing the generated Erlang
 source code to verify that it is still type-safe. This would help us really
 define the subset of Erlang that is well-typed.
 
-* Outcomes:
-  - `caramelc compile --target=erlang`
+**Outcomes**:
+- `caramelc compile --target=erlang`
 
 ## 2020 Q4 - Milestone 2: [Verified Compilation](https://github.com/AbstractMachinesLab/caramel/milestone/1)
 
@@ -80,8 +80,8 @@ The __next milestone__, will build on this foundation knowing that the
 compilation artifacts of Caramel are as sound as any other OCaml compilation
 artifact.
 
-* Outcomes:
-  - `caramelc verify`
+**Outcomes**:
+- `caramelc verify`
 
 ## Milestone 3: [Typechecker for Erlang]()
 
@@ -107,8 +107,8 @@ to Erlang, and from Erlang to OCaml. A convenient by-product of this work is
 the rather low-hanging fruit of compiling Erlang programs to native binaries by
 reusing the rest of the mainline OCaml compiler.
 
-* Outcomes:
-  - `caramelc check`
+**Outcomes**:
+- `caramelc check`
 
 ## Future Work
 
