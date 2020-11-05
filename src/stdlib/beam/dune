@@ -1,11 +1,9 @@
 (rule
  (alias stdlib)
- (targets beam.cma beam.cmi beam.cmo binary.cma binary.cmi binary.cmo
-   calendar.cma calendar.cmi calendar.cmo erlang.cma erlang.cmi erlang.cmo
-   ets.cma ets.cmi ets.cmo io.cma io.cmi io.cmo lists.cma lists.cmi lists.cmo
-   maps.cma maps.cmi maps.cmo process.cma process.cmi process.cmo process.erl
-   timer.cma timer.cmi timer.cmo caramel_runtime.cma caramel_runtime.cmi
-   caramel_runtime.cmo)
+ (targets beam.cma beam.cmi binary.cma binary.cmi calendar.cma calendar.cmi
+   erlang.cma erlang.cmi ets.cma ets.cmi io.cma io.cmi lists.cma lists.cmi
+   maps.cma maps.cmi process.cma process.cmi process.erl timer.cma timer.cmi
+   caramel_runtime.cma caramel_runtime.cmi)
  (deps ../../bootc.exe)
  (action
   (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive
@@ -17,34 +15,24 @@
  (files
   (beam.cma as ./stdlib/beam/beam.cma)
   (beam.cmi as ./stdlib/beam/beam.cmi)
-  (beam.cmo as ./stdlib/beam/beam.cmo)
   (binary.cma as ./stdlib/beam/binary.cma)
   (binary.cmi as ./stdlib/beam/binary.cmi)
-  (binary.cmo as ./stdlib/beam/binary.cmo)
   (calendar.cma as ./stdlib/beam/calendar.cma)
   (calendar.cmi as ./stdlib/beam/calendar.cmi)
-  (calendar.cmo as ./stdlib/beam/calendar.cmo)
   (erlang.cma as ./stdlib/beam/erlang.cma)
   (erlang.cmi as ./stdlib/beam/erlang.cmi)
-  (erlang.cmo as ./stdlib/beam/erlang.cmo)
   (ets.cma as ./stdlib/beam/ets.cma)
   (ets.cmi as ./stdlib/beam/ets.cmi)
-  (ets.cmo as ./stdlib/beam/ets.cmo)
   (io.cma as ./stdlib/beam/io.cma)
   (io.cmi as ./stdlib/beam/io.cmi)
-  (io.cmo as ./stdlib/beam/io.cmo)
   (lists.cma as ./stdlib/beam/lists.cma)
   (lists.cmi as ./stdlib/beam/lists.cmi)
-  (lists.cmo as ./stdlib/beam/lists.cmo)
   (maps.cma as ./stdlib/beam/maps.cma)
   (maps.cmi as ./stdlib/beam/maps.cmi)
-  (maps.cmo as ./stdlib/beam/maps.cmo)
   (process.cma as ./stdlib/beam/process.cma)
   (process.cmi as ./stdlib/beam/process.cmi)
-  (process.cmo as ./stdlib/beam/process.cmo)
   (process.erl as ./stdlib/beam/process.erl)
   (caramel_runtime.erl as ./stdlib/beam/caramel_runtime.erl)
   (timer.cma as ./stdlib/beam/timer.cma)
-  (timer.cmi as ./stdlib/beam/timer.cmi)
-  (timer.cmo as ./stdlib/beam/timer.cmo))
+  (timer.cmi as ./stdlib/beam/timer.cmi))
  (package caramel))
