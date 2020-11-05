@@ -1,5 +1,3 @@
-open Compile_common
-
 let tool_name = "caramelc:ocaml-archive"
 
 let archive ~source_file ~output_prefix ~opts:_ =
