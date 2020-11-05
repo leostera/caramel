@@ -5,7 +5,9 @@ let tool_name = "caramelc:lambda-to-core"
 
 let compile ~source_file ~output_prefix ~opts =
   let backend info (typed, coercion) =
-    let lambda = Translmod.transl_implementation info.module_name (typed, coercion) in
+    let lambda =
+      Translmod.transl_implementation info.module_name (typed, coercion)
+    in
     let module_name = info.module_name in
     let core_ast = Ast_transl.from_lambda ~module_name lambda.code in
     if opts.dump_ast then (

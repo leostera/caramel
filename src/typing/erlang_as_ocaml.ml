@@ -25,7 +25,7 @@ let check ~source_file ~output_prefix ~dump_ast =
     ~dump_ext:"cmo"
   @@ fun i ->
   let parsetree = parse ~source_file ~dump_ast in
-  let (typed, _coercion) =
+  let typed, _coercion =
     parsetree
     |> Profile.(record typing)
          (Typemod.type_implementation i.source_file i.output_prefix
