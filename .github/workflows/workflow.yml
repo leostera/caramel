@@ -85,15 +85,12 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions-bot@users.noreply.github.com
 
-      - name: Define env (unix)
-        if: ${{ runner.os != 'Windows' }}
+      - name: Define env
         run: echo "GITHUB_TAG=$(git describe --always --tags)" >> $GITHUB_ENV
 
-      - name: Define env (windows)
+      - name: Define env (Windows Only)
         if: ${{ runner.os == 'Windows' }}
-        run: |
-          echo "GITHUB_TAG=$(git describe --always --tags)" >> $GITHUB_ENV
-          echo "CARAMELC_STDLIB_PATH=${{ matrix.stdlib_path }}" >> $GITHUB_ENV
+        run: echo "CARMELC_STDLIB_PATH=${{ matrix.stdlib_path }}" >> $GITHUB_ENV
 
       - name: Update Opam
         run: opam update --yes
