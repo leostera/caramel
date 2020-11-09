@@ -59,6 +59,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Fetch tags
+        id: tag
+        run: git fetch --tags --force
+
       - name: Cached Infra
         uses: actions/cache@v2
         env:
@@ -85,16 +89,15 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions-bot@users.noreply.github.com
 
-      - name: Define env (unix)
+      - name: Define env (Unix)
         if: ${{ runner.os != 'Windows' }}
-        run: echo "::set-env name=GITHUB_TAG::${GITHUB_REF#refs/*/}"
+        run: echo "GITHUB_TAG=$(git describe --always --tags)" >> $GITHUB_ENV
 
-      - name: Define env (windows)
+      - name: Define env (Windows)
         if: ${{ runner.os == 'Windows' }}
         run: |
-          $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
-          echo "::set-env name=GITHUB_TAG::$(echo $tag)"
-          echo "::set-env name=CARAMELC_STDLIB_PATH::${{ matrix.stdlib_path }}"
+          echo "GITHUB_TAG=$(git describe --always --tags)" >> $Env:GITHUB_ENV
+          echo "CARAMELC_STDLIB_PATH=${{ matrix.stdlib_path }}" >> $Env:GITHUB_ENV
 
       - name: Update Opam
         run: opam update --yes
