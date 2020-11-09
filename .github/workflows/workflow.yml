@@ -94,7 +94,6 @@ jobs:
         run: |
           $tag = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
           echo "::set-env name=GITHUB_TAG::$(echo $tag)"
-          echo "::set-env name=CARAMELC_STDLIB_PATH::${{ matrix.stdlib_path }}"
 
       - name: Update Opam
         run: opam update --yes
