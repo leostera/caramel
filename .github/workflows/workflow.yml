@@ -59,6 +59,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Fetch tags
+        id: tag
+        run: git fetch --tags --force
+
       - name: Cached Infra
         uses: actions/cache@v2
         env:
