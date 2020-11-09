@@ -21,7 +21,6 @@ deps:
 
 .PHONY: test
 test:
-	ls ${CARAMELC_STDLIB_PATH}
 	dune runtest
 
 .PHONY: coverage

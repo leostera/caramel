@@ -95,16 +95,6 @@ jobs:
           echo "GITHUB_TAG=$(git describe --always --tags)" >> $Env:GITHUB_ENV
           echo "CARAMELC_STDLIB_PATH=${{ matrix.stdlib_path }}" >> $Env:GITHUB_ENV
 
-      - name: Print env (Unix)
-        if: ${{ runner.os != 'Windows' }}
-        run: echo "Working GITHUB_TAG= $GITHUB_TAG"
-
-      - name: Print env (Windows)
-        if: ${{ runner.os == 'Windows' }}
-        run: |
-          echo "Working GITHUB_TAG=          ${Env:GITHUB_TAG}"
-          echo "Working CARAMELC_STDLIB_PATH= ${Env:CARMELC_STDLIB_PATH}"
-
       - name: Update Opam
         run: opam update --yes
 
