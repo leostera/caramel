@@ -1,1 +1,2 @@
 *.t linguist-vendored
+erlang/tests/parser/otp.t/*.erl linguist-vendored
