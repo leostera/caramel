@@ -40,7 +40,7 @@ Like this:
 # in this example I'm running linux with glibc
 $ wget https://github.com/AbstractMachinesLab/caramel/releases/download/v0.0.12/caramel-v0.0.12-x86_64-unknown-linux-gnu.tar.gz
 $ tar xzf caramel-*
-$ export PATH=$(pwd)/caramel/bin
+$ export PATH=$(pwd)/caramel/bin:$PATH
 ```
 
 Now we can do a quick test:
