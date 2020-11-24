@@ -24,10 +24,10 @@
   -export([ignore/0]).
   -export([pair/2]).
   
-  -spec pair(any(), any()) -> {any(), any()}.
+  -spec pair(A, B) -> {A, B}.
   pair(X, Y) -> {X, Y}.
   
-  -spec combine({any(), any()}, {any(), any()}) -> {{any(), any()}, {any(), any()}}.
+  -spec combine({A, B}, {C, D}) -> {{A, C}, {B, D}}.
   combine({A, B}, {C, D}) -> {{A, C}, {B, D}}.
   
   -spec ignore() -> ok.
@@ -61,16 +61,16 @@
   -export([right/2]).
   -export([snd/1]).
   
-  -spec left(any(), any()) -> any().
+  -spec left(A, _) -> A.
   left(L, _) -> L.
   
-  -spec right(any(), any()) -> any().
+  -spec right(_, B) -> B.
   right(_, R) -> R.
   
-  -spec fst({any(), any()}) -> any().
+  -spec fst({A, _}) -> A.
   fst({A, _}) -> A.
   
-  -spec snd({any(), any()}) -> any().
+  -spec snd({_, B}) -> B.
   snd({_, B}) -> B.
   
   
@@ -112,21 +112,21 @@
   -export([iff_using_if/3]).
   -export([iff_using_match/3]).
   
-  -spec iff_using_headers(boolean(), any(), any()) -> any().
+  -spec iff_using_headers(boolean(), A, _) -> A.
   iff_using_headers(true, F, _) -> F.
   
-  -spec iff_using_function({boolean(), any(), any()}) -> any().
+  -spec iff_using_function({boolean(), A, A}) -> A.
   iff_using_function({false, _, F}) -> F;
   iff_using_function({true, F, _}) -> F.
   
-  -spec iff_using_if(boolean(), fun(() -> any()), fun(() -> any())) -> any().
+  -spec iff_using_if(boolean(), fun(() -> A), fun(() -> A)) -> A.
   iff_using_if(Cond, T, F) ->
     case Cond of
       true -> T();
       false -> F()
     end.
   
-  -spec iff_using_match(boolean(), any(), any()) -> any().
+  -spec iff_using_match(boolean(), A, A) -> A.
   iff_using_match(T, F, G) ->
     case T of
       true -> F;
@@ -177,19 +177,19 @@
   -export([one_el/1]).
   -export([tail/1]).
   
-  -spec head(list(any())) -> any().
+  -spec head(list(A)) -> A.
   head([X | _]) -> X.
   
-  -spec tail(list(any())) -> list(any()).
+  -spec tail(list(A)) -> list(A).
   tail([_ | Xs]) -> Xs.
   
-  -spec one_el(list(any())) -> any().
+  -spec one_el(list(A)) -> A.
   one_el([X | []]) -> X.
   
-  -spec at_2(list(any())) -> any().
+  -spec at_2(list(A)) -> A.
   at_2([_ | [X | _]]) -> X.
   
-  -spec at_3(list(any())) -> any().
+  -spec at_3(list(A)) -> A.
   at_3([_ | [_ | [X | _]]]) -> X.
   
   
@@ -210,22 +210,22 @@
   -export([call_other_nested/1]).
   -export([double/2]).
   
-  -spec add(any()) -> any().
+  -spec add(A) -> A.
   add(X) -> X.
   
-  -spec double(fun((any()) -> any()), any()) -> any().
+  -spec double(fun((A) -> A), A) -> A.
   double(F, X) -> F(F(X)).
   
-  -spec add_twice(any()) -> any().
+  -spec add_twice(A) -> A.
   add_twice(X) -> double(fun add/1, X).
   
   -spec call_nested(boolean()) -> ok.
   call_nested(X) -> qualified_calls__nested:f(X).
   
-  -spec call_other(any()) -> ok.
+  -spec call_other(_) -> ok.
   call_other(X) -> qualified_calls_helper:f(X).
   
-  -spec call_other_nested(any()) -> ok.
+  -spec call_other_nested(_) -> ok.
   call_other_nested(X) -> qualified_calls_helper__nested:f(X).
   
   
@@ -247,7 +247,7 @@
   
   -export([f/1]).
   
-  -spec f(any()) -> ok.
+  -spec f(_) -> ok.
   f(_x) -> ok.
   
   
@@ -256,7 +256,7 @@
   
   -export([f/1]).
   
-  -spec f(any()) -> ok.
+  -spec f(_) -> ok.
   f(_x) -> ok.
   
   
@@ -297,10 +297,10 @@
   
   -type defer(A) :: fun((ok) -> A).
   
-  -spec ignore(any(), ok) -> ok.
+  -spec ignore(_, ok) -> ok.
   ignore(_x, ok) -> ok.
   
-  -spec add(integer(), any()) -> integer().
+  -spec add(integer(), _) -> integer().
   add(X, Y) -> erlang:'+'(X, X).
   
   -spec add_slow(integer(), integer(), ok) -> integer().

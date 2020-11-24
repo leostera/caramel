@@ -44,7 +44,7 @@ module Fun = struct
         Type.tuple parts
     | Tlink t -> mk_type_expr (Btype.repr t)
     | Tvar (Some name) -> Type.var (Name.var ("_" ^ name))
-    | Tvar None -> Type.any
+    | Tvar None -> Type.var (Name.var (Type_var_names.find type_expr))
     | Tnil -> Type.apply ~name:(Name.atom (Atom.mk "list")) ~args:[]
     | Tvariant { row_fields; _ } ->
         let row_field_to_type_expr = function
@@ -88,7 +88,9 @@ module Fun = struct
     | `Uncurried (args, return) ->
         let args = List.map mk_type_expr args in
         let return = mk_type_expr return in
-        Some (Type.fun_ ~args ~return)
+        let fun_ = Type.fun_ ~args ~return in
+        let clean_fun = Type.clean_unbound_named_vars fun_ in
+        Some clean_fun
     | `Not_a_function -> None
 
   let find_spec :
