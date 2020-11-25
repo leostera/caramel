@@ -105,7 +105,7 @@
   Gen_tcp.send conn "hello world";
   Gen_tcp.close conn
 
-(* this function will actually new processes per connection, so we
+(* this function will actually spawn new processes per connection, so we
    can easily handle millions of concurrent connections *)
 let rec loop socket =
   let Ok conn = Gen_tcp.accept socket in
