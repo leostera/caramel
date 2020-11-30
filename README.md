@@ -3,8 +3,8 @@
 
 ## What is Caramel?
 
-Caramel is an **experimental project**, featuring primarily an Erlang backend
-to the OCaml compiler, that brings one of the most mature and expressive
+Caramel is a research project, featuring primarily **an Erlang backend
+to the OCaml compiler**, that brings one of the most mature and expressive
 type-systems in the world to the BEAM.
 
 In short, it lets you write some OCaml:
