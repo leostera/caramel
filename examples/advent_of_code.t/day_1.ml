@@ -41,7 +41,7 @@ Of course, your expense report is much larger. Find the two entries that sum to
 
 *)
 
-let find_entries number entries =
+let find_entry_triplet number entries =
   Lists.foldl (fun e1 acc1 ->
     match acc1 with
     | None ->
@@ -58,4 +58,19 @@ let find_entries number entries =
     | _ -> acc1
   ) None entries
 
-let run () = find_entries 2020 [0; 0; 0]
+let find_entry_pair number entries =
+  Lists.foldl (fun e1 acc1 ->
+    match acc1 with
+    | None ->
+        Lists.foldl (fun e2 acc2 ->
+          match acc2 with
+          | None -> if number = e1 + e2 then Some (e1 * e2) else None
+          | _ -> acc2
+        ) None entries
+    | _ -> acc1
+  ) None entries
+
+let run () = [
+  find_entry_pair 2020 [0; 0; 0];
+  find_entry_triplet 2020 [0; 0; 0];
+]
