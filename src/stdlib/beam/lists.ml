@@ -22,9 +22,9 @@ external flatmap : ('a -> 'b list) -> 'a list -> 'b list = ""
 
 external flatten : 'a list list -> 'a list = ""
 
-external foldl : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b = ""
+external foldl : ('a -> 'b -> 'b) -> 'b -> 'a list -> 'b = ""
 
-external foldr : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b = ""
+external foldr : ('a -> 'b -> 'b) -> 'b -> 'a list -> 'b = ""
 
 external foreach : ('a -> unit) -> 'a list -> unit = ""
 
