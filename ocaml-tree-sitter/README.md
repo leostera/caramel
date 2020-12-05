@@ -2,9 +2,8 @@
 
 ### Why write this bindings instead of just using Menhir?
 
-Menhir is a fabulous tool, but it is unfortunately more tied to OCaml than
-anything else. This means that the grammars I've been writing here for Erlang
-won't be usable outisde of the OCaml ecosystem without considerable effort.
+Menhir is a fabulous tool, but the grammars I've been writing here for Erlang
+won't be usable outisde of the OCaml ecosystem without some effort.
 
 Instead, I decided to write an Erlang grammar with
 [tree-sitter](https://tree-sitter.github.io), so that the grammar itself can be
