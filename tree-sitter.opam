@@ -10,8 +10,7 @@ bug-reports: "https://github.com/AbstractMachinesLab/caramel/issues"
 depends: [
   "dune" {>= "2.7" & >= "2.7"}
   "ocaml" {>= "4.11.1"}
-  "ctypes"
-  "ctypes-foreign"
+  "conf-rust-2018"
   "odoc" {with-doc}
 ]
 build: [

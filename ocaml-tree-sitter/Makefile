@@ -1,3 +1,5 @@
+.PHONY: all
+all: fmt build
 
 .PHONY: build
 build:
@@ -10,5 +12,6 @@ clean: do-clean build
 do-clean:
 	dune clean
 
+.PHONY: fmt
 fmt:
-	make -C .. fmt
+	-make -C .. fmt
