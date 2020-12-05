@@ -59,3 +59,44 @@ let language () = Tree_sitter.Language.from_raw_ptr (raw ())
  (libraries tree_sitter)
  (foreign_stubs (language c) (names parser)))
 ```
+
+## Testing
+
+There's a single example/test right now that both inspects a parser's grammar
+and iterates over the nodes and prints them all out:
+
+```clojure
+
+tree-sitter v12
+Language version: 12
+Node kind count: 8
+Nodes:
+  #0: end
+  #1: atom
+  #2: (
+  #3: )
+  #4: sexp
+  #5: _sexp
+  #6: list
+  #7: list_repeat1
+DONE
+(hello (world (this is working (i think))))
+(
+hello
+(world (this is working (i think)))
+(
+world
+(this is working (i think))
+(
+this
+is
+working
+(i think)
+(
+i
+think
+)
+DONE
+
+```
+
