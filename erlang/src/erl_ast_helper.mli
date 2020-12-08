@@ -132,6 +132,10 @@ module Type : sig
 
   val fun_ : ?args:type_expr list -> return:type_expr -> type_expr
 
+  val all_named_vars : type_expr -> string list
+
+  val clean_unbound_named_vars : type_expr -> type_expr
+
   val record : name -> record_field list -> type_expr
 
   val map_field :

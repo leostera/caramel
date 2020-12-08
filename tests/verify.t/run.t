@@ -10,7 +10,7 @@
   
   -export([f/1]).
   
-  -spec f(any()) -> any().
+  -spec f(A) -> A.
   f(X) -> X.
   
   

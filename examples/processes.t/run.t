@@ -47,7 +47,7 @@
   -spec loop(fun((beam__process:after_time()) -> option:t({add, integer()}
     | {hello, binary()}
     | reset
-    )), {binary(), integer()}) -> any().
+    )), {binary(), integer()}) -> _.
   loop(Recv, State) ->
     io:format(<<"current_state: ~p\n">>, [State | []]),
     Msg = Recv({bounded, 5000}),
@@ -117,12 +117,12 @@
   -export([loop/1]).
   -export([start/1]).
   
-  -spec loop(any()) -> any().
+  -spec loop(_) -> _.
   loop(X) ->
     io:format(<<"~p\n">>, [erlang:self() | []]),
     loop(X).
   
-  -spec start(any()) -> beam__erlang:pid(any()).
+  -spec start(_) -> beam__erlang:pid(_).
   start(X) -> erlang:spawn(fun
     () -> loop(X)
   end).
@@ -139,7 +139,7 @@
   -export([register/2]).
   -export([where_is/1]).
   
-  -spec where_is(_a) -> option:t(beam__erlang:pid(_message)).
+  -spec where_is(_) -> option:t(beam__erlang:pid(_)).
   where_is(Name) ->
     Pid = erlang:whereis(Name),
     Is_pid = erlang:is_pid(Pid),
@@ -148,7 +148,7 @@
       _ -> none
     end.
   
-  -spec register(_a, beam__erlang:pid(_message)) -> result:t(beam__erlang:pid(_message), binary()).
+  -spec register(_, beam__erlang:pid(_message)) -> result:t(beam__erlang:pid(_message), binary()).
   register(Name, Pid) ->
     case where_is(Name) of
       {some, _} -> {error, <<"pid already registered">>};
@@ -192,7 +192,7 @@
   -spec where_is() -> option:t(t()).
   where_is() -> proc_registry:where_is(name()).
   
-  -spec a_loop(any(), fun((beam__process:after_time()) -> option:t(integer())), integer()) -> any().
+  -spec a_loop(_, fun((beam__process:after_time()) -> option:t(integer())), integer()) -> _.
   a_loop(Pid, Recv, I) ->
     case Recv(infinity) of
       none -> a_loop(Pid, Recv, I);
@@ -215,7 +215,7 @@
   -export([loop/2]).
   -export([start/1]).
   
-  -spec loop(integer(), any()) -> any().
+  -spec loop(integer(), _) -> _.
   loop(T, Recv) ->
     io:format(<<"~p\n">>, [T | []]),
     timer:sleep(T),
@@ -235,9 +235,9 @@
   -export([c_loop/3]).
   -export([run/0]).
   
-  -spec a_loop(any(), fun((beam__process:after_time()) -> option:t({call, {beam__erlang:pid(integer()), integer()}}
+  -spec a_loop(_, fun((beam__process:after_time()) -> option:t({call, {beam__erlang:pid(integer()), integer()}}
       | noop
-      )), integer()) -> any().
+      )), integer()) -> _.
   a_loop(Pid, Recv, I) ->
     case Recv(infinity) of
       none -> a_loop(Pid, Recv, I);
@@ -246,7 +246,7 @@
   a_loop(Pid, Recv, erlang:'+'(I, Msg))
     end.
   
-  -spec b_loop(any(), fun((beam__process:after_time()) -> option:t(integer())), beam__erlang:pid({call, {any(), integer()}}
+  -spec b_loop(A, fun((beam__process:after_time()) -> option:t(integer())), beam__erlang:pid({call, {A, integer()}}
       )) -> ok.
   b_loop(Pid, Recv, A) ->
     timer:sleep(1000),

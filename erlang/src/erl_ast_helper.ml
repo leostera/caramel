@@ -145,6 +145,66 @@ module Type = struct
   let fun_ ?(args = []) ~return =
     Type_function { tyfun_args = args; tyfun_return = return }
 
+  let rec all_named_vars typ_expr =
+    match typ_expr with
+    | Type_const _ -> []
+    | Type_variable (Var_name n) -> [ n ]
+    | Type_variable _ -> []
+    | Type_constr { tc_name = _; tc_args = args } ->
+        List.concat_map all_named_vars args
+    | Type_list p -> all_named_vars p
+    | Type_tuple parts -> List.concat_map all_named_vars parts
+    | Type_map fields -> List.concat_map all_named_vars_map_field fields
+    | Type_record (_, fields) ->
+        List.concat_map all_named_vars_record_field fields
+    | Type_variant tks -> List.concat_map all_named_vars tks
+    | Type_function { tyfun_args = args; tyfun_return = return } ->
+        List.concat_map all_named_vars (return :: args)
+
+  and all_named_vars_map_field
+      { tmf_name = e1; tmf_presence = _; tmf_value = e2 } =
+    List.concat_map all_named_vars [ e1; e2 ]
+
+  and all_named_vars_record_field { rf_name = _; rf_type = t } =
+    all_named_vars t
+
+  let rec clean_vars occurs typ_expr =
+    match typ_expr with
+    | Type_const l -> Type_const l
+    | Type_variable (Var_name n)
+      when List.length (List.find_all (( = ) n) occurs) < 2 ->
+        Type_variable (Var_name "_")
+    | Type_variable n -> Type_variable n
+    | Type_constr { tc_name = n; tc_args = args } ->
+        Type_constr { tc_name = n; tc_args = List.map (clean_vars occurs) args }
+    | Type_list p -> Type_list (clean_vars occurs p)
+    | Type_tuple parts -> Type_tuple (List.map (clean_vars occurs) parts)
+    | Type_map fields ->
+        Type_map (List.map (clean_vars_map_field occurs) fields)
+    | Type_record (n, fields) ->
+        Type_record (n, List.map (clean_vars_record_field occurs) fields)
+    | Type_variant tks -> Type_variant (List.map (clean_vars occurs) tks)
+    | Type_function { tyfun_args = args; tyfun_return = return } ->
+        Type_function
+          {
+            tyfun_args = List.map (clean_vars occurs) args;
+            tyfun_return = clean_vars occurs return;
+          }
+
+  and clean_vars_map_field occurs
+      { tmf_name = n; tmf_presence = p; tmf_value = t } =
+    {
+      tmf_name = clean_vars occurs n;
+      tmf_presence = p;
+      tmf_value = clean_vars occurs t;
+    }
+
+  and clean_vars_record_field occurs { rf_name = n; rf_type = t } =
+    { rf_name = n; rf_type = clean_vars occurs t }
+
+  let clean_unbound_named_vars typ_expr =
+    clean_vars (all_named_vars typ_expr) typ_expr
+
   let record name fields = Type_record (name, fields)
 
   let map_field ?(presence = Mandatory) tmf_name tmf_value =

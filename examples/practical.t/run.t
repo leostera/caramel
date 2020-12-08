@@ -53,7 +53,7 @@
     gen_tcp:send(Conn, <<"hello world">>),
     gen_tcp:close(Conn).
   
-  -spec loop(gen_tcp_types:socket()) -> any().
+  -spec loop(gen_tcp_types:socket()) -> _.
   loop(Socket) ->
     case gen_tcp:accept(Socket) of
       {ok, Conn} -> Handler = process:make(fun
