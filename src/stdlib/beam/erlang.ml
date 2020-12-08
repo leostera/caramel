@@ -45,3 +45,7 @@ external is_process_alive : 'a -> bool = ""
 external is_reference : 'a -> bool = ""
 
 external is_tuple : 'a -> bool = ""
+
+(************** *_to_* parsers *****************)
+
+external list_to_integer : string -> int = ""
