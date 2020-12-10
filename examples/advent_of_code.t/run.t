@@ -1,0 +1,1 @@
+  $ erlfmt dump *.erl
