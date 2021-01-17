@@ -1,0 +1,21 @@
+[book]
+title = "Caramel Manual"
+description = "Caramel is a compiler to write safe, concurrent, massively scalable systems for the BEAM, in OCaml"
+
+language = "en"
+multilingual = false
+
+authors = ["Leandro Ostera"]
+
+src = "src"
+
+[output.html]
+cname = "caramel.run"
+google-analytics = "G-HVSX9MBNEJ"
+
+default-theme = "navy"
+preferred-dark-theme = "navy"
+
+git-repository-url = "https://github.com/AbstractMachinesLab/caramel"
+git-repository-icon = "fa-github"
+
