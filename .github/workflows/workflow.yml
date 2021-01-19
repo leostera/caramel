@@ -103,7 +103,7 @@ jobs:
         run: opam update --yes
 
       - name: Install dependencies
-        run: opam exec -- make deps
+        run: opam exec -- make setup
 
       - name: Build project
         run: opam exec -- make clean build

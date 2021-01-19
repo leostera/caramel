@@ -11,12 +11,16 @@ build:
 watch:
 	dune build @all --watch -j8
 
+.PHONY: manual
+manual:
+	mdbook build --dest-dir ../docs/manual ./manual
+
 .PHONY: install
 install:
 	dune install
 
-.PHONY: deps
-deps:
+.PHONY: setup
+setup:
 	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat bisect_ppx
 
 .PHONY: test
