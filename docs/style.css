@@ -69,7 +69,6 @@ a {
  */
 
 body {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,7 +80,7 @@ section {
   align-items: center;
   width: 80vw;
   max-width: 700px;
-  margin-bottom: 10vh;
+  margin: 10vh 2rem;
   text-align: center;
 }
 
@@ -89,6 +88,7 @@ ul {
   padding: 3rem 2rem;
   list-style: none;
   display: flex;
+  flex-flow: wrap;
   width: 100%;
   max-width: 500px;
   justify-content: space-evenly;
@@ -98,14 +98,19 @@ ul {
 li {
   display: flex;
   align-items: center;
+  margin-top: 1rem;
 }
 
 a.main {
   display: block;
   background-color: var(--accent-1);
-  font-weight: 400;
+  font-weight: 900;
   padding: 0.3rem 0.8rem;
   border-radius: 6px;
+}
+
+a.clean {
+  border: none;
 }
 
 footer {
