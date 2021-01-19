@@ -93,7 +93,7 @@
   -export([b/2]).
   
   -spec b(boolean(), boolean()) -> boolean().
-  b(X, Y) -> erlang:and(X, Y).
+  b(X, Y) -> erlang:'and'(X, Y).
   
   
   % Source code generated with Caramel.

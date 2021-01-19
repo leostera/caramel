@@ -2,8 +2,14 @@ open Erl_ast
 
 (* Helpers to work with Atoms *)
 module Atom = struct
+  let is_keyword str = match str with "and" | "or" -> true |_ -> false
+
+  let quote str = "'" ^ str ^ "'"
+
   let safe_quote str =
-    match str.[0] with 'a' .. 'z' -> str | _ -> "'" ^ str ^ "'"
+    match str.[0] with
+    | 'a' .. 'z' -> if is_keyword str then quote str else str
+    | _ -> quote str
 
   let unquote a =
     match a.[0] with '\'' -> String.sub a 1 (String.length a - 2) | _ -> a
