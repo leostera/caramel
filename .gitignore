@@ -16,11 +16,12 @@
 *.out.dSYM
 *.so
 *.swp
+*.tar.gz
+*.tbz
 .DS_Store
 .merlin
 _build
 _ocamltest
 _ocamltestd
 _release
-*.tar.gz
-*.tbz
+manual/book
