@@ -49,3 +49,5 @@ external is_tuple : 'a -> bool = ""
 (************** *_to_* parsers *****************)
 
 external list_to_integer : string -> int = ""
+
+external integer_to_list : int -> string = ""

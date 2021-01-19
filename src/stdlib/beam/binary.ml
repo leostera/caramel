@@ -20,4 +20,6 @@ type replace_opt = Global | Scope of (int * int) | Insert_replaced of int list
 
 external replace : string -> string -> string -> replace_opt list -> string = ""
 
-external split : string -> string list -> string list = ""
+type split_opt = Global | Trim_all
+
+external split : string -> string list -> split_opt list -> string list = ""
