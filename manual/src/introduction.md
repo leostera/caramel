@@ -1,9 +1,18 @@
 # Introduction
 
-Caramel is a programming language for building type-safe, concurrent software.
+Caramel is a functional language for building type-safe, scalable, and
+maintainable applications.
 
 It is built in [OCaml 🐫](https://ocaml.org) and maintained by [Abstract
 Machines](https://github.com/AbstractMachinesLab).
+
+Caramel leverages:
+
+* the OCaml compiler, to provide you with a pragmatic type system and
+  industrial-strength type safety.
+
+* the Erlang VM, known for running low-latency, distributed, and fault-tolerant
+  systems used in a wide range of industries.
 
 Check out the [CHANGELOG](./changelog/v0.0.15.md) to see what's new.
 
@@ -23,7 +32,8 @@ For installation instructions see [Installation](./getting-started/installation.
 Caramel aims to make building type-safe concurrent programs a productive and
 fun experience.
 
-Caramel should let anyone with existing OCaml or Reason experience 
+Caramel should let anyone with existing OCaml or Reason experience be up and
+running without having to relearn the entire languages.
 
 Caramel strives to integrate with the larger ecosystem of BEAM languages, like
 Erlang, Elixir, Gleam, Purerl, LFE, and Hamler. 
