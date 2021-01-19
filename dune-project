@@ -24,7 +24,7 @@
  (depends
   (dune (>= "2.7"))
   (ocaml (>= "4.11.1"))
-  ocaml-tree-sitter
+  tree-sitter
   cmdliner
   menhir
   ppx_sexp_conv
@@ -33,23 +33,13 @@
 
 (package
  (name caramel)
- (synopsis "An OCaml to Erlang compiler")
- (description "")
+ (synopsis "a functional language for building type-safe, scalable, and maintainable applications.")
+ (description "Caramel is a functional language for building type-safe, scalable, and maintainable applications.")
  (depends
   (dune (>= "2.7"))
-  (ocaml (>= "4.11.1"))
+  (ocaml (>= "4.12"))
   erlang
   menhir
   ppx_sexp_conv
   sexplib
-  ))
-
-(package
- (name tree-sitter)
- (synopsis "Bindings to the tree-sitter Runtime")
- (description "")
- (depends
-  (dune (>= "2.7"))
-  (ocaml (>= "4.11.1"))
-  "conf-rust-2018"
   ))
