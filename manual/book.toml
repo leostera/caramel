@@ -13,8 +13,8 @@ src = "src"
 cname = "caramel.run"
 google-analytics = "G-HVSX9MBNEJ"
 
-default-theme = "navy"
-preferred-dark-theme = "navy"
+default-theme = "ayu"
+preferred-dark-theme = "ayu"
 
 git-repository-url = "https://github.com/AbstractMachinesLab/caramel"
 git-repository-icon = "fa-github"
