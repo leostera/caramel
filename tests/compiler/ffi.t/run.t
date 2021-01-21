@@ -1,6 +1,6 @@
   $ ls *.ml
   using_io.ml
-  $ caramelc compile *.ml
+  $ caramel compile *.ml
   Compiling using_io.erl	OK
   $ echo $?
   0

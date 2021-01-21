@@ -10,7 +10,7 @@
   sig.mli
   sig_dep.ml
   simple_nested.ml
-  $ caramelc compile *.ml *.mli
+  $ caramel compile *.ml *.mli
   Compiling simple_nested__a.erl	OK
   Compiling simple_nested__b.erl	OK
   Compiling simple_nested.erl	OK

@@ -45,7 +45,6 @@ let remove_locations parsetree =
   mapper.structure mapper parsetree
 
 let verify sources =
-  let open Caramel_typing in
   let erl, ml = extract_sources sources in
   let ml_parsetree =
     Ocaml.parse_implementation ~dump_ast:false ~source_file:ml

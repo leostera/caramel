@@ -28,7 +28,7 @@ each compilation pipeline.
 
 The Caramel codebase is structured to explore a few things:
 
-* `./src/bin` -- the `caramelc` binary
+* `./src/bin` -- the `caramel` binary
 
 * `./src/compiler` -- includes the compilation pipelines
 

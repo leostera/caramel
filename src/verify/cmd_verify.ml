@@ -8,8 +8,7 @@ let description = {||}
 
 let info = Info.make ~name ~doc ~description
 
-let run sources =
-  match Caramel_verify.Verify.verify sources with Ok () -> 0 | Error _ -> 1
+let run sources = match Verify.verify sources with Ok () -> 0 | Error _ -> 1
 
 let cmd =
   let sources =

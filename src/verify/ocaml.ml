@@ -1,4 +1,4 @@
-let tool_name = "caramelc-check"
+let tool_name = "caramel-check"
 
 (* Verbatim copied from ocaml/driver/optmain.ml *)
 module Backend = struct

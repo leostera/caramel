@@ -15,23 +15,22 @@ let initialize_compiler ~no_stdlib ~stdlib_path =
   let _ = Compmisc.initial_env () in
   ()
 
-let check_one source ~opts =
+let check_one source =
   let open Source_tagger in
   let fn, source_file =
     match source with
     | Mli file -> (Ocaml.interface, file)
     | Ml file -> (Ocaml.implementation, file)
-    | Erl file -> (Erlang_as_ocaml.check ~dump_ast:opts.dump_ast, file)
     | Other (t, file, ext) ->
         raise (Unsupported_file_type_for_target (t, file, ext))
   in
   fn ~source_file ~output_prefix:(Filename.chop_extension source_file) |> ignore
 
-let check ({ sources; targets; stdlib_path; no_stdlib; _ } as opts) =
+let check ({ sources; targets; stdlib_path; no_stdlib; _ } as _opts) =
   match
     initialize_compiler ~stdlib_path ~no_stdlib;
     let target = List.hd targets in
-    Source_tagger.prepare ~sources ~target |> List.iter (check_one ~opts);
+    Source_tagger.prepare ~sources ~target |> List.iter check_one;
     Warnings.check_fatal ()
   with
   | exception Env.Error err ->

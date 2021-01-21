@@ -23,7 +23,7 @@ let pp_erlang_parsetree source =
       1
 
 let pp_ocaml_parsetree source_file =
-  let tool_name = "caramelc-" ^ name in
+  let tool_name = "caramel-" ^ name in
   Clflags.dump_parsetree := true;
   Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix:".none" ~dump_ext:"cmo" (fun info ->
@@ -32,7 +32,7 @@ let pp_ocaml_parsetree source_file =
       0)
 
 let pp_ocaml_typedtree ~stdlib_path source_file =
-  let tool_name = "caramelc-" ^ name in
+  let tool_name = "caramel-" ^ name in
   Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix:".none" ~dump_ext:"cmo" (fun i ->
       try
@@ -47,7 +47,7 @@ let pp_ocaml_typedtree ~stdlib_path source_file =
         1)
 
 let pp_ocaml_to_erlang_parsetree ~stdlib_path source_file =
-  let tool_name = "caramelc-" ^ name in
+  let tool_name = "caramel-" ^ name in
   Compile_common.with_info ~native:false ~tool_name ~source_file
     ~output_prefix:".none" ~dump_ext:"cmo" (fun i ->
       Caramel_compiler.Compiler.initialize_compiler ~stdlib_path ();

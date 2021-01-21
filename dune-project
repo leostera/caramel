@@ -37,7 +37,7 @@
  (description "Caramel is a functional language for building type-safe, scalable, and maintainable applications.")
  (depends
   (dune (>= "2.7"))
-  (ocaml (>= "4.12"))
+  (ocaml (>= "4.11.1"))
   erlang
   menhir
   ppx_sexp_conv

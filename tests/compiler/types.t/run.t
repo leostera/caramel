@@ -11,7 +11,7 @@
   type_alias.ml
   type_args.ml
   variants.ml
-  $ caramelc compile *.ml *.mli
+  $ caramel compile *.ml *.mli
   Compiling variants.erl	OK
   Compiling type_args.erl	OK
   Compiling type_alias.erl	OK

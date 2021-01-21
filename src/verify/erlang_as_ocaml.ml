@@ -1,6 +1,6 @@
 open Compile_common
 
-let tool_name = "caramelc:typing:erlang_as_ocaml"
+let tool_name = "caramel:typing:erlang_as_ocaml"
 
 let parse ~source_file ~dump_ast =
   let erlang_ast =

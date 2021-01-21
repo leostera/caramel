@@ -1,1 +1,0 @@
-let () = Bin.Caramelc.run ()

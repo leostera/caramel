@@ -1,8 +1,0 @@
-(library
- (name caramel_typing)
- (public_name caramel.typing)
- (instrumentation
-  (backend bisect_ppx))
- (libraries erlang caramel.compiler.erlang_to_native
-   caramel.compiler.ocaml_archive caramel.compiler.misc compiler-libs.common
-   compiler-libs.optcomp sexplib))

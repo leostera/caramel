@@ -4,7 +4,7 @@ module Source_tagger = Comp_misc.Source_tagger
 module Target = Comp_misc.Target
 module Ocaml_to_erlang = Ocaml_to_erlang
 
-let tool_name = "caramelc"
+let tool_name = "caramel"
 
 let default_stdlib_path =
   let ( / ) = Filename.concat in
@@ -55,12 +55,8 @@ let compile_one source ~target ~opts =
   let fn, source_file =
     match (source, target) with
     | Mli file, _ -> (Optcompile.interface, file)
-    | Ml file, Archive -> (Ocaml_archive.archive ~opts, file)
     | Ml file, Erlang -> (Ocaml_to_erlang.compile ~opts, file)
     | Ml file, Core_erlang -> (Ocaml_to_core_erlang.compile ~opts, file)
-    | Ml file, _ -> (Optcompile.implementation ~backend, file)
-    | Erl file, (Native | Type_check) -> (Erlang_to_native.compile ~opts, file)
-    | Erl file, t -> raise (Unsupported_file_type_for_target (t, file, ".erl"))
     | Other (t, file, ext), _ ->
         raise (Unsupported_file_type_for_target (t, file, ext))
   in

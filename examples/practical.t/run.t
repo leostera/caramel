@@ -1,4 +1,4 @@
-  $ caramelc compile gen_tcp_types.ml gen_tcp.ml echo.ml
+  $ caramel compile gen_tcp_types.ml gen_tcp.ml echo.ml
   File "echo.ml", lines 6-9, characters 2-13:
   6 | ..let Ok conn = Gen_tcp.accept socket in
   7 |   let handler = Process.make (fun _self _recv -> handle conn ) in

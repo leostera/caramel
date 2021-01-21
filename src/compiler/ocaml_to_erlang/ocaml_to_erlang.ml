@@ -1,7 +1,7 @@
 open Compile_common
 module Ast_transl = Ast_transl
 
-let tool_name = "caramelc:ml-to-erl"
+let tool_name = "caramel:ml-to-erl"
 
 let read_signature info =
   let module_name = info.module_name in

@@ -2,24 +2,14 @@ open Target
 
 exception Unsupported_file_type_for_target of (Target.t * string * string)
 
-type tag =
-  | Ml of string
-  | Mli of string
-  | Erl of string
-  | Other of (Target.t * string * string)
+type tag = Ml of string | Mli of string | Other of (Target.t * string * string)
 
 let tag target filename =
   match target with
-  | Archive | Erlang | Core_erlang -> (
+  | Erlang | Core_erlang -> (
       match Filename.extension filename with
       | ".ml" -> Ml filename
       | ".mli" -> Mli filename
-      | ext -> Other (target, filename, ext) )
-  | Native | Type_check -> (
-      match Filename.extension filename with
-      | ".ml" -> Ml filename
-      | ".mli" -> Mli filename
-      | ".erl" -> Erl filename
       | ext -> Other (target, filename, ext) )
 
 let assert_all_sources_are_supported sources =
@@ -45,10 +35,4 @@ let prepare ~sources ~target =
     |> List.map (tag target)
   in
 
-  let erlang_sources =
-    List.filter_map
-      (function Erl f -> Some (Erl f) | _ -> None)
-      tagged_sources
-  in
-
-  ml_sources @ erlang_sources
+  ml_sources

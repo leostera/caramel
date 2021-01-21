@@ -1,7 +1,7 @@
 export
 
-CARAMELC = $(PWD)/caramelc.exe
-CARAMELC_STDLIB_PATH ?= $(PWD)/_build/default/src/stdlib
+CARAMEL = $(PWD)/caramel.exe
+CARAMEL_STDLIB_PATH ?= $(PWD)/_build/default/src/stdlib
 
 .PHONY: build
 build:

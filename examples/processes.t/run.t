@@ -1,4 +1,4 @@
-  $ caramelc compile *.ml *.mli
+  $ caramel compile *.ml *.mli
   File "registered_process_name.ml", lines 30-32, characters 2-20:
   30 | ..let (Some pid2) = Proc.where_is () in
   31 |   Erlang.send pid 1;

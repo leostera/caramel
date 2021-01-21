@@ -33,15 +33,7 @@ let cmd =
   in
   let targets =
     let open Caramel_compiler.Compiler.Target in
-    let targets =
-      Arg.enum
-        [
-          ("core", Core_erlang);
-          ("erlang", Erlang);
-          ("native", Native);
-          ("archive", Archive);
-        ]
-    in
+    let targets = Arg.enum [ ("core", Core_erlang); ("erlang", Erlang) ] in
     Arg.(
       value
       & opt_all ~vopt:Erlang targets [ Erlang ]

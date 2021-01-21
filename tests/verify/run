@@ -2,7 +2,7 @@
   (* ocaml module *)
   let f x = x
   
-  $ caramelc compile a.ml
+  $ caramel compile a.ml
   Compiling a.erl	OK
   $ cat a.erl
   % Source code generated with Caramel.
@@ -14,8 +14,8 @@
   f(X) -> X.
   
   
-  $ caramelc check a.erl
-  $ caramelc verify a.erl a.ml
+  $ caramel check a.erl
+  $ caramel verify a.erl a.ml
   [
     structure_item (_none_[0,0+-1]..[0,0+-1]) ghost
       Pstr_value Rec

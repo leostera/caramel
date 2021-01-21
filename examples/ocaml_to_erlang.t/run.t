@@ -1,4 +1,4 @@
-  $ caramelc compile untyped_lambda.ml
+  $ caramel compile untyped_lambda.ml
   Compiling untyped_lambda.erl	OK
   $ cat untyped_lambda.erl
   % Source code generated with Caramel.
@@ -93,7 +93,7 @@
   sample() -> with_info({abs, <<"sample">>, with_info({app, with_info({abs, <<"f">>, with_info({var, 0, 0})}), with_info({var, 0, 1})})}).
   
   
-  $ caramelc compile simple_types.ml
+  $ caramel compile simple_types.ml
   Compiling simple_types.erl	OK
   $ cat simple_types.erl
   % Source code generated with Caramel.
@@ -212,7 +212,7 @@
   
   
 
-  $ caramelc compile using_lists.ml
+  $ caramel compile using_lists.ml
   Compiling using_lists.erl	OK
   $ cat using_lists.erl
   % Source code generated with Caramel.

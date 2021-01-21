@@ -1,4 +1,4 @@
-  $ caramelc compile *.ml *.mli
+  $ caramel compile *.ml *.mli
   Compiling result.erl	OK
   Compiling option.erl	OK
   Unbound type constructor Erlang.process

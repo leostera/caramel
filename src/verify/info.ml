@@ -1,4 +1,3 @@
-open Caramel_compiler
 open Cmdliner
 
 let make ~name ~doc ~description =
@@ -15,9 +14,4 @@ let make ~name ~doc ~description =
       `P "Caramel is licensed under Apache License 2.0";
     ]
   in
-  let version =
-    match Compiler_version.git_version with
-    | "" -> Compiler_version.s
-    | v -> Printf.sprintf "%s+git-%s" Compiler_version.s v
-  in
-  Term.info name ~version ~doc ~man
+  Term.info name ~version:"" ~doc ~man

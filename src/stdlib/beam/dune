@@ -1,38 +1,26 @@
 (rule
  (alias stdlib)
- (targets beam.cma beam.cmi binary.cma binary.cmi calendar.cma calendar.cmi
-   erlang.cma erlang.cmi ets.cma ets.cmi io.cma io.cmi lists.cma lists.cmi
-   maps.cma maps.cmi process.cma process.cmi process.erl timer.cma timer.cmi
-   caramel_runtime.cma caramel_runtime.cmi)
- (deps ../../bootc.exe)
+ (targets beam.cmi binary.cmi calendar.cmi erlang.cmi ets.cmi io.cmi
+   lists.cmi maps.cmi process.cmi process.erl timer.cmi caramel_runtime.cmi)
+ (deps ../../bin/main.exe)
  (action
-  (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive
+  (run %{dep:../../bin/main.exe} compile --no-stdlib --target=erlang
     --target=erlang beam.ml binary.ml calendar.ml caramel_runtime.ml
     erlang.ml ets.ml io.mli io.ml lists.ml maps.ml process.ml timer.ml)))
 
 (install
  (section lib)
  (files
-  (beam.cma as ./stdlib/beam/beam.cma)
   (beam.cmi as ./stdlib/beam/beam.cmi)
-  (binary.cma as ./stdlib/beam/binary.cma)
   (binary.cmi as ./stdlib/beam/binary.cmi)
-  (calendar.cma as ./stdlib/beam/calendar.cma)
   (calendar.cmi as ./stdlib/beam/calendar.cmi)
-  (erlang.cma as ./stdlib/beam/erlang.cma)
   (erlang.cmi as ./stdlib/beam/erlang.cmi)
-  (ets.cma as ./stdlib/beam/ets.cma)
   (ets.cmi as ./stdlib/beam/ets.cmi)
-  (io.cma as ./stdlib/beam/io.cma)
   (io.cmi as ./stdlib/beam/io.cmi)
-  (lists.cma as ./stdlib/beam/lists.cma)
   (lists.cmi as ./stdlib/beam/lists.cmi)
-  (maps.cma as ./stdlib/beam/maps.cma)
   (maps.cmi as ./stdlib/beam/maps.cmi)
-  (process.cma as ./stdlib/beam/process.cma)
   (process.cmi as ./stdlib/beam/process.cmi)
   (process.erl as ./stdlib/beam/process.erl)
   (caramel_runtime.erl as ./stdlib/beam/caramel_runtime.erl)
-  (timer.cma as ./stdlib/beam/timer.cma)
   (timer.cmi as ./stdlib/beam/timer.cmi))
  (package caramel))

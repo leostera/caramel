@@ -1,13 +1,12 @@
 (rule
  (alias stdlib)
- (targets stdlib.cma stdlib.cmi)
- (deps ../../bootc.exe)
+ (targets stdlib.cmi)
+ (deps ../../bin/main.exe)
  (action
-  (run %{dep:../../bootc.exe} compile --no-stdlib --target=archive stdlib.ml)))
+  (run %{dep:../../bin/main.exe} compile --no-stdlib stdlib.ml)))
 
 (install
  (section lib)
  (files
-  (stdlib.cmi as ./stdlib/ocaml/stdlib.cmi)
-  (stdlib.cma as ./stdlib/ocaml/stdlib.cma))
+  (stdlib.cmi as ./stdlib/ocaml/stdlib.cmi))
  (package caramel))

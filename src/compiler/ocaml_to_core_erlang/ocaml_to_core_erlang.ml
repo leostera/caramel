@@ -1,7 +1,7 @@
 open Comp_misc.Opts
 open Compile_common
 
-let tool_name = "caramelc:lambda-to-core"
+let tool_name = "caramel:lambda-to-core"
 
 let compile ~source_file ~output_prefix ~opts =
   let backend info (typed, coercion) =

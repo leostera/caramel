@@ -13,7 +13,7 @@
   names_primes.ml
   record_update.ml
   records.ml
-  $ caramelc compile apply.ml
+  $ caramel compile apply.ml
   File "apply.ml", line 6, characters 4-8:
   6 |     a ();
           ^^^^
@@ -91,7 +91,7 @@
     F_prime_prime(1, 2).
   
   
-  $ caramelc compile binding_on_match.ml
+  $ caramel compile binding_on_match.ml
   File "binding_on_match.ml", line 4, characters 57-68:
   4 |   match { fst = 0; snd = 1 } with { fst; snd } -> true | { fst = x } -> true
                                                                ^^^^^^^^^^^
@@ -151,7 +151,7 @@
     end.
   
   
-  $ caramelc compile funref.ml
+  $ caramel compile funref.ml
   Compiling funref__nested.erl	OK
   Compiling funref.erl	OK
   $ cat funref.erl
@@ -184,7 +184,7 @@
   do_nested_add(X, Y) -> call_op_2(funref__nested:add, X, Y).
   
   
-  $ caramelc compile let_bindings.ml
+  $ caramel compile let_bindings.ml
   Compiling let_bindings.erl	OK
   $ cat let_bindings.erl
   % Source code generated with Caramel.
@@ -229,7 +229,7 @@
     F(A).
   
   
-  $ caramelc compile list.ml
+  $ caramel compile list.ml
   File "list.ml", line 7, characters 9-21:
   7 | let head (x :: _) = x
                ^^^^^^^^^^^^
@@ -283,7 +283,7 @@
   concat(A, B) -> erlang:'++'(A, B).
   
   
-  $ caramelc compile literals.ml
+  $ caramel compile literals.ml
   Compiling literals.erl	OK
   $ cat literals.erl
   % Source code generated with Caramel.
@@ -315,7 +315,7 @@
   bool_false() -> true.
   
   
-  $ caramelc compile match.ml
+  $ caramel compile match.ml
   File "match.ml", line 5, characters 19-41:
   5 | let match_int () = match 1 with 1 -> true
                          ^^^^^^^^^^^^^^^^^^^^^^
@@ -460,7 +460,7 @@
     end.
   
   
-  $ caramelc compile names.ml
+  $ caramel compile names.ml
   File "names.ml", line 15, characters 2-13:
   15 |   Nested.x ();
          ^^^^^^^^^^^
@@ -506,7 +506,7 @@
     X().
   
   
-  $ caramelc compile records.ml
+  $ caramel compile records.ml
   Compiling records.erl	OK
   $ cat records.erl
   % Source code generated with Caramel.
@@ -562,7 +562,7 @@
      }.
   
   
-  $ caramelc compile let_shadowing.ml
+  $ caramel compile let_shadowing.ml
   We have found that the variable name X is being shadowed.
   
   This is currently not supported.
@@ -572,7 +572,7 @@
   cat: let_shadowing.erl: No such file or directory
   [1]
 
-  $ caramelc compile names_primes.ml
+  $ caramel compile names_primes.ml
   Compiling names_primes.erl	OK
   $ cat names_primes.erl
   % Source code generated with Caramel.
@@ -588,7 +588,7 @@
     X_prime_prime.
   
   
-  $ caramelc compile let_rec.ml
+  $ caramel compile let_rec.ml
   We have found a let rec binding within a function.
   
   This is currently not supported.
@@ -597,7 +597,7 @@
   $ cat let_rec.erl
   cat: let_rec.erl: No such file or directory
   [1]
-  $ caramelc compile record_update.ml
+  $ caramel compile record_update.ml
   Compiling record_update.erl	OK
   $ cat record_update.erl
   % Source code generated with Caramel.
@@ -622,7 +622,7 @@
      }.
   
   
-  $ caramelc compile match_fallthrough.ml
+  $ caramel compile match_fallthrough.ml
   We have found a case expression that falls through to the next case, like:
   
     match x with

@@ -14,7 +14,7 @@
   uncurry.ml
   uncurry.mli
 
-  $ caramelc compile basic.ml
+  $ caramel compile basic.ml
   Compiling basic.erl	OK
   $ cat basic.erl
   % Source code generated with Caramel.
@@ -35,7 +35,7 @@
   
   
 
-  $ caramelc compile hello_joe.ml
+  $ caramel compile hello_joe.ml
   Compiling hello_joe.erl	OK
   $ cat hello_joe.erl
   % Source code generated with Caramel.
@@ -50,7 +50,7 @@
   
   
 
-  $ caramelc compile ignored_arguments.ml
+  $ caramel compile ignored_arguments.ml
   Compiling ignored_arguments.erl	OK
   $ cat ignored_arguments.erl
   % Source code generated with Caramel.
@@ -75,7 +75,7 @@
   
   
 
-  $ caramelc compile labeled_arguments.ml
+  $ caramel compile labeled_arguments.ml
   Compiling labeled_arguments.erl	OK
   $ cat labeled_arguments.erl
   % Source code generated with Caramel.
@@ -95,7 +95,7 @@
   
   
 
-  $ caramelc compile multiple_clauses.ml
+  $ caramel compile multiple_clauses.ml
   File "multiple_clauses.ml", line 1, characters 22-34:
   1 | let iff_using_headers true f _ = f
                             ^^^^^^^^^^^^
@@ -135,7 +135,7 @@
   
   
 
-  $ caramelc compile partial_functions.ml
+  $ caramel compile partial_functions.ml
   File "partial_functions.ml", line 1, characters 9-21:
   1 | let head (x :: _) = x
                ^^^^^^^^^^^^
@@ -194,7 +194,7 @@
   
   
 
-  $ caramelc compile qualified_calls.ml qualified_calls_helper.ml
+  $ caramel compile qualified_calls.ml qualified_calls_helper.ml
   Compiling qualified_calls_helper__nested.erl	OK
   Compiling qualified_calls_helper.erl	OK
   Compiling qualified_calls__nested.erl	OK
@@ -261,7 +261,7 @@
   
   
 
-  $ caramelc compile sequencing.ml
+  $ caramel compile sequencing.ml
   Compiling sequencing.erl	OK
   $ cat sequencing.erl
   % Source code generated with Caramel.
@@ -280,7 +280,7 @@
   
   
 
-  $ caramelc compile uncurry.ml uncurry.mli
+  $ caramel compile uncurry.ml uncurry.mli
   Compiling uncurry.erl	OK
   $ cat uncurry.erl
   % Source code generated with Caramel.
@@ -311,7 +311,7 @@
   
   
 
-  $ caramelc compile redefine.ml
+  $ caramel compile redefine.ml
   We have found 2 definitions of the function: f in module redefine.
   
   This is currently not supported.
@@ -320,7 +320,7 @@
   $ cat redefine.erl
   cat: redefine.erl: No such file or directory
   [1]
-  $ caramelc compile guards.ml
+  $ caramel compile guards.ml
   Compiling guards.erl	OK
   $ cat guards.erl
   % Source code generated with Caramel.
@@ -339,7 +339,7 @@
     end.
   
   
-  $ caramelc compile guard_unsupported.ml
+  $ caramel compile guard_unsupported.ml
   We have found a guard expression that is not one of the allowlisted Erlang BIFs.
   
   This is currently not supported.

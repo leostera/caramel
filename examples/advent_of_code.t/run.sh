@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 echo "== Caramel =="
-caramelc compile *.ml
+caramel compile *.ml
 erlc *.erl
 echo "OK"
 echo ""

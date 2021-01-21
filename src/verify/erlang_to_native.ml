@@ -2,7 +2,7 @@ open Compile_common
 open Comp_misc.Opts
 module Ast_transl = Ast_transl
 
-let tool_name = "caramelc:erlang_to_native"
+let tool_name = "caramel:erlang_to_native"
 
 let to_bytecode i lambda =
   lambda
