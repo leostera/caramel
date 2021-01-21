@@ -1,0 +1,20 @@
+(rule
+ (alias stdlib)
+ (targets beam.cmi binary.cmi calendar.cmi caramel_runtime.cmi erlang.cmi
+   ets.cmi io.cmi lists.cmi maps.cmi process.cmi timer.cmi)
+ (deps ../caramel/bin/main.exe)
+ (action
+  (run %{dep:../caramel/bin/main.exe} compile --no-stdlib --target=erlang
+    io.mli beam.ml binary.ml calendar.ml caramel_runtime.ml erlang.ml ets.ml
+    io.ml lists.ml maps.ml process.ml timer.ml)))
+
+(install
+ (section lib)
+ (files beam.ml binary.ml calendar.ml caramel_runtime.ml erlang.ml
+   ets.ml io.ml lists.ml maps.ml process.ml timer.ml)
+ (package caramel))
+
+(install
+ (section lib)
+ (files caramel_runtime.erl)
+ (package caramel))

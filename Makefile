@@ -1,7 +1,7 @@
 export
 
 CARAMEL = $(PWD)/caramel.exe
-CARAMEL_STDLIB_PATH ?= $(PWD)/_build/default/src/stdlib
+CARAMEL_STDLIB_PATH ?= $(PWD)/_build/default/stdlib
 
 .PHONY: build
 build:
