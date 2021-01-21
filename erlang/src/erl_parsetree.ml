@@ -51,8 +51,7 @@ and 'ctx term_binary_part_type =
   | Binpart_type_utf8
 [@@deriving sexp]
 
-and 'ctx term_list = 'ctx expression list
-[@@deriving sexp]
+and 'ctx term_list = 'ctx expression list [@@deriving sexp]
 
 and 'ctx term_tuple = { size : int; elements : 'ctx expression list }
 [@@deriving sexp]
@@ -71,7 +70,10 @@ and 'ctx term_record = {
 }
 [@@deriving sexp]
 
-and 'ctx module_attribute = { atr_name : 'ctx atom; atr_value : 'ctx expression }
+and 'ctx module_attribute = {
+  atr_name : 'ctx atom;
+  atr_value : 'ctx expression;
+}
 [@@deriving sexp]
 
 and 'ctx fun_decl = {
@@ -126,8 +128,7 @@ and 'ctx pattern =
   | Pat_list of 'ctx pat_list
   | Pat_tuple of 'ctx pat_tuple
 
-and 'ctx pat_list = 'ctx pattern list
-[@@deriving sexp]
+and 'ctx pat_list = 'ctx pattern list [@@deriving sexp]
 
 and 'ctx pat_tuple = { ptup_size : int; ptup_elements : 'ctx pattern list }
 [@@deriving sexp]
@@ -148,7 +149,6 @@ and 'ctx implementation = {
   functions : 'ctx fun_decl list;
 }
 [@@deriving sexp]
-
 
 (*** Parsetree ***)
 
