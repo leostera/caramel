@@ -3,9 +3,13 @@
  (public_name caramel.compiler)
  (instrumentation
   (backend bisect_ppx))
- (libraries caramel.compiler.ocaml_to_erlang
-   caramel.compiler.ocaml_to_core_erlang caramel.compiler.misc
-   compiler-libs.common compiler-libs.optcomp sexplib))
+ (libraries
+  caramel.compiler.ocaml_to_erlang
+  caramel.compiler.ocaml_to_core_erlang
+  caramel.compiler.misc
+  compiler-libs.common
+  compiler-libs.optcomp
+  sexplib))
 
 (rule
  (targets compiler_version.ml)

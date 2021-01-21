@@ -1,4 +1,4 @@
-(lang dune 2.7)
+(lang dune 2.8)
 (name caramel)
 
 (generate_opam_files true)

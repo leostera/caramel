@@ -17,7 +17,7 @@ manual:
 
 .PHONY: install
 install:
-	dune install
+	dune install -p caramel
 
 .PHONY: setup
 setup:
@@ -36,7 +36,6 @@ coverage:
 release:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
 	rm -rf _release/caramel/lib/erlang
-	rm -rf _release/caramel/lib/caramel/typing
 	rm -rf _release/caramel/lib/caramel/compiler
 	tar czf release.tar.gz -C _release caramel
 

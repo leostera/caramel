@@ -18,5 +18,8 @@
  (action
   (with-stdout-to
    erl_parser_messages.ml
-   (run menhir %{dep:erl_parser.mly} --compile-errors
-     %{dep:erl_parser.messages}))))
+   (run
+    menhir
+    %{dep:erl_parser.mly}
+    --compile-errors
+    %{dep:erl_parser.messages}))))

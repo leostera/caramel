@@ -38,13 +38,8 @@ let initialize_compiler ?(no_stdlib = false)
     ?(stdlib_path = default_stdlib_path) () =
   Clflags.nopervasives := true;
   Clflags.no_std_include := true;
-  Clflags.open_modules := if no_stdlib then [] else [ "Stdlib"; "Beam" ];
-  Clflags.include_dirs :=
-    if no_stdlib then []
-    else
-      [
-        Filename.concat stdlib_path "ocaml"; Filename.concat stdlib_path "beam";
-      ];
+  Clflags.open_modules := if no_stdlib then [] else [ "Beam" ];
+  Clflags.include_dirs := if no_stdlib then [] else [ stdlib_path ];
   Compmisc.init_path ();
   let _ = Compmisc.initial_env () in
   ()

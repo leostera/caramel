@@ -1,6 +1,12 @@
 open Cmdliner
 
-let no_stdlib = Arg.(value & flag & info [ "no-stdlib" ] ~docv:"NO_STDLIB")
+let no_stdlib =
+  Arg.(
+    value & flag
+    & info [ "no-stdlib" ] ~docv:"NO_STDLIB"
+        ~doc:
+          "Use this flag to compile sources without opening the Standard \
+           Library by default.")
 
 let stdlib_path =
   Arg.(
