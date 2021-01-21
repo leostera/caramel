@@ -1,20 +1,57 @@
 (rule
  (alias stdlib)
- (targets beam.cmi binary.cmi calendar.cmi caramel_runtime.cmi erlang.cmi
-   ets.cmi io.cmi lists.cmi maps.cmi process.cmi timer.cmi)
+ (targets
+  beam.cmi
+  core.cmi
+  binary.cmi
+  calendar.cmi
+  caramel_runtime.cmi
+  erlang.cmi
+  ets.cmi
+  io.cmi
+  lists.cmi
+  maps.cmi
+  process.cmi
+  timer.cmi)
  (deps ../caramel/bin/main.exe)
  (action
-  (run %{dep:../caramel/bin/main.exe} compile --no-stdlib --target=erlang
-    io.mli beam.ml binary.ml calendar.ml caramel_runtime.ml erlang.ml ets.ml
-    io.ml lists.ml maps.ml process.ml timer.ml)))
+  (run
+   %{dep:../caramel/bin/main.exe}
+   compile
+   --no-stdlib
+   io.mli
+   beam.ml
+   core.ml
+   binary.ml
+   calendar.ml
+   caramel_runtime.ml
+   erlang.ml
+   ets.ml
+   io.ml
+   lists.ml
+   maps.ml
+   process.ml
+   timer.ml)))
 
 (install
  (section lib)
- (files beam.ml binary.ml calendar.ml caramel_runtime.ml erlang.ml
-   ets.ml io.ml lists.ml maps.ml process.ml timer.ml)
+ (files
+  (beam.ml as stdlib/beam.ml)
+  (core.ml as stdlib/core.ml)
+  (binary.ml as stdlib/binary.ml)
+  (calendar.ml as stdlib/calendar.ml)
+  (caramel_runtime.ml as stdlib/caramel_runtime.ml)
+  (erlang.ml as stdlib/erlang.ml)
+  (ets.ml as stdlib/ets.ml)
+  (io.ml as stdlib/io.ml)
+  (lists.ml as stdlib/lists.ml)
+  (maps.ml as stdlib/maps.ml)
+  (process.ml as stdlib/process.ml)
+  (timer.ml as stdlib/timer.ml))
  (package caramel))
 
 (install
  (section lib)
- (files caramel_runtime.erl)
+ (files
+  (caramel_runtime.erl as stdlib/caramel_runtime.erl))
  (package caramel))

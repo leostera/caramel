@@ -7,3 +7,4 @@ module Lists = Lists
 module Maps = Maps
 module Process = Process
 module Timer = Timer
+include Core
