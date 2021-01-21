@@ -106,7 +106,7 @@ jobs:
         run: opam exec -- make setup
 
       - name: Build project
-        run: opam exec -- make clean build
+        run: opam exec -- make clean build uninstall install
 
       - name: Run tests
         run: opam exec -- make test

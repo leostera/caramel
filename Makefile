@@ -15,9 +15,13 @@ watch:
 manual:
 	mdbook build --dest-dir ../docs/manual ./manual
 
+.PHONY: uninstall
+uninstall:
+	dune uninstall
+
 .PHONY: install
 install:
-	dune install -p caramel
+	dune install
 
 .PHONY: setup
 setup:
