@@ -17,7 +17,7 @@ let parse ~source_file ~dump_ast =
   let parsetree = Erlang_to_native.Ast_transl.to_parsetree erlang_ast in
   if dump_ast then (
     Printast.structure 0 Format.std_formatter parsetree;
-    Format.fprintf Format.std_formatter "\n\n%!" );
+    Format.fprintf Format.std_formatter "\n\n%!");
   parsetree
 
 let check ~source_file ~output_prefix ~dump_ast =

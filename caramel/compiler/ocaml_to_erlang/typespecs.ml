@@ -34,7 +34,7 @@ module Fun = struct
               "Tried to uncurry a non-function type!\n%!";
             Printtyp.type_expr Format.std_formatter type_expr;
             Format.fprintf Format.std_formatter "\n%!";
-            Error.unsupported_feature `Uncurryable_functions )
+            Error.unsupported_feature `Uncurryable_functions)
     | Tconstr (p, args, _) ->
         let name, args = Names.type_name_of_path p ~args in
         let args = List.map mk_type_expr args in
@@ -105,7 +105,7 @@ module Fun = struct
               let type_name = Names.atom_of_ident id in
               match Atom.equal type_name name with
               | true -> mk_spec vd
-              | false -> None )
+              | false -> None)
           | _ -> None)
         typedtree.str_type
     with
@@ -185,7 +185,7 @@ let rec mk_type_expr core_type =
                 let args = List.filter_map mk_type_expr args in
                 let t = Type.apply ~name ~args in
                 all_rows rs' (t :: acc)
-            | _ -> all_rows rs' acc )
+            | _ -> all_rows rs' acc)
       in
       let constructors = all_rows rows [] in
       Some (Type.variant constructors)
@@ -240,7 +240,7 @@ let mk_type type_decl ~signature =
           let expr =
             Type.apply ~args:[] ~name:(Name.atom (Atom.mk "reference"))
           in
-          Some (Type.mk ~name ~params ~expr ~kind:Opaque) )
+          Some (Type.mk ~name ~params ~expr ~kind:Opaque))
   | Ttype_record labels ->
       let expr = mk_record labels in
       Some (Type.mk ~name ~params ~expr ~kind:Type)

@@ -99,10 +99,10 @@ and mk_pattern :
       Erlang.Ast.Pattern_tuple (List.map (mk_pattern ~var_names) tuples)
   | Tpat_record (fields, _) ->
       Erlang.Ast.Pattern_map
-        ( fields
+        (fields
         |> List.map (fun (Asttypes.{ txt; _ }, _, pattern) ->
                ( Pat.bind (Name.atom (Names.atom_of_longident txt)),
-                 mk_pattern ~var_names pattern )) )
+                 mk_pattern ~var_names pattern )))
   (* FIXME: don't compare atoms like this, just refer to is_unit *)
   | Tpat_construct ({ txt; _ }, _, _) when Longident.last txt = "()" ->
       Pat.tuple []
@@ -188,7 +188,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                   let prim_name = prim.prim_name |> String.trim in
                   match String.length prim_name > 0 with
                   | true -> Atom.mk prim_name
-                  | false -> n_name )
+                  | false -> n_name)
               | _ -> n_name
             in
             Expr.ident (namespace_qualified_name n_mod name)
@@ -199,7 +199,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
               | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
               | None -> 0
             in
-            Expr.fun_ref ~arity (Name.atom name) )
+            Expr.fun_ref ~arity (Name.atom name))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
@@ -247,8 +247,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             | _, None -> None
             | _, Some arg ->
                 Some
-                  (mk_expression arg ~var_names ~modules ~functions
-                     ~module_name))
+                  (mk_expression arg ~var_names ~modules ~functions ~module_name))
           args
       in
       Expr.apply name args
@@ -275,9 +274,8 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       | None -> Expr.map fields
       | Some prior_map ->
           Expr.map_update
-            (mk_expression prior_map ~var_names ~modules ~functions
-               ~module_name)
-            fields )
+            (mk_expression prior_map ~var_names ~modules ~functions ~module_name)
+            fields)
   | Texp_field (expr, _, { lbl_name; _ }) ->
       let name =
         let m = Atom.mk "maps" |> Name.atom in
@@ -293,7 +291,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       Expr.apply name args
   | Texp_tuple exprs ->
       Erlang.Ast.Expr_tuple
-        ( exprs
+        (exprs
         |> List.map (mk_expression ~var_names ~modules ~functions ~module_name)
         )
   | Texp_match (expr, branches, _) ->
@@ -416,7 +414,7 @@ let mk_value vb ~modules ~functions ~module_name ~typedtree =
       | None ->
           mk_function ~module_name ~modules ~functions
             ~spec:(Typespecs.Fun.find_spec ~typedtree fn_name)
-            ~var_names:[] fn_name cases )
+            ~var_names:[] fn_name cases)
   | _ -> Error.unsupported_top_level_module_value ()
 
 (** Build the actual functions of an Erlang module

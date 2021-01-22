@@ -47,11 +47,11 @@ let compile ~source_file ~output_prefix ~opts =
   if opts.dump_ast then (
     Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
       (Erlang.Ast.sexp_of_t erlang_ast);
-    Format.fprintf Format.std_formatter "\n\n%!" );
+    Format.fprintf Format.std_formatter "\n\n%!");
   let parsetree = Ast_transl.to_parsetree erlang_ast in
   if opts.dump_ast then (
     Pprintast.structure Format.std_formatter parsetree;
-    Format.fprintf Format.std_formatter "\n\n%!" );
+    Format.fprintf Format.std_formatter "\n\n%!");
   let typedtree =
     parsetree
     |> Profile.(record typing)

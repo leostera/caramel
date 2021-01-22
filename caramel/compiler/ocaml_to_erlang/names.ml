@@ -128,7 +128,7 @@ let type_name_of_parts ~args parts =
       | _, _ ->
           ( Name.qualified ~m:(Name.atom module_name)
               ~f:(Atom.mk n_name |> Atom.lowercase |> Name.atom),
-            args ) )
+            args ))
 
 let type_name_of_path ~args p =
   match Path.flatten p with

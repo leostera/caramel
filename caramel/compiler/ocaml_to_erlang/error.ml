@@ -112,7 +112,7 @@ Caramel will happily and safely compile that.
 
 let unsupported_feature feature =
   Format.fprintf ppf "Unsupported feature: %s -- %s\n"
-    ( match feature with
+    (match feature with
     | `Absent_polymorphic_variants ->
         "polymorphic variant constriants for absence"
     | `Type_constructs ->
@@ -122,14 +122,14 @@ let unsupported_feature feature =
          bug in Caramel!)"
     | `Type_objects_and_packages -> "Object-oriented OCaml and Packs"
     | `Record_update -> "Record updates"
-    | `Let_and_bindings -> "let-and bindings" )
+    | `Let_and_bindings -> "let-and bindings")
     file_a_bug;
   exit 1
 
 let unsupported_expression expr =
   let open Typedtree in
   Format.fprintf ppf "Unsupported expression: %s -- %s\n"
-    ( match expr.exp_desc with
+    (match expr.exp_desc with
     | Texp_try _ -> "Texp_try"
     | Texp_setfield _ -> "Texp_setfield"
     | Texp_array _ -> "Texp_array"
@@ -150,6 +150,6 @@ let unsupported_expression expr =
     | Texp_unreachable -> "Texp_unreachable"
     | Texp_extension_constructor _ -> "Texp_extension_constructor"
     | Texp_open _ -> "Texp_open"
-    | _ -> "<hm, this was empty? please do open an issue>" )
+    | _ -> "<hm, this was empty? please do open an issue>")
     file_a_bug;
   exit 1

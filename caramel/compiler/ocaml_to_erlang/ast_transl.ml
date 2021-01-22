@@ -41,10 +41,10 @@ let rec find_modules :
   |> List.fold_left
        (fun acc struct_item ->
          let mbs =
-           ( match struct_item.str_desc with
+           (match struct_item.str_desc with
            | Tstr_module mb -> [ mb ]
            | Tstr_recmodule mbs -> mbs
-           | _ -> [] )
+           | _ -> [])
            |> List.concat_map (fun mb ->
                   let ocaml_name =
                     (match mb.mb_id with Some x -> Ident.name x | None -> "")

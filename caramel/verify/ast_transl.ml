@@ -42,22 +42,22 @@ let mk_name name =
     -> (
       match Longident.unflatten [ "Erlang"; "spawn" ] with
       | None -> raise (Invalid_name name)
-      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
+      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none })
   | Qualified_name
       { n_mod = Atom_name (Atom "erlang"); n_name = Atom_name (Atom "send") }
     -> (
       match Longident.unflatten [ "Erlang"; "send" ] with
       | None -> raise (Invalid_name name)
-      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
+      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none })
   | Qualified_name { n_mod = Atom_name (Atom "erlang"); n_name } -> (
       match Longident.unflatten [ "Stdlib"; Erl.Name.to_string n_name ] with
       | None -> raise (Invalid_name name)
-      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
+      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none })
   | Qualified_name
       { n_mod = Atom_name (Atom n_mod); n_name = Atom_name (Atom n_name) } -> (
       match Longident.unflatten [ String.capitalize_ascii n_mod; n_name ] with
       | None -> raise (Invalid_name name)
-      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none } )
+      | Some t -> Exp.ident Location.{ txt = t; loc = Location.none })
   | _ -> raise Unsupported_expression
 
 let rec mk_expression expr =
@@ -119,16 +119,15 @@ and mk_spawn fn_case =
       ( Nolabel,
         Exp.fun_ Nolabel None
           (Pat.var { txt = "recv"; loc = Location.none })
-          ( ( match fn_case.c_rhs with
-            | Expr_apply { fa_name; fa_args = [ arg ] } ->
-                Expr_apply
-                  {
-                    fa_name;
-                    fa_args =
-                      [ Expr_tuple [ Expr_name (Var_name "Recv"); arg ] ];
-                  }
-            | rhs -> rhs )
-          |> mk_expression ) );
+          ((match fn_case.c_rhs with
+           | Expr_apply { fa_name; fa_args = [ arg ] } ->
+               Expr_apply
+                 {
+                   fa_name;
+                   fa_args = [ Expr_tuple [ Expr_name (Var_name "Recv"); arg ] ];
+                 }
+           | rhs -> rhs)
+          |> mk_expression) );
     ]
 
 and mk_recv { rcv_cases; _ } =

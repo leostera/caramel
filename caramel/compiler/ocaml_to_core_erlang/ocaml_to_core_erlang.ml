@@ -13,7 +13,7 @@ let compile ~source_file ~output_prefix ~opts =
     if opts.dump_ast then (
       Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
         (Erlang.Core.Ast.sexp_of_t core_ast);
-      Format.fprintf Format.std_formatter "\n\n%!" );
+      Format.fprintf Format.std_formatter "\n\n%!");
     Erlang.Core.Printer.to_sources [ core_ast ]
   in
   Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix

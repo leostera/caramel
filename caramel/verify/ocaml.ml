@@ -29,7 +29,7 @@ let parse_implementation ~source_file ~dump_ast =
   let parsetree = Pparse.parse_implementation ~tool_name source_file in
   if dump_ast then (
     Printast.structure 0 Format.std_formatter parsetree;
-    Format.fprintf Format.std_formatter "\n\n%!" );
+    Format.fprintf Format.std_formatter "\n\n%!");
   parsetree
 
 let interface ~source_file ~output_prefix =

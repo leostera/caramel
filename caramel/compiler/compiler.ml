@@ -72,10 +72,10 @@ let compile ({ sources; targets; no_stdlib; stdlib_path; _ } as opts) =
       Format.fprintf Format.std_formatter "\n%!";
       Error `Compilation_error
   | exception exc ->
-      ( match Location.error_of_exn exc with
+      (match Location.error_of_exn exc with
       | Some (`Ok error) -> Location.print_report Format.std_formatter error
       | _ ->
           Format.fprintf Format.std_formatter "ERROR: %s\n"
-            (Printexc.to_string exc) );
+            (Printexc.to_string exc));
       Error `Other_error
   | _ -> Ok ()

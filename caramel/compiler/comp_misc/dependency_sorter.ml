@@ -107,7 +107,7 @@ let add_to_synonym_list synonyms suffix =
     add_to_list synonyms suffix
   else (
     Format.fprintf Format.err_formatter "@[Bad suffix: '%s'@]@." suffix;
-    Error_occurred.set () )
+    Error_occurred.set ())
 
 (* Find file 'name' (capitalized) in search path *)
 let find_module_in_load_path name =
@@ -129,7 +129,7 @@ let find_module_in_load_path name =
         match find_in_array contents 0 with
         | Some truename ->
             if dir = "." then truename else Filename.concat dir truename
-        | None -> find_in_path rem )
+        | None -> find_in_path rem)
   in
   find_in_path !load_path
 
@@ -196,10 +196,10 @@ let print_filename s =
       else if s.[i] = ' ' then (
         Bytes.set result j '\\';
         Bytes.set result (j + 1) ' ';
-        loop (i + 1) (j + 2) )
+        loop (i + 1) (j + 2))
       else (
         Bytes.set result j s.[i];
-        loop (i + 1) (j + 1) )
+        loop (i + 1) (j + 1))
     in
     loop 0 0;
     print_bytes result
@@ -243,7 +243,7 @@ let print_raw_dependencies source_file deps =
         match dep.[0] with 'A' .. 'Z' | '\128' .. '\255' -> true | _ -> false
       then (
         print_char ' ';
-        print_string dep ))
+        print_string dep))
     deps;
   print_char '\n'
 
@@ -335,7 +335,7 @@ let read_parse_and_extract parse_function extract_function def ast_kind
     print_exception x;
     if not !allow_approximation then (
       Error_occurred.set ();
-      (String.Set.empty, def) )
+      (String.Set.empty, def))
     else (read_and_approximate source_file, def)
 
 let print_ml_dependencies source_file extracted_deps pp_deps =
@@ -361,8 +361,7 @@ let print_ml_dependencies source_file extracted_deps pp_deps =
   if not !bytecode_only then (
     print_dependencies (native_targets @ extra_targets) (native_deps @ pp_deps);
     if !shared then
-      print_dependencies (shared_targets @ extra_targets) (native_deps @ pp_deps)
-    )
+      print_dependencies (shared_targets @ extra_targets) (native_deps @ pp_deps))
 
 let print_mli_dependencies source_file extracted_deps pp_deps =
   let basename = Filename.chop_extension source_file in
@@ -401,9 +400,9 @@ let process_file_as process_fun def source_file =
   load_path := [];
   let cwd = if !nocwd then [] else [ Filename.current_dir_name ] in
   List.iter add_to_load_path
-    ( !Compenv.last_include_dirs @ !Clflags.include_dirs
+    (!Compenv.last_include_dirs @ !Clflags.include_dirs
     @ !Compenv.first_include_dirs
-    @ cwd );
+    @ cwd);
   Location.input_name := source_file;
   try if Sys.file_exists source_file then process_fun source_file else def
   with x ->
@@ -488,7 +487,7 @@ let sort_files_by_dependencies files =
         if !deps = [] then (
           printed := true;
           sorted_dependencies := file :: !sorted_dependencies;
-          Hashtbl.remove h key )
+          Hashtbl.remove h key)
         else worklist := key :: !worklist)
       files
   done;
@@ -512,7 +511,7 @@ let sort_files_by_dependencies files =
         Format.fprintf Format.err_formatter "@]@.";
         Printf.printf "%s " file)
       sorted_deps;
-    Error_occurred.set () );
+    Error_occurred.set ());
 
   !sorted_dependencies
 
