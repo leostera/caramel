@@ -47,7 +47,7 @@ jobs:
             suffix: x86_64-unknown-linux-musl
           - os: windows-latest
             suffix: x86_64-pc-windows-gnu
-            stdlib_path: D:\a\caramel\caramel\_build\default\src\stdlib
+            stdlib_path: D:\a\caramel\caramel\_build\default\stdlib
 
     env:
       OCAML_VERSION: ${{ matrix.ocaml-version }}
