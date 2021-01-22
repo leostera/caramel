@@ -301,7 +301,7 @@ module Mod = struct
         {
           acc with
           exports =
-            ( attrs
+            (attrs
             |> List.filter_map (function
                  | Expr_tuple
                      [
@@ -310,7 +310,7 @@ module Mod = struct
                      ] ->
                      let arity = int_of_string arity in
                      Some (Export.fun_ name ~arity)
-                 | _ -> None) )
+                 | _ -> None))
             @ acc.exports;
         }
     | Module_attribute
@@ -318,7 +318,7 @@ module Mod = struct
         {
           acc with
           exports =
-            ( attrs
+            (attrs
             |> List.filter_map (function
                  | Expr_tuple
                      [
@@ -327,7 +327,7 @@ module Mod = struct
                      ] ->
                      let arity = int_of_string arity in
                      Some (Export.type_ name ~arity)
-                 | _ -> None) )
+                 | _ -> None))
             @ acc.exports;
         }
     | Module_attribute atr -> { acc with attributes = atr :: acc.attributes }

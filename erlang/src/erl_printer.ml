@@ -68,14 +68,14 @@ and pp_type_expr prefix ppf typ_expr =
   | Type_constr { tc_name; tc_args; _ } ->
       pp_name ppf tc_name;
       Format.fprintf ppf "(";
-      ( match (tc_name, tc_args) with
+      (match (tc_name, tc_args) with
       | _, [] -> ()
       | _, a :: args ->
           pp_type_expr prefix ppf a;
           args
           |> List.iter (fun arg ->
                  Format.fprintf ppf ", ";
-                 pp_type_expr prefix ppf arg) );
+                 pp_type_expr prefix ppf arg));
       Format.fprintf ppf ")"
   | Type_list p ->
       Format.fprintf ppf "[";
@@ -127,14 +127,14 @@ and pp_type_expr prefix ppf typ_expr =
       Format.fprintf ppf "%s" padding
   | Type_function { tyfun_args = args; tyfun_return = return } ->
       Format.fprintf ppf "fun((";
-      ( match args with
+      (match args with
       | [] -> ()
       | x :: xs ->
           pp_type_expr prefix ppf x;
           xs
           |> List.iter (fun arg ->
                  Format.fprintf ppf ", ";
-                 pp_type_expr prefix ppf arg) );
+                 pp_type_expr prefix ppf arg));
       Format.fprintf ppf ") -> ";
       pp_type_expr prefix ppf return;
       Format.fprintf ppf ")"
@@ -171,7 +171,7 @@ and pp_pattern_match ppf pm =
       Format.fprintf ppf "}"
   | Pattern_cons (l, r) ->
       Format.fprintf ppf "[";
-      ( match l with
+      (match l with
       | [] -> raise Invalid_cons_with_no_left_hand_side
       | x :: xs ->
           pp_pattern_match ppf x;
@@ -179,7 +179,7 @@ and pp_pattern_match ppf pm =
             (fun e ->
               Format.fprintf ppf ", ";
               pp_pattern_match ppf e)
-            xs );
+            xs);
       Format.fprintf ppf " | ";
       pp_pattern_match ppf r;
       Format.fprintf ppf "]"
@@ -281,7 +281,7 @@ and pp_case_branches prefix ppf branches ~module_ =
                    pp_case_guard ppf c_guard ~module_;
                    Format.fprintf ppf " -> ";
                    pp_expression "" ppf c_rhs ~module_
-               | _ -> raise Invalid_case_branch) )
+               | _ -> raise Invalid_case_branch))
   | _ -> raise Invalid_case_branch
 
 and pp_expression prefix ppf expr ~module_ =
@@ -293,16 +293,16 @@ and pp_expression prefix ppf expr ~module_ =
   | Expr_try { try_expr = e; try_catch; try_after } ->
       Format.fprintf ppf "try\n%s" prefix;
       pp_expression prefix ppf e ~module_;
-      ( match try_catch with
+      (match try_catch with
       | Some catches ->
           Format.fprintf ppf "\n%scatch\n%s" prefix prefix;
           pp_case_branches prefix ppf catches ~module_
-      | _ -> () );
-      ( match try_after with
+      | _ -> ());
+      (match try_after with
       | Some afterbody ->
           Format.fprintf ppf "\n%safter\n%s" prefix prefix;
           pp_expression prefix ppf afterbody ~module_
-      | _ -> () );
+      | _ -> ());
       Format.fprintf ppf "end"
   | Expr_comment (c, e) ->
       pp_comment ppf c;
@@ -311,7 +311,7 @@ and pp_expression prefix ppf expr ~module_ =
   | Expr_literal lit -> pp_literal ppf lit
   | Expr_fun fd_cases ->
       Format.fprintf ppf "fun\n  %s" prefix;
-      ( match fd_cases with
+      (match fd_cases with
       | [] -> raise Lambda_without_cases
       | [ c ] -> pp_fun_case prefix ppf c ~module_
       | c :: cs ->
@@ -319,14 +319,14 @@ and pp_expression prefix ppf expr ~module_ =
           cs
           |> List.iter (fun case ->
                  Format.fprintf ppf ";\n  %s" prefix;
-                 pp_fun_case prefix ppf case ~module_) );
+                 pp_fun_case prefix ppf case ~module_));
       Format.fprintf ppf "\n%send" prefix
   | Expr_let (binding, expr) ->
-      ( match binding.lb_lhs with
+      (match binding.lb_lhs with
       | Pattern_ignore -> ()
       | _ ->
           pp_pattern_match ppf binding.lb_lhs;
-          Format.fprintf ppf " = " );
+          Format.fprintf ppf " = ");
       pp_expression "" ppf binding.lb_rhs ~module_;
       Format.fprintf ppf ",\n";
       pp_expression prefix ppf expr ~module_
@@ -344,7 +344,7 @@ and pp_expression prefix ppf expr ~module_ =
           |> List.iter (fun e ->
                  Format.fprintf ppf ", ";
                  pp_expression "" ppf e ~module_);
-          Format.fprintf ppf ")" )
+          Format.fprintf ppf ")")
   | Expr_tuple [] -> Format.fprintf ppf "ok"
   | Expr_tuple [ e ] ->
       Format.fprintf ppf "{";
@@ -365,7 +365,7 @@ and pp_expression prefix ppf expr ~module_ =
       Format.fprintf ppf "]"
   | Expr_cons (l, r) ->
       Format.fprintf ppf "[";
-      ( match l with
+      (match l with
       | [] -> raise Invalid_cons_with_no_left_hand_side
       | x :: xs ->
           pp_expression "" ppf x ~module_;
@@ -373,7 +373,7 @@ and pp_expression prefix ppf expr ~module_ =
             (fun e ->
               Format.fprintf ppf ", ";
               pp_expression "" ppf e ~module_)
-            xs );
+            xs);
       Format.fprintf ppf " | ";
       pp_expression "" ppf r ~module_;
       Format.fprintf ppf "]"
@@ -388,11 +388,11 @@ and pp_expression prefix ppf expr ~module_ =
   | Expr_recv { rcv_cases; rcv_after } ->
       Format.fprintf ppf "receive";
       pp_case_branches prefix ppf rcv_cases ~module_;
-      ( match rcv_after with
+      (match rcv_after with
       | None -> ()
       | Some cb ->
           Format.fprintf ppf "after";
-          pp_case_branches prefix ppf [ cb ] ~module_ );
+          pp_case_branches prefix ppf [ cb ] ~module_);
       Format.fprintf ppf "end"
   | Expr_if branches ->
       Format.fprintf ppf "if ";
@@ -422,7 +422,7 @@ and pp_expression prefix ppf expr ~module_ =
                        mf_name;
                      pp_expression "" ppf mf_value ~module_;
                      Format.fprintf ppf "\n");
-              Format.fprintf ppf "%s}" padding ) )
+              Format.fprintf ppf "%s}" padding))
   | Expr_map_update (m, fields) -> (
       let padding = H.pad (String.length prefix + 1) in
       pp_expression "" ppf m ~module_;
@@ -442,7 +442,7 @@ and pp_expression prefix ppf expr ~module_ =
                        mf_name;
                      pp_expression "" ppf mf_value ~module_;
                      Format.fprintf ppf "\n");
-              Format.fprintf ppf "%s}" padding ) )
+              Format.fprintf ppf "%s}" padding))
 
 and pp_fun_args ppf args =
   match args with
@@ -486,22 +486,22 @@ let pp_fun_cases prefix ppf fd_name fd_cases ~module_ =
 
 let pp_fun_spec prefix ppf name args return =
   Format.fprintf ppf "-spec %a(" pp_atom name;
-  ( match args with
+  (match args with
   | [] -> ()
   | x :: xs ->
       pp_type_expr prefix ppf x;
       xs
       |> List.iter (fun arg ->
              Format.fprintf ppf ", ";
-             pp_type_expr prefix ppf arg) );
+             pp_type_expr prefix ppf arg));
   Format.fprintf ppf ") -> %a.\n" (pp_type_expr prefix) return
 
 let pp_function ppf { fd_name; fd_cases; fd_spec; _ } ~module_ =
   let prefix = Format.sprintf "%s" (Atom.to_string fd_name) in
-  ( match fd_spec with
+  (match fd_spec with
   | Some (Type_function { tyfun_args; tyfun_return }) ->
       pp_fun_spec prefix ppf fd_name tyfun_args tyfun_return
-  | _ -> () );
+  | _ -> ());
   Format.fprintf ppf "%s" prefix;
   pp_fun_cases prefix ppf fd_name fd_cases ~module_;
   Format.fprintf ppf ".\n\n"
@@ -550,11 +550,11 @@ let to_source_file erlmod =
   let _ = print_string ("Compiling " ^ erlmod.file_name ^ "\t") in
   let erlfile = erlmod.file_name in
   let oc = open_out_bin erlfile in
-  ( try
-      let f = Format.formatter_of_out_channel oc in
-      Format.fprintf f "%% Source code generated with Caramel.\n";
-      Format.fprintf f "%a@\n%!" pp erlmod
-    with _ -> Sys.remove erlfile );
+  (try
+     let f = Format.formatter_of_out_channel oc in
+     Format.fprintf f "%% Source code generated with Caramel.\n";
+     Format.fprintf f "%a@\n%!" pp erlmod
+   with _ -> Sys.remove erlfile);
   print_string "OK\n";
   close_out oc
 

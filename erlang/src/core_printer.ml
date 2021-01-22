@@ -82,11 +82,11 @@ let to_source_file coremod =
   let _ = print_string ("Compiling " ^ coremod.m_filename ^ "\t") in
   let corefile = coremod.m_filename in
   let oc = open_out_bin corefile in
-  ( try
-      let f = Format.formatter_of_out_channel oc in
-      Format.fprintf f "%% Source code generated with Caramel.\n";
-      Format.fprintf f "%a@\n%!" pp coremod
-    with _ -> Sys.remove corefile );
+  (try
+     let f = Format.formatter_of_out_channel oc in
+     Format.fprintf f "%% Source code generated with Caramel.\n";
+     Format.fprintf f "%a@\n%!" pp coremod
+   with _ -> Sys.remove corefile);
   print_string "OK\n";
   close_out oc
 
