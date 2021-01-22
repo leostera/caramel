@@ -113,8 +113,13 @@ jobs:
         if: ${{ success() && startsWith(runner.os, 'Linux') }}
         run: opam exec -- make fmt
 
-      - name: Create release archive
-        if: ${{ success() }}
+      - name: Create release archive (Windows)
+        if: ${{ success() && runner.os == 'Windows' }}
+        run: |
+          opam exec -- make release.win
+
+      - name: Create release archive (UNIX)
+        if: ${{ success() && runner.os != 'Windows' }}
         run: |
           opam exec -- make release
 

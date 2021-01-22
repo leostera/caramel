@@ -36,11 +36,23 @@ coverage:
 	dune runtest --instrument-with bisect_ppx --force
 	bisect-ppx-report html --expect src
 
-.PHONY: release
-release:
+
+.PHONY: prerel
+prerel:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
+	rm -rf _release/caramel/bin/erl*
 	rm -rf _release/caramel/lib/erlang
 	rm -rf _release/caramel/lib/caramel/compiler
+	rm -rf _release/caramel/lib/caramel/verify
+	rm -rf _release/caramel/lib/caramel/formatter
+
+.PHONY: release
+release: prerel
+	strip _release/caramel/bin/caramel
+	tar czf release.tar.gz -C _release caramel
+
+.PHONY: release
+release.win: prerel
 	tar czf release.tar.gz -C _release caramel
 
 release-erlang:
