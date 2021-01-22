@@ -1,15 +1,9 @@
   $ caramel compile gen_tcp_types.ml gen_tcp.ml echo.ml
   File "echo.ml", lines 6-9, characters 2-13:
-  6 | ..let Ok conn = Gen_tcp.accept socket in
-  7 |   let handler = Process.make (fun _self _recv -> handle conn ) in
-  8 |   Gen_tcp.controlling_process conn handler;
-  9 |   loop socket
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   Error _
   File "echo.ml", lines 12-13, characters 2-13:
-  12 | ..let Ok socket = Gen_tcp.listen port [Active false; Packet Http] in
-  13 |   loop socket.
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   Error _

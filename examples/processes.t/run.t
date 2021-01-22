@@ -1,16 +1,9 @@
   $ caramel compile *.ml *.mli
   File "registered_process_name.ml", lines 30-32, characters 2-20:
-  30 | ..let (Some pid2) = Proc.where_is () in
-  31 |   Erlang.send pid 1;
-  32 |   Erlang.send pid2 1
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   None
   File "registered_process_name.ml", lines 29-32, characters 2-20:
-  29 | ..let (Ok pid) = Proc.start () in
-  30 |   let (Some pid2) = Proc.where_is () in
-  31 |   Erlang.send pid 1;
-  32 |   Erlang.send pid2 1
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   Error _
