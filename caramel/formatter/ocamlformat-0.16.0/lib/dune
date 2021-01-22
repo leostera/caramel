@@ -13,6 +13,7 @@
 
 (library
  (name ocamlformat_lib)
+ (public_name ocamlformat_lib)
  (flags
   (:standard -open Base -open Import -open Compat))
  ;;INSERT_BISECT_HERE;;

@@ -11,4 +11,5 @@
 
 (library
  (name import)
+ (public_name ocamlformat_lib.import)
  (libraries base cmdliner fpath stdio unix))

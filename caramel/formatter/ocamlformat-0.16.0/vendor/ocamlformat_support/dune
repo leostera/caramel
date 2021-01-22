@@ -1,5 +1,6 @@
 (library
- (name format_))
+ (name format_)
+ (public_name ocamlformat_lib.format_))
 
 (rule
  (copy# compat/%{read:compat-file} compat.ml))
