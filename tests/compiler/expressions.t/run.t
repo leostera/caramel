@@ -15,28 +15,16 @@
   records.ml
   $ caramel compile apply.ml
   File "apply.ml", line 6, characters 4-8:
-  6 |     a ();
-          ^^^^
   Warning 10: this expression should have type unit.
   File "apply.ml", line 7, characters 4-8:
-  7 |     b ();
-          ^^^^
   Warning 10: this expression should have type unit.
   File "apply.ml", line 22, characters 2-6:
-  22 |   f1 1;
-         ^^^^
   Warning 21: this statement never returns (or has an unsound type.)
   File "apply.ml", line 23, characters 2-8:
-  23 |   f2 1 2;
-         ^^^^^^
   Warning 21: this statement never returns (or has an unsound type.)
   File "apply.ml", line 24, characters 2-10:
-  24 |   f3 1 2 3;
-         ^^^^^^^^
   Warning 21: this statement never returns (or has an unsound type.)
   File "apply.ml", line 25, characters 2-12:
-  25 |   f4 1 2 3 4;
-         ^^^^^^^^^^
   Warning 21: this statement never returns (or has an unsound type.)
   Compiling apply__funs.erl	OK
   Compiling apply.erl	OK
@@ -93,16 +81,10 @@
   
   $ caramel compile binding_on_match.ml
   File "binding_on_match.ml", line 4, characters 57-68:
-  4 |   match { fst = 0; snd = 1 } with { fst; snd } -> true | { fst = x } -> true
-                                                               ^^^^^^^^^^^
   Warning 11: this match case is unused.
   File "binding_on_match.ml", line 10, characters 50-57:
-  10 |   match (1, true, "hello") with x, y, z -> true | x, _, _ -> true | x -> true
-                                                         ^^^^^^^
   Warning 11: this match case is unused.
   File "binding_on_match.ml", line 10, characters 68-69:
-  10 |   match (1, true, "hello") with x, y, z -> true | x, _, _ -> true | x -> true
-                                                                           ^
   Warning 11: this match case is unused.
   Compiling binding_on_match.erl	OK
   $ cat binding_on_match.erl
@@ -231,20 +213,14 @@
   
   $ caramel compile list.ml
   File "list.ml", line 7, characters 9-21:
-  7 | let head (x :: _) = x
-               ^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   []
   File "list.ml", line 9, characters 9-21:
-  9 | let tail (_ :: x) = x
-               ^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   []
   File "list.ml", line 11, characters 9-26:
-  11 | let at_2 (_ :: x :: _) = x
-                ^^^^^^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   (_::[]|[])
@@ -317,63 +293,32 @@
   
   $ caramel compile match.ml
   File "match.ml", line 5, characters 19-41:
-  5 | let match_int () = match 1 with 1 -> true
-                         ^^^^^^^^^^^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   0
   File "match.ml", lines 8-14, characters 2-17:
-   8 | ..match "hello" with
-   9 |   | "xavier" -> true
-  10 |   | "remy" -> true
-  11 |   | "gal" -> true
-  12 |   | "mike" -> true
-  13 |   | "robert" -> true
-  14 |   | "joe" -> true
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   ""
   File "match.ml", lines 19-22, characters 2-23:
-  19 | ..match { fst = 0; snd = 1 } with
-  20 |   | { fst = 10; snd = 10 } -> true
-  21 |   | { fst = 0 } -> true
-  22 |   | { snd = 1 } -> true
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   ({fst=10; snd=0}|{fst=1; snd=0})
   File "match.ml", lines 25-30, characters 2-20:
-  25 | ..match [ 0; 1 ] with
-  26 |   | [] -> true
-  27 |   | 1 :: xs -> true
-  28 |   | [ 1 ] -> true
-  29 |   | 0 :: 1 :: _ -> true
-  30 |   | [ 0; 1 ] -> true
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   (0::0::_|0::[]|2::_)
   File "match.ml", line 28, characters 4-9:
-  28 |   | [ 1 ] -> true
-           ^^^^^
   Warning 11: this match case is unused.
   File "match.ml", line 30, characters 4-12:
-  30 |   | [ 0; 1 ] -> true
-           ^^^^^^^^
   Warning 11: this match case is unused.
   File "match.ml", lines 33-36, characters 2-28:
-  33 | ..match (1, true, "hello") with
-  34 |   | 1, _, _ -> true
-  35 |   | 1, true, _ -> true
-  36 |   | 1, true, "hello" -> true
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   (0, _, _)
   File "match.ml", line 35, characters 4-14:
-  35 |   | 1, true, _ -> true
-           ^^^^^^^^^^
   Warning 11: this match case is unused.
   File "match.ml", line 36, characters 4-20:
-  36 |   | 1, true, "hello" -> true
-           ^^^^^^^^^^^^^^^^
   Warning 11: this match case is unused.
   Compiling match.erl	OK
   $ cat match.erl
@@ -462,16 +407,10 @@
   
   $ caramel compile names.ml
   File "names.ml", line 15, characters 2-13:
-  15 |   Nested.x ();
-         ^^^^^^^^^^^
   Warning 10: this expression should have type unit.
   File "names.ml", line 4, characters 6-7:
-  4 |   let x = run_local in
-            ^
   Warning 26: unused variable x.
   File "names.ml", line 21, characters 6-7:
-  21 |   let x () = 1 in
-             ^
   Warning 26: unused variable x.
   Compiling names__nested.erl	OK
   Compiling names.erl	OK

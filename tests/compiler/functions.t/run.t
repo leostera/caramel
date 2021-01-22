@@ -97,8 +97,6 @@
 
   $ caramel compile multiple_clauses.ml
   File "multiple_clauses.ml", line 1, characters 22-34:
-  1 | let iff_using_headers true f _ = f
-                            ^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   false
@@ -137,32 +135,22 @@
 
   $ caramel compile partial_functions.ml
   File "partial_functions.ml", line 1, characters 9-21:
-  1 | let head (x :: _) = x
-               ^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   []
   File "partial_functions.ml", line 3, characters 9-23:
-  3 | let tail (_ :: xs) = xs
-               ^^^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   []
   File "partial_functions.ml", line 5, characters 11-20:
-  5 | let one_el [ x ] = x
-                 ^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   (_::_::_|[])
   File "partial_functions.ml", line 7, characters 9-26:
-  7 | let at_2 (_ :: x :: _) = x
-               ^^^^^^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   (_::[]|[])
   File "partial_functions.ml", line 9, characters 9-31:
-  9 | let at_3 (_ :: _ :: x :: _) = x
-               ^^^^^^^^^^^^^^^^^^^^^^
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   (_::_::[]|_::[]|[])
