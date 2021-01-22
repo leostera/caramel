@@ -1,0 +1,11 @@
+(rule
+ (copy# warning/%{read:warning-compat-file} warning.ml))
+
+(rule
+ (with-stdout-to
+  warning-compat-file
+  (run ./gen/gen.exe)))
+
+(library
+ (name compat)
+ (libraries base compiler-libs.common))

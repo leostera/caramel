@@ -1,0 +1,18 @@
+(library
+ (name parse_wyc)
+ (libraries menhirLib ocaml-migrate-parsetree ppxlib)
+ (modules_without_implementation let_binding))
+
+(ocamllex lexer)
+
+(menhir
+ (flags --strict --inspection --unused-tokens --table --cmly)
+ (modules parser))
+
+(rule
+ (targets parser_recover.ml)
+ (deps parser.cmly)
+ (action
+  (with-stdout-to
+   %{targets}
+   (run ../menhir-recover/main.exe parser.cmly))))

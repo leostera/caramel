@@ -1,0 +1,5 @@
+(library
+ (name caramel_formatter)
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries bos fpath ocamlformat_lib))

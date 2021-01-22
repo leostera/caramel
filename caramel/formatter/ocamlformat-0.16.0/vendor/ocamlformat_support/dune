@@ -1,0 +1,10 @@
+(library
+ (name format_))
+
+(rule
+ (copy# compat/%{read:compat-file} compat.ml))
+
+(rule
+ (targets compat-file)
+ (action
+  (run %{ocaml} %{dep:config/gen.ml} %{ocaml_version})))

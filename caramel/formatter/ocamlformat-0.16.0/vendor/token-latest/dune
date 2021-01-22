@@ -1,0 +1,11 @@
+(library
+ (name token_latest)
+ (libraries compiler-libs))
+
+(rule
+ (with-stdout-to
+  dir-name
+  (run ./detect/detect.exe)))
+
+(rule
+ (copy %{read:dir-name}/token_latest.ml token_latest.ml))
