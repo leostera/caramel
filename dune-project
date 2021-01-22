@@ -41,4 +41,6 @@
   menhir
   ppx_sexp_conv
   sexplib
+  ocaml-migrate-parsetree
+  (ppxlib (>= 0.18.0))
   ))
