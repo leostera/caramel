@@ -22,7 +22,7 @@
  in its current version.
 ")
  (depends
-  (dune (>= "2.7"))
+  (dune (>= "2.8"))
   (ocaml (>= "4.11.1"))
   cmdliner
   menhir
@@ -35,11 +35,10 @@
  (synopsis "a functional language for building type-safe, scalable, and maintainable applications.")
  (description "Caramel is a functional language for building type-safe, scalable, and maintainable applications.")
  (depends
-  (dune (>= "2.7"))
+  (dune (>= "2.8"))
   (ocaml (>= "4.11.1"))
   erlang
   menhir
   ppx_sexp_conv
   sexplib
-  ocamlformat_lib
   ))

@@ -25,7 +25,9 @@ install:
 
 .PHONY: setup
 setup:
-	opam install dune menhir ocaml-compiler-libs cmdliner ppx_sexp_conv sexplib ocamlformat bisect_ppx
+	opam install --deps-only ./caramel/formatter/ocamlformat-0.16.0/ocamlformat_lib.opam
+	opam install ./erlang.opam
+	opam install --deps-only ./caramel.opam
 
 .PHONY: test
 test:

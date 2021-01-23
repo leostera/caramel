@@ -3,6 +3,8 @@
 
 (generate_opam_files true)
 
+(maintainers "Leandro Ostera <leandro@ostera.io>")
+
 (package
  (name ocamlformat_lib)
  (synopsis "Auto-formatter for OCaml code")

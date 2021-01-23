@@ -3,6 +3,7 @@ opam-version: "2.0"
 synopsis: "Auto-formatter for OCaml code"
 description:
   "OCamlFormat is a tool to automatically format OCaml code in a uniform style."
+maintainer: ["Leandro Ostera <leandro@ostera.io>"]
 depends: [
   "dune" {>= "2.8"}
   "ocaml" {>= "4.06" & < "4.13"}

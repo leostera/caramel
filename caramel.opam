@@ -10,13 +10,12 @@ license: "Apache-2.0"
 homepage: "https://github.com/AbstractMachinesLab/caramel"
 bug-reports: "https://github.com/AbstractMachinesLab/caramel/issues"
 depends: [
-  "dune" {>= "2.8" & >= "2.7"}
+  "dune" {>= "2.8" & >= "2.8"}
   "ocaml" {>= "4.11.1"}
   "erlang"
   "menhir"
   "ppx_sexp_conv"
   "sexplib"
-  "ocamlformat_lib"
   "odoc" {with-doc}
 ]
 build: [
