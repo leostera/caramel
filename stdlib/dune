@@ -1,17 +1,27 @@
 (rule
  (alias stdlib)
  (targets
+  result.cmi
   beam.cmi
-  core.cmi
+  beam.erl
   binary.cmi
+  binary.erl
   calendar.cmi
+  calendar.erl
   caramel_runtime.cmi
+  core.cmi
+  core.erl
   erlang.cmi
+  erlang.erl
   ets.cmi
+  ets.erl
   io.cmi
+  io.erl
   lists.cmi
   maps.cmi
+  maps.erl
   process.cmi
+  process.erl
   timer.cmi)
  (deps ../caramel/bin/main.exe)
  (action
@@ -29,6 +39,7 @@
    ets.ml
    io.ml
    lists.ml
+   result.ml
    maps.ml
    process.ml
    timer.ml)))
@@ -37,21 +48,46 @@
  (section lib)
  (files
   (beam.ml as stdlib/beam.ml)
+  (beam.erl as stdlib/beam.erl)
+  (beam.cmi as stdlib/beam.cmi)
   (core.ml as stdlib/core.ml)
+  (core.erl as stdlib/core.erl)
+  (core.cmi as stdlib/core.cmi)
   (binary.ml as stdlib/binary.ml)
+  (binary.erl as stdlib/binary.erl)
+  (binary.cmi as stdlib/binary.cmi)
   (calendar.ml as stdlib/calendar.ml)
+  (calendar.erl as stdlib/calendar.erl)
+  (calendar.cmi as stdlib/calendar.cmi)
   (caramel_runtime.ml as stdlib/caramel_runtime.ml)
+  (caramel_runtime.cmi as stdlib/caramel_runtime.cmi)
   (erlang.ml as stdlib/erlang.ml)
+  (erlang.erl as stdlib/erlang.erl)
+  (erlang.cmi as stdlib/erlang.cmi)
+  (result.ml as stdlib/result.ml)
+  (result.cmi as stdlib/result.cmi)
   (ets.ml as stdlib/ets.ml)
+  (ets.erl as stdlib/ets.erl)
+  (ets.cmi as stdlib/ets.cmi)
+  (io.mli as stdlib/io.mli)
   (io.ml as stdlib/io.ml)
+  (io.erl as stdlib/io.erl)
+  (io.cmi as stdlib/io.cmi)
   (lists.ml as stdlib/lists.ml)
+  (lists.cmi as stdlib/lists.cmi)
   (maps.ml as stdlib/maps.ml)
+  (maps.erl as stdlib/maps.erl)
+  (maps.cmi as stdlib/maps.cmi)
   (process.ml as stdlib/process.ml)
-  (timer.ml as stdlib/timer.ml))
+  (process.erl as stdlib/process.erl)
+  (process.cmi as stdlib/process.cmi)
+  (timer.ml as stdlib/timer.ml)
+  (timer.cmi as stdlib/timer.cmi))
  (package caramel))
 
 (install
  (section lib)
  (files
+  (result.erl as stdlib/result.erl)
   (caramel_runtime.erl as stdlib/caramel_runtime.erl))
  (package caramel))

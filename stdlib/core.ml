@@ -10,8 +10,6 @@ external print_int : int -> unit = ""
 
 external print_string : string -> unit = ""
 
-external ( ^ ) : string -> string -> string = ""
-
 external ( = ) : 'a -> 'a -> bool = ""
 
 external ( <> ) : 'a -> 'a -> bool = ""

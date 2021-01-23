@@ -50,4 +50,12 @@ external is_tuple : 'a -> bool = ""
 
 external list_to_integer : string -> int = ""
 
+external list_to_float : string -> float = ""
+
 external integer_to_list : int -> string = ""
+
+external float_to_list : string -> float = ""
+
+(************** math functions *****************)
+
+external floor : float -> int = ""
