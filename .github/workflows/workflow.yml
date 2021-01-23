@@ -47,6 +47,7 @@ jobs:
             suffix: x86_64-unknown-linux-musl
           - os: windows-latest
             suffix: x86_64-pc-windows-gnu
+            stdlib_path: D:\a\caramel\caramel\_build\default\stdlib
 
     env:
       OCAML_VERSION: ${{ matrix.ocaml-version }}
@@ -96,6 +97,7 @@ jobs:
         if: ${{ runner.os == 'Windows' }}
         run: |
           echo "GITHUB_TAG=$(git describe --always --tags)" >> $Env:GITHUB_ENV
+          echo "CARAMEL_STDLIB_PATH=${{ matrix.stdlib_path }}" >> $Env:GITHUB_ENV
 
       - name: Update Opam
         run: opam update --yes
