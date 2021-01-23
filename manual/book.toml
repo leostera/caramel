@@ -1,6 +1,6 @@
 [book]
 title = "Caramel Manual"
-description = "Caramel is a compiler to write safe, concurrent, massively scalable systems for the BEAM, in OCaml"
+description = "Caramel is a functional language for building type-safe, scalable, and maintainable applications."
 
 language = "en"
 multilingual = false
