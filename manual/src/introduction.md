@@ -23,7 +23,7 @@ For installation instructions see [Installation](./getting-started/installation.
 * Excellent type-inferece, so you never need to annotate your code
 * Zero-cost type-safe interop with most existing Erlang and Elixir code
 * Has a reviewed standard library included
-* Supports sources in OCaml and Reason syntax
+* Supports sources in OCaml (and soon Reason syntax too)
 * Ships a single executable (`caramel`)
 * Has a built-in formatter (`caramel fmt`)
 
