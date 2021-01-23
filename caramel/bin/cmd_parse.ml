@@ -2,7 +2,7 @@ open Cmdliner
 
 let name = "parse"
 
-let doc = "Helper command to parse sources and dump ASTs"
+let doc = "(UNSTABLE) Helper command to parse sources and dump ASTs"
 
 let description =
   {| The Caramel compiler can take as input Erlang, Core Erlang, and OCaml files.
