@@ -2,9 +2,6 @@
 
 Caramel is built with OCaml, so it needs a working opam installation.
 
-One of our dependencies currently requires the Rust toolchain, so if you are
-using `rustup`, the `stable` toolchain should suffice.
-
 Additionally, we use `make`, since it makes our CI steps pretty minimal.
 
 ### Getting Started
