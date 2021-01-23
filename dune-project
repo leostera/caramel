@@ -37,6 +37,8 @@
  (depends
   (dune (>= "2.8"))
   (ocaml (>= "4.11.1"))
+  alcotest
+  bos
   erlang
   menhir
   ppx_sexp_conv
