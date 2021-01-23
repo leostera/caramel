@@ -5,13 +5,14 @@
   - [Installation](./getting-started/installation.md)
   - [First Steps](./getting-started/first-steps.md)
   - [How Caramel Works](./getting-started/how-caramel-works.md)
-- [CHANGELOG](./changelog/v0.0.15.md)
-  - [v0.0.15](./changelog/v0.0.15.md)
+- [CHANGELOG](./changelog/v0.1.0.md)
+  - [v0.1.0](./changelog/v0.1.0.md)
+  - [v0.0.14](./changelog/v0.0.14.md)
 
 --------------------------------------------------------------------------------
 
 - [Guides](./guides/index.md)
-  - [OCaml to Erlang/Elixir Cheatsheet](./guides/syntax-cheatsheet.md)
+  - [Syntax Cheatsheet](./guides/syntax-cheatsheet.md)
   - [Using Caramel with Rebar3](./guides/caramel-rebar3.md)
   - [Using Caramel with Mix](./guides/caramel-mix.md)
   - [Using Caramel with Zap](./guides/caramel-mix.md)

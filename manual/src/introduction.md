@@ -14,7 +14,7 @@ Caramel leverages:
 * the Erlang VM, known for running low-latency, distributed, and fault-tolerant
   systems used in a wide range of industries.
 
-Check out the [CHANGELOG](./changelog/v0.0.15.md) to see what's new.
+Check out the [CHANGELOG](./changelog/v0.1.0.md) to see what's new.
 
 For installation instructions see [Installation](./getting-started/installation.md).
 

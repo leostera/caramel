@@ -123,7 +123,7 @@ Our test cases will be:
 
 ```ocaml
 (* file: calc_add.ml *)
-{{#include ../../../examples/manual.t/fs2_calc_add.ml}}
+{{#include ../../../examples/manual.t/Fs2_calc_add.ml}}
 ```
 
 We can call it and see if it works:
@@ -171,13 +171,16 @@ Error: This expression has type float but an expression was expected of type
          int
 ```
 
-Caramel has figured out that you are trying to add a float and an integer together
-and its telling you that it can't _just do that_. 
+Caramel has figured out that you are trying to add a float and an integer
+together and its telling you that it can't _just do that_. We'll have to turn
+our float into an integer, or turn our integer into a float, to be able to add
+them together.
 
 > **NOTE**: Errors at the moment have the exact same copy and information as
 > errors from the OCaml compiler. Over time this will be changed.
 
-
 ## Custom Types
 
 ## Processes and Message Passing
+
+## A Glimpse into OTP
