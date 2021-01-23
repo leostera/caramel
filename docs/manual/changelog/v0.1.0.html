@@ -198,10 +198,60 @@ something is missing by <a href="https://github.com/AbstractMachinesLab/caramel/
 issue</a>, or join our <a href="https://github.com/AbstractMachinesLab/caramel/discussions/45">Discord server.</a></p>
 </blockquote>
 
-                        <h1><a class="header" href="#v010" id="v010">v0.1.0</a></h1>
-<h2><a class="header" href="#manual" id="manual">Manual</a></h2>
-<h2><a class="header" href="#caramel-formatter" id="caramel-formatter">Caramel Formatter</a></h2>
-<h2><a class="header" href="#standard-library" id="standard-library">Standard Library</a></h2>
+                        <h1><a class="header" href="#v010-shaping-up" id="v010-shaping-up">v0.1.0: Shaping up!</a></h1>
+<h2><a class="header" href="#-from-a-backend-to-language" id="-from-a-backend-to-language">🌎 From a Backend to Language</a></h2>
+<p>Caramel is starting to take shape, and we'll now refer to it as a <em>language</em>
+rather than an OCaml backend to make it a little easier to talk about it.</p>
+<p>After all, it isn't really 100% OCaml but a strict subset of it. It doesn't
+ship the same standard library or tools.</p>
+<p>We also have a new website at: <a href="https://caramel.run">caramel.run</a></p>
+<h2><a class="header" href="#-manual" id="-manual">📙 Manual</a></h2>
+<p>I've started work on the <a href="https://caramel.run/manual/">Caramel Manual</a> where we
+have an installation guide, an introduction, a small syntax cheatsheet, some
+examples, and a small guide on writing Caramel code that talks to existing
+Erlang code.</p>
+<p>This is a big <em>work in progress</em>, so if you'd like to help, please reach out!</p>
+<p>In the future I'm planning to write guides for how to use Caramel with existing
+build systems like Rebar3 or Mix, and include a reference guide to the standard
+library.</p>
+<h2><a class="header" href="#-caramel-formatter" id="-caramel-formatter">💅 Caramel Formatter</a></h2>
+<p>Caramel now ships a formatter that you can run to make sure your code is always
+stylish and you have no more bikesheds. It supports ZERO configuration, so what
+you see is what you get.</p>
+<p>This is currently just a wrapper around <code>ocamlformat</code>, and all the kudos go to
+the amazing team putting that together.</p>
+<p>You can use it by calling <code>caramel fmt *.ml</code> and it should work on both <code>.ml</code>
+and <code>.mli</code> sources.</p>
+<p>It only does in-place formatting.</p>
+<h2><a class="header" href="#-compiler" id="-compiler">🧰 Compiler</a></h2>
+<p>The compiler has dropped support for several targets, including Core Erlang to
+Native, and the default OCaml compilation modes.</p>
+<p>It will from now on focus only on taking Caramel sources into runnable Erlang
+and Core Erlang code. Over time we will move from Erlang to only Core Erlang
+support, to make it easier to reuse Caramel code from Erlang, Elixir, Gleam,
+and Hamler.</p>
+<p>The additions to the compiler are:</p>
+<ul>
+<li>Replaced unbound vars in specs with wildcards (thanks @ilya-klyuchnikov, <a href="https://github.com/AbstractMachinesLab/caramel/pull/38">PR</a>)</li>
+<li>Keyword atoms are automatically quoted now</li>
+<li>Removed unnecessary compilation steps (thanks @Drup)</li>
+<li>Removed unused object file generation (<code>.cmo</code>)</li>
+<li>Bette support for operators like <code>&amp;&amp;</code>, <code>||</code>, and <code>&gt;=</code></li>
+</ul>
+<h2><a class="header" href="#-standard-library" id="-standard-library">📚 Standard Library</a></h2>
+<p>The standard library has been simplified for contributing to it, and you can now
+find it at the top of the repository.</p>
+<p>Changes:</p>
+<ul>
+<li>String concatenation now possible with the <code>^</code> operator: <code>&quot;yay&quot; ^ &quot;!!!&quot;</code></li>
+<li><code>Binary.split/3</code> to split binary strings</li>
+<li><code>Erlang.floor/1</code> to round down floats to integers</li>
+<li><code>Erlang.list_to_float/1</code> to parse strings to floats</li>
+<li><code>Erlang.float_to_list/1</code> to turn floats into strings</li>
+<li><code>Erlang.list_to_integer/1</code> to parse strings to integers</li>
+<li><code>Erlang.integer_to_list/1</code> to turn integers into strings</li>
+<li><code>Lists.foldl/foldr</code> signature has been fixed</li>
+</ul>
 
                     </main>
 
