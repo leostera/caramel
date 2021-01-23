@@ -1,3 +1,8 @@
+## v0.0.15
+
+The `erlang` library now includes a parametrizable AST that can be used to
+parse erlang sources into it with arbitrary AST node information.
+
 ## v0.0.14
 
 The `erlang` library is now completely free of references to Caramel and should

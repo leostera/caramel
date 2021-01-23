@@ -6,7 +6,7 @@
   - [First Steps](./getting-started/first-steps.md)
 - [CHANGELOG](./changelog/v0.1.0.md)
   - [v0.1.0](./changelog/v0.1.0.md)
-  - [v0.0.14](./changelog/v0.0.14.md)
+  - [v0.0.14 and older](./changelog/v0.0.14.md)
 
 --------------------------------------------------------------------------------
 
