@@ -1,0 +1,39 @@
+name: docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    env:
+      MDBOOK_VERSION: 0.4.6
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install mdbook
+      run: |
+        sudo apt install curl tar
+        mkdir bin
+        eval 'curl -Lo bin/mdbook.tar.gz "https://github.com/rust-lang/mdBook/releases/download/v$MDBOOK_VERSION/mdbook-v$MDBOOK_VERSION-x86_64-unknown-linux-gnu.tar.gz"'
+        tar -xf bin/mdbook.tar.gz -C bin
+        rm bin/mdbook.tar.gz
+        echo "`pwd`/bin" >> $GITHUB_PATH
+
+    - name: Generate docs
+      run: |
+        make manual
+
+    - name: Init new repo in docs folder, commit and force push generated files
+      run: |
+        cd docs
+        git init
+        git add -A
+        git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git config --local user.name "$GITHUB_ACTOR"
+        git commit -m 'deploy'
+        git push "https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" HEAD:gh-pages --force
