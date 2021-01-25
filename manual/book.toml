@@ -1,6 +1,6 @@
 [book]
 title = "Caramel Manual"
-description = "Caramel is a functional language for building type-safe, scalable, and maintainable applications."
+description = "Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library."
 
 language = "en"
 multilingual = false
