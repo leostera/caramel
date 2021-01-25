@@ -44,5 +44,6 @@
 --------------------------------------------------------------------------------
 
 - [Contributing]()
+  - [Contributing to the Manual](./contrib/manual.md)
   - [Building from Source](./contrib/building.md)
   - [Architecutre]()
