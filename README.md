@@ -1,6 +1,7 @@
 # :candy: Caramel
 
 ![CI](https://github.com/AbstractMachinesLab/caramel/workflows/CI/badge.svg)
+![docs](https://github.com/AbstractMachinesLab/caramel/workflows/docs/badge.svg)
 
 Caramel is a functional language for building type-safe, scalable, and
 maintainable applications.
