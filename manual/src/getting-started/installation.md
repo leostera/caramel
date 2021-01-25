@@ -38,7 +38,7 @@ the zipped release from Github:
 
 ### Install from Sources
 
-Check the [Building from Source](/contrib/building.md) section for up to
+Check the [Building from Source](../contrib/building.md) section for up to
 date instructions.
 
 If you have Rust and the source code of Caramel, you can install it by running `make install`.
