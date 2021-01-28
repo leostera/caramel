@@ -5,10 +5,21 @@ external dependencies.
 
 ### Using a package manager
 
-If you are an **Elixir programmer**, Caramel can be installed with `mix`, just include the mix plugin in your project as a dependency:
+If you are an **Elixir programmer**, Caramel can be installed with `mix`, include the mix plugin in your project as a dependency and enable the compiler:
 
 ```elixir
-{:mix_caramel, "~> 0.2.0"}
+def project do
+  [
+    ...
+    compilers: [:caramel] ++ Mix.compilers(),
+    caramel_paths: ["src"],
+    caramel_release: "v0.1.0"
+  ]
+end
+
+defp deps do
+  {:mix_caramel, github: "AbstractMachinesLab/mix_caramel"}
+end
 ```
 
 If you are an **Erlang programmer**, Caramel can be installed with `rebar3`, just include the rebar3 plugin in your project as a dependency:
