@@ -117,7 +117,8 @@ HASH
 let module_file := is = module_item+; EOF; { is }
 
 let terminated_exprs :=
-  | e=expr; DOT; {[e]}
+  | {[]}
+  | comment; es=terminated_exprs; { es }
   | e=expr; DOT; es=terminated_exprs; { e::es }
 
 let exprs_file := is = terminated_exprs; EOF; { is }
