@@ -9,7 +9,9 @@ type parse_error =
   | Unknown_type_visibility of string
 
 exception Parse_error of parse_error
-exception Error
+(* interfered with separate compile of parser - for some reason ok as part of 
+caramel build? *)
+(* exception Error *)
 
 let throw x =
   begin match x with
@@ -103,6 +105,7 @@ HASH
 %token <Parse_info.t> EOF
 
 %start <Erl_ast.structure> module_file
+%start <Erl_ast.expr list> exprs_file
 %%
 
 (******************************************************************************
@@ -112,6 +115,12 @@ HASH
  ******************************************************************************)
 
 let module_file := is = module_item+; EOF; { is }
+
+let terminated_exprs :=
+  | e=expr; DOT; {[e]}
+  | e=expr; DOT; es=terminated_exprs; { e::es }
+
+let exprs_file := is = terminated_exprs; EOF; { is }
 
 let module_item :=
   | ~ = comment; { Module_comment comment }
@@ -303,7 +312,8 @@ let expr_fun_ref :=
   | FUN; name = atom; SLASH; (arity,_) = INTEGER;
     { Expr.fun_ref (Name.atom name) ~arity:(int_of_string arity) }
 
-let expr_list := l = list(expr); { l }
+let expr_list := l = expr_list_dangling; { l }
+//let expr_list := l = list_dangling_sep(expr); { l }
 
 let expr_tuple := t = tuple(expr); { Expr.tuple t }
 
@@ -387,8 +397,55 @@ let list(a) :=
   | LEFT_BRACKET; el1 = separated_list(COMMA, a); PIPE; el2 = a; RIGHT_BRACKET;
     { Expr.cons el1 el2 }
 
+let list0_sep_dangling(separator,X):=
+| //empty
+    { [] }
+| x = X;
+    { [ x ] }
+| x = X; separator; xs = list0_sep_dangling(separator,X);
+    { x :: xs }
+//| x = X; separator;
+//    { [ x ] }
+| x = X; COMMENT ; xs = list0_sep_dangling(separator,X);
+    { x :: xs }
+| x = X; separator; COMMENT;
+  { [x] }
 
-let tuple(a) := els = delimited(LEFT_BRACE, separated_list(COMMA, a), RIGHT_BRACE); { els }
+// this version keeps comments but in doing so must specialise to expr
+let expr_list_sep_dangling:=
+| //empty
+    { [] }
+| x = expr;
+    { [x] }
+| x = expr; COMMA; xs = expr_list_sep_dangling;
+    { x :: xs }
+//| x = expr; COMMA;
+//    { [x] }
+| x = expr; c=comment ; xs = expr_list_sep_dangling;
+    { Expr.comment c x :: xs }
+| x = expr; COMMA; c=comment;
+    { [Expr.comment c x] }
+
+(* let tuple(a) := els = delimited(LEFT_BRACE, separated_list(COMMA,a), RIGHT_BRACE); { els } *)
+(* perhaps shouldn't apply to types *)
+let tuple(a) := els = delimited(LEFT_BRACE, list0_sep_dangling(COMMA,a), RIGHT_BRACE); { els }
+
+let xexpr_list_dangling(a) :=
+  (* NOTE: matches [1,2,3] *)
+  | LEFT_BRACKET; els = list0_sep_dangling(COMMA, a); RIGHT_BRACKET;
+    { Expr.list els }
+  (* NOTE: matches [1,2 | Rest] *)
+  | LEFT_BRACKET; el1 = separated_list(COMMA, a); PIPE; el2 = a; RIGHT_BRACKET;
+    { Expr.cons el1 el2 }
+
+let expr_list_dangling :=
+  (* NOTE: matches [1,2,3] *)
+  (* | LEFT_BRACKET; els = list0_sep_dangling(COMMA, a); RIGHT_BRACKET; *)
+  | LEFT_BRACKET; els = expr_list_sep_dangling; RIGHT_BRACKET;
+    { Expr.list els }
+  (* NOTE: matches [1,2 | Rest] *)
+  | LEFT_BRACKET; el1 = separated_list(COMMA, expr); PIPE; el2 = expr; RIGHT_BRACKET;
+    { Expr.cons el1 el2 }
 
 (**
  * Terminals
@@ -400,7 +457,12 @@ let literal :=
   | (n, _) = INTEGER; { Const.integer n }
   | (n, _) = FLOAT; { Const.float n }
   | (a, _) = ATOM; { Const.atom (Atom.mk a) }
-  | (s, _) = STRING; { Const.string s }
+  (* | (s, _) = STRING; { Const.string s } *)
+  | s = juxtaposed_string; { Const.string s }
+
+let juxtaposed_string :=
+  | (s, _) = STRING; { s }
+  | ms = juxtaposed_string; (s, _) = STRING; { ms^s }
 
 let type_name :=
   | (a, _) = ATOM; { Name.atom (Atom.mk a) }
