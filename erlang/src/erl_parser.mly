@@ -315,7 +315,7 @@ let expr_fun_ref :=
 
 let expr_list := l = expr_list_dangling; { l }
 
-let expr_tuple := t = tuple(expr); { Expr.tuple t }
+let expr_tuple := t = tuple_for_expr; { Expr.tuple t }
 
 let expr_map :=
   | HASH; LEFT_BRACE; fields = separated_list(COMMA, map_field); RIGHT_BRACE;
@@ -409,6 +409,25 @@ let list1_sep_dangling(separator,X):=
   { [x] }
 
 // this version keeps comments but in doing so must specialise to expr
+let tuple_sep_dangling:=
+| x = expr;
+    { [x] }
+| x = expr; COMMA; xs = expr_list_sep_dangling;
+    { x :: xs }
+| x = expr; COMMA;
+    { [x] }
+| x = expr; c=comment ; xs = expr_list_sep_dangling;
+    { Expr.comment c x :: xs }
+| x = expr; COMMA; c=comment;
+    { [Expr.comment c x] }
+| x = expr; c = comment;
+    { [Expr.comment c x] }
+
+
+let tuple(a) := els = delimited(LEFT_BRACE, list1_sep_dangling(COMMA,a), RIGHT_BRACE); { els }
+let tuple_for_expr 
+   := els = delimited(LEFT_BRACE, tuple_sep_dangling, RIGHT_BRACE); { els }
+
 let expr_list_sep_dangling:=
 | //empty
     { [] }
@@ -420,8 +439,6 @@ let expr_list_sep_dangling:=
     { Expr.comment c x :: xs }
 | x = expr; COMMA; c=comment;
     { [Expr.comment c x] }
-
-let tuple(a) := els = delimited(LEFT_BRACE, list1_sep_dangling(COMMA,a), RIGHT_BRACE); { els }
 
 let expr_list_dangling :=
   (* NOTE: matches [1,2,3] *)
