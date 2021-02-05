@@ -1,7 +1,6 @@
 let from_file parse source_file =
   let ic = open_in_bin source_file in
   let lexbuf = Lexing.from_channel ic in
-  (* match Erl_parser.module_file Erl_lexer.token lexbuf with *)
   match parse Erl_lexer.token lexbuf with
   | exception exc ->
       let msg =
@@ -12,10 +11,10 @@ let from_file parse source_file =
       Error (`Parser_error msg)
   | x -> Ok x
 
-let exprs_from_file source_file = 
-  let parse = Erl_parser.exprs_file in
+let terms_from_file source_file = 
+  let parse = Erl_parser.terms_from_file in
   from_file parse source_file
 
-let from_file source_file = 
-  let parse = Erl_parser.module_file in
+let module_from_file source_file = 
+  let parse = Erl_parser.module_from_file in
   from_file parse source_file

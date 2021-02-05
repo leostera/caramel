@@ -104,8 +104,8 @@ HASH
 (* EOF *)
 %token <Parse_info.t> EOF
 
-%start <Erl_ast.structure> module_file
-%start <Erl_ast.expr list> exprs_file
+%start <Erl_ast.structure> module_from_file
+%start <Erl_ast.expr list> terms_from_file
 %%
 
 (******************************************************************************
@@ -114,14 +114,14 @@ HASH
  *
  ******************************************************************************)
 
-let module_file := is = module_item+; EOF; { is }
+let module_from_file := is = module_item+; EOF; { is }
 
 let terminated_exprs :=
   | {[]}
   | comment; es=terminated_exprs; { es }
   | e=expr; DOT; es=terminated_exprs; { e::es }
 
-let exprs_file := is = terminated_exprs; EOF; { is }
+let terms_from_file := is = terminated_exprs; EOF; { is }
 
 let module_item :=
   | ~ = comment; { Module_comment comment }
@@ -314,7 +314,6 @@ let expr_fun_ref :=
     { Expr.fun_ref (Name.atom name) ~arity:(int_of_string arity) }
 
 let expr_list := l = expr_list_dangling; { l }
-//let expr_list := l = list_dangling_sep(expr); { l }
 
 let expr_tuple := t = tuple(expr); { Expr.tuple t }
 
@@ -389,25 +388,22 @@ let comment :=
 (**
  * Constructors
  *)
-let list(a) :=
+let unused_list(a) :=
   (* NOTE: matches [1,2,3] *)
   | LEFT_BRACKET; els = separated_list(COMMA, a); RIGHT_BRACKET;
     { Expr.list els }
-
-    (* NOTE: matches [1,2 | Rest] *)
+  (* NOTE: matches [1,2 | Rest] *)
   | LEFT_BRACKET; el1 = separated_list(COMMA, a); PIPE; el2 = a; RIGHT_BRACKET;
     { Expr.cons el1 el2 }
 
-let list0_sep_dangling(separator,X):=
-| //empty
-    { [] }
+let list1_sep_dangling(separator,X):=
 | x = X;
     { [ x ] }
-| x = X; separator; xs = list0_sep_dangling(separator,X);
+| x = X; separator; xs = list1_sep_dangling(separator,X);
     { x :: xs }
-//| x = X; separator;
-//    { [ x ] }
-| x = X; COMMENT ; xs = list0_sep_dangling(separator,X);
+| x = X; separator;
+    { [ x ] }
+| x = X; COMMENT ; xs = list1_sep_dangling(separator,X);
     { x :: xs }
 | x = X; separator; COMMENT;
   { [x] }
@@ -420,24 +416,12 @@ let expr_list_sep_dangling:=
     { [x] }
 | x = expr; COMMA; xs = expr_list_sep_dangling;
     { x :: xs }
-//| x = expr; COMMA;
-//    { [x] }
 | x = expr; c=comment ; xs = expr_list_sep_dangling;
     { Expr.comment c x :: xs }
 | x = expr; COMMA; c=comment;
     { [Expr.comment c x] }
 
-(* let tuple(a) := els = delimited(LEFT_BRACE, separated_list(COMMA,a), RIGHT_BRACE); { els } *)
-(* perhaps shouldn't apply to types *)
-let tuple(a) := els = delimited(LEFT_BRACE, list0_sep_dangling(COMMA,a), RIGHT_BRACE); { els }
-
-let xexpr_list_dangling(a) :=
-  (* NOTE: matches [1,2,3] *)
-  | LEFT_BRACKET; els = list0_sep_dangling(COMMA, a); RIGHT_BRACKET;
-    { Expr.list els }
-  (* NOTE: matches [1,2 | Rest] *)
-  | LEFT_BRACKET; el1 = separated_list(COMMA, a); PIPE; el2 = a; RIGHT_BRACKET;
-    { Expr.cons el1 el2 }
+let tuple(a) := els = delimited(LEFT_BRACE, list1_sep_dangling(COMMA,a), RIGHT_BRACE); { els }
 
 let expr_list_dangling :=
   (* NOTE: matches [1,2,3] *)
