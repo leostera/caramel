@@ -51,7 +51,10 @@ module Const = struct
 
   let string str = Lit_string str
 
-  let float str = Lit_float str
+  let float str =
+    match str.[String.length str - 1] == '.' with
+    | false -> Lit_float str
+    | true -> Lit_float (str ^ "0")
 
   let atom a = Lit_atom a
 end
