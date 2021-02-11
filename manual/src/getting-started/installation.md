@@ -70,4 +70,4 @@ talk about making it happen.
 Check the [Building from Source](../contrib/building.md) section for up to
 date instructions.
 
-If you have Rust and the source code of Caramel, you can install it by running `make install`.
+If you have OCaml (opam) and the source code of Caramel, you can install it by running `make install`.
