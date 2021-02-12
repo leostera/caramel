@@ -147,7 +147,12 @@ let to_erl_op t =
 
 let ocaml_to_erlang_primitive_op t =
   match t with
-  | "!" | "++" | "-" | "--" | "/" | "<" | ">" | "*" | "+" -> to_erl_op t
+  | "!" | "++" | "-" | "--" | "<" | ">" | "*" | "+" -> to_erl_op t
+  | "/" -> to_erl_op "div"
+  | "+." -> to_erl_op "+"
+  | "-." -> to_erl_op "-"
+  | "*." -> to_erl_op "*"
+  | "/." -> to_erl_op "/"
   | "^" ->
       Name.qualified
         ~m:(Name.atom (Atom.mk "caramel_runtime"))
