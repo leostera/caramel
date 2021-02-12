@@ -1,7 +1,9 @@
   $ ls *.ml
   using_core.ml
   using_io.ml
+  using_math.ml
   $ caramel compile *.ml
+  Compiling using_math.erl	OK
   Compiling using_io.erl	OK
   Compiling using_core.erl	OK
   $ echo $?
@@ -60,5 +62,32 @@
     io:format(<<"~p">>, [Str | []]),
     Ints = 1,
     io:format(<<"~p">>, [Ints | []]).
+  
+  
+  % Source code generated with Caramel.
+  -module(using_math).
+  
+  -export([main/1]).
+  -export([print/1]).
+  
+  -spec print(_) -> ok.
+  print(Thing) -> io:format(<<"~0tp~n">>, [Thing | []]).
+  
+  -spec main(_) -> ok.
+  main(_) ->
+    print(math:sqrt(4.0)),
+    print(math:exp(4.0)),
+    print(math:log(4.0)),
+    print(math:log10(4.0)),
+    print(math:cos(4.0)),
+    print(math:sin(4.0)),
+    print(math:tan(4.0)),
+    print(math:acos(1.0)),
+    print(math:asin(1.0)),
+    print(math:atan(4.0)),
+    print(math:atan2(4.0, 4.0)),
+    print(math:cosh(4.0)),
+    print(math:sinh(4.0)),
+    print(math:tanh(4.0)).
   
   

@@ -5,6 +5,7 @@ module Ets = Ets
 module Io = Io
 module Lists = Lists
 module Maps = Maps
+module Math = Math
 module Process = Process
 module Timer = Timer
 include Core
