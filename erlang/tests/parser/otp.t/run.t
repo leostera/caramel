@@ -2404,7 +2404,7 @@
                                          (Expr_name
                                            (Qualified_name
                                              (n_mod (Atom_name (Atom erlang)))
-                                             (n_name (Atom_name (Atom div))))))
+                                             (n_name (Atom_name (Atom 'div'))))))
                                         (fa_args
                                           ((Expr_name (Var_name N))
                                             (Expr_name (Var_name Inc))))))))

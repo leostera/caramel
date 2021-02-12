@@ -2,7 +2,8 @@ open Erl_ast
 
 (* Helpers to work with Atoms *)
 module Atom = struct
-  let is_keyword str = match str with "and" | "or" -> true | _ -> false
+  let is_keyword str =
+    match str with "and" | "or" | "div" -> true | _ -> false
 
   let quote str = "'" ^ str ^ "'"
 
