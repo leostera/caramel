@@ -3,7 +3,7 @@
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   Error _
-  File "echo.ml", lines 12-13, characters 2-13:
+  File "echo.ml", lines 13-14, characters 6-17:
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
   Error _

@@ -5,7 +5,7 @@ CARAMEL_STDLIB_PATH ?= $(PWD)/_build/default/stdlib
 
 .PHONY: build
 build:
-	dune build @all -j8
+	dune build @all -j16
 
 .PHONY: watch
 watch:
