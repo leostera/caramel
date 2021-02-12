@@ -1,0 +1,25 @@
+[submodule "vendor/merlin"]
+path = ocaml-lsp-server/vendor/merlin
+url = https://github.com/rgrinberg/merlin
+branch = lsp
+ignore = dirty
+[submodule "vendor/cmdliner"]
+path = ocaml-lsp-server/vendor/cmdliner
+url = https://github.com/dbuenzli/cmdliner.git
+[submodule "ocaml-syntax-shims"]
+path = ocaml-lsp-server/vendor/ocaml-syntax-shims
+url = https://github.com/ocaml-ppx/ocaml-syntax-shims
+[submodule "vendor/uutf"]
+path = ocaml-lsp-server/vendor/uutf
+url = https://github.com/dune-universe/uutf.git
+branch = duniverse-v1.0.2
+ignore = dirty
+[submodule "vendor/octavius"]
+path = ocaml-lsp-server/vendor/octavius
+url = https://github.com/ocaml-doc/octavius.git
+ignore = dirty
+[submodule "vendor/omd"]
+path = ocaml-lsp-server/vendor/omd
+url = https://github.com/ulugbekna/omd.git
+branch = ocaml-lsp
+ignore = dirty

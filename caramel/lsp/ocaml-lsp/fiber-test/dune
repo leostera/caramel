@@ -1,0 +1,3 @@
+(library
+ (name fiber_test)
+ (libraries fiber stdune))

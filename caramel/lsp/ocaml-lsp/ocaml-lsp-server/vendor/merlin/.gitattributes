@@ -1,0 +1,6 @@
+configure eol=lf
+*.sh eol=lf
+*.patch eol=lf
+parser_raw.ml binary
+src/utils/menhirLib.ml binary
+src/utils/menhirLib.mli binary

@@ -1,0 +1,14 @@
+build: [
+  ["dune" "subst"] {dev}
+  ["ocaml" "unix.cma" "unvendor.ml"]
+  [
+    "dune"
+    "build"
+    "-p"
+    name
+    "-j"
+    jobs
+    "@install"
+    "@doc" {with-doc}
+  ]
+]

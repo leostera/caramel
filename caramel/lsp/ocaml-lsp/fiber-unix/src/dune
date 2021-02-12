@@ -1,0 +1,5 @@
+(library
+ (name fiber_unix)
+ (public_name lsp.fiber_unix)
+ (libraries fiber stdune threads.posix yojson)
+ (preprocess future_syntax))

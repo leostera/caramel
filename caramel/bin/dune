@@ -2,7 +2,7 @@
  (name main)
  (public_name caramel)
  (package caramel)
- (libraries cmdliner caramel.compiler caramel_formatter)
+ (libraries cmdliner caramel.compiler caramel.formatter)
  (instrumentation
   (backend bisect_ppx))
  (flags

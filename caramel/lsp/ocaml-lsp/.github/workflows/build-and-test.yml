@@ -1,0 +1,96 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+
+        ocaml-version:
+          - 4.11.1
+          - 4.10.1
+          - 4.09.1
+          - 4.06.1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Retrieve opam cache
+        uses: actions/cache@v2
+        if: runner.os != 'Windows'
+        id: cache-opam
+        with:
+          path: ~/.opam
+          key: v1-${{ runner.os }}-opam-${{ matrix.ocaml-version }}-${{ hashFiles('*.opam.locked') }}
+          restore-keys: |
+            v1-${{ runner.os }}-opam-${{ matrix.ocaml-version }}-
+
+      - name: Use latest LTS Node.js release
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Use OCaml ${{ matrix.ocaml-version }}
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: ${{ matrix.ocaml-version }}
+
+      - name: Print OCaml version
+        run: opam exec -- ocaml --version
+
+      - name: Pin local packages
+        run: |
+          opam pin jsonrpc.dev . --no-action
+          opam pin lsp.dev . --no-action
+          opam pin ocaml-lsp-server.dev . --no-action
+
+      - name: Install OCaml secondary compiler
+        if: steps.cache-opam.outputs.cache-hit != 'true' && runner.os != 'Windows' && (matrix.ocaml-version == '4.06.1')
+        run: opam install ocamlfind-secondary
+
+      - name: Install Opam dependencies
+        if: steps.cache-opam.outputs.cache-hit != 'true'
+        run: |
+          opam install . --with-doc --with-test --locked --ignore-constraints-on=ocaml
+          opam install ocamlformat.0.15.1 --skip-updates
+
+      - name: Fix broken opam state
+        if: steps.cache-opam.outputs.cache-hit == 'true'
+        run: opam upgrade --fixup
+
+      - name: Install Node dependencies
+        working-directory: ocaml-lsp-server/test/e2e
+        run: |
+          yarn --frozen-lockfile
+
+      - name: Build
+        run: opam exec -- make all
+
+      - name: Check formatting
+        if: matrix.ocaml-version == '4.11.1' && runner.os == 'Linux'
+        run: opam exec -- make fmt
+
+      - name: Run OCaml tests
+        if: matrix.ocaml-version == '4.11.1'
+        run: opam exec -- make test-ocaml
+
+      - name: Run Node tests
+        if: matrix.ocaml-version == '4.11.1'
+        run: opam exec -- make test-e2e

@@ -1,0 +1,16 @@
+_build/
+*.data
+*.log
+*.opt
+.#*
+*~
+*.cmi
+*.cma
+*.cmo
+*.cmx
+*.cmxa
+*.o
+.DS_Store
+.depend
+.merlin
+*.install

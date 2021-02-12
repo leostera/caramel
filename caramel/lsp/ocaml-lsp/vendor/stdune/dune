@@ -1,0 +1,12 @@
+(rule
+ (targets exn.ml)
+ (deps (:ml exn.cppo.ml))
+ (action (run %{bin:cppo} -V OCAML:%{ocaml_version} %{ml} -o %{targets})))
+
+(library
+ (name stdune)
+ (public_name lsp.stdune)
+ (synopsis "[Internal] Standard library of Dune")
+ (preprocess future_syntax)
+ (libraries stdlib-shims unix csexp)
+ (foreign_stubs (language c) (names fcntl_stubs)))

@@ -1,0 +1,23 @@
+(include_subdirs unqualified)
+
+; get rid of this gross hack once dune has proper crunch support
+
+(rule
+ (with-stdout-to
+  spec.ml
+  (progn
+   (echo "let _3_15 = {spec|")
+   (echo "%{read:specifications/specification-3-15.md}")
+   (echo "|spec}"))))
+
+(executable
+ (name gen)
+ (modules gen)
+ (libraries lsp_gen stdune)
+ (preprocess future_syntax))
+
+(library
+ (name lsp_gen)
+ (modules :standard \ gen)
+ (libraries stdune)
+ (preprocess future_syntax))

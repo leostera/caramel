@@ -1,0 +1,18 @@
+_build
+.merlin
+jbuild-workspace
+dune-workspace
+*.install
+*.tar.gz
+*.pyc
+*.cmly
+
+/ocamlmerlin
+/ocamlmerlin-server
+/ocamlmerlin-lsp
+/dot-merlin-reader
+
+# Ignore garbage files from editors
+*.un~
+*.swp
+*.swo

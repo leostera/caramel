@@ -1,0 +1,10 @@
+_opam/
+_build/
+.idea/
+.log/
+.vscode/
+tmp/
+.DS_Store
+.merlin
+*.install
+*.log

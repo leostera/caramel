@@ -1,0 +1,8 @@
+(library
+ (name omd)
+ (public_name omd)
+ (libraries bigarray bytes))
+
+(env
+    (dev
+      (flags (:standard -warn-error -A))))

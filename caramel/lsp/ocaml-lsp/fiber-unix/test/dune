@@ -1,0 +1,21 @@
+(library
+ (name fiber_unix_expect_tests)
+ (enabled_if
+  (>= %{ocaml_version} 4.08))
+ (inline_tests)
+ (libraries
+  threads.posix
+  fiber
+  fiber_test
+  fiber_unix
+  jsonrpc
+  ;; This is because of the (implicit_transitive_deps false)
+  ;; in dune-project
+  base
+  ppx_expect.common
+  ppx_expect.config
+  ppx_expect.config_types
+  ppx_inline_test.config
+  stdune)
+ (preprocess
+  (pps ppx_expect)))

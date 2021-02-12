@@ -1,0 +1,14 @@
+(library
+ (name lsp_fiber)
+ (public_name lsp.lsp_fiber)
+ (libraries
+  fiber
+  fiber_unix
+  jsonrpc
+  jsonrpc_fiber
+  lsp
+  ppx_yojson_conv_lib
+  result
+  stdune
+  yojson)
+ (preprocess future_syntax))

@@ -1,0 +1,20 @@
+(include_subdirs unqualified)
+
+(library
+ (name lsp)
+ (public_name lsp)
+ (libraries
+  jsonrpc
+  ppx_yojson_conv_lib
+  result
+  stdune
+  threads.posix
+  uutf
+  yojson)
+ (preprocess future_syntax)
+ (lint
+  (pps ppx_yojson_conv)))
+
+(cinaps
+ (files types.mli types.ml)
+ (libraries lsp_gen))

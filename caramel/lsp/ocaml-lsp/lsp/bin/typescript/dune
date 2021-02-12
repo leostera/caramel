@@ -1,0 +1,7 @@
+(ocamllex ts_lexer)
+
+;; the compiler will infer a wrong type with (infer true)
+
+(menhir
+ (infer false)
+ (modules ts_parser))
