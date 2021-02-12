@@ -11,7 +11,13 @@ let const_to_literal const =
   | Const_int int -> Const.integer (string_of_int int)
   | Const_char char -> Const.char (String.make 1 char)
   | Const_string (string, _, _) -> Const.binary string
-  | Const_float string -> Const.float string
+  | Const_float str ->
+      let str =
+        match str.[String.length str - 1] == '.' with
+        | false -> str
+        | true -> str ^ "0"
+      in
+      Const.float str
   | Const_int32 int32 -> Const.integer (Int32.to_string int32)
   | Const_int64 int64 -> Const.integer (Int64.to_string int64)
   | Const_nativeint nint -> Const.integer (Nativeint.to_string nint)
