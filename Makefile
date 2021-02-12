@@ -47,11 +47,16 @@ prerel:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
 	rm -rf _release/caramel/bin/erl*
 	rm -rf _release/caramel/doc/
-	rm -rf _release/caramel/lib/erlang
+	rm -rf _release/caramel/lib/caml-lsp-server
 	rm -rf _release/caramel/lib/caramel/compiler
-	rm -rf _release/caramel/lib/caramel/verify
 	rm -rf _release/caramel/lib/caramel/formatter
+	rm -rf _release/caramel/lib/caramel/lsp
+	rm -rf _release/caramel/lib/caramel/verify
+	rm -rf _release/caramel/lib/erlang
+	rm -rf _release/caramel/lib/jsonrpc
+	rm -rf _release/caramel/lib/lsp
 	rm -rf _release/caramel/lib/ocamlformat_lib
+	rm -rf _release/caramel/lib/stublibs
 
 .PHONY: release
 release: prerel
