@@ -269,6 +269,7 @@
   -export([bool_true/0]).
   -export([character/0]).
   -export([float/0]).
+  -export([float_without_trailing_zero/0]).
   -export([integer/0]).
   -export([string/0]).
   
@@ -277,6 +278,9 @@
   
   -spec float() -> float().
   float() -> 1.0.
+  
+  -spec float_without_trailing_zero() -> float().
+  float_without_trailing_zero() -> 1.0.
   
   -spec character() -> char().
   character() -> 'c'.
