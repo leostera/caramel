@@ -18,14 +18,34 @@
   
   -spec main(_) -> ok.
   main(_) ->
+    print(erlang:'=:='(1, 1)),
+    print(erlang:'=/='(1, 1)),
+    print(erlang:'<'(1, 1)),
+    print(erlang:'>'(1, 1)),
+    print(erlang:'=<'(1, 1)),
+    print(erlang:'>='(1, 1)),
+    print(erlang:'=='(1, 1)),
+    print(erlang:'=/='(1, 1)),
+    print(erlang:'not'(true)),
+    print(erlang:'and'(true, false)),
+    print(erlang:'or'(true, false)),
+    print(erlang:'++'([1 | []], [1 | []])),
     print(erlang:'+'(1, 1)),
     print(erlang:'-'(1, 1)),
     print(erlang:'*'(1, 1)),
     print(erlang:'div'(1, 1)),
+    print(erlang:'rem'(1, 1)),
     print(erlang:'+'(1.0, 1.0)),
     print(erlang:'-'(1.0, 1.0)),
     print(erlang:'*'(1.0, 1.0)),
     print(erlang:'/'(1.0, 1.0)),
+    print(erlang:ceil(1.1)),
+    print(erlang:floor(1.1)),
+    print(erlang:abs(1.1)),
+    print(erlang:float(1)),
+    print(erlang:float(1)),
+    print(erlang:trunc(1.1)),
+    print(erlang:trunc(1.1)),
     ok.
   
   

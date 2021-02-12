@@ -149,15 +149,24 @@ let ocaml_to_erlang_primitive_op t =
   match t with
   | "!" | "++" | "-" | "--" | "<" | ">" | "*" | "+" -> to_erl_op t
   | "/" -> to_erl_op "div"
+  | "mod" -> to_erl_op "rem"
   | "+." -> to_erl_op "+"
   | "-." -> to_erl_op "-"
   | "*." -> to_erl_op "*"
   | "/." -> to_erl_op "/"
+  | "ceil" -> to_erl_op "ceil"
+  | "floor" -> to_erl_op "floor"
+  | "abs_float" -> to_erl_op "abs"
+  | "float" -> to_erl_op "float"
+  | "float_of_int" -> to_erl_op "float"
+  | "truncate" -> to_erl_op "trunc"
+  | "int_of_float" -> to_erl_op "trunc"
   | "^" ->
       Name.qualified
         ~m:(Name.atom (Atom.mk "caramel_runtime"))
         ~f:(Name.atom (Atom.mk "binary_concat"))
-  | "<>" -> to_erl_op "=/="
+  | "!=" | "<>" -> to_erl_op "=/="
+  | "not" -> to_erl_op "not"
   | "&&" -> to_erl_op "and"
   | "||" -> to_erl_op "or"
   | ">=" -> to_erl_op ">="

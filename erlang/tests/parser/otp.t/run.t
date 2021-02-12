@@ -238,7 +238,7 @@
                    ((fa_name
                       (Expr_name
                         (Qualified_name (n_mod (Atom_name (Atom erlang)))
-                          (n_name (Atom_name (Atom not))))))
+                          (n_name (Atom_name (Atom 'not'))))))
                      (fa_args
                        ((Expr_apply
                           ((fa_name (Expr_name (Atom_name (Atom is_binary))))
@@ -247,7 +247,7 @@
                     ((fa_name
                        (Expr_name
                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
-                           (n_name (Atom_name (Atom not))))))
+                           (n_name (Atom_name (Atom 'not'))))))
                       (fa_args
                         ((Expr_apply
                            ((fa_name (Expr_name (Atom_name (Atom is_integer))))
@@ -256,7 +256,7 @@
                     ((fa_name
                        (Expr_name
                          (Qualified_name (n_mod (Atom_name (Atom erlang)))
-                           (n_name (Atom_name (Atom not))))))
+                           (n_name (Atom_name (Atom 'not'))))))
                       (fa_args
                         ((Expr_apply
                            ((fa_name (Expr_name (Atom_name (Atom is_integer))))
