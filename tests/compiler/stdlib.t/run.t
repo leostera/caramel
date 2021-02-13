@@ -20,6 +20,8 @@
   
   -spec main(_) -> ok.
   main(_) ->
+    print({ok, 1}),
+    print({error, 1}),
     print(erlang:'=:='(1, 1)),
     print(erlang:'=/='(1, 1)),
     print(erlang:'<'(1, 1)),

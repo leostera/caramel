@@ -32,11 +32,7 @@ external not : bool -> bool = ""
 
 external ( && ) : bool -> bool -> bool = ""
 
-external ( & ) : bool -> bool -> bool = ""
-
 external ( || ) : bool -> bool -> bool = ""
-
-external ( or ) : bool -> bool -> bool = ""
 
 external ( |> ) : 'a -> ('a -> 'b) -> 'b = ""
 

@@ -1,5 +1,7 @@
 let print thing = Io.format "~0tp~n" [ thing ]
 let main _ =
+  print (Ok 1) ;
+  print (Error 1) ;
   print (1 = 1) ;
   print (1 <> 1) ;
   print (1 < 1) ;
