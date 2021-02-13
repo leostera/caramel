@@ -21,11 +21,6 @@ let main _ =
   print (1.0 -. 1.0) ;
   print (1.0 *. 1.0) ;
   print (1.0 /. 1.0) ;
-  print (ceil 1.1) ;
-  print (floor 1.1) ;
-  print (abs_float 1.1) ;
-  print (float 1) ;
   print (float_of_int 1) ;
-  print (truncate 1.1) ;
   print (int_of_float 1.1) ;
   ()

@@ -41,12 +41,7 @@
     print(erlang:'-'(1.0, 1.0)),
     print(erlang:'*'(1.0, 1.0)),
     print(erlang:'/'(1.0, 1.0)),
-    print(erlang:ceil(1.1)),
-    print(erlang:floor(1.1)),
-    print(erlang:abs(1.1)),
     print(erlang:float(1)),
-    print(erlang:float(1)),
-    print(erlang:trunc(1.1)),
     print(erlang:trunc(1.1)),
     ok.
   

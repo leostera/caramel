@@ -94,12 +94,6 @@ external log1p : float -> float = ""
 
 external hypot : float -> float -> float = ""
 
-external ceil : float -> float = ""
-
-external floor : float -> float = ""
-
-external abs_float : float -> float = ""
-
 external copysign : float -> float -> float = ""
 
 external mod_float : float -> float -> float = ""
@@ -108,11 +102,7 @@ external frexp : float -> float * int = ""
 
 external modf : float -> float * float = ""
 
-external float : int -> float = ""
-
 external float_of_int : int -> float = ""
-
-external truncate : float -> int = ""
 
 external int_of_float : float -> int = ""
 
