@@ -14,15 +14,19 @@ let main _ =
   print (true && false) ;
   print (true || false) ;
   print ([1] @ [1]) ;
+  print (~- 1) ;
+  print (~+ 1) ;
   print (1 + 1) ;
   print (1 - 1) ;
   print (1 * 1) ;
   print (1 / 1) ;
   print (1 mod 1) ;
+  print (1 land 1) ;
+  print (1 lor 1) ;
+  print (1 lxor 1) ;
+  print (lnot 1) ;
   print (1.0 +. 1.0) ;
   print (1.0 -. 1.0) ;
   print (1.0 *. 1.0) ;
   print (1.0 /. 1.0) ;
-  print (float_of_int 1) ;
-  print (int_of_float 1.1) ;
   ()

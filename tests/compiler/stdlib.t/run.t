@@ -34,17 +34,21 @@
     print(erlang:'and'(true, false)),
     print(erlang:'or'(true, false)),
     print(erlang:'++'([1 | []], [1 | []])),
+    print(erlang:'-'(1)),
+    print(erlang:'+'(1)),
     print(erlang:'+'(1, 1)),
     print(erlang:'-'(1, 1)),
     print(erlang:'*'(1, 1)),
     print(erlang:'div'(1, 1)),
     print(erlang:'rem'(1, 1)),
+    print(erlang:'band'(1, 1)),
+    print(erlang:'bor'(1, 1)),
+    print(erlang:'bxor'(1, 1)),
+    print(erlang:'bnot'(1)),
     print(erlang:'+'(1.0, 1.0)),
     print(erlang:'-'(1.0, 1.0)),
     print(erlang:'*'(1.0, 1.0)),
     print(erlang:'/'(1.0, 1.0)),
-    print(erlang:float(1)),
-    print(erlang:trunc(1.1)),
     ok.
   
   
