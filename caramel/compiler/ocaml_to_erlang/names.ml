@@ -149,15 +149,19 @@ let ocaml_to_erlang_primitive_op t =
   match t with
   | "!" | "++" | "-" | "--" | "<" | ">" | "*" | "+" -> to_erl_op t
   | "/" -> to_erl_op "div"
+  | "mod" -> to_erl_op "rem"
   | "+." -> to_erl_op "+"
   | "-." -> to_erl_op "-"
   | "*." -> to_erl_op "*"
   | "/." -> to_erl_op "/"
+  | "~-" -> to_erl_op "-"
+  | "~+" -> to_erl_op "+"
   | "^" ->
       Name.qualified
         ~m:(Name.atom (Atom.mk "caramel_runtime"))
         ~f:(Name.atom (Atom.mk "binary_concat"))
-  | "<>" -> to_erl_op "=/="
+  | "!=" | "<>" -> to_erl_op "=/="
+  | "not" -> to_erl_op "not"
   | "&&" -> to_erl_op "and"
   | "||" -> to_erl_op "or"
   | ">=" -> to_erl_op ">="
@@ -165,4 +169,8 @@ let ocaml_to_erlang_primitive_op t =
   | "=" -> to_erl_op "=:="
   | "==" -> to_erl_op "=="
   | "@" -> to_erl_op "++"
+  | "land" -> to_erl_op "band"
+  | "lor" -> to_erl_op "bor"
+  | "lxor" -> to_erl_op "bxor"
+  | "lnot" -> to_erl_op "bnot"
   | u -> u |> Atom.mk |> Atom.lowercase |> Name.atom |> translate

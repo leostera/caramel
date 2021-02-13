@@ -20,6 +20,7 @@
   lists.cmi
   maps.cmi
   maps.erl
+  math.cmi
   process.cmi
   process.erl
   timer.cmi)
@@ -41,6 +42,7 @@
    lists.ml
    result.ml
    maps.ml
+   math.ml
    process.ml
    timer.ml)))
 
@@ -78,6 +80,8 @@
   (maps.ml as stdlib/maps.ml)
   (maps.erl as stdlib/maps.erl)
   (maps.cmi as stdlib/maps.cmi)
+  (math.ml as stdlib/math.ml)
+  (math.cmi as stdlib/math.cmi)
   (process.ml as stdlib/process.ml)
   (process.erl as stdlib/process.erl)
   (process.cmi as stdlib/process.cmi)

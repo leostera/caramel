@@ -59,3 +59,13 @@ external float_to_list : string -> float = ""
 (************** math functions *****************)
 
 external floor : float -> int = ""
+
+external ceil : float -> int = ""
+
+external abs : int -> int = ""
+
+external abs_float : float -> float = "abs"
+
+external float_of_int : int -> float = "float"
+
+external int_of_float : float -> int = "trunc"
