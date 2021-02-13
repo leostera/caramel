@@ -157,10 +157,8 @@ let ocaml_to_erlang_primitive_op t =
   | "ceil" -> to_erl_op "ceil"
   | "floor" -> to_erl_op "floor"
   | "abs_float" -> to_erl_op "abs"
-  | "float" -> to_erl_op "float"
-  | "float_of_int" -> to_erl_op "float"
-  | "truncate" -> to_erl_op "trunc"
-  | "int_of_float" -> to_erl_op "trunc"
+  | "float_of_int" | "float" -> to_erl_op "float"
+  | "int_of_float" | "truncate" -> to_erl_op "trunc"
   | "^" ->
       Name.qualified
         ~m:(Name.atom (Atom.mk "caramel_runtime"))
