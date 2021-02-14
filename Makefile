@@ -5,11 +5,11 @@ CARAMEL_STDLIB_PATH ?= $(PWD)/_build/default/stdlib
 
 .PHONY: build
 build:
-	dune build @all -j16
+	dune build @all
 
 .PHONY: watch
 watch:
-	dune build @all --watch -j8
+	dune build @all --watch
 
 .PHONY: manual
 manual:
@@ -34,7 +34,8 @@ setup:
 
 .PHONY: test
 test:
-	dune runtest
+	dune runtest ./erlang/tests -p erlang
+	dune runtest ./tests -p caramel
 
 .PHONY: coverage
 coverage:
@@ -47,7 +48,7 @@ prerel:
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
 	rm -rf _release/caramel/bin/erl*
 	rm -rf _release/caramel/doc/
-	rm -rf _release/caramel/lib/caml-lsp-server
+	rm -rf _release/caramel/lib/ocaml-lsp-server
 	rm -rf _release/caramel/lib/caramel/compiler
 	rm -rf _release/caramel/lib/caramel/formatter
 	rm -rf _release/caramel/lib/caramel/lsp
