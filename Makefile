@@ -45,6 +45,7 @@ coverage:
 
 .PHONY: prerel
 prerel:
+	dune build @install
 	dune install --prefix=_release/caramel --force --sandbox=copy --release
 	rm -rf _release/caramel/bin/erl*
 	rm -rf _release/caramel/doc/
