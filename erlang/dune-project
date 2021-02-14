@@ -1,5 +1,5 @@
 (lang dune 2.8)
-(name caramel)
+(name erlang)
 
 (generate_opam_files true)
 
@@ -13,16 +13,18 @@
 (cram enable)
 
 (package
- (name caramel)
- (synopsis "a functional language for building type-safe, scalable, and maintainable applications.")
- (description "Caramel is a functional language for building type-safe, scalable, and maintainable applications.")
+ (name erlang)
+ (synopsis "Libraries to manipulate Erlang sources")
+ (description "erlang is a  a set of libraries designed to facilitate manipulating
+ Standard Erlang and Core Erlang sources.
+
+ It provides a lexer/parser, a concrete AST, and a printer for Standard Erlang
+ in its current version.
+")
  (depends
   (dune (>= "2.8"))
-  (ocamlformat (>= "0.16"))
   (ocaml (>= "4.11.1"))
-  alcotest
-  bos
-  erlang
+  cmdliner
   menhir
   ppx_sexp_conv
   sexplib

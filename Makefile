@@ -25,7 +25,7 @@ install:
 
 .PHONY: setup
 setup:
-	opam install ./erlang.opam
+	opam install ./erlang/erlang.opam
 	opam install --deps-only --with-test ./caramel/formatter/ocamlformat-0.16.0/ocamlformat_lib.opam
 	opam install --deps-only --with-test ./caramel/lsp/ocaml-lsp/jsonrpc.opam
 	opam install --deps-only --with-test ./caramel/lsp/ocaml-lsp/lsp.opam

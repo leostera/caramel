@@ -28,13 +28,15 @@ each compilation pipeline.
 
 The Caramel codebase is structured to explore a few things:
 
-* `./src/bin` -- the `caramel` binary
+* `./caramel/bin` -- the `caramel` binary
 
-* `./src/compiler` -- includes the compilation pipelines
+* `./caramel/compiler` -- includes the compilation pipelines
 
-* `./src/typing` -- includes the type checking pipelines 
+* `./caramel/formatter` -- the code formatter
 
-* `./src/stdlib` -- the standard libraries shipped with Caramel
+* `./caramel/lsp` -- the language server
+
+* `./stdlib` -- the standard libraries shipped with Caramel
 
 
 The libraries for manipulating Erlang from within OCaml are here:

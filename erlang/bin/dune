@@ -11,6 +11,6 @@
 (rule
  (targets version.ml)
  (deps
-  (:input-file ../../version.ml.in))
+  (:input-file ../version.ml.in))
  (action
   (copy %{input-file} %{targets})))
