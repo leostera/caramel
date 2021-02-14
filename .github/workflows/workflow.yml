@@ -76,9 +76,9 @@ jobs:
            D:\a\caramel\caramel
           key: v${{ secrets.CACHE_VERSION }}-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-${{ hashFiles('**/*.opam*') }}
           restore-keys: |
-            v${{ secrets.CACHE_VERSION }}-{{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-
-            v${{ secrets.CACHE_VERSION }}-{{ matrix.os }}-${{ matrix.ocaml-version }}-
-            v${{ secrets.CACHE_VERSION }}-{{ matrix.os }}-
+            v${{ secrets.CACHE_VERSION }}-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-
+            v${{ secrets.CACHE_VERSION }}-${{ matrix.os }}-${{ matrix.ocaml-version }}-
+            v${{ secrets.CACHE_VERSION }}-${{ matrix.os }}-
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
