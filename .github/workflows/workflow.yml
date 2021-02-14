@@ -71,7 +71,8 @@ jobs:
           path: |
            ~/.opam
            _build
-           C:\cygwin
+           /home/runneradmin/.opam
+           C:\cygwin\home\runneradmin\.opam
            D:\a\caramel\caramel
           key: v${{ secrets.CACHE_VERSION }}-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ env.cache-name }}-${{ hashFiles('**/*.opam*') }}
           restore-keys: |
