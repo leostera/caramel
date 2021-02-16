@@ -25,6 +25,10 @@ let main _ =
   print (1 lor 1) ;
   print (1 lxor 1) ;
   print (lnot 1) ;
+  print (-10 lsl 1) ;
+  print (-10 asr 1) ;
+  print (~-. 1.0) ;
+  print (~+. 1.0) ;
   print (1.0 +. 1.0) ;
   print (1.0 -. 1.0) ;
   print (1.0 *. 1.0) ;

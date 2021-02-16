@@ -150,12 +150,10 @@ let ocaml_to_erlang_primitive_op t =
   | "!" | "++" | "-" | "--" | "<" | ">" | "*" | "+" -> to_erl_op t
   | "/" -> to_erl_op "div"
   | "mod" -> to_erl_op "rem"
-  | "+." -> to_erl_op "+"
-  | "-." -> to_erl_op "-"
+  | "+." | "~+" | "~+." -> to_erl_op "+"
+  | "-." | "~-" | "~-." -> to_erl_op "-"
   | "*." -> to_erl_op "*"
   | "/." -> to_erl_op "/"
-  | "~-" -> to_erl_op "-"
-  | "~+" -> to_erl_op "+"
   | "^" ->
       Name.qualified
         ~m:(Name.atom (Atom.mk "caramel_runtime"))
@@ -173,4 +171,6 @@ let ocaml_to_erlang_primitive_op t =
   | "lor" -> to_erl_op "bor"
   | "lxor" -> to_erl_op "bxor"
   | "lnot" -> to_erl_op "bnot"
+  | "lsl" -> to_erl_op "bsl"
+  | "asr" -> to_erl_op "bsr"
   | u -> u |> Atom.mk |> Atom.lowercase |> Name.atom |> translate
