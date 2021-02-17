@@ -414,7 +414,7 @@
   Warning 10: this expression should have type unit.
   File "names.ml", line 4, characters 6-7:
   Warning 26: unused variable x.
-  File "names.ml", line 21, characters 6-7:
+  File "names.ml", line 19, characters 6-7:
   Warning 26: unused variable x.
   Compiling names__nested.erl	OK
   Compiling names.erl	OK
@@ -446,7 +446,7 @@
     X = fun
     () -> 1
   end,
-    X().
+    names__nested:x().
   
   
   $ caramel compile records.ml

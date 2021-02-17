@@ -15,8 +15,6 @@ let rec run_nested () =
   Nested.x ();
   Nested.w ()
 
-(* FIXME: name resolution is wonky here and Nested.x is resolved to x.
- *)
 let run_nested_ambiguous () =
   let x () = 1 in
   Nested.x ()

@@ -183,22 +183,22 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
          2. qualified and external, refering to a module that is not nested
          3. unqualified, and thus refering to a function reference
       *)
-      if name_in_var_names ~var_names var_name then Expr.ident var_name
-      else
-        match name with
-        | Erlang.Ast.Qualified_name
-            { n_mod = Atom_name n_mod; n_name = Atom_name n_name } ->
-            let name =
-              match val_kind with
-              | Val_prim prim -> (
-                  let prim_name = prim.prim_name |> String.trim in
-                  match String.length prim_name > 0 with
-                  | true -> Atom.mk prim_name
-                  | false -> n_name)
-              | _ -> n_name
-            in
-            Expr.ident (namespace_qualified_name n_mod name)
-        | _ ->
+      match name with
+      | Erlang.Ast.Qualified_name
+          { n_mod = Atom_name n_mod; n_name = Atom_name n_name } ->
+          let name =
+            match val_kind with
+            | Val_prim prim -> (
+                let prim_name = prim.prim_name |> String.trim in
+                match String.length prim_name > 0 with
+                | true -> Atom.mk prim_name
+                | false -> n_name)
+            | _ -> n_name
+          in
+          Expr.ident (namespace_qualified_name n_mod name)
+      | _ ->
+          if name_in_var_names ~var_names var_name then Expr.ident var_name
+          else
             let name = Names.atom_of_longident txt in
             let arity =
               match find_function_by_name ~functions name with
