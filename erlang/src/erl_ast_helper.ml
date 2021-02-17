@@ -4,7 +4,7 @@ open Erl_ast
 module Atom = struct
   let is_keyword str =
     match str with
-    | "not" | "and" | "or" | "div" | "rem" | "band" | "bor" | "bxor" | "bnot" ->
+    | "not" | "and" | "or" | "div" | "rem" | "band" | "bor" | "bxor" | "bnot" | "bsl" | "bsr"->
         true
     | _ -> false
 
