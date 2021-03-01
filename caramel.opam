@@ -11,7 +11,7 @@ homepage: "https://github.com/AbstractMachinesLab/caramel"
 bug-reports: "https://github.com/AbstractMachinesLab/caramel/issues"
 depends: [
   "dune" {>= "2.8" & >= "2.8"}
-  "ocamlformat" {>= "0.16"}
+  "ocamlformat" {= "0.16.0"}
   "ocaml" {>= "4.11.1"}
   "alcotest"
   "bos"
