@@ -29,7 +29,6 @@ setup:
 	opam install --deps-only --with-test ./vendor/ocamlformat-0.16.0/ocamlformat_lib.opam
 	opam install --deps-only --with-test ./vendor/ocaml-lsp-1.4.0/jsonrpc.opam
 	opam install --deps-only --with-test ./vendor/ocaml-lsp-1.4.0/lsp.opam
-	opam install ocamlformat=0.16.0  # this is required, since ocaml-lsp pulls in ocamlformat 0.17
 	opam install --deps-only --with-test ./vendor/ocaml-lsp-1.4.0/ocaml-lsp-server.opam
 	opam install --deps-only ./caramel.opam
 
