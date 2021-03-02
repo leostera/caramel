@@ -18,7 +18,7 @@
  (description "Caramel is a functional language for building type-safe, scalable, and maintainable applications.")
  (depends
   (dune (>= "2.8"))
-  (ocamlformat (>= "0.16"))
+  (ocamlformat (= "0.16.0"))
   (ocaml (>= "4.11.1"))
   alcotest
   bos
