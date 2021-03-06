@@ -13,7 +13,7 @@ the zipped release from Github:
 
 > **NOTE**: we are working on supporting these plugins but we could use a hand
 > with them. If you're interested in contributing please [join us on
-> Discord](https://discord.gg/q4CtbXFqhz)
+> Discord](http://discord.caramel.run)
 
 <br />
 
@@ -40,7 +40,7 @@ end
 If you are an **Erlang programmer**, Caramel can be installed with `rebar3`,
 but we are still working out the plugin. If you're interested in helping out
 [please reach us out in
-Discord](https://discord.gg/q4CtbXFqhz)!
+Discord](http://discord.caramel.run)!
 
 ```erlang
 {plugins, [
