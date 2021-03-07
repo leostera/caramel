@@ -5,7 +5,16 @@ exception Unsupported_file_type_for_target of (Target.t * string * string)
 type tag =
   | Ml of string
   | Mli of string
+  | Re of string
+  | Rei of string
   | Other of (Target.t * string * string)
+
+let pp ppf = function
+  | Ml file -> Format.fprintf ppf "Ml %s" file
+  | Mli file -> Format.fprintf ppf "Mli %s" file
+  | Re file -> Format.fprintf ppf "Re %s" file
+  | Rei file -> Format.fprintf ppf "Rei %s" file
+  | Other _ -> Format.fprintf ppf "Other"
 
 let tag target filename =
   match target with
@@ -13,6 +22,8 @@ let tag target filename =
       match Filename.extension filename with
       | ".ml" -> Ml filename
       | ".mli" -> Mli filename
+      | ".re" -> Re filename
+      | ".rei" -> Rei filename
       | ext -> Other (target, filename, ext))
 
 let assert_all_sources_are_supported sources =
@@ -33,8 +44,9 @@ let prepare ~sources ~target =
 
   let ml_sources =
     tagged_sources
-    |> List.filter_map (function Ml f | Mli f -> Some f | _ -> None)
-    |> Dependency_sorter.sorted_files
+    |> List.filter_map (function
+         | Ml f | Mli f | Re f | Rei f -> Some f
+         | Other _ -> None)
     |> List.map (tag target)
   in
 

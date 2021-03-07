@@ -21,6 +21,8 @@ let check_one source =
     match source with
     | Mli file -> (Ocaml.interface, file)
     | Ml file -> (Ocaml.implementation, file)
+    | Re file -> (Ocaml.implementation, file) (* TODO *)
+    | Rei file -> (Ocaml.implementation, file)
     | Other (t, file, ext) ->
         raise (Unsupported_file_type_for_target (t, file, ext))
   in

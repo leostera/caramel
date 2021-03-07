@@ -1,5 +1,6 @@
-  $ ls *.ml *.mli
+  $ ls *.ml *.mli *.re *.rei
   basic.ml
+  basic.re
   guard_unsupported.ml
   guards.ml
   hello_joe.ml
@@ -13,6 +14,8 @@
   sequencing.ml
   uncurry.ml
   uncurry.mli
+  uncurry.re
+  uncurry.rei
 
   $ caramel compile basic.ml
   Compiling basic.erl	OK
@@ -34,7 +37,8 @@
   ignore() -> ok.
   
   
-
+  $ caramel compile basic.re
+  Compiling basic.erl	OK
   $ caramel compile hello_joe.ml
   Compiling hello_joe.erl	OK
   $ cat hello_joe.erl
@@ -182,7 +186,7 @@
   
   
 
-  $ caramel compile qualified_calls.ml qualified_calls_helper.ml
+  $ caramel compile qualified_calls_helper.ml qualified_calls.ml 
   Compiling qualified_calls_helper__nested.erl	OK
   Compiling qualified_calls_helper.erl	OK
   Compiling qualified_calls__nested.erl	OK
@@ -268,7 +272,7 @@
   
   
 
-  $ caramel compile uncurry.ml uncurry.mli
+  $ caramel compile uncurry.mli uncurry.ml 
   Compiling uncurry.erl	OK
   $ cat uncurry.erl
   % Source code generated with Caramel.
@@ -298,6 +302,9 @@
   add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
   
   
+
+  $ caramel compile uncurry.rei uncurry.re
+  Compiling uncurry.erl	OK
 
   $ caramel compile redefine.ml
   We have found 2 definitions of the function: f in module redefine.

@@ -30,21 +30,21 @@
    %{dep:../caramel/bin/main.exe}
    compile
    --no-stdlib
-   io.mli
-   beam.ml
-   core.ml
    binary.ml
    calendar.ml
-   caramel_runtime.ml
    erlang.ml
    ets.ml
-   io.ml
    lists.ml
-   result.ml
    maps.ml
    math.ml
+   caramel_runtime.ml
+   core.ml
+   timer.ml
    process.ml
-   timer.ml)))
+   io.mli
+   beam.ml
+   io.ml
+   result.ml)))
 
 (install
  (section lib)

@@ -3,9 +3,9 @@
   using_io.ml
   using_math.ml
   $ caramel compile *.ml
-  Compiling using_math.erl	OK
-  Compiling using_io.erl	OK
   Compiling using_core.erl	OK
+  Compiling using_io.erl	OK
+  Compiling using_math.erl	OK
   $ echo $?
   0
   $ cat *.erl

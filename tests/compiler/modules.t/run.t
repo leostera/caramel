@@ -10,18 +10,18 @@
   sig.mli
   sig_dep.ml
   simple_nested.ml
-  $ caramel compile *.ml *.mli
-  Compiling simple_nested__a.erl	OK
-  Compiling simple_nested__b.erl	OK
-  Compiling simple_nested.erl	OK
-  Compiling sig.erl	OK
+  $ caramel compile *.mli *.ml 
+  Compiling functors.erl	OK
+  Compiling include__a.erl	OK
+  Compiling include.erl	OK
+  Compiling let_open__a.erl	OK
   Compiling nested__a__c.erl	OK
   Compiling nested__a.erl	OK
   Compiling nested__b.erl	OK
-  Compiling let_open__a.erl	OK
-  Compiling include__a.erl	OK
-  Compiling include.erl	OK
-  Compiling functors.erl	OK
+  Compiling sig.erl	OK
+  Compiling simple_nested__a.erl	OK
+  Compiling simple_nested__b.erl	OK
+  Compiling simple_nested.erl	OK
   $ echo $?
   0
   $ cat *.erl
