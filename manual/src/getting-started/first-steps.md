@@ -1,16 +1,12 @@
 # First Steps
 
-This section teaches you some of the fundamentals of Caramel.
-
-> *NOTE*: this section is using a standard library that mostly reflects how
-> Erlang works. We are working on a Standard Library that feels more idiomatic
-> to Caramel.
+This section teaches you some of the fundamentals of Caramel, make sure you installed it first following the [Installation guide](./installation.html).
 
 It assumes you have some prior knowledge of functional programming, like
 Erlang or Elixir, and some knowledge of static typing, like from TypeScript
 or Java.
 
-**Steps**
+**Examples:**
 * [Hello World](#hello-world)
 * [Say Hello](#say-hello)
 * [Working with Types](#working-with-types)
