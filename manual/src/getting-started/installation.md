@@ -1,7 +1,10 @@
-# Installation
-
 Caramel works on macOS, Linux, and Windows. It is a single binary, and it has no
 external dependencies.
+
+The only prerequisite to run the code you compile with Caramel, is Erlang or
+Elixir. The [Elixir installation](https://elixir-lang.org/install.html) page
+lists many ways to install it comfortably, we suggest you to follow that step
+before continuing.
 
 ### Manual binary installation
 
