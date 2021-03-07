@@ -29,12 +29,12 @@ def project do
     ...
     compilers: [:caramel] ++ Mix.compilers(),
     caramel_paths: ["src"],
-    caramel_release: "v0.1.0"
+    caramel_release: "v0.1.1"
   ]
 end
 
 defp deps do
-  {:mix_caramel, github: "AbstractMachinesLab/mix_caramel"}
+  {:mix_caramel, github: "AbstractMachinesLab/mix_caramel", branch: :main}
 end
 ```
 
