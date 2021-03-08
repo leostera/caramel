@@ -11,18 +11,18 @@
   type_alias.ml
   type_args.ml
   variants.ml
-  $ caramel compile *.ml *.mli
-  Compiling variants.erl	OK
-  Compiling type_args.erl	OK
+  $ caramel compile *.mli type_alias.ml type_args.ml record.ml fn.ml polymorphic_variants.ml variants.ml qualified_names.ml opaque_and_hidden.ml inductive.ml extensible_variant.ml abstract.ml
   Compiling type_alias.erl	OK
+  Compiling type_args.erl	OK
   Compiling record.erl	OK
+  Compiling fn.erl	OK
   Compiling polymorphic_variants.erl	OK
+  Compiling variants.erl	OK
+  Compiling qualified_names.erl	OK
   Compiling opaque_and_hidden.erl	OK
   Compiling inductive.erl	OK
-  Compiling fn.erl	OK
   Compiling extensible_variant.erl	OK
   Compiling abstract.erl	OK
-  Compiling qualified_names.erl	OK
   $ echo $?
   0
   $ cat *.erl

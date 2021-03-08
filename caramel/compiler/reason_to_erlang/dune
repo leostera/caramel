@@ -1,0 +1,10 @@
+(library
+ (name reason_to_erlang)
+ (public_name caramel.compiler.reason_to_erlang)
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries
+  caramel.compiler.ocaml_to_erlang
+  compiler-libs.common
+  erlang
+  reason))

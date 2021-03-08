@@ -6,6 +6,7 @@
  (libraries
   cmdliner
   erlang
+  reason
   caramel.compiler.ocaml_to_erlang
   caramel.compiler.misc
   compiler-libs.common

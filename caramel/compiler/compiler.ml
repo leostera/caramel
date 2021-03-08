@@ -52,6 +52,9 @@ let compile_one source ~target ~opts =
     | Mli file, _ -> (Optcompile.interface, file)
     | Ml file, Erlang -> (Ocaml_to_erlang.compile ~opts, file)
     | Ml file, Core_erlang -> (Ocaml_to_core_erlang.compile ~opts, file)
+    | Rei file, _ -> (Reason_to_erlang.interface ~opts, file) (* TODO *)
+    | Re file, Erlang -> (Reason_to_erlang.compile ~opts, file)
+    | Re file, Core_erlang -> (Ocaml_to_core_erlang.compile ~opts, file)
     | Other (t, file, ext), _ ->
         raise (Unsupported_file_type_for_target (t, file, ext))
   in

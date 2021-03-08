@@ -20,6 +20,7 @@
   (dune (>= "2.8"))
   (ocamlformat (= "0.16.0"))
   (ocaml (>= "4.11.1"))
+  reason
   alcotest
   bos
   erlang
