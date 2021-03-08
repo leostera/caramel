@@ -1,0 +1,33 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;                                                                        ;
+;                              OCamlFormat                               ;
+;                                                                        ;
+;            Copyright (c) Facebook, Inc. and its affiliates.            ;
+;                                                                        ;
+;      This source code is licensed under the MIT license found in       ;
+;      the LICENSE file in the root directory of this source tree.       ;
+;                                                                        ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(ocamllex Literal_lexer)
+
+(library
+ (name ocamlformat_lib)
+ (public_name ocamlformat_lib)
+ (flags
+  (:standard -open Base -open Import -open Compat))
+ ;;INSERT_BISECT_HERE;;
+ (libraries
+  format_
+  import
+  ocaml-version
+  odoc.model
+  odoc.parser
+  parse_wyc
+  re
+  uuseg
+  uuseg.string
+  token_latest
+  compat
+  dune-build-info
+  ppxlib))

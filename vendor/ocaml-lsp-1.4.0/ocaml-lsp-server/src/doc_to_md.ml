@@ -94,8 +94,8 @@ and tag_to_markdown tag : Omd.element list =
     [ format_tag tag; space; to_inline_code mark ]
   in
   let marked_tag_with_text_to_md tag mark text =
-    format_tag tag :: space :: to_inline_code mark :: space
-    :: text_to_markdown text
+    format_tag tag
+    :: space :: to_inline_code mark :: space :: text_to_markdown text
   in
   let see_tag_to_md (see_ref, comment) =
     let content =

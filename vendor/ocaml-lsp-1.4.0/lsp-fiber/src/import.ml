@@ -39,7 +39,8 @@ module String = struct
     try
       ignore (first_double_underscore_end s);
       false
-    with Not_found -> true
+    with
+    | Not_found -> true
 
   let trim = function
     | "" -> ""
@@ -196,9 +197,8 @@ module Json = struct
     let untagged_union (type a) name (xs : (t -> a) list) (json : t) : a =
       match
         List.find_map xs ~f:(fun conv ->
-            try Some (conv json)
-            with Ppx_yojson_conv_lib.Yojson_conv.Of_yojson_error (_, _) ->
-              None)
+            try Some (conv json) with
+            | Ppx_yojson_conv_lib.Yojson_conv.Of_yojson_error (_, _) -> None)
       with
       | None -> error name json
       | Some x -> x

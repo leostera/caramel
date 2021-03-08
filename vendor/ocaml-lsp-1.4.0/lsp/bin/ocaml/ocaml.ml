@@ -98,7 +98,9 @@ let preprocess =
         super#interface { i with extends; fields }
     end
   in
-  fun i -> try Some (traverse#t i) with Skip -> None
+  fun i ->
+    try Some (traverse#t i) with
+    | Skip -> None
 
 module Expanded = struct
   [@@@ocaml.warning "-37"]
@@ -621,7 +623,8 @@ module Mapper = struct
                  | _ -> raise Exit
                in
                Type.constr ~name constrs))
-      with Exit -> Type.unit
+      with
+      | Exit -> Type.unit
     in
     type_ t
 

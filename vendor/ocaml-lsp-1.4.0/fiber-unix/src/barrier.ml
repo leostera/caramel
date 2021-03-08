@@ -28,8 +28,10 @@ let close t =
   | Closed -> ()
   | Active { mutex; await_mutex = _; r; w; buf = _ } ->
     Mutex.lock mutex;
-    (try Unix.close w with Unix.Unix_error _ -> ());
-    (try Unix.close r with Unix.Unix_error _ -> ());
+    (try Unix.close w with
+    | Unix.Unix_error _ -> ());
+    (try Unix.close r with
+    | Unix.Unix_error _ -> ());
     t := Closed;
     Mutex.unlock mutex
 
