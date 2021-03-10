@@ -394,6 +394,12 @@ and pp_expression prefix ppf expr ~module_ =
           Format.fprintf ppf "after";
           pp_case_branches prefix ppf [ cb ] ~module_);
       Format.fprintf ppf "end"
+  | Expr_seq (this, next) ->
+      Format.fprintf ppf "\nbegin\n";
+      pp_expression prefix ppf this ~module_;
+      Format.fprintf ppf ",\n";
+      pp_expression prefix ppf next ~module_;
+      Format.fprintf ppf "\nend\n";
   | Expr_if branches ->
       Format.fprintf ppf "if ";
       pp_if_case_branches prefix ppf branches ~module_;
@@ -462,7 +468,7 @@ and pp_fun_case _prefix ppf { c_lhs; c_rhs; _ } ~module_ =
   let prefix =
     match c_rhs with
     | Expr_if _ | Expr_try _ | Expr_comment _ | Expr_map _ | Expr_let _
-    | Expr_case _ | Expr_recv _ ->
+    | Expr_case _ | Expr_recv _ | Expr_seq _ ->
         Format.fprintf ppf "\n";
         "  "
     | Expr_map_update (_, _)

@@ -399,18 +399,13 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       in
       Expr.fun_ ~cases:f.fd_cases
   | Texp_sequence (this, next) ->
-      let let_binding =
-        Erlang.Ast.
-          {
-            lb_lhs = Erlang.Ast.Pattern_ignore;
-            lb_rhs =
-              mk_expression this ~var_names ~modules ~functions ~module_name;
-          }
+      let this_expr =
+        mk_expression this ~var_names ~modules ~functions ~module_name
       in
-      let let_expr =
+      let next_expr =
         mk_expression ~var_names ~modules ~functions ~module_name next
       in
-      Erlang.Ast.Expr_let (let_binding, let_expr)
+      Erlang.Ast.Expr_seq (this_expr, next_expr)
   | _ -> Error.unsupported_expression exp
 
 let mk_value vb ~modules ~functions ~module_name ~typedtree =

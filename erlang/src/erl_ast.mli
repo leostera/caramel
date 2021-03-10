@@ -51,6 +51,7 @@ and expr =
   | Expr_name of name
   | Expr_nil
   | Expr_recv of recv
+  | Expr_seq of expr * expr
   | Expr_try of try_catch
   | Expr_tuple of expr list
 
