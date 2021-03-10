@@ -1,4 +1,5 @@
   $ ls *.ml *.mli *.re *.rei
+  annotated.ml
   basic.ml
   basic.re
   guard_unsupported.ml
@@ -16,6 +17,19 @@
   uncurry.mli
   uncurry.re
   uncurry.rei
+
+  $ caramel compile annotated.ml
+  Compiling annotated.erl	OK
+  $ cat annotated.erl
+  % Source code generated with Caramel.
+  -module(annotated).
+  
+  -export([a/1]).
+  
+  -spec a(integer()) -> integer().
+  a(X) -> X.
+  
+  
 
   $ caramel compile basic.ml
   Compiling basic.erl	OK

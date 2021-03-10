@@ -98,6 +98,8 @@ and mk_pattern :
  fun pat ~var_names ->
   match pat.pat_desc with
   | Tpat_var (id, _) -> Pat.bind (Names.varname_of_ident id)
+  (* FIXME: alias's pattern should also be traversed *)
+  | Tpat_alias (_, id, _) -> Pat.bind (Names.varname_of_ident id)
   | Tpat_value t ->
       (* NOTE: type casting magic! *)
       mk_pattern ~var_names (t :> pattern)
