@@ -398,14 +398,16 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           (Atom.mk "anonymous") cases
       in
       Expr.fun_ ~cases:f.fd_cases
-  | Texp_sequence (this, next) ->
+  | Texp_sequence (this, next) -> (
       let this_expr =
         mk_expression this ~var_names ~modules ~functions ~module_name
       in
       let next_expr =
-        mk_expression ~var_names ~modules ~functions ~module_name next
+        mk_expression next ~var_names ~modules ~functions ~module_name
       in
-      Erlang.Ast.Expr_seq (this_expr, next_expr)
+      match next_expr with
+      | Erlang.Ast.Expr_seq exprs -> Erlang.Ast.Expr_seq (this_expr :: exprs)
+      | _ -> Erlang.Ast.Expr_seq [ this_expr; next_expr ])
   | _ -> Error.unsupported_expression exp
 
 let mk_value vb ~modules ~functions ~module_name ~typedtree =

@@ -394,11 +394,13 @@ and pp_expression prefix ppf expr ~module_ =
           Format.fprintf ppf "after";
           pp_case_branches prefix ppf [ cb ] ~module_);
       Format.fprintf ppf "end"
-  | Expr_seq (this, next) ->
+  | Expr_seq [] -> ()
+  | Expr_seq (first :: exprs) ->
       Format.fprintf ppf "\nbegin\n";
-      pp_expression prefix ppf this ~module_;
+      pp_expression prefix ppf first ~module_;
+      List.iter (fun expr ->
       Format.fprintf ppf ",\n";
-      pp_expression prefix ppf next ~module_;
+      pp_expression prefix ppf expr ~module_;) exprs;
       Format.fprintf ppf "\nend\n";
   | Expr_if branches ->
       Format.fprintf ppf "if ";
