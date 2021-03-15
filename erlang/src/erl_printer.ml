@@ -235,6 +235,12 @@ and pp_expression_list prefix ppf expressions ~module_ =
     (pp_expression prefix ~module_)
     ppf expressions
 
+and pp_expression_seq prefix ppf expressions ~module_ =
+  Format.pp_print_list
+    ~pp_sep:(fun ppf () -> Format.fprintf ppf ",\n")
+    (pp_expression prefix ~module_)
+    ppf expressions
+
 and pp_if_case_branch prefix ppf (lhs, rhs) ~module_ =
   Format.pp_print_list
     ~pp_sep:(fun ppf () -> Format.fprintf ppf ";\n")
@@ -394,14 +400,11 @@ and pp_expression prefix ppf expr ~module_ =
           Format.fprintf ppf "after";
           pp_case_branches prefix ppf [ cb ] ~module_);
       Format.fprintf ppf "end"
-  | Expr_seq [] -> ()
-  | Expr_seq (first :: exprs) ->
-      Format.fprintf ppf "\nbegin\n";
-      pp_expression prefix ppf first ~module_;
-      List.iter (fun expr ->
-      Format.fprintf ppf ",\n";
-      pp_expression prefix ppf expr ~module_;) exprs;
-      Format.fprintf ppf "\nend\n";
+  | Expr_seq exprs ->
+      Format.fprintf ppf "begin\n";
+      let new_prefix = prefix ^ "  " in
+      pp_expression_seq new_prefix ppf exprs ~module_;
+      Format.fprintf ppf "\n%send" prefix
   | Expr_if branches ->
       Format.fprintf ppf "if ";
       pp_if_case_branches prefix ppf branches ~module_;
@@ -479,7 +482,9 @@ and pp_fun_case _prefix ppf { c_lhs; c_rhs; _ } ~module_ =
     | Expr_name _ ->
         " "
   in
-  pp_expression prefix ppf c_rhs ~module_
+  match c_rhs with
+  | Expr_seq exprs -> pp_expression_seq prefix ppf exprs ~module_
+  | _ -> pp_expression prefix ppf c_rhs ~module_
 
 let pp_fun_cases prefix ppf fd_name fd_cases ~module_ =
   match fd_cases with

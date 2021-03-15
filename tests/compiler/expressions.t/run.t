@@ -197,17 +197,15 @@
   
   -spec let_nested(fun((integer()) -> A), fun(() -> _), fun(() -> _)) -> A.
   let_nested(F, G, H) ->
-    A = fun
-    () ->
+    A = begin
     G(),
-    B = fun
-    () ->
+    B = begin
     H(),
     C = 1,
     erlang:'+'(C, 1)
-  end(),
+  end,
     erlang:'+'(B, 1)
-  end(),
+  end,
     F(A).
   
   
