@@ -13,6 +13,7 @@
   names_primes.ml
   record_update.ml
   records.ml
+  sequences.ml
   $ caramel compile apply.ml
   File "apply.ml", line 6, characters 4-8:
   Warning 10: this expression should have type unit.
@@ -577,3 +578,37 @@
   $ cat match_fallthrough.erl
   cat: match_fallthrough.erl: No such file or directory
   [1]
+  $ caramel compile sequences.ml
+  Compiling sequences.erl	OK
+  $ cat sequences.erl
+  % Source code generated with Caramel.
+  -module(sequences).
+  
+  -export([direct_sequence/1]).
+  -export([nested/1]).
+  
+  -spec direct_sequence(A) -> A.
+  direct_sequence(X) ->
+    X,
+    X,
+    X.
+  
+  -spec nested(A) -> A.
+  nested(X) ->
+    begin
+      begin
+        X,
+        X
+      end,
+      X
+    end,
+    begin
+      begin
+        X,
+        X
+      end,
+      X
+    end,
+    X.
+  
+  
