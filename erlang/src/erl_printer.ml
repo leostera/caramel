@@ -290,8 +290,8 @@ and pp_case_branches prefix ppf branches ~module_ =
                | _ -> raise Invalid_case_branch))
   | _ -> raise Invalid_case_branch
 
-and pp_expression prefix ppf expr ~module_ =
-  Format.fprintf ppf "%s" prefix;
+and pp_expression ?(print_prefix=true) prefix ppf expr ~module_ =
+  if print_prefix then Format.fprintf ppf "%s" prefix;
   match expr with
   | Expr_macro macro -> Format.fprintf ppf "?%s" macro
   | Expr_catch expr ->
@@ -333,7 +333,7 @@ and pp_expression prefix ppf expr ~module_ =
       | _ ->
           pp_pattern_match ppf binding.lb_lhs;
           Format.fprintf ppf " = ");
-      pp_expression "" ppf binding.lb_rhs ~module_;
+      pp_expression ~print_prefix:false prefix ppf binding.lb_rhs ~module_;
       Format.fprintf ppf ",\n";
       pp_expression prefix ppf expr ~module_
   | Expr_fun_ref { fref_name = name; fref_arity } ->

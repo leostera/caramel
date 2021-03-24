@@ -67,14 +67,14 @@
   -spec lambda() -> integer().
   lambda() ->
     F = fun
-    () -> 1
-  end,
+      () -> 1
+    end,
     F_prime = fun
-    (X) -> erlang:'+'(1, X)
-  end,
+      (X) -> erlang:'+'(1, X)
+    end,
     F_prime_prime = fun
-    (X, Y) -> erlang:'+'(erlang:'+'(1, X), Y)
-  end,
+      (X, Y) -> erlang:'+'(erlang:'+'(1, X), Y)
+    end,
     F(),
     F_prime(1),
     F_prime_prime(1, 2).
@@ -176,6 +176,7 @@
   -export([let_ignore/0]).
   -export([let_many/0]).
   -export([let_nested/3]).
+  -export([let_nested_another/1]).
   -export([let_one/0]).
   
   -spec let_one() -> integer().
@@ -199,15 +200,24 @@
   -spec let_nested(fun((integer()) -> A), fun(() -> _), fun(() -> _)) -> A.
   let_nested(F, G, H) ->
     A = begin
-    G(),
-    B = begin
-    H(),
-    C = 1,
-    erlang:'+'(C, 1)
-  end,
-    erlang:'+'(B, 1)
-  end,
+      G(),
+      B = begin
+        H(),
+        C = 1,
+        erlang:'+'(C, 1)
+      end,
+      erlang:'+'(B, 1)
+    end,
     F(A).
+  
+  -spec let_nested_another(_) -> integer().
+  let_nested_another(_) ->
+    One = 1,
+    Three = begin
+      Two = erlang:'+'(One, 1),
+      erlang:'+'(Two, 1)
+    end,
+    Three.
   
   
   $ caramel compile list.ml
@@ -443,8 +453,8 @@
                     .
   run_nested_ambiguous() ->
     X = fun
-    () -> 1
-  end,
+      () -> 1
+    end,
     names__nested:x().
   
   
@@ -556,9 +566,9 @@
   -spec f() -> t().
   f() ->
     A = #{ x => 0
-   , y => 0
-   , z => 0
-   },
+     , y => 0
+     , z => 0
+     },
     A#{ x := 2
      , y := 2
      }.

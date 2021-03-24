@@ -147,14 +147,8 @@ and mk_bindings vbs ~var_names ~modules ~functions ~module_name =
       in
       let lb_rhs =
         match lb_rhs with
-        | Erlang.Ast.Expr_let ({ lb_lhs = Erlang.Ast.Pattern_ignore; _ }, _) ->
-            Erlang.Ast.Expr_apply
-              {
-                fa_name =
-                  Erlang.Ast.Expr_fun
-                    [ { c_lhs = []; c_guard = None; c_rhs = lb_rhs } ];
-                fa_args = [];
-              }
+        | Erlang.Ast.Expr_let (_, _) ->
+            Erlang.Ast.Expr_seq [lb_rhs]
         | _ -> lb_rhs
       in
       Erlang.Ast.{ lb_lhs; lb_rhs }
