@@ -147,8 +147,7 @@ and mk_bindings vbs ~var_names ~modules ~functions ~module_name =
       in
       let lb_rhs =
         match lb_rhs with
-        | Erlang.Ast.Expr_let (_, _) ->
-            Erlang.Ast.Expr_seq [lb_rhs]
+        | Erlang.Ast.Expr_let (_, _) -> Erlang.Ast.Expr_seq [ lb_rhs ]
         | _ -> lb_rhs
       in
       Erlang.Ast.{ lb_lhs; lb_rhs }
