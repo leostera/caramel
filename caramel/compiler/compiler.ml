@@ -9,8 +9,8 @@ let tool_name = "caramel"
 let default_stdlib_path =
   let ( / ) = Filename.concat in
   let dirname = Filename.dirname in
-  let root = dirname (dirname Sys.executable_name) in
-  root / "lib" / "caramel" / "stdlib"
+  let bin_dir = dirname Sys.executable_name in
+  bin_dir / ".." / "lib" / "caramel" / "stdlib"
 
 module Backend = struct
   (* See backend_intf.mli. *)
