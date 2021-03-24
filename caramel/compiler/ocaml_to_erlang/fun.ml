@@ -37,6 +37,8 @@ let rec collect_var_names pat =
           | Pattern_list pats -> collect_var_names pats
           | Pattern_tuple pats -> collect_var_names pats
           | Pattern_map pats -> pats |> List.map (fun (_, p) -> p)
+          | Pattern_with_name (pattern, binding) ->
+              binding :: collect_var_names [ pattern ]
           | _ -> [ p ]
         in
         collect (subpats @ acc) ps
@@ -98,8 +100,13 @@ and mk_pattern :
  fun pat ~var_names ->
   match pat.pat_desc with
   | Tpat_var (id, _) -> Pat.bind (Names.varname_of_ident id)
-  (* FIXME: alias's pattern should also be traversed *)
-  | Tpat_alias (_, id, _) -> Pat.bind (Names.varname_of_ident id)
+  | Tpat_alias ({ pat_desc = Tpat_any; _ }, id, _) ->
+      (* NOTE: this is e.g. a function argument with an annotated type *)
+      Pat.bind (Names.varname_of_ident id)
+  | Tpat_alias (pat, id, _) ->
+      Pat.with_name
+        (mk_pattern pat ~var_names)
+        (Pat.bind (Names.varname_of_ident id))
   | Tpat_value t ->
       (* NOTE: type casting magic! *)
       mk_pattern ~var_names (t :> pattern)

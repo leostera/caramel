@@ -9,6 +9,7 @@
   labeled_arguments.ml
   multiple_clauses.ml
   partial_functions.ml
+  pattern_aliases.ml
   qualified_calls.ml
   qualified_calls_helper.ml
   redefine.ml
@@ -200,6 +201,26 @@
   
   
 
+  $ caramel compile pattern_aliases.ml
+  File "pattern_aliases.ml", line 1, characters 15-49:
+  Warning 8: this pattern-matching is not exhaustive.
+  Here is an example of a case that is not matched:
+  (_::_::_|[])
+  Compiling pattern_aliases.erl	OK
+  $ cat pattern_aliases.erl
+  % Source code generated with Caramel.
+  -module(pattern_aliases).
+  
+  -export([with_alias/1]).
+  
+  -spec with_alias(list(boolean())) -> list(boolean()).
+  with_alias([X | []] = L) ->
+    case X of
+      true -> L;
+      false -> []
+    end.
+  
+  
   $ caramel compile qualified_calls_helper.ml qualified_calls.ml 
   Compiling qualified_calls_helper__nested.erl	OK
   Compiling qualified_calls_helper.erl	OK
