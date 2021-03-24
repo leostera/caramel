@@ -409,11 +409,11 @@
   
   
   $ caramel compile names.ml
-  File "names.ml", line 15, characters 2-13:
+  File "names.ml", line 13, characters 2-13:
   Warning 10: this expression should have type unit.
-  File "names.ml", line 4, characters 6-7:
+  File "names.ml", line 2, characters 6-7:
   Warning 26: unused variable x.
-  File "names.ml", line 19, characters 6-7:
+  File "names.ml", line 17, characters 6-7:
   Warning 26: unused variable x.
   Compiling names__nested.erl	OK
   Compiling names.erl	OK

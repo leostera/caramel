@@ -1,5 +1,3 @@
-(* FIXME: arity of run_local reference is off, it's 1 when it should be 0
- *)
 let rec run_local () =
   let x = run_local in
   let y = `Atom in
