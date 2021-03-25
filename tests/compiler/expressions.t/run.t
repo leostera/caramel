@@ -13,6 +13,7 @@
   names_primes.ml
   record_update.ml
   records.ml
+  sequences.ml
   $ caramel compile apply.ml
   File "apply.ml", line 6, characters 4-8:
   Warning 10: this expression should have type unit.
@@ -66,14 +67,14 @@
   -spec lambda() -> integer().
   lambda() ->
     F = fun
-    () -> 1
-  end,
+      () -> 1
+    end,
     F_prime = fun
-    (X) -> erlang:'+'(1, X)
-  end,
+      (X) -> erlang:'+'(1, X)
+    end,
     F_prime_prime = fun
-    (X, Y) -> erlang:'+'(erlang:'+'(1, X), Y)
-  end,
+      (X, Y) -> erlang:'+'(erlang:'+'(1, X), Y)
+    end,
     F(),
     F_prime(1),
     F_prime_prime(1, 2).
@@ -175,6 +176,7 @@
   -export([let_ignore/0]).
   -export([let_many/0]).
   -export([let_nested/3]).
+  -export([let_nested_another/1]).
   -export([let_one/0]).
   
   -spec let_one() -> integer().
@@ -197,18 +199,25 @@
   
   -spec let_nested(fun((integer()) -> A), fun(() -> _), fun(() -> _)) -> A.
   let_nested(F, G, H) ->
-    A = fun
-    () ->
-    G(),
-    B = fun
-    () ->
-    H(),
-    C = 1,
-    erlang:'+'(C, 1)
-  end(),
-    erlang:'+'(B, 1)
-  end(),
+    A = begin
+      G(),
+      B = begin
+        H(),
+        C = 1,
+        erlang:'+'(C, 1)
+      end,
+      erlang:'+'(B, 1)
+    end,
     F(A).
+  
+  -spec let_nested_another(_) -> integer().
+  let_nested_another(_) ->
+    One = 1,
+    Three = begin
+      Two = erlang:'+'(One, 1),
+      erlang:'+'(Two, 1)
+    end,
+    Three.
   
   
   $ caramel compile list.ml
@@ -410,11 +419,11 @@
   
   
   $ caramel compile names.ml
-  File "names.ml", line 15, characters 2-13:
+  File "names.ml", line 13, characters 2-13:
   Warning 10: this expression should have type unit.
-  File "names.ml", line 4, characters 6-7:
+  File "names.ml", line 2, characters 6-7:
   Warning 26: unused variable x.
-  File "names.ml", line 19, characters 6-7:
+  File "names.ml", line 17, characters 6-7:
   Warning 26: unused variable x.
   Compiling names__nested.erl	OK
   Compiling names.erl	OK
@@ -444,8 +453,8 @@
                     .
   run_nested_ambiguous() ->
     X = fun
-    () -> 1
-  end,
+      () -> 1
+    end,
     names__nested:x().
   
   
@@ -557,9 +566,9 @@
   -spec f() -> t().
   f() ->
     A = #{ x => 0
-   , y => 0
-   , z => 0
-   },
+     , y => 0
+     , z => 0
+     },
     A#{ x := 2
      , y := 2
      }.
@@ -579,3 +588,37 @@
   $ cat match_fallthrough.erl
   cat: match_fallthrough.erl: No such file or directory
   [1]
+  $ caramel compile sequences.ml
+  Compiling sequences.erl	OK
+  $ cat sequences.erl
+  % Source code generated with Caramel.
+  -module(sequences).
+  
+  -export([direct_sequence/1]).
+  -export([nested/1]).
+  
+  -spec direct_sequence(A) -> A.
+  direct_sequence(X) ->
+    X,
+    X,
+    X.
+  
+  -spec nested(A) -> A.
+  nested(X) ->
+    begin
+      begin
+        X,
+        X
+      end,
+      X
+    end,
+    begin
+      begin
+        X,
+        X
+      end,
+      X
+    end,
+    X.
+  
+  

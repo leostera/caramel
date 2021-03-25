@@ -64,9 +64,11 @@
   -spec fmt() -> ok.
   fmt() ->
     Str = <<"Hello">>,
-    io:format(<<"~p">>, [Str | []]),
-    Ints = 1,
-    io:format(<<"~p">>, [Ints | []]).
+    begin
+      io:format(<<"~p">>, [Str | []]),
+      Ints = 1,
+      io:format(<<"~p">>, [Ints | []])
+    end.
   
   
   % Source code generated with Caramel.

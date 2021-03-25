@@ -26,3 +26,10 @@ let let_nested f g h =
   in
   f a
 
+let let_nested_another _ =
+  let one = 1 in
+  let three =
+    let two = one + 1 in
+    two + 1
+  in
+  three
