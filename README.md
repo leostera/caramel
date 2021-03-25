@@ -18,7 +18,7 @@ Learn more at [caramel.run](https://caramel.run)
 
 ## Feature Highlights
 
-* Excellent type-inferece, so you never need to annotate your code
+* Excellent type inference, so you never need to annotate your code
 * Zero-cost type-safe interop with most existing Erlang and Elixir code
 * Has a reviewed standard library included
 * Supports sources in OCaml (and soon Reason syntax too)
