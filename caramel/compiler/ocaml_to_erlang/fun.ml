@@ -165,7 +165,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
   | Texp_constant constant ->
       let v = const_to_literal constant in
       Erlang.Ast.Expr_literal v
-  | Texp_ident (_, { txt; _ }, { val_kind; _ }) -> (
+  | Texp_ident (_, { txt; _ }, { val_type = { desc; _ }; val_kind; _ }) -> (
       let name = Names.name_of_longident txt in
       let var_name = Names.varname_of_longident txt in
 
@@ -187,27 +187,46 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       *)
       match name with
       | Erlang.Ast.Qualified_name
-          { n_mod = Atom_name n_mod; n_name = Atom_name n_name } ->
+          { n_mod = Atom_name n_mod; n_name = Atom_name n_name } -> (
           let name =
             match val_kind with
             | Val_prim prim -> (
                 let prim_name = prim.prim_name |> String.trim in
                 match String.length prim_name > 0 with
-                | true -> Atom.mk prim_name
-                | false -> n_name)
-            | _ -> n_name
+                | true -> namespace_qualified_name n_mod (Atom.mk prim_name)
+                | false -> namespace_qualified_name n_mod n_name)
+            | _ -> namespace_qualified_name n_mod n_name
           in
-          Expr.ident (namespace_qualified_name n_mod name)
-      | _ ->
+          match desc with
+          | Tarrow (_, _, { desc; _ }, _) ->
+              let rec compute_arity next_part counter =
+                match next_part with
+                | Tarrow (_, _, { desc; _ }, _) ->
+                    compute_arity desc (counter + 1)
+                | _ -> counter
+              in
+              Expr.fun_ref ~arity:(compute_arity desc 1) name
+          | _ -> Expr.ident name)
+      | _ -> (
           if name_in_var_names ~var_names var_name then Expr.ident var_name
           else
             let name = Names.atom_of_longident txt in
-            let arity =
-              match find_function_by_name ~functions name with
-              | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
-              | None -> 0
-            in
-            Expr.fun_ref ~arity (Name.atom name))
+            match desc with
+            | Tarrow (_, _, { desc; _ }, _) ->
+                let rec compute_arity next_part counter =
+                  match next_part with
+                  | Tarrow (_, _, { desc; _ }, _) ->
+                      compute_arity desc (counter + 1)
+                  | _ -> counter
+                in
+                Expr.fun_ref ~arity:(compute_arity desc 1) (Name.atom name)
+            | _ ->
+                let arity =
+                  match find_function_by_name ~functions name with
+                  | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
+                  | None -> 0
+                in
+                Expr.fun_ref ~arity (Name.atom name)))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
