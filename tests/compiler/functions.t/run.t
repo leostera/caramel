@@ -371,7 +371,8 @@
     lists:map(fun
     (G) -> G(<<"Hello World">>)
   end, Transforms).
-   
+  
+  
   $ caramel compile guards.ml
   Compiling guards.erl	OK
   $ cat guards.erl
