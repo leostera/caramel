@@ -166,8 +166,21 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       let v = const_to_literal constant in
       Erlang.Ast.Expr_literal v
   | Texp_ident (_, { txt; _ }, { val_type = { desc; _ }; val_kind; _ }) -> (
+      let rec debug_name prefix name =
+        match name with
+        | Erlang__Erl_ast.Var_name string ->
+          ignore (Printf.printf "%s: var_name %s\n" prefix string)
+        | Erlang__Erl_ast.Atom_name (Erlang.Ast.Atom string) ->
+          ignore (Printf.printf "%s: atom name %s\n" prefix string)
+        | Erlang__Erl_ast.Qualified_name ({n_mod; n_name}) ->
+          ignore (Printf.printf "%s: qualified\n" prefix) ;
+          debug_name ("  " ^ prefix) n_mod ;
+          debug_name ("  " ^ prefix) n_name
+      in
       let name = Names.name_of_longident txt in
+      debug_name "name" name;
       let var_name = Names.varname_of_longident txt in
+      debug_name "var_name" var_name;
 
       let namespace_qualified_name n_mod n_name =
         let module_name = Atom.lowercase (Atom.concat module_name n_mod "__") in
@@ -193,6 +206,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       *)
       match name with
       | Erlang.Ast.Qualified_name
+          
           { n_mod = Atom_name n_mod; n_name = Atom_name n_name } -> (
           let name =
             match val_kind with
@@ -203,31 +217,39 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                 | false -> n_name)
             | _ -> n_name
           in
-          let name = namespace_qualified_name n_mod name in
+          let primed_name = namespace_qualified_name n_mod name in
+          debug_name "primed_name" primed_name ;
           match desc with
           | Tarrow (_, _, { desc; _ }, _) ->
+              (* FIXME: Here's the issue! we're now losing quotes for operators here *)
+              let primed_name_string = Name.to_string primed_name in
+              ignore(Printf.printf "primed_name_string: %s\n" primed_name_string) ;
+              let qualified_fun_name = Names.ocaml_to_erlang_primitive_op primed_name_string in
+              debug_name "qualified_fun_name" qualified_fun_name;
               Expr.fun_ref ~arity:(compute_arity desc 1)
-                (Names.ocaml_to_erlang_primitive_op (Name.to_string name))
-          | _ -> Expr.ident name)
+                qualified_fun_name
+          | _ -> Expr.ident primed_name)
       | _ -> (
           if name_in_var_names ~var_names var_name then Expr.ident var_name
           else
-            let name = Names.atom_of_longident txt in
+            let else_name_ = Names.atom_of_longident txt in
+            let else_name = Name.atom else_name_ in
+            debug_name "else_name" else_name ;
             match desc with
             | Tarrow (_, _, { desc; _ }, _) ->
                 Expr.fun_ref ~arity:(compute_arity desc 1)
                   (Names.ocaml_to_erlang_primitive_op
-                     (Name.to_string (Name.atom name)))
+                     (Name.to_string else_name))
             | _ ->
                 (* FIXME: Why is this clause even executed now? *)
                 let arity =
-                  match find_function_by_name ~functions name with
+                  match find_function_by_name ~functions else_name_ with
                   | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
                   | None -> 0
                 in
                 Expr.fun_ref ~arity
                   (Names.ocaml_to_erlang_primitive_op
-                     (Name.to_string (Name.atom name)))))
+                     (Name.to_string else_name))))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
