@@ -193,10 +193,11 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             | Val_prim prim -> (
                 let prim_name = prim.prim_name |> String.trim in
                 match String.length prim_name > 0 with
-                | true -> namespace_qualified_name n_mod (Atom.mk prim_name)
-                | false -> namespace_qualified_name n_mod n_name)
-            | _ -> namespace_qualified_name n_mod n_name
+                | true -> Atom.mk prim_name
+                | false -> n_name)
+            | _ -> n_name
           in
+          let name = namespace_qualified_name n_mod name in
           match desc with
           | Tarrow (_, _, { desc; _ }, _) ->
               let rec compute_arity next_part counter =

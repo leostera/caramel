@@ -13,6 +13,7 @@
   qualified_calls.ml
   qualified_calls_helper.ml
   redefine.ml
+  references.ml
   sequencing.ml
   uncurry.ml
   uncurry.mli
@@ -352,6 +353,25 @@
   $ cat redefine.erl
   cat: redefine.erl: No such file or directory
   [1]
+  $ caramel compile references.ml
+  Compiling references.erl	OK
+  $ cat references.erl
+  % Source code generated with Caramel.
+  -module(references).
+  
+  -export([operator/1]).
+  -export([transorm/1]).
+  
+  -spec operator(_) -> integer().
+  operator(_) -> lists:foldl(fun erlang:'+'/2, 1, [1 | [2 | [3 | []]]]).
+  
+  -spec transorm(_) -> list(char()).
+  transorm(_) ->
+    Transforms = [fun binary:first/1 | [fun binary:last/1 | []]],
+    lists:map(fun
+    (G) -> G(<<"Hello World">>)
+  end, Transforms).
+   
   $ caramel compile guards.ml
   Compiling guards.erl	OK
   $ cat guards.erl
