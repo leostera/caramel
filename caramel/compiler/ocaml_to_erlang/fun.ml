@@ -180,6 +180,12 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
               ~f:(Name.atom (Atom.lowercase n_name))
       in
 
+      let rec compute_arity next_part counter =
+        match next_part with
+        | Tarrow (_, _, { desc; _ }, _) -> compute_arity desc (counter + 1)
+        | _ -> counter
+      in
+
       (* NOTE: an identifier may be a currently bound variable name or it may be a function name of 3 kinds:
          1. qualified and local, referring to a nested module
          2. qualified and external, refering to a module that is not nested
@@ -200,13 +206,8 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           let name = namespace_qualified_name n_mod name in
           match desc with
           | Tarrow (_, _, { desc; _ }, _) ->
-              let rec compute_arity next_part counter =
-                match next_part with
-                | Tarrow (_, _, { desc; _ }, _) ->
-                    compute_arity desc (counter + 1)
-                | _ -> counter
-              in
-              Expr.fun_ref ~arity:(compute_arity desc 1) (Names.ocaml_to_erlang_primitive_op (Name.to_string name))
+              Expr.fun_ref ~arity:(compute_arity desc 1)
+                (Names.ocaml_to_erlang_primitive_op (Name.to_string name))
           | _ -> Expr.ident name)
       | _ -> (
           if name_in_var_names ~var_names var_name then Expr.ident var_name
@@ -214,20 +215,19 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             let name = Names.atom_of_longident txt in
             match desc with
             | Tarrow (_, _, { desc; _ }, _) ->
-                let rec compute_arity next_part counter =
-                  match next_part with
-                  | Tarrow (_, _, { desc; _ }, _) ->
-                      compute_arity desc (counter + 1)
-                  | _ -> counter
-                in
-                Expr.fun_ref ~arity:(compute_arity desc 1) (Names.ocaml_to_erlang_primitive_op (Name.to_string (Name.atom name)))
+                Expr.fun_ref ~arity:(compute_arity desc 1)
+                  (Names.ocaml_to_erlang_primitive_op
+                     (Name.to_string (Name.atom name)))
             | _ ->
+                (* FIXME: Why is this clause even executed now? *)
                 let arity =
                   match find_function_by_name ~functions name with
                   | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
                   | None -> 0
                 in
-                Expr.fun_ref ~arity (Names.ocaml_to_erlang_primitive_op (Name.to_string (Name.atom name)))))
+                Expr.fun_ref ~arity
+                  (Names.ocaml_to_erlang_primitive_op
+                     (Name.to_string (Name.atom name)))))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
@@ -265,8 +265,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
         match
           mk_expression expr ~var_names ~modules ~functions ~module_name
         with
-        | Erlang.Ast.Expr_fun_ref { fref_name = n; _ } ->
-            Expr.ident n
+        | Erlang.Ast.Expr_fun_ref { fref_name = n; _ } -> Expr.ident n
         | x -> x
       in
       let args =
