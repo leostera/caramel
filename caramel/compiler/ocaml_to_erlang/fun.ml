@@ -206,7 +206,6 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           let primed_name = namespace_qualified_name n_mod name in
           match desc with
           | Tarrow (_, _, { desc; _ }, _) ->
-              (* FIXME: Here's the issue! we're now losing quotes for operators here *)
               let primed_name_string = Name.to_string primed_name in
               let qualified_fun_name = Names.ocaml_to_erlang_primitive_op primed_name_string primed_name in
               Expr.fun_ref ~arity:(compute_arity desc 1)
