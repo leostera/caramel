@@ -206,7 +206,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                     compute_arity desc (counter + 1)
                 | _ -> counter
               in
-              Expr.fun_ref ~arity:(compute_arity desc 1) name
+              Expr.fun_ref ~arity:(compute_arity desc 1) (Names.ocaml_to_erlang_primitive_op (Name.to_string name))
           | _ -> Expr.ident name)
       | _ -> (
           if name_in_var_names ~var_names var_name then Expr.ident var_name
@@ -220,14 +220,14 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                       compute_arity desc (counter + 1)
                   | _ -> counter
                 in
-                Expr.fun_ref ~arity:(compute_arity desc 1) (Name.atom name)
+                Expr.fun_ref ~arity:(compute_arity desc 1) (Names.ocaml_to_erlang_primitive_op (Name.to_string (Name.atom name)))
             | _ ->
                 let arity =
                   match find_function_by_name ~functions name with
                   | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
                   | None -> 0
                 in
-                Expr.fun_ref ~arity (Name.atom name)))
+                Expr.fun_ref ~arity (Names.ocaml_to_erlang_primitive_op (Name.to_string (Name.atom name)))))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
@@ -266,7 +266,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           mk_expression expr ~var_names ~modules ~functions ~module_name
         with
         | Erlang.Ast.Expr_fun_ref { fref_name = n; _ } ->
-            Expr.ident (Names.ocaml_to_erlang_primitive_op (Name.to_string n))
+            Expr.ident n
         | x -> x
       in
       let args =
