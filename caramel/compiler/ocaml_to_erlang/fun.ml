@@ -207,9 +207,11 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           match desc with
           | Tarrow (_, _, { desc; _ }, _) ->
               let primed_name_string = Name.to_string primed_name in
-              let qualified_fun_name = Names.ocaml_to_erlang_primitive_op primed_name_string primed_name in
-              Expr.fun_ref ~arity:(compute_arity desc 1)
-                qualified_fun_name
+              let qualified_fun_name =
+                Names.ocaml_to_erlang_primitive_op primed_name_string
+                  primed_name
+              in
+              Expr.fun_ref ~arity:(compute_arity desc 1) qualified_fun_name
           | _ -> Expr.ident primed_name)
       | _ -> (
           if name_in_var_names ~var_names var_name then Expr.ident var_name
@@ -219,8 +221,8 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             match desc with
             | Tarrow (_, _, { desc; _ }, _) ->
                 Expr.fun_ref ~arity:(compute_arity desc 1)
-                  (Names.ocaml_to_erlang_primitive_op
-                     (Name.to_string else_name) else_name)
+                  (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
+                     else_name)
             | _ ->
                 (* FIXME: Why is this clause even executed now? *)
                 let arity =
@@ -229,8 +231,8 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                   | None -> 0
                 in
                 Expr.fun_ref ~arity
-                  (Names.ocaml_to_erlang_primitive_op
-                     (Name.to_string else_name) else_name)))
+                  (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
+                     else_name)))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
