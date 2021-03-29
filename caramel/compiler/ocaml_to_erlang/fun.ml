@@ -208,8 +208,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       | _ ->
           if name_in_var_names ~var_names var_name then Expr.ident var_name
           else
-            let else_name_ = Names.atom_of_longident txt in
-            let else_name = Name.atom else_name_ in
+            let else_name = Name.atom (Names.atom_of_longident txt) in
             Expr.fun_ref ~arity
               (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
                  else_name))
