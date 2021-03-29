@@ -238,7 +238,7 @@
   -spec subtract(integer(), integer()) -> integer().
   subtract(X, Y) -> erlang:'-'(Y, X).
   
-  -spec main(_) -> _.
+  -spec main(_) -> ok.
   main(_) ->
     Divide = fun
       (X, Y) -> erlang:'div'(Y, X)

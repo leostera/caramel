@@ -4,4 +4,4 @@ external recv_and_wait : unit -> 'a = "recv"
 
 external ( ^ ) : string -> string -> string = "binary_concat"
 
-external ( |> ) : 'a -> 'b -> 'c = "pipe"
+external ( |> ) : 'a -> ('a -> 'b) -> 'b = "pipe"
