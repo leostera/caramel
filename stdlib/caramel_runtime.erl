@@ -18,4 +18,4 @@ recv(Timeout) ->
 binary_concat(A, B) when is_binary(A) and is_binary(B) ->
   << (A)/binary, (B)/binary >>.
 
-pipe(A, B) -> B A.
+pipe(A, B) -> B(A).
