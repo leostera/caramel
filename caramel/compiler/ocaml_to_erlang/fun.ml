@@ -190,7 +190,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       match name with
       | Erlang.Ast.Qualified_name
           { n_mod = Atom_name n_mod; n_name = Atom_name n_name } ->
-          let name =
+          let primed_name =
             match val_kind with
             | Val_prim prim -> (
                 let prim_name = prim.prim_name |> String.trim in
@@ -199,19 +199,19 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                 | false -> n_name)
             | _ -> n_name
           in
-          let primed_name = namespace_qualified_name n_mod name in
-          let primed_name_string = Name.to_string primed_name in
-          let qualified_fun_name =
-            Names.ocaml_to_erlang_primitive_op primed_name_string primed_name
-          in
-          Expr.fun_ref ~arity qualified_fun_name
+          let qualified_name = namespace_qualified_name n_mod primed_name in
+          Expr.fun_ref ~arity
+            (Names.ocaml_to_erlang_primitive_op
+               (Name.to_string qualified_name)
+               qualified_name)
       | _ ->
           if name_in_var_names ~var_names var_name then Expr.ident var_name
           else
-            let else_name = Name.atom (Names.atom_of_longident txt) in
+            let unqualified_name = Name.atom (Names.atom_of_longident txt) in
             Expr.fun_ref ~arity
-              (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
-                 else_name))
+              (Names.ocaml_to_erlang_primitive_op
+                 (Name.to_string unqualified_name)
+                 unqualified_name))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
