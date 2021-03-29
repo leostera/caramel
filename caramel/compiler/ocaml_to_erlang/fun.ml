@@ -165,9 +165,11 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
   | Texp_constant constant ->
       let v = const_to_literal constant in
       Erlang.Ast.Expr_literal v
-  | Texp_ident (_, { txt; _ }, { val_type = { desc; _ }; val_kind; _ }) -> (
+  | Texp_ident (_, { txt; _ }, { val_type; val_kind; _ }) -> (
       let name = Names.name_of_longident txt in
       let var_name = Names.varname_of_longident txt in
+      let args, _ = Uncurry.uncurry_tarrow val_type [] in
+      let arity = List.length args in
 
       let namespace_qualified_name n_mod n_name =
         let module_name = Atom.lowercase (Atom.concat module_name n_mod "__") in
@@ -180,16 +182,6 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
               ~f:(Name.atom (Atom.lowercase n_name))
       in
 
-      let rec skip_tlinks desc =
-        match desc with Tlink { desc; _ } -> skip_tlinks desc | _ -> desc
-      in
-
-      let rec compute_arity next_part counter =
-        match skip_tlinks next_part with
-        | Tarrow (_, _, { desc; _ }, _) -> compute_arity desc (counter + 1)
-        | _ -> counter
-      in
-
       (* NOTE: an identifier may be a currently bound variable name or it may be a function name of 3 kinds:
          1. qualified and local, referring to a nested module
          2. qualified and external, refering to a module that is not nested
@@ -197,7 +189,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       *)
       match name with
       | Erlang.Ast.Qualified_name
-          { n_mod = Atom_name n_mod; n_name = Atom_name n_name } -> (
+          { n_mod = Atom_name n_mod; n_name = Atom_name n_name } ->
           let name =
             match val_kind with
             | Val_prim prim -> (
@@ -208,35 +200,19 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             | _ -> n_name
           in
           let primed_name = namespace_qualified_name n_mod name in
-          match skip_tlinks desc with
-          | Tarrow (_, _, { desc; _ }, _) ->
-              let primed_name_string = Name.to_string primed_name in
-              let qualified_fun_name =
-                Names.ocaml_to_erlang_primitive_op primed_name_string
-                  primed_name
-              in
-              Expr.fun_ref ~arity:(compute_arity desc 1) qualified_fun_name
-          | _ -> Expr.ident primed_name)
-      | _ -> (
+          let primed_name_string = Name.to_string primed_name in
+          let qualified_fun_name =
+            Names.ocaml_to_erlang_primitive_op primed_name_string primed_name
+          in
+          Expr.fun_ref ~arity qualified_fun_name
+      | _ ->
           if name_in_var_names ~var_names var_name then Expr.ident var_name
           else
             let else_name_ = Names.atom_of_longident txt in
             let else_name = Name.atom else_name_ in
-            match skip_tlinks desc with
-            | Tarrow (_, _, { desc; _ }, _) ->
-                Expr.fun_ref ~arity:(compute_arity desc 1)
-                  (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
-                     else_name)
-            | _ ->
-                (* FIXME: Why is this clause even executed now? *)
-                let arity =
-                  match find_function_by_name ~functions else_name_ with
-                  | Some Erlang.Ast.{ fd_arity; _ } -> fd_arity
-                  | None -> 0
-                in
-                Expr.fun_ref ~arity
-                  (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
-                     else_name)))
+            Expr.fun_ref ~arity
+              (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
+                 else_name))
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "[]" ->
       Erlang.Ast.Expr_list []
   | Texp_construct ({ txt; _ }, _, _expr) when Longident.last txt = "()" ->
