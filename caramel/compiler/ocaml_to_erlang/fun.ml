@@ -180,8 +180,12 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
               ~f:(Name.atom (Atom.lowercase n_name))
       in
 
+      let rec skip_tlinks desc =
+        match desc with Tlink { desc; _ } -> skip_tlinks desc | _ -> desc
+      in
+
       let rec compute_arity next_part counter =
-        match next_part with
+        match skip_tlinks next_part with
         | Tarrow (_, _, { desc; _ }, _) -> compute_arity desc (counter + 1)
         | _ -> counter
       in
@@ -204,7 +208,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             | _ -> n_name
           in
           let primed_name = namespace_qualified_name n_mod name in
-          match desc with
+          match skip_tlinks desc with
           | Tarrow (_, _, { desc; _ }, _) ->
               let primed_name_string = Name.to_string primed_name in
               let qualified_fun_name =
@@ -218,7 +222,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           else
             let else_name_ = Names.atom_of_longident txt in
             let else_name = Name.atom else_name_ in
-            match desc with
+            match skip_tlinks desc with
             | Tarrow (_, _, { desc; _ }, _) ->
                 Expr.fun_ref ~arity:(compute_arity desc 1)
                   (Names.ocaml_to_erlang_primitive_op (Name.to_string else_name)
