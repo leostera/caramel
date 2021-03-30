@@ -87,7 +87,7 @@
   -spec partial_application() -> integer().
   partial_application() ->
     F = fun
-      (Caramelinternal2, Caramelinternal1) -> abs_diff_times(3, Caramelinternal2, Caramelinternal1)
+      (Caramelinternal1, Caramelinternal2) -> abs_diff_times(3, Caramelinternal1, Caramelinternal2)
     end,
     F(-1, 2).
   

@@ -266,7 +266,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       if wanted_arity > List.length args then
         let rec gen_names acc n =
           match n with
-          | 0 -> List.rev acc
+          | 0 -> acc
           | n ->
               gen_names
                 (Name.var ("Caramelinternal" ^ string_of_int n) :: acc)
