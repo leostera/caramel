@@ -145,7 +145,7 @@ let to_erl_op t =
     ~m:(Name.atom (Atom.mk "erlang"))
     ~f:(Atom.mk t |> Atom.lowercase |> Name.atom)
 
-let ocaml_to_erlang_primitive_op t =
+let ocaml_to_erlang_primitive_op t f =
   match t with
   | "!" | "++" | "-" | "--" | "<" | ">" | "*" | "+" -> to_erl_op t
   | "/" -> to_erl_op "div"
@@ -177,4 +177,4 @@ let ocaml_to_erlang_primitive_op t =
   | "lnot" -> to_erl_op "bnot"
   | "lsl" -> to_erl_op "bsl"
   | "asr" -> to_erl_op "bsr"
-  | u -> u |> Atom.mk |> Atom.lowercase |> Name.atom |> translate
+  | _ -> f |> translate
