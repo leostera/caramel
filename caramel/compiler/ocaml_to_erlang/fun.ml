@@ -6,7 +6,6 @@ open Types
 let _debug = Format.fprintf Format.std_formatter
 *)
 
-exception Unsupported of string
 let const_to_literal const =
   let open Asttypes in
   match const with
@@ -170,7 +169,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
   | Texp_ident (path, { txt; _ }, { val_type; val_kind; _ }) -> (
       let ident = match Path.flatten path with
       | `Ok (ident, _) -> ident
-      | `Contains_apply -> raise (Unsupported "error!")
+      | `Contains_apply -> Error.unsupported_path path
       in
       let name = Names.name_of_longident txt in
       let var_name = Names.varname_of_ident ident in
