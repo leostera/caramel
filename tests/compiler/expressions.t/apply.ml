@@ -38,5 +38,3 @@ let abs_diff_times x y z = (Erlang.abs (x - y)) * z
 let partial_application () =
   let f = abs_diff_times 3 in
   f (-1) 2
-
-let another_partial _ = Io.format "Hello"

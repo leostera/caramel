@@ -269,7 +269,7 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
           | 0 -> acc
           | n ->
               gen_names
-                (Name.var ("Caramelinternal" ^ string_of_int n) :: acc)
+                (Name.var ("Caramel@" ^ string_of_int n) :: acc)
                 (n - 1)
         in
         let outer_names = gen_names [] (wanted_arity - List.length args) in

@@ -34,7 +34,6 @@
   -module(apply).
   
   -export([abs_diff_times/3]).
-  -export([another_partial/1]).
   -export([f/1]).
   -export([f1/1]).
   -export([f2/2]).
@@ -88,14 +87,9 @@
   -spec partial_application() -> integer().
   partial_application() ->
     F = fun
-      (Caramelinternal1, Caramelinternal2) -> abs_diff_times(3, Caramelinternal1, Caramelinternal2)
+      (Caramel@1, Caramel@2) -> abs_diff_times(3, Caramel@1, Caramel@2)
     end,
     F(-1, 2).
-  
-  -spec another_partial(_) -> ok.
-  another_partial(_) -> fun
-     (Caramelinternal1) -> io:format(<<"Hello">>, Caramelinternal1)
-   end.
   
   
   $ caramel compile binding_on_match.ml
