@@ -167,9 +167,10 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       let v = const_to_literal constant in
       Erlang.Ast.Expr_literal v
   | Texp_ident (path, { txt; _ }, { val_type; val_kind; _ }) -> (
-      let ident = match Path.flatten path with
-      | `Ok (ident, _) -> ident
-      | `Contains_apply -> Error.unsupported_path path
+      let ident =
+        match Path.flatten path with
+        | `Ok (ident, _) -> ident
+        | `Contains_apply -> Error.unsupported_path path
       in
       let name = Names.name_of_longident txt in
       let var_name = Names.varname_of_ident ident in
