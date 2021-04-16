@@ -18,7 +18,7 @@ installing all the necessary `opam` dependencies.
 The target `make watch` will start the Dune build watcher, and recompile the
 project as you save files.
 
-You can run tests with `make test`, and reformat the source code with `make
+You can run tests with `make install test`, and reformat the source code with `make
 fmt`.
 
 For a more in-depth description of what's happening, check the documentation of
@@ -42,6 +42,19 @@ The Caramel codebase is structured to explore a few things:
 The libraries for manipulating Erlang from within OCaml are here:
 
 * `./erlang` -- it has includes lexers, parsers, ASTs, printers
+
+## Working with various ASTs
+
+For better understanding of various structures that the compiler and libraries
+manipulate, Caramel provides a `caramel parse` command. For example, to display
+a textual representation of OCaml compiler's Typedtree for a `main.ml` file,
+you can use this command:
+
+```sh
+caramel parse -l ml -t type main.ml
+```
+
+See `caramel parse --help` and `./caramel/bin/cmd_parse.ml` to learn more.
 
 ## Release Flow
 
