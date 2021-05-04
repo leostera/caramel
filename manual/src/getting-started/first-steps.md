@@ -105,8 +105,8 @@ types at work so far. How is this possible?
 Caramel is a strict subset of OCaml and it has excellent type-inference. This
 means that Caramel has **figured out the types for us**.
 
-> **NOTE**: type inference is great, but sometimes it makes for less clear code
-> than it should, consider annotating for clarity whenever some things start
+> **NOTE**: Type inference is great, but sometimes it makes for less clear code
+> than it should. Consider annotating for clarity whenever some things start
 > getting complex!
 
 Let's write a program now that will add together 2 numbers, ignoring their

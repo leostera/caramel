@@ -14,7 +14,7 @@ the zipped release from Github:
 
 ### Using a package manager
 
-> **NOTE**: we are working on supporting these plugins but we could use a hand
+> **NOTE**: We are working on supporting these plugins but we could use a hand
 > with them. If you're interested in contributing please [join us on
 > Discord](http://discord.caramel.run)
 
