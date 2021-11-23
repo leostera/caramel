@@ -1,6 +1,0 @@
-.merlin
-/_build
-/ocamlformat.install
-/test-extra/code
-/_opam
-/coverage

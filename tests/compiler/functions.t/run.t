@@ -1,7 +1,6 @@
-  $ ls *.ml *.mli *.re *.rei
+  $ ls *.ml *.mli
   annotated.ml
   basic.ml
-  basic.re
   guard_unsupported.ml
   guards.ml
   hello_joe.ml
@@ -17,8 +16,6 @@
   sequencing.ml
   uncurry.ml
   uncurry.mli
-  uncurry.re
-  uncurry.rei
 
   $ caramel compile annotated.ml
   Compiling annotated.erl	OK
@@ -53,8 +50,6 @@
   ignore() -> ok.
   
   
-  $ caramel compile basic.re
-  Compiling basic.erl	OK
   $ caramel compile hello_joe.ml
   Compiling hello_joe.erl	OK
   $ cat hello_joe.erl
@@ -340,9 +335,6 @@
   add_really_slow(X, ok, Y, ok) -> erlang:'+'(X, Y).
   
   
-
-  $ caramel compile uncurry.rei uncurry.re
-  Compiling uncurry.erl	OK
 
   $ caramel compile redefine.ml
   We have found 2 definitions of the function: f in module redefine.

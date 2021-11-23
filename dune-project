@@ -19,7 +19,7 @@
  (depends
   (dune (>= "2.8"))
   (ocamlformat (= "0.17.0"))
-  (ocaml (>= "4.11.1"))
+  (ocaml (>= "4.12.0"))
   reason
   alcotest
   bos

@@ -1,7 +1,7 @@
-open Comp_misc.Opts
-module Dependency_sorter = Comp_misc.Dependency_sorter
-module Source_tagger = Comp_misc.Source_tagger
-module Target = Comp_misc.Target
+open Opts
+module Dependency_sorter = Dependency_sorter
+module Source_tagger = Source_tagger
+module Target = Target
 module Ocaml_to_erlang = Ocaml_to_erlang
 
 let tool_name = "caramel"
@@ -51,10 +51,6 @@ let compile_one source ~target ~opts =
     match (source, target) with
     | Mli file, _ -> (Optcompile.interface, file)
     | Ml file, Erlang -> (Ocaml_to_erlang.compile ~opts, file)
-    | Ml file, Core_erlang -> (Ocaml_to_core_erlang.compile ~opts, file)
-    | Rei file, _ -> (Reason_to_erlang.interface ~opts, file) (* TODO *)
-    | Re file, Erlang -> (Reason_to_erlang.compile ~opts, file)
-    | Re file, Core_erlang -> (Ocaml_to_core_erlang.compile ~opts, file)
     | Other (t, file, ext), _ ->
         raise (Unsupported_file_type_for_target (t, file, ext))
   in

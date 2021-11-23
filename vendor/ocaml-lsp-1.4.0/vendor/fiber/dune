@@ -1,6 +1,0 @@
-(library
- (name fiber)
- (public_name lsp.fiber)
- (libraries stdune)
- (preprocess future_syntax)
- (synopsis "Monadic concurrency library"))

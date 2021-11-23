@@ -1,6 +1,0 @@
-Bonjour
-
-Hello
-
-Foo
-Bar

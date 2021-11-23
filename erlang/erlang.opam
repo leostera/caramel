@@ -15,7 +15,7 @@ homepage: "https://github.com/AbstractMachinesLab/caramel"
 bug-reports: "https://github.com/AbstractMachinesLab/caramel/issues"
 depends: [
   "dune" {>= "2.8" & >= "2.8"}
-  "ocaml" {>= "4.11.1"}
+  "ocaml" {>= "4.12.0"}
   "cmdliner"
   "menhir"
   "ppx_sexp_conv"

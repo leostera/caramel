@@ -4,7 +4,7 @@
  (package erlang)
  (instrumentation
   (backend bisect_ppx))
- (libraries erlang cmdliner)
+ (libraries erlang cmdliner fpath)
  (flags
   (:standard -safe-string)))
 

@@ -4,13 +4,13 @@
  (instrumentation
   (backend bisect_ppx))
  (libraries
-  caramel.compiler.ocaml_to_erlang
-  caramel.compiler.ocaml_to_core_erlang
-  caramel.compiler.reason_to_erlang
-  caramel.compiler.misc
+  compiler-libs.bytecomp
   compiler-libs.common
   compiler-libs.optcomp
-  sexplib))
+  erlang
+  sexplib
+  str
+  ))
 
 (rule
  (targets compiler_version.ml)

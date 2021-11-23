@@ -1,6 +1,0 @@
-(library
- (name caramel_macro)
- (public_name caramel.macro)
- (instrumentation
-  (backend bisect_ppx))
- (libraries ppxlib compiler-libs.common compiler-libs.optcomp))

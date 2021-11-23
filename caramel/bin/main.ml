@@ -15,7 +15,6 @@ end
 let _ =
   [
     Cmd_compile.cmd;
-    Cmd_fmt.cmd;
     Cmd_parse.cmd;
     Cmd_sort_deps.cmd;
     Cmd_version.cmd;

@@ -10,18 +10,6 @@ let description =
 
 let info = Info.make ~name ~doc ~description
 
-let pp_erlang_parsetree source =
-  match Erlang.Parse.from_file source with
-  | Ok structure ->
-      Sexplib.Sexp.pp_hum_indent 2 Format.std_formatter
-        (Erlang.Ast.sexp_of_structure structure);
-      Format.fprintf Format.std_formatter "\n%!";
-      0
-  | Error (`Parser_error err) ->
-      Format.fprintf Format.std_formatter "ERROR: %s%!\n" err;
-      Format.fprintf Format.std_formatter "\n%!";
-      1
-
 let pp_ocaml_parsetree source_file =
   let tool_name = "caramel-" ^ name in
   Clflags.dump_parsetree := true;
@@ -74,7 +62,6 @@ let pp_ocaml_to_erlang_parsetree ~stdlib_path source_file =
 let run stdlib_path sources language tree =
   let parse =
     match (language, tree) with
-    | `Erlang, _ -> pp_erlang_parsetree
     | `OCaml, `Parsetree -> pp_ocaml_parsetree
     | `OCaml, `Typedtree -> pp_ocaml_typedtree ~stdlib_path
     | `OCaml_to_erlang, _ -> pp_ocaml_to_erlang_parsetree ~stdlib_path
@@ -99,11 +86,11 @@ let cmd =
   let language =
     let languages =
       Arg.enum
-        [ ("erl", `Erlang); ("ml", `OCaml); ("ml-to-erl", `OCaml_to_erlang) ]
+        [ ("ml", `OCaml); ("ml-to-erl", `OCaml_to_erlang) ]
     in
     Arg.(
       value
-      & opt ~vopt:`Erlang languages `Erlang
+      & opt ~vopt:`OCaml languages `OCaml
       & info [ "l"; "lang" ] ~docv:"language"
           ~doc:"The source language to parse")
   in

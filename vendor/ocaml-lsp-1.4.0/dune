@@ -1,4 +1,0 @@
-(vendored_dirs vendor)
-
-(rule
- (copy lsp.opam.template jsonrpc.opam.template))

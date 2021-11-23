@@ -126,13 +126,13 @@ module Pat = struct
 
   let const literal = Pattern_match literal
 
-  let catch ?(class_ = None) ?(stacktrace = None) pat =
+  let catch ~class_ ~stacktrace pat =
     Pattern_catch (class_, pat, stacktrace)
 end
 
 (* Helpers to work with Functions *)
 module FunDecl = struct
-  let mk ~name ?(spec = None) ~cases =
+  let mk ~name ~spec ~cases =
     let main_case = List.hd cases in
     {
       fd_name = name;
@@ -141,18 +141,18 @@ module FunDecl = struct
       fd_spec = spec;
     }
 
-  let case ~lhs ?(guard = None) ~rhs =
+  let case ~lhs ~guard ~rhs =
     { c_lhs = lhs; c_guard = guard; c_rhs = rhs }
 end
 
 (* Helpers to work with Types *)
 module Type = struct
-  let mk ?(kind = Type) ?(params = []) ~name ~expr =
+  let mk ~kind ~params ~name ~expr =
     { typ_expr = expr; typ_name = name; typ_kind = kind; typ_params = params }
 
-  let apply ?(args = []) ~name = Type_constr { tc_name = name; tc_args = args }
+  let apply ~args ~name = Type_constr { tc_name = name; tc_args = args }
 
-  let fun_ ?(args = []) ~return =
+  let fun_ ~args ~return =
     Type_function { tyfun_args = args; tyfun_return = return }
 
   let rec all_named_vars typ_expr =
@@ -217,7 +217,7 @@ module Type = struct
 
   let record name fields = Type_record (name, fields)
 
-  let map_field ?(presence = Mandatory) tmf_name tmf_value =
+  let map_field ~presence tmf_name tmf_value =
     { tmf_presence = presence; tmf_name; tmf_value }
 
   let map fields = Type_map fields
@@ -267,8 +267,7 @@ module Mod = struct
       functions = [];
     }
 
-  let mk ?(attributes = []) ?(behaviours = []) ?(exports = []) ?(functions = [])
-      ?(types = []) module_name =
+  let mk ~attributes ~behaviours ~exports ~functions ~types module_name =
     {
       file_name = Atom.to_string module_name ^ ".erl";
       behaviours;
@@ -352,7 +351,7 @@ module Mod = struct
          atr_value = Expr_literal (Lit_atom module_name);
        };
     ] ->
-        mk module_name
+      mk ~attributes:[] ~behaviours:[] ~exports:[] ~functions:[] ~types:[] module_name
     | xs -> item_list_to_module xs empty
 end
 

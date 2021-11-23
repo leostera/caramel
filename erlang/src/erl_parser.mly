@@ -198,8 +198,8 @@ let type_expr :=
     { Type.variant [t; t2] }
 
 let type_map_field :=
-  | key = type_expr; ARROW; value = type_expr; { Type.map_field key value }
-  | key = type_expr; COLON_EQUAL; value = type_expr; { Type.map_field key value }
+  | key = type_expr; ARROW; value = type_expr; { Type.map_field ~presence:Mandatory key value }
+  | key = type_expr; COLON_EQUAL; value = type_expr; { Type.map_field ~presence:Optional key value }
 
 (** Function Declarations *)
 let fun_decl :=

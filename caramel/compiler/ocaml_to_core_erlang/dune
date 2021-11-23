@@ -1,6 +1,0 @@
-(library
- (name ocaml_to_core_erlang)
- (public_name caramel.compiler.ocaml_to_core_erlang)
- (instrumentation
-  (backend bisect_ppx))
- (libraries caramel.compiler.misc erlang compiler-libs.common sexplib))

@@ -107,30 +107,30 @@ module Pat : sig
   val const : literal -> pattern
 
   val catch :
-    ?class_:name option -> ?stacktrace:name option -> pattern -> pattern
+    class_:name option -> stacktrace:name option -> pattern -> pattern
 end
 
 (* Helpers to work with Functions *)
 module FunDecl : sig
-  val mk : name:atom -> ?spec:type_expr option -> cases:case list -> fun_decl
+  val mk : name:atom -> spec:type_expr option -> cases:case list -> fun_decl
 
-  val case : lhs:pattern list -> ?guard:guard option -> rhs:expr -> case
+  val case : lhs:pattern list -> guard:guard option -> rhs:expr -> case
 end
 
 (* Helpers to work with Types *)
 module Type : sig
   val mk :
-    ?kind:type_kind ->
-    ?params:type_expr list ->
+    kind:type_kind ->
+    params:type_expr list ->
     name:atom ->
     expr:type_expr ->
     type_decl
 
-  val apply : ?args:type_expr list -> name:name -> type_expr
+  val apply : args:type_expr list -> name:name -> type_expr
 
   val field : atom -> type_expr -> record_field
 
-  val fun_ : ?args:type_expr list -> return:type_expr -> type_expr
+  val fun_ : args:type_expr list -> return:type_expr -> type_expr
 
   val all_named_vars : type_expr -> string list
 
@@ -139,7 +139,7 @@ module Type : sig
   val record : name -> record_field list -> type_expr
 
   val map_field :
-    ?presence:field_presence -> type_expr -> type_expr -> type_map_field
+    presence:field_presence -> type_expr -> type_expr -> type_map_field
 
   val map : type_map_field list -> type_expr
 
@@ -177,11 +177,11 @@ module Mod : sig
   val empty : t
 
   val mk :
-    ?attributes:attribute list ->
-    ?behaviours:atom list ->
-    ?exports:export list ->
-    ?functions:fun_decl list ->
-    ?types:type_decl list ->
+    attributes:attribute list ->
+    behaviours:atom list ->
+    exports:export list ->
+    functions:fun_decl list ->
+    types:type_decl list ->
     atom ->
     t
 
