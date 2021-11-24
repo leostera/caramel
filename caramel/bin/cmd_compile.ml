@@ -12,8 +12,12 @@ let info = Info.make ~name ~doc ~description
 
 let run sources dump_ast no_stdlib stdlib_path =
   match
+    (*
     Caramel_compiler.Compiler.compile
       { sources; dump_ast; targets = [ Erlang ]; no_stdlib; stdlib_path }
+      *)
+    Caramel_newcomp.Newcomp.Runner.run
+      { sources; stdlib = (if no_stdlib then None else Some stdlib_path) }
   with
   | Ok () -> 0
   | Error _ -> 1

@@ -7,10 +7,11 @@
   compiler-libs.bytecomp
   compiler-libs.common
   compiler-libs.optcomp
+  caramel.sugarcane
   erlang
+  fpath
   sexplib
-  str
-  ))
+  str))
 
 (rule
  (targets compiler_version.ml)

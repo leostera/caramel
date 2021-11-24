@@ -85,8 +85,7 @@ let cmd =
   in
   let language =
     let languages =
-      Arg.enum
-        [ ("ml", `OCaml); ("ml-to-erl", `OCaml_to_erlang) ]
+      Arg.enum [ ("ml", `OCaml); ("ml-to-erl", `OCaml_to_erlang) ]
     in
     Arg.(
       value

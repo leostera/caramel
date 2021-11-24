@@ -1,4 +1,3 @@
-
 (** Turn an OCaml Typedtree into a list of Erlang ASTs that can be compiled to
     sources.
 *)

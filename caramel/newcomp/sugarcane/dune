@@ -1,0 +1,13 @@
+(library
+ (name caramel_sugarcane)
+ (public_name caramel.sugarcane)
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries
+  compiler-libs.bytecomp
+  compiler-libs.common
+  compiler-libs.optcomp
+  erlang
+  fpath
+  sexplib
+  str))

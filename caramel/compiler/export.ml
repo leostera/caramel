@@ -20,11 +20,9 @@ let mk_exports :
     | Tlink t -> collect_args (Btype.repr t) args
     | _ -> args
   in
-
   let signature =
     match signature with None -> typedtree.str_type | Some x -> x
   in
-
   signature
   |> List.filter_map (fun sig_item ->
          match sig_item with

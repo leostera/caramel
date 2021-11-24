@@ -9,8 +9,7 @@
   compiler-libs.optcomp
   erlang
   sexplib
-  str
-  ))
+  str))
 
 (rule
  (targets compiler_version.ml)

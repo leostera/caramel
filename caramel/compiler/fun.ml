@@ -70,7 +70,6 @@ let rec mk_function name cases ~spec ~var_names ~modules ~functions ~module_name
     | Texp_function { cases = [ c' ]; _ } -> params c' acc'
     | _ -> acc' |> List.rev
   in
-
   let mk_case case =
     (* NOTE: we'll just traverse all the expressions in this case and
      * make sure we collapse as many top-level arguments for this function.
@@ -83,12 +82,10 @@ let rec mk_function name cases ~spec ~var_names ~modules ~functions ~module_name
           body c' var_names
       | _ -> mk_expression c.c_rhs ~var_names ~modules ~functions ~module_name
     in
-
     let lhs = params case [] in
     let rhs = body case (var_names @ collect_var_names lhs) in
     FunDecl.case ~lhs ~guard:None ~rhs
   in
-
   FunDecl.mk ~name ~cases:(List.map mk_case cases) ~spec
 
 (* NOTE: We need a universally quantified k here because this function will
@@ -170,7 +167,6 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       let var_name = Names.varname_of_longident txt in
       let args, _ = Uncurry.uncurry_tarrow val_type [] in
       let arity = List.length args in
-
       let namespace_qualified_name n_mod n_name =
         let module_name = Atom.lowercase (Atom.concat module_name n_mod "__") in
         match is_nested_module ~modules module_name with
@@ -181,7 +177,6 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
             Name.qualified ~m:(Name.atom n_mod)
               ~f:(Name.atom (Atom.lowercase n_name))
       in
-
       (* NOTE: an identifier may be a currently bound variable name or it may be a function name of 3 kinds:
          1. qualified and local, referring to a nested module
          2. qualified and external, refering to a module that is not nested
@@ -280,7 +275,6 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                    in
                    Some field)
       in
-
       match extended_expression with
       | None -> Expr.map fields
       | Some prior_map ->
@@ -380,7 +374,6 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
       let fresh_var_names =
         collect_var_names Erlang.Ast.[ let_binding.lb_lhs ]
       in
-
       List.iter
         (fun name ->
           match name with
@@ -389,7 +382,6 @@ and mk_expression exp ~var_names ~modules ~functions ~module_name =
                 Error.unsupported_let_shadowing x
           | _ -> ())
         fresh_var_names;
-
       let var_names = fresh_var_names @ var_names in
       let let_expr =
         mk_expression ~var_names ~modules ~functions ~module_name expr

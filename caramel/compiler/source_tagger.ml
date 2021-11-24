@@ -35,13 +35,9 @@ let assert_all_sources_are_supported sources =
 let prepare ~sources ~target =
   let tagged_sources = List.map (tag target) sources in
   assert_all_sources_are_supported tagged_sources;
-
   let ml_sources =
     tagged_sources
-    |> List.filter_map (function
-         | Ml f | Mli f -> Some f
-         | Other _ -> None)
+    |> List.filter_map (function Ml f | Mli f -> Some f | Other _ -> None)
     |> List.map (tag target)
   in
-
   ml_sources

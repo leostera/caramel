@@ -75,7 +75,7 @@ let fix_slash s =
   else String.map (function '\\' -> '/' | c -> c) s
 
 (* Since we reinitialize load_path after reading OCAMLCOMP,
-  we must use a cache instead of calling Sys.readdir too often. *)
+   we must use a cache instead of calling Sys.readdir too often. *)
 let dirs = ref String.Map.empty
 
 let readdir dir =
@@ -284,7 +284,6 @@ let rec lexical_approximation lexbuf =
       | Parser.EOF -> ()
       | _ -> process false lexbuf
     in
-
     process false lexbuf
   with Lexer.Error _ -> lexical_approximation lexbuf
 
@@ -428,7 +427,6 @@ let file_dependencies_as kind =
 let sort_files_by_dependencies files =
   let h = Hashtbl.create 31 in
   let worklist = ref [] in
-
   (* Init Hashtbl with all defined modules *)
   let files =
     List.map
@@ -444,7 +442,6 @@ let sort_files_by_dependencies files =
         (modname, file_kind, deps, new_deps, pp_deps))
       files
   in
-
   (* Keep only dependencies to defined modules *)
   List.iter
     (fun (modname, file_kind, deps, new_deps, _pp_deps) ->
@@ -465,12 +462,10 @@ let sort_files_by_dependencies files =
         (* add dep from .ml to .mli *)
         if Hashtbl.mem h (modname, MLI) then add_dep modname MLI)
     files;
-
   (* Print and remove all files with no remaining dependency. Iterate
      until all files have been removed (worklist is empty) or
      no file was removed during a turn (cycle). *)
   let sorted_dependencies = ref [] in
-
   let printed = ref true in
   while !printed && !worklist <> [] do
     let files = !worklist in
@@ -491,7 +486,6 @@ let sort_files_by_dependencies files =
         else worklist := key :: !worklist)
       files
   done;
-
   if !worklist <> [] then (
     Location.error "cycle in dependencies. End of list is not sorted."
     |> Location.print_report Format.err_formatter;
@@ -512,7 +506,6 @@ let sort_files_by_dependencies files =
         Printf.printf "%s " file)
       sorted_deps;
     Error_occurred.set ());
-
   !sorted_dependencies
 
 (* Map *)

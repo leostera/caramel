@@ -60,7 +60,6 @@ module Fun = struct
               Format.fprintf Format.std_formatter "\n%!";
               Error.unsupported_feature `Absent_polymorphic_variants
         in
-
         let row_field_to_constr (name, args) =
           let name = Const.atom (Atom.lowercase (Atom.mk name)) in
           let args = row_field_to_type_expr args in
@@ -68,7 +67,6 @@ module Fun = struct
           | [] -> Type.const name
           | _ -> Type.tuple (Type.const name :: args)
         in
-
         List.map row_field_to_constr row_fields |> Type.variant
     | Tpoly (_, _)
     | Tfield (_, _, _, _)

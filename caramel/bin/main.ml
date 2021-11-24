@@ -13,10 +13,5 @@ module Help = struct
 end
 
 let _ =
-  [
-    Cmd_compile.cmd;
-    Cmd_parse.cmd;
-    Cmd_sort_deps.cmd;
-    Cmd_version.cmd;
-  ]
+  [ Cmd_compile.cmd; Cmd_parse.cmd; Cmd_sort_deps.cmd; Cmd_version.cmd ]
   |> Term.eval_choice Help.cmd |> Term.exit_status
