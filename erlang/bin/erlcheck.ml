@@ -92,8 +92,7 @@ module Rebind = struct
     | Expr_nil -> ()
     | Expr_recv { rcv_cases; _ } ->
         List.iter (check_rebind_in_case ~symbols) rcv_cases
-    | Expr_seq exprs ->
-      List.iter (check_rebind_in_expression ~symbols) exprs
+    | Expr_seq exprs -> List.iter (check_rebind_in_expression ~symbols) exprs
     | Expr_try _ -> ()
     | Expr_tuple exprs -> List.iter (check_rebind_in_expression ~symbols) exprs
 

@@ -137,21 +137,23 @@ and 'ctx structure_item =
   | Comment of 'ctx comment
   | Mod_attr of 'ctx module_attribute
   | Fun_decl of 'ctx fun_decl
-  | Expr of 'ctx expression
 [@@deriving sexp]
 
 and 'ctx module_structure = 'ctx structure_item list [@@deriving sexp]
 
-and 'ctx implementation = {
-  behaviours : 'ctx atom list;
-  module_name : 'ctx atom;
+and ('ctx, 'mod_ctx) implementation = {
   attributes : 'ctx module_attribute list;
+  behaviours : 'ctx atom list;
   functions : 'ctx fun_decl list;
+  module_name : 'ctx atom;
+  file_name : string;
+  ctx : 'ctx;
+  mod_ctx : 'mod_ctx;
 }
 [@@deriving sexp]
 
 (*** Parsetree ***)
 
-type parse_node = { txt : string; pos : int * int }
+type location = { txt : string; pos : int * int }
 
-type parsetree = parse_node module_structure
+type parsetree = location module_structure

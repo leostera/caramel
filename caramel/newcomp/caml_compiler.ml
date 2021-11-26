@@ -2,7 +2,6 @@ open Compile_common
 
 type t = {
   tool_name : string;
-  output_prefix : string;
   stdlib : Fpath.t option;
   opened_modules : string list;
   include_dirs : Fpath.t list;
@@ -31,10 +30,15 @@ let init ({ stdlib; opened_modules; include_dirs; _ } as t) =
   let _env = Compmisc.initial_env () in
   t
 
-let compile_interface ~unit =
+let compile_interface ~unit _t =
+  Logs.debug (fun f ->
+      f "Compiling interface unit: %a" Compilation_unit.pp unit);
+
+  let source_file = Compilation_unit.source_file unit in
   (* compile the interface *)
-  Optcompile.interface ~source_file:unit.source_file
-    ~output_prefix:(Filename.chop_extension unit.source_file)
+  Optcompile.interface ~source_file
+    ~output_prefix:(Filename.chop_extension source_file);
+  Ok ()
 
 let read_signature info =
   let module_name = info.module_name in
@@ -45,13 +49,22 @@ let read_signature info =
     Some sign
   with Not_found -> None
 
-let compile_implementation ~unit ~handle_typedtree t =
-  let backend info (typedtree, _coercion) =
+let compile_implementation ~unit handle_typedtree t =
+  Logs.debug (fun f ->
+      f "Compiling implementation unit: %a" Compilation_unit.pp unit);
+
+  let source_file = Compilation_unit.source_file unit in
+  let backend info (structure, _coercion) =
     let signature = read_signature info in
-    let module_name = info.module_name in
-    handle_typedtree ~module_name ~signature typedtree
+    let module_name =
+      info.module_name |> Fpath.v |> Fpath.rem_ext ~multi:true |> Fpath.filename
+    in
+    Logs.debug (fun f ->
+        f "Calling typedtree handler for unit: %a" Compilation_unit.pp unit);
+    handle_typedtree ~unit ~module_name ~signature ~structure
   in
   Compile_common.with_info ~dump_ext:"cmo" ~native:false
-    ~output_prefix:t.output_prefix ~source_file:unit.source_file
-    ~tool_name:t.tool_name
-    (Compile_common.implementation ~backend)
+    ~output_prefix:(Filename.chop_extension source_file)
+    ~source_file ~tool_name:t.tool_name
+    (Compile_common.implementation ~backend);
+  Ok ()

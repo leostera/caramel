@@ -1,22 +1,57 @@
-(** Turn an OCaml Typedtree into a list of Erlang ASTs that can be compiled to
-    sources.
+module Erl = Erlang.Parsetree_helper
+
+(* A translation unit is the minimum data we need to translate an OCaml module
+   hierarchy into a series of Erlang modules
 *)
-let translate :
-    module_name:string ->
-    signature:Types.signature option ->
-    Typedtree.structure ->
-    Erlang.Ast.t list =
- fun ~module_name ~signature typedtree ->
-  let top_module = Erl.Atom.(lowercase (mk module_name)) in
-  let modules =
-    List.fold_left
-      (fun mods (nested_module_name, impl, sign) ->
-        mk_module ~module_name:nested_module_name ~modules:mods impl sign
-        :: mods)
-      []
-      (find_modules ~prefix:top_module typedtree)
-  in
-  [
-    modules; [ mk_module ~module_name:top_module ~modules typedtree signature ];
-  ]
-  |> List.concat
+type translation_unit = {
+  file_name : string;
+  module_name : string;
+  signature : Types.signature option;
+  structure : Typedtree.structure;
+}
+
+(**
+  Turn an OCaml Typedtree into a number of Erlang modules.
+
+  This is achieved by traversing the OCaml typed tree, and finding every module
+  defined in it. Once that list is available, we translate each individual
+  module into an Erlang module.
+
+  The resulting list can then be used for pretty-printing Erlang sources.
+
+  For example, given the following OCaml:
+
+  ```ocaml
+  (* file: a.ml *)
+  let x () = 1
+
+  module A = struct
+    let y () = 2
+  end
+  ```
+
+  We will end up with the following Erlang modules:
+
+
+  ```erlang
+  (* file: a.erl *)
+  -module(a).
+  -export([x/0]).
+  x() -> 1.
+
+  (* file: a_a.erl *)
+  -module(a_a).
+  -export([y/0]).
+  y() -> 2.
+  ```
+
+ *)
+let translate { file_name; module_name; signature; structure; _ } =
+  Logs.debug (fun f ->
+      f "Translating file: %s (module %s)" file_name module_name);
+  (* Build the root module name. This name will be used to build a hierarchy of
+     module names. *)
+  let root_name = Module.Name.root module_name in
+  let modules = Module.Tree_visitor.find_modules ~prefix:root_name ~structure in
+  let root_module = Module.make ~module_name:root_name ~structure ~signature in
+  root_module :: modules

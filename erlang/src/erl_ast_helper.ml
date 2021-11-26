@@ -4,7 +4,8 @@ open Erl_ast
 module Atom = struct
   let is_keyword str =
     match str with
-    | "not" | "and" | "or" | "div" | "rem" | "band" | "bor" | "bxor" | "bnot" | "bsl" | "bsr"->
+    | "not" | "and" | "or" | "div" | "rem" | "band" | "bor" | "bxor" | "bnot"
+    | "bsl" | "bsr" ->
         true
     | _ -> false
 
@@ -126,8 +127,7 @@ module Pat = struct
 
   let const literal = Pattern_match literal
 
-  let catch ~class_ ~stacktrace pat =
-    Pattern_catch (class_, pat, stacktrace)
+  let catch ~class_ ~stacktrace pat = Pattern_catch (class_, pat, stacktrace)
 end
 
 (* Helpers to work with Functions *)
@@ -141,8 +141,7 @@ module FunDecl = struct
       fd_spec = spec;
     }
 
-  let case ~lhs ~guard ~rhs =
-    { c_lhs = lhs; c_guard = guard; c_rhs = rhs }
+  let case ~lhs ~guard ~rhs = { c_lhs = lhs; c_guard = guard; c_rhs = rhs }
 end
 
 (* Helpers to work with Types *)
@@ -351,7 +350,8 @@ module Mod = struct
          atr_value = Expr_literal (Lit_atom module_name);
        };
     ] ->
-      mk ~attributes:[] ~behaviours:[] ~exports:[] ~functions:[] ~types:[] module_name
+        mk ~attributes:[] ~behaviours:[] ~exports:[] ~functions:[] ~types:[]
+          module_name
     | xs -> item_list_to_module xs empty
 end
 

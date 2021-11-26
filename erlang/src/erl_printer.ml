@@ -290,7 +290,7 @@ and pp_case_branches prefix ppf branches ~module_ =
                | _ -> raise Invalid_case_branch))
   | _ -> raise Invalid_case_branch
 
-and pp_expression ?(print_prefix=true) prefix ppf expr ~module_ =
+and pp_expression ?(print_prefix = true) prefix ppf expr ~module_ =
   if print_prefix then Format.fprintf ppf "%s" prefix;
   match expr with
   | Expr_macro macro -> Format.fprintf ppf "?%s" macro

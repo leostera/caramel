@@ -106,8 +106,7 @@ module Pat : sig
 
   val const : literal -> pattern
 
-  val catch :
-    class_:name option -> stacktrace:name option -> pattern -> pattern
+  val catch : class_:name option -> stacktrace:name option -> pattern -> pattern
 end
 
 (* Helpers to work with Functions *)
