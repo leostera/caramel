@@ -7,16 +7,13 @@ type 'ctx comment = Comment of 'ctx * string [@@deriving sexp]
 
 type 'ctx qualified_name = { qn_mod : 'ctx name; qn_name : 'ctx name }
 
-and 'ctx name =
-  | Name_var of 'ctx * string
-  | Name_atom of 'ctx atom
-  | Name_qualified of 'ctx * 'ctx qualified_name
+and 'ctx name = Name_var of 'ctx * string | Name_atom of 'ctx atom
 [@@deriving sexp]
 
 and 'ctx term =
   | Term_atom of 'ctx atom
   | Term_binary_string of 'ctx * 'ctx term_binary
-  | Term_char of 'ctx * string
+  | Term_char of 'ctx * char
   | Term_float of 'ctx * string
   | Term_integer of 'ctx * string
   | Term_list of 'ctx term_list
@@ -70,10 +67,10 @@ and 'ctx term_record = {
 }
 [@@deriving sexp]
 
-and 'ctx module_attribute = {
-  atr_name : 'ctx atom;
-  atr_value : 'ctx expression;
-}
+and 'ctx module_attribute =
+  | Export_type of { attr_type_name : 'ctx atom; attr_type_arity : int }
+  | Export_fun of { attr_fun_name : 'ctx atom; attr_fun_arity : int }
+  | Custom of { attr_name : 'ctx atom; attr_value : 'ctx expression }
 [@@deriving sexp]
 
 and 'ctx fun_decl = {
@@ -123,14 +120,37 @@ and 'ctx expr_match = {
 [@@deriving sexp]
 
 and 'ctx pattern =
-  | Pat_term of 'ctx term
-  | Pat_var of 'ctx name
+  | Pat_atom of 'ctx atom
+  | Pat_binary_string of 'ctx * 'ctx term_binary
+  | Pat_char of 'ctx * char
+  | Pat_float of 'ctx * string
+  | Pat_ignore
+  | Pat_integer of 'ctx * string
   | Pat_list of 'ctx pat_list
+  | Pat_map of 'ctx pat_map
+  | Pat_record of 'ctx pat_record
+  | Pat_string of string
   | Pat_tuple of 'ctx pat_tuple
+  | Pat_var of 'ctx name
 
 and 'ctx pat_list = 'ctx pattern list [@@deriving sexp]
 
 and 'ctx pat_tuple = { ptup_size : int; ptup_elements : 'ctx pattern list }
+[@@deriving sexp]
+
+and 'ctx pat_map = 'ctx pat_map_field list [@@deriving sexp]
+
+and 'ctx pat_map_field = {
+  pmf_kind : [ `Mandatory | `Optional ];
+  pmf_name : 'ctx expression;
+  pmf_value : 'ctx expression;
+}
+[@@deriving sexp]
+
+and 'ctx pat_record = {
+  prec_name : 'ctx name;
+  prec_elements : 'ctx pat_map_field list;
+}
 [@@deriving sexp]
 
 and 'ctx structure_item =

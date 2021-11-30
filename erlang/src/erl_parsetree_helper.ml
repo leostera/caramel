@@ -7,6 +7,14 @@ module Loc = struct
   let mk ~txt ~pos = { txt; pos }
 end
 
+module Term = struct
+  let atom atom = Term_atom atom
+
+  let int ~ctx int = Term_integer (ctx, int)
+
+  let float ~ctx float = Term_float (ctx, float)
+end
+
 (* Helpers to work with Atoms *)
 module Atom = struct
   let quote str = "'" ^ str ^ "'"
@@ -31,8 +39,48 @@ module Atom = struct
     mk ~ctx (unquote a ^ str ^ unquote b)
 end
 
+module Name = struct
+  let var ~ctx ~name = Name_var (ctx, name)
+end
+
+module Pat = struct
+  let ignore = Pat_ignore
+
+  let bind ~name = Pat_var name
+
+  let tuple ~parts =
+    Pat_tuple { ptup_size = List.length parts; ptup_elements = parts }
+
+  let empty_tuple = tuple ~parts:[]
+end
+
+module Expr = struct
+  let atom a = Expr_term (Term_atom a)
+
+  let term ~term = Expr_term term
+end
+
+module Case = struct
+  let mk ~lhs ~rhs = { c_lhs = lhs; c_rhs = rhs }
+end
+
+module Fun_decl = struct
+  let mk ~name ~arity ~cases =
+    { fd_name = name; fd_arity = arity; fd_cases = cases }
+end
+
+module Attr = struct
+  let export_type ~name ~arity =
+    Export_type { attr_type_name = name; attr_type_arity = arity }
+
+  let export ~name ~arity =
+    Export_fun { attr_fun_name = name; attr_fun_arity = arity }
+end
+
 module Mod = struct
   let mk ~mod_ctx ~ctx ~attributes ~behaviours ~functions ~file_name
       ~module_name =
     { attributes; behaviours; functions; file_name; module_name; ctx; mod_ctx }
 end
+
+let ok = Expr.atom (Atom.mk ~ctx:Loc.empty "ok")

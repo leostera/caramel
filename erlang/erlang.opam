@@ -20,6 +20,7 @@ depends: [
   "menhir"
   "ppx_sexp_conv"
   "sexplib"
+  "logs"
   "odoc" {with-doc}
 ]
 dev-repo: "git+https://github.com/AbstractMachinesLab/caramel.git"

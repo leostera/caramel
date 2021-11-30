@@ -28,4 +28,5 @@
   menhir
   ppx_sexp_conv
   sexplib
+  logs
   ))

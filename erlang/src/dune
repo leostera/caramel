@@ -5,7 +5,7 @@
   (backend bisect_ppx))
  (preprocess
   (pps ppx_sexp_conv))
- (libraries sexplib))
+ (libraries sexplib logs))
 
 (ocamllex erl_lexer)
 
