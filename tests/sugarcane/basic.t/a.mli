@@ -6,7 +6,7 @@ module B : sig
 
   module C : sig
 
-    val omg : unit -> string
+    val omg : unit -> int
 
   end
 

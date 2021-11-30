@@ -1,4 +1,5 @@
 open Compile_common
+open Typedtree
 
 type t = {
   tool_name : string;
@@ -55,7 +56,9 @@ let compile_implementation ~unit handle_typedtree t =
 
   let source_file = Compilation_unit.source_file unit in
   let backend info (structure, _coercion) =
-    let signature = read_signature info in
+    let signature =
+      match read_signature info with Some s -> s | None -> structure.str_type
+    in
     let module_name =
       info.module_name |> Fpath.v |> Fpath.rem_ext ~multi:true |> Fpath.filename
     in

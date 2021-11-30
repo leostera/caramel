@@ -14,7 +14,11 @@ let run sources sugarcane dump_ast no_stdlib stdlib_path =
   match
     if sugarcane then
       Caramel_newcomp.Newcomp.Runner.run
-        { sources; stdlib = (if no_stdlib then None else Some stdlib_path) }
+        {
+          sources;
+          dump_ast;
+          stdlib = (if no_stdlib then None else Some stdlib_path);
+        }
     else
       Caramel_compiler.Compiler.compile
         { sources; dump_ast; targets = [ Erlang ]; no_stdlib; stdlib_path }

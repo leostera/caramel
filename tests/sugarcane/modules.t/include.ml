@@ -1,6 +1,8 @@
-(* FIXME: this doesn't __actually include__ the source of A, but it should *)
 include (struct
   let f () = 0
+  include (struct
+    let g () = 1
+  end)
 end)
 
-let run () = f ()
+let run () = 1

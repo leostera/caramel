@@ -10,7 +10,7 @@ module A = struct
 
     let internal_c () = true
 
-    (* module D should be generated empty *)
+    (* module D should be generated without exports *)
     module D : sig end = struct
       let d () = true
     end

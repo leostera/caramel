@@ -6,7 +6,7 @@ module Erl = Erlang.Parsetree_helper
 type translation_unit = {
   file_name : string;
   module_name : string;
-  signature : Types.signature option;
+  signature : Types.signature;
   structure : Typedtree.structure;
 }
 
@@ -51,7 +51,9 @@ let translate { file_name; module_name; signature; structure; _ } =
       f "Translating file: %s (module %s)" file_name module_name);
   (* Build the root module name. This name will be used to build a hierarchy of
      module names. *)
-  let root_name = Module.Name.root module_name in
-  let modules = Module.Tree_visitor.find_modules ~prefix:root_name ~structure in
-  let root_module = Module.make ~module_name:root_name ~structure ~signature in
+  let module_name = Module.Name.root module_name in
+  let root_module = Module.make { module_name; structure; signature } in
+  let modules =
+    Module.Tree_visitor.find_modules ~prefix:module_name ~structure
+  in
   root_module :: modules

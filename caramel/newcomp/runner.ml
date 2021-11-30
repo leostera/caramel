@@ -1,31 +1,37 @@
 open Sexplib.Std
 
 (* TODO(@ostera): turn these back from `string` to `Fpath.t` *)
-type opts = { sources : string list; stdlib : string option } [@@deriving sexp]
+type opts = { sources : string list; stdlib : string option; dump_ast : bool }
+[@@deriving sexp]
 
-let handle_typed_tree ~unit ~module_name ~signature ~structure =
+let handle_typedtree ~opts ~unit ~module_name ~signature ~structure =
   let open Caramel_sugarcane in
-  Sugarcane.
-    {
-      file_name = Compilation_unit.file_name unit;
-      module_name;
-      signature;
-      structure;
-    }
-  |> Sugarcane.translate |> Erlang.Parsetree_printer.to_source_files
+  let asts =
+    Sugarcane.translate
+      {
+        file_name = Compilation_unit.file_name unit;
+        module_name;
+        signature;
+        structure;
+      }
+  in
 
-let run_one ~caml source =
+  if opts.dump_ast then Output.write_files ~kind:`ast asts else ();
+  Output.write_files ~kind:`sources asts
+
+let run_one ~opts ~caml source =
   match Compilation_unit.from_source source with
   | Error err -> Error (`Compilation_error err)
   | Ok unit -> (
       match Compilation_unit.source_kind unit with
       | Interface -> Caml_compiler.compile_interface ~unit caml
       | Implementation ->
-          Caml_compiler.compile_implementation ~unit handle_typed_tree caml)
+          Caml_compiler.compile_implementation ~unit (handle_typedtree ~opts)
+            caml)
 
-let compile_all ~caml ~sources =
+let compile_all ~opts ~caml ~sources =
   match
-    let _ = List.map (run_one ~caml) sources in
+    let _ = List.map (run_one ~opts ~caml) sources in
     Warnings.check_fatal ()
   with
   | exception Env.Error err ->
@@ -62,4 +68,4 @@ let run ({ sources; stdlib; _ } as opts) =
       }
   in
 
-  compile_all ~caml ~sources
+  compile_all ~opts ~caml ~sources
