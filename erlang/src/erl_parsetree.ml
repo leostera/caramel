@@ -5,9 +5,12 @@ type 'ctx atom = Atom of 'ctx * string [@@deriving sexp]
 
 type 'ctx comment = Comment of 'ctx * string [@@deriving sexp]
 
-type 'ctx qualified_name = { qn_mod : 'ctx name; qn_name : 'ctx name }
+type 'ctx qualified_name = { qn_ctx : 'ctx; qn_mod : string; qn_fun : string }
 
-and 'ctx name = Name_var of 'ctx * string | Name_atom of 'ctx atom
+and 'ctx name =
+  | Name_var of 'ctx * string
+  | Name_atom of 'ctx atom
+  | Name_qualified_name of 'ctx qualified_name
 [@@deriving sexp]
 
 and 'ctx term =

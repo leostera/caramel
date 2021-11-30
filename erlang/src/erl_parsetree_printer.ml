@@ -20,6 +20,8 @@ end
 module Name = struct
   let pp ppf name =
     match name with
+    | Name_qualified_name { qn_mod; qn_fun; _ } ->
+        Format.fprintf ppf "%s:%s" qn_mod qn_fun
     | Name_var (_ctx, var) -> Format.fprintf ppf "%s" var
     | Name_atom atom -> Atom.pp ppf atom
 end

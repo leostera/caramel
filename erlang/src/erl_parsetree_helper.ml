@@ -41,6 +41,9 @@ end
 
 module Name = struct
   let var ~ctx ~name = Name_var (ctx, name)
+
+  let mf ~ctx ~m ~f =
+    Name_qualified_name { qn_ctx = ctx; qn_mod = m; qn_fun = f }
 end
 
 module Pat = struct

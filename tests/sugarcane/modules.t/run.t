@@ -103,7 +103,6 @@
                                                          (source_kind impl))
   caramel: [DEBUG] Translating file: let_open.ml (module Let_open)
   caramel: [DEBUG] Creating module: Caramel.Let_open
-  Oops! This function has not been implemented yet.
   [1]
   $ cat Caramel.Let_open.erl Caramel.Let_open.erl.ast
   cat: Caramel.Let_open.erl: No such file or directory

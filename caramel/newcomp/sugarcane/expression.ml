@@ -32,11 +32,10 @@ let rec from_ocaml_expression ~expression =
         { exp_loc = { loc_start = _; loc_end = _; _ }; exp_type = _; _ },
         _,
         { exp_loc = { loc_start = _; loc_end = _; _ }; exp_type = _; _ } )
-  | Texp_function _
-  | Texp_ident
-      ( _,
-        { loc = { loc_start = _; loc_end = _; _ }; _ },
-        { val_type = _; val_loc = { loc_start = _; loc_end = _; _ }; _ } )
+  | Texp_function _ ->
+      Error.todo ()
+  | Texp_ident (_path, { txt = ident; _ }, _types) ->
+      from_ocaml_identifier ~ident
   | Texp_ifthenelse
       ( { exp_loc = { loc_start = _; loc_end = _; _ }; exp_type = _; _ },
         { exp_loc = { loc_start = _; loc_end = _; _ }; exp_type = _; _ },
@@ -66,14 +65,9 @@ let rec from_ocaml_expression ~expression =
       ( _,
         { loc = { loc_start = _; loc_end = _; _ }; _ },
         { cty_loc = { loc_start = _; loc_end = _; _ }; _ } )
-  | Texp_object (_, _)
-  | Texp_open
-      ( {
-          open_expr = { mod_loc = { loc_start = _; loc_end = _; _ }; _ };
-          open_loc = { loc_start = _; loc_end = _; _ };
-          _;
-        },
-        { exp_loc = { loc_start = _; loc_end = _; _ }; exp_type = _; _ } )
+  | Texp_object (_, _) ->
+      Error.todo ()
+  | Texp_open (_open, expression) -> from_ocaml_expression ~expression
   | Texp_override (_, _)
   | Texp_pack { mod_loc = { loc_start = _; loc_end = _; _ }; _ }
   | Texp_record _
@@ -108,6 +102,10 @@ let rec from_ocaml_expression ~expression =
 
 and from_ocaml_constant ~constant =
   let term = Term.from_ocaml_constant ~constant in
+  Erl.Expr.term ~term
+
+and from_ocaml_identifier ~ident =
+  let term = Identifier.from_ocaml ~ident in
   Erl.Expr.term ~term
 
 let from_ocaml_case :

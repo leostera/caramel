@@ -1,29 +1,5 @@
 module Erl = Erlang.Parsetree_helper
 
-(* Module Name conversions between OCaml and Erlang *)
-module Name = struct
-  type t = string list
-
-  let separator = "."
-
-  let root_module = "Caramel"
-
-  let make ~prefix ~ident = ident :: prefix
-
-  let from_ocaml : prefix:t -> ident:Ident.t option -> t =
-   fun ~prefix ~ident ->
-    let ident = match ident with Some x -> Ident.name x | None -> "" in
-    make ~prefix ~ident
-
-  let root ident = make ~prefix:[ root_module ] ~ident
-
-  let to_string t = String.concat separator (List.rev t)
-
-  let to_file_name t = to_string t ^ ".erl"
-
-  let to_atom t = Erl.Atom.mk ~ctx:Erl.Loc.empty (to_string t)
-end
-
 module Attribute = struct
   open Types
 
@@ -46,39 +22,44 @@ module Attribute = struct
 end
 
 type t = {
-  module_name : Name.t;
+  module_name : Identifier.Module_name.t;
   structure : Typedtree.structure;
   signature : Types.signature;
 }
 
 (**
    Build a single Erlang module from a Typedtree.structure, and an optionally
-    constraining Types.signature.
+   constraining Types.signature.
+
+   It will take care of inlining all module-level constructs.
  *)
 let make ({ module_name; structure; signature } as mod_ctx) =
-  Logs.debug (fun f -> f "Creating module: %s" (Name.to_string module_name));
+  Logs.debug (fun f ->
+      f "Creating module: %s" (Identifier.Module_name.to_string module_name));
 
-  let rec inline_declarations str =
-    List.concat_map
-      (fun str_item ->
-        let open Typedtree in
-        match str_item.str_desc with
-        | Tstr_include
-            { incl_mod = { mod_desc = Tmod_structure structure; _ }; _ } ->
-            Function.from_ocaml ~structure
-            @ inline_declarations structure.str_items
-        | _ -> [])
-      str
+  (* NOTE: where to put these? *)
+  let inlined_funs =
+    let rec inline_declarations str =
+      let open Typedtree in
+      List.concat_map
+        (fun str_item ->
+          match str_item.str_desc with
+          | Tstr_include
+              { incl_mod = { mod_desc = Tmod_structure structure; _ }; _ } ->
+              Function.from_ocaml ~structure
+              @ inline_declarations structure.str_items
+          | _ -> [])
+        str
+    in
+    inline_declarations structure.str_items
   in
-
-  let inlined_funs = inline_declarations structure.str_items in
 
   Erl.Mod.mk ~ctx:Erl.Loc.empty ~mod_ctx
     ~attributes:(Attribute.from_ocaml ~structure ~signature)
     ~behaviours:[]
     ~functions:(inlined_funs @ Function.from_ocaml ~structure)
-    ~file_name:(Name.to_file_name module_name)
-    ~module_name:(Name.to_atom module_name)
+    ~file_name:(Identifier.Module_name.to_file_name module_name)
+    ~module_name:(Identifier.Module_name.to_atom module_name)
 
 (**
    Build an Erlang module from an OCaml module descriptor.
@@ -120,7 +101,9 @@ module Tree_visitor = struct
         List.concat_map
           (fun mb ->
             let ident = mb.mb_id in
-            let module_name = Name.from_ocaml ~prefix ~ident in
+            let module_name =
+              Identifier.Module_name.from_ocaml ~prefix ~ident
+            in
             let mod_desc = mb.mb_expr.mod_desc in
             match from_mod_desc ~module_name ~mod_desc with
             | Some m ->
