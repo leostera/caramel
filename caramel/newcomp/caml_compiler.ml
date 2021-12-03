@@ -55,7 +55,7 @@ let compile_implementation ~unit handle_typedtree t =
       f "Compiling implementation unit: %a" Compilation_unit.pp unit);
 
   let source_file = Compilation_unit.source_file unit in
-  let backend info (structure, _coercion) =
+  let backend info {structure;_} =
     let signature =
       match read_signature info with Some s -> s | None -> structure.str_type
     in

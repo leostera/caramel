@@ -51,7 +51,7 @@ let translate { file_name; module_name; signature; structure; _ } =
       f "Translating file: %s (module %s)" file_name module_name);
   (* Build the root module name. This name will be used to build a hierarchy of
      module names. *)
-  let module_name = Module.Name.root module_name in
+  let module_name = Identifier.Module_name.root module_name in
   let root_module = Module.make { module_name; structure; signature } in
   let modules =
     Module.Tree_visitor.find_modules ~prefix:module_name ~structure

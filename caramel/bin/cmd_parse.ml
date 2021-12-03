@@ -40,7 +40,8 @@ let pp_ocaml_to_erlang_parsetree ~stdlib_path source_file =
     ~output_prefix:".none" ~dump_ext:"cmo" (fun i ->
       Caramel_compiler.Compiler.initialize_compiler ~stdlib_path ();
       try
-        let typed, _ =
+        let open Typedtree in
+        let {structure;_}=
           Compile_common.parse_impl i
           |> Typemod.type_implementation i.source_file i.output_prefix
                i.module_name i.env
@@ -48,7 +49,7 @@ let pp_ocaml_to_erlang_parsetree ~stdlib_path source_file =
         let signature =
           Caramel_compiler.Compiler.Ocaml_to_erlang.read_signature i
         in
-        typed
+        structure
         |> Caramel_compiler.Compiler.Ocaml_to_erlang.Ast_transl.from_typedtree
              ~module_name:source_file ~signature
         |> List.iter (fun t ->

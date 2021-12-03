@@ -116,14 +116,14 @@ and mk_pattern :
                ( Pat.bind (Name.atom (Names.atom_of_longident txt)),
                  mk_pattern ~var_names pattern )))
   (* FIXME: don't compare atoms like this, just refer to is_unit *)
-  | Tpat_construct ({ txt; _ }, _, _) when Longident.last txt = "()" ->
+  | Tpat_construct ({ txt; _ }, _, _, _) when Longident.last txt = "()" ->
       Pat.tuple []
-  | Tpat_construct ({ txt; _ }, _, patterns)
+  | Tpat_construct ({ txt; _ }, _, patterns, _)
     when Longident.last txt = "::" || Longident.last txt = "[]" ->
       Pat.list (List.map (mk_pattern ~var_names) patterns)
-  | Tpat_construct ({ txt; _ }, _, []) ->
+  | Tpat_construct ({ txt; _ }, _, [], _) ->
       Pat.const (Const.atom (Atom.lowercase (Names.atom_of_longident txt)))
-  | Tpat_construct ({ txt; _ }, _, patterns) ->
+  | Tpat_construct ({ txt; _ }, _, patterns, _) ->
       let tag =
         Erlang.Ast.Pattern_match
           (Erlang.Ast.Lit_atom (Atom.lowercase (Names.atom_of_longident txt)))

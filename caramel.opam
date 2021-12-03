@@ -10,9 +10,9 @@ license: "Apache-2.0"
 homepage: "https://github.com/AbstractMachinesLab/caramel"
 bug-reports: "https://github.com/AbstractMachinesLab/caramel/issues"
 depends: [
-  "dune" {>= "2.8" & >= "2.8"}
+  "dune" {>= "2.9" & >= "2.9"}
   "ocamlformat" {>= "0.17.0"}
-  "ocaml" {>= "4.12.0"}
+  "ocaml" {>= "4.13.0"}
   "reason"
   "alcotest"
   "bos"
@@ -20,6 +20,7 @@ depends: [
   "menhir"
   "ppx_sexp_conv"
   "sexplib"
+  "fpath"
   "odoc" {with-doc}
 ]
 build: [
@@ -31,9 +32,11 @@ build: [
     name
     "-j"
     jobs
+    "--promote-install-files=false"
     "@install"
     "@runtest" {with-test}
     "@doc" {with-doc}
   ]
+  ["dune" "install" "-p" name "--create-install-files" name]
 ]
 dev-repo: "git+https://github.com/AbstractMachinesLab/caramel.git"

@@ -1,7 +1,23 @@
 module Erl = Erlang.Parsetree_helper
 
 (* Module Name conversions between OCaml and Erlang *)
-module Module_name = struct
+module Module_name : sig
+  type t
+
+  val make : prefix:'a list -> ident:'a -> 'a list
+
+  val from_ocaml : prefix:t -> ident:Ident.t option -> t
+
+  val from_parts : string list -> t
+
+  val root : string -> t
+
+  val to_string : t -> string
+
+  val to_file_name : t -> string
+
+  val to_atom : t -> Erlang.Parsetree.location Erlang.Parsetree.atom
+end = struct
   type t = string list
 
   let separator = "."

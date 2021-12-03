@@ -13,10 +13,11 @@ let read_signature info =
   with Not_found -> None
 
 let compile ~source_file ~output_prefix ~opts:_ =
-  let backend info (typed, _coercion) =
+  let open Typedtree in
+  let backend info {structure;_} =
     let signature = read_signature info in
     let module_name = info.module_name in
-    let erl_ast = Ast_transl.from_typedtree ~module_name ~signature typed in
+    let erl_ast = Ast_transl.from_typedtree ~module_name ~signature structure in
     Erlang.Printer.to_sources erl_ast
   in
   Compile_common.with_info ~native:false ~tool_name ~source_file ~output_prefix

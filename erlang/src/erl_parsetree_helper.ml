@@ -58,9 +58,11 @@ module Pat = struct
 end
 
 module Expr = struct
-  let atom a = Expr_term (Term_atom a)
-
   let term ~term = Expr_term term
+
+  let atom a = term ~term:(Term_atom a)
+
+  let var ~name = Expr_var name
 end
 
 module Case = struct

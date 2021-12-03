@@ -1,7 +1,7 @@
 module Erl = Erlang.Parsetree_helper
-open Typedtree
 
 let rec from_ocaml_expression ~expression =
+  let open Typedtree in
   match expression.exp_desc with
   | Texp_apply
       ({ exp_loc = { loc_start = _; loc_end = _; _ }; exp_type = _; _ }, _)
@@ -105,8 +105,8 @@ and from_ocaml_constant ~constant =
   Erl.Expr.term ~term
 
 and from_ocaml_identifier ~ident =
-  let term = Identifier.from_ocaml ~ident in
-  Erl.Expr.term ~term
+  let name = Identifier.from_ocaml ~ident in
+  Erl.Expr.var ~name
 
 let from_ocaml_case :
     case:Typedtree.value Typedtree.case -> 'ctx Erlang.Parsetree.expression =

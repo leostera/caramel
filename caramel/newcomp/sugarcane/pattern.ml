@@ -9,7 +9,7 @@ let rec from_ocaml_pattern :
   | Tpat_any -> Error.todo ()
   | Tpat_array _ -> Error.todo ()
   | Tpat_constant _ -> Error.todo ()
-  | Tpat_construct ({ txt = id; _ }, _stuff, patterns) ->
+  | Tpat_construct ({ txt = id; _ }, _stuff, _, patterns) ->
       from_ocaml_constructor ~id ~patterns
   | Tpat_exception _ -> Error.todo ()
   | Tpat_lazy _ -> Error.todo ()
