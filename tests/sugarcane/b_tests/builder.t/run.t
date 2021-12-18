@@ -2,13 +2,10 @@
 
 Lift IR into B-lang.
 
-  $ caramel compile --sugarcane --debug a.ml
+  $ caramel compile --debug a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (a.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (a.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   

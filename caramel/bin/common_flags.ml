@@ -11,7 +11,7 @@ let no_stdlib =
 let stdlib_path =
   Arg.(
     value
-    & opt string Caramel_compiler.Compiler.default_stdlib_path
+    & opt string "./"
     & info [ "stdlib-path" ] ~env:(env_var "CARAMEL_STDLIB_PATH"))
 
 let dump_pass =

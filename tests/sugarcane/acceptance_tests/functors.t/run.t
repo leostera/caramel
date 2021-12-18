@@ -1,4 +1,4 @@
-  $ caramel compile --sugarcane --dump-ast functors.ml
+  $ caramel compile --dump-ast functors.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (functors.ml))
     (stdlib

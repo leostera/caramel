@@ -1,4 +1,4 @@
-  $ caramel compile --sugarcane --dump-ast empty.ml
+  $ caramel compile --dump-ast empty.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (empty.ml))
     (stdlib
@@ -33,7 +33,7 @@
     (ctx ()) (mod_ctx ()))
   
 
-  $ caramel compile --sugarcane --dump-ast include.ml
+  $ caramel compile --dump-ast include.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (include.ml))
     (stdlib
@@ -93,7 +93,7 @@
     (ctx ()) (mod_ctx ()))
   
 
-  $ caramel compile --sugarcane --dump-ast let_open.ml
+  $ caramel compile --dump-ast let_open.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (let_open.ml))
     (stdlib
@@ -115,7 +115,7 @@
   cat: Caramel.Let_open.core.ast: No such file or directory
   [1]
 
-  $ caramel compile --sugarcane --dump-ast nested.ml
+  $ caramel compile --dump-ast nested.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (nested.ml))
     (stdlib
@@ -138,7 +138,7 @@
   cat: Caramel.Nested.core.ast: No such file or directory
   [1]
 
-  $ caramel compile --sugarcane --dump-ast no_exports.mli no_exports.ml
+  $ caramel compile --dump-ast no_exports.mli no_exports.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (no_exports.mli no_exports.ml))
     (stdlib
@@ -162,7 +162,7 @@
   cat: Caramel.No_exports.core.ast: No such file or directory
   [1]
 
-  $ caramel compile --sugarcane --dump-ast sig.mli sig.ml
+  $ caramel compile --dump-ast sig.mli sig.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (sig.mli sig.ml))
     (stdlib
@@ -226,7 +226,7 @@
     (mod_ctx ()))
   
 
-  $ caramel compile --sugarcane --dump-ast sig_dep.ml
+  $ caramel compile --dump-ast sig_dep.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (sig_dep.ml))
     (stdlib
@@ -262,7 +262,7 @@
     (ctx ()) (mod_ctx ()))
   
 
-  $ caramel compile --sugarcane --dump-ast simple_nested.ml
+  $ caramel compile --dump-ast simple_nested.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (simple_nested.ml))
     (stdlib

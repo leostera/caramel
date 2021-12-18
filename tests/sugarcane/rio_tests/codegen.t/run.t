@@ -2,13 +2,10 @@
 
 Lift IR into B-lang.
 
-  $ caramel compile --sugarcane --debug a.ml
+  $ caramel compile --debug a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (a.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (a.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
@@ -97,13 +94,10 @@ Lift IR into B-lang.
 
 ================================================================================
 
-  $ caramel compile --sugarcane --debug b.ml
+  $ caramel compile --debug b.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (b.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (b.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file b.ml) (source_kind impl))
   
@@ -159,7 +153,7 @@ Sample. To add a new test, copy and paste this above, and replace `_.ml` with
 the right .ml file. Then remove the `#` that are preventing these commands from
 running.
 
-  $ # caramel compile --sugarcane --debug _.ml
+  $ # caramel compile --debug _.ml
 
   $ # cat _.ml.lambda
 

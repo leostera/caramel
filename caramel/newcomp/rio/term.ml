@@ -1,3 +1,4 @@
+(*
 module Erl = Erlang.Parsetree_helper
 
 let from_ocaml_constant ~constant =
@@ -12,3 +13,4 @@ let from_ocaml_constant ~constant =
   | Const_nativeint int -> Erl.Term.int ~ctx (Nativeint.to_string int)
   | Const_string (_str, _, _) ->
       Error.todo "Term.from_ocaml_constant(Const_string)"
+      *)

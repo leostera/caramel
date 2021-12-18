@@ -1,10 +1,7 @@
-  $ caramel compile --sugarcane --debug a.mli
+  $ caramel compile --debug a.mli
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (a.mli))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (a.mli)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.mli) (source_kind intf))
   

@@ -1,4 +1,4 @@
-open Caramel_compiler
+open Caramel_newcomp
 open Cmdliner
 
 let make ~name ~doc ~description =
@@ -11,13 +11,12 @@ let make ~name ~doc ~description =
       `S "AUTHORS";
       `P "Leandro Ostera.";
       `S "LICENSE";
-      `P "Copyright (C) 2020-present, Abstract Machines Lab Sweden AB";
-      `P "Caramel is licensed under Apache License 2.0";
+      `P "Copyright (C) 2020-present, Leandro Ostera";
     ]
   in
   let version =
-    match Compiler_version.git_version with
-    | "" -> Compiler_version.s
-    | v -> Printf.sprintf "%s+git-%s" Compiler_version.s v
+    match Newcomp.Version.git_version with
+    | "" -> Newcomp.Version.s
+    | v -> Printf.sprintf "%s+git-%s" Newcomp.Version.s v
   in
   Term.info name ~version ~doc ~man

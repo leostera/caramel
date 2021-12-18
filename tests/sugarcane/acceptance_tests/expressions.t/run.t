@@ -14,7 +14,7 @@
   record_update.ml
   records.ml
   sequences.ml
-  $ caramel compile --sugarcane apply.ml
+  $ caramel compile apply.ml
   File "apply.ml", line 6, characters 4-8:
   Warning 10: this expression should have type unit.
   File "apply.ml", line 7, characters 4-8:
@@ -80,7 +80,7 @@
     F_prime_prime(1, 2).
   
   
-  $ caramel compile --sugarcane binding_on_match.ml
+  $ caramel compile binding_on_match.ml
   File "binding_on_match.ml", line 4, characters 57-68:
   Warning 11: this match case is unused.
   File "binding_on_match.ml", line 10, characters 50-57:
@@ -134,7 +134,7 @@
     end.
   
   
-  $ caramel compile --sugarcane funref.ml
+  $ caramel compile funref.ml
   Compiling funref__nested.core	OK
   Compiling funref.core	OK
   $ cat funref.core
@@ -167,7 +167,7 @@
   do_nested_add(X, Y) -> call_op_2(fun funref__nested:add/2, X, Y).
   
   
-  $ caramel compile --sugarcane let_bindings.ml
+  $ caramel compile let_bindings.ml
   Compiling let_bindings.core	OK
   $ cat let_bindings.core
   % Source code generated with Caramel.
@@ -220,7 +220,7 @@
     Three.
   
   
-  $ caramel compile --sugarcane list.ml
+  $ caramel compile list.ml
   File "list.ml", line 7, characters 9-21:
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
@@ -268,7 +268,7 @@
   concat(A, B) -> erlang:'++'(A, B).
   
   
-  $ caramel compile --sugarcane literals.ml
+  $ caramel compile literals.ml
   Compiling literals.core	OK
   $ cat literals.core
   % Source code generated with Caramel.
@@ -304,7 +304,7 @@
   bool_false() -> true.
   
   
-  $ caramel compile --sugarcane match.ml
+  $ caramel compile match.ml
   File "match.ml", line 5, characters 19-41:
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
@@ -418,7 +418,7 @@
     end.
   
   
-  $ caramel compile --sugarcane names.ml
+  $ caramel compile names.ml
   File "names.ml", line 13, characters 2-13:
   Warning 10: this expression should have type unit.
   File "names.ml", line 2, characters 6-7:
@@ -458,7 +458,7 @@
     names__nested:x().
   
   
-  $ caramel compile --sugarcane records.ml
+  $ caramel compile records.ml
   Compiling records.core	OK
   $ cat records.core
   % Source code generated with Caramel.
@@ -514,7 +514,7 @@
      }.
   
   
-  $ caramel compile --sugarcane let_shadowing.ml
+  $ caramel compile let_shadowing.ml
   We have found that the variable name X is being shadowed.
   
   This is currently not supported.
@@ -524,7 +524,7 @@
   cat: let_shadowing.core: No such file or directory
   [1]
 
-  $ caramel compile --sugarcane names_primes.ml
+  $ caramel compile names_primes.ml
   Compiling names_primes.core	OK
   $ cat names_primes.core
   % Source code generated with Caramel.
@@ -540,7 +540,7 @@
     X_prime_prime.
   
   
-  $ caramel compile --sugarcane let_rec.ml
+  $ caramel compile let_rec.ml
   We have found a let rec binding within a function.
   
   This is currently not supported.
@@ -549,7 +549,7 @@
   $ cat let_rec.core
   cat: let_rec.core: No such file or directory
   [1]
-  $ caramel compile --sugarcane record_update.ml
+  $ caramel compile record_update.ml
   Compiling record_update.core	OK
   $ cat record_update.core
   % Source code generated with Caramel.
@@ -574,7 +574,7 @@
      }.
   
   
-  $ caramel compile --sugarcane match_fallthrough.ml
+  $ caramel compile match_fallthrough.ml
   We have found a case expression that falls through to the next case, like:
   
     match x with
@@ -588,7 +588,7 @@
   $ cat match_fallthrough.core
   cat: match_fallthrough.core: No such file or directory
   [1]
-  $ caramel compile --sugarcane sequences.ml
+  $ caramel compile sequences.ml
   Compiling sequences.core	OK
   $ cat sequences.core
   % Source code generated with Caramel.

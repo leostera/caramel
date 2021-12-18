@@ -17,7 +17,7 @@
   uncurry.ml
   uncurry.mli
 
-  $ caramel compile --sugarcane annotated.ml
+  $ caramel compile annotated.ml
   Compiling annotated.core	OK
   $ cat annotated.core
   % Source code generated with Caramel.
@@ -30,7 +30,7 @@
   
   
 
-  $ caramel compile --sugarcane basic.ml
+  $ caramel compile basic.ml
   Compiling basic.core	OK
   $ cat basic.core
   % Source code generated with Caramel.
@@ -50,7 +50,7 @@
   ignore() -> ok.
   
   
-  $ caramel compile --sugarcane hello_joe.ml
+  $ caramel compile hello_joe.ml
   Compiling hello_joe.core	OK
   $ cat hello_joe.core
   % Source code generated with Caramel.
@@ -65,7 +65,7 @@
   
   
 
-  $ caramel compile --sugarcane ignored_arguments.ml
+  $ caramel compile ignored_arguments.ml
   Compiling ignored_arguments.core	OK
   $ cat ignored_arguments.core
   % Source code generated with Caramel.
@@ -90,7 +90,7 @@
   
   
 
-  $ caramel compile --sugarcane labeled_arguments.ml
+  $ caramel compile labeled_arguments.ml
   Compiling labeled_arguments.core	OK
   $ cat labeled_arguments.core
   % Source code generated with Caramel.
@@ -110,7 +110,7 @@
   
   
 
-  $ caramel compile --sugarcane multiple_clauses.ml
+  $ caramel compile multiple_clauses.ml
   File "multiple_clauses.ml", line 1, characters 22-34:
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
@@ -148,7 +148,7 @@
   
   
 
-  $ caramel compile --sugarcane partial_functions.ml
+  $ caramel compile partial_functions.ml
   File "partial_functions.ml", line 1, characters 9-21:
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
@@ -197,7 +197,7 @@
   
   
 
-  $ caramel compile --sugarcane pattern_aliases.ml
+  $ caramel compile pattern_aliases.ml
   File "pattern_aliases.ml", line 1, characters 15-49:
   Warning 8: this pattern-matching is not exhaustive.
   Here is an example of a case that is not matched:
@@ -217,7 +217,7 @@
     end.
   
   
-  $ caramel compile --sugarcane qualified_calls_helper.ml qualified_calls.ml 
+  $ caramel compile qualified_calls_helper.ml qualified_calls.ml 
   Compiling qualified_calls_helper__nested.core	OK
   Compiling qualified_calls_helper.core	OK
   Compiling qualified_calls__nested.core	OK
@@ -284,7 +284,7 @@
   
   
 
-  $ caramel compile --sugarcane sequencing.ml
+  $ caramel compile sequencing.ml
   Compiling sequencing.core	OK
   $ cat sequencing.core
   % Source code generated with Caramel.
@@ -305,7 +305,7 @@
   
   
 
-  $ caramel compile --sugarcane uncurry.mli uncurry.ml 
+  $ caramel compile uncurry.mli uncurry.ml 
   Compiling uncurry.core	OK
   $ cat uncurry.core
   % Source code generated with Caramel.
@@ -336,7 +336,7 @@
   
   
 
-  $ caramel compile --sugarcane redefine.ml
+  $ caramel compile redefine.ml
   We have found 2 definitions of the function: f in module redefine.
   
   This is currently not supported.
@@ -345,7 +345,7 @@
   $ cat redefine.core
   cat: redefine.core: No such file or directory
   [1]
-  $ caramel compile --sugarcane references.ml
+  $ caramel compile references.ml
   Compiling references.core	OK
   $ cat references.core
   % Source code generated with Caramel.
@@ -365,7 +365,7 @@
   end, Transforms).
   
   
-  $ caramel compile --sugarcane guards.ml
+  $ caramel compile guards.ml
   Compiling guards.core	OK
   $ cat guards.core
   % Source code generated with Caramel.
@@ -384,7 +384,7 @@
     end.
   
   
-  $ caramel compile --sugarcane guard_unsupported.ml
+  $ caramel compile guard_unsupported.ml
   We have found a guard expression that is not one of the allowlisted Erlang BIFs.
   
   This is currently not supported.

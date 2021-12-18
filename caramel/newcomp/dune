@@ -17,7 +17,7 @@
   fmt.tty))
 
 (rule
- (targets compiler_version.ml)
+ (targets version.ml)
  (deps
   (:input-file ../../version.ml.in))
  (action

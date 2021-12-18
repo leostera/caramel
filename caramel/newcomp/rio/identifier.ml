@@ -1,3 +1,4 @@
+(*
 module Erl = Erlang.Parsetree_helper
 
 type t = string list
@@ -104,6 +105,7 @@ let local_symbol t =
       * Qualified - `'Caramel@App.User':'login'`
       * Local - `'login'`
   *)
+
 let symbol t =
   let open Erl in
   match List.rev t with
@@ -115,3 +117,5 @@ let symbol t =
       let n = Name.atom (Atom.mk ~ctx:Loc.empty name) in
       Symbol.qualified ~m ~n
   | _ -> Error.todo "Identifier.symbol was entirely empty?"
+
+*)

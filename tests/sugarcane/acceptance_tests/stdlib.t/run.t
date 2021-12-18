@@ -2,7 +2,7 @@
   using_core.ml
   using_io.ml
   using_math.ml
-  $ caramel compile --sugarcane *.ml
+  $ caramel compile *.ml
   Compiling using_core.core	OK
   Compiling using_io.core	OK
   Compiling using_math.core	OK

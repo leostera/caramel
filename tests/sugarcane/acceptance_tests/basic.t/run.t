@@ -1,4 +1,4 @@
-  $ caramel compile --sugarcane --dump-ast a.mli a.ml
+  $ caramel compile --dump-ast a.mli a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.mli a.ml))
     (stdlib

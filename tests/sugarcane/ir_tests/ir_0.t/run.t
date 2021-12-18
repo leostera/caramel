@@ -3,13 +3,10 @@
 We expect to not be able to compile top-level module values that are not
 functions:
 
-  $ caramel compile --sugarcane --debug lambda_let_val.ml
+  $ caramel compile --debug lambda_let_val.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_let_val.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_let_val.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_let_val.ml)
                                      (source_kind impl))
@@ -33,13 +30,10 @@ functions:
 
 Top-level module functions, however, should be lifted to the IR:
 
-  $ caramel compile --sugarcane --debug lambda_let_fun.ml
+  $ caramel compile --debug lambda_let_fun.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_let_fun.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_let_fun.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_let_fun.ml)
                                      (source_kind impl))
@@ -75,13 +69,10 @@ Top-level module functions, however, should be lifted to the IR:
 
 Support for function application:
 
-  $ caramel compile --sugarcane --debug lambda_apply.ml
+  $ caramel compile --debug lambda_apply.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_apply.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_apply.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_apply.ml)
                                      (source_kind impl))
@@ -125,13 +116,10 @@ Support for function application:
 
 Support for literals:
 
-  $ caramel compile --sugarcane --debug lambda_const.ml
+  $ caramel compile --debug lambda_const.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_const.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_const.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_const.ml)
                                      (source_kind impl))
@@ -266,13 +254,10 @@ Support for literals:
 
 Functions and lambdas!
 
-  $ caramel compile --sugarcane --debug lambda_fun.ml
+  $ caramel compile --debug lambda_fun.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_fun.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_fun.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_fun.ml)
                                      (source_kind impl))
@@ -328,13 +313,10 @@ Functions and lambdas!
 
 Support for primitives:
 
-  $ caramel compile --sugarcane --debug lambda_prim.ml
+  $ caramel compile --debug lambda_prim.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_prim.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_prim.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_prim.ml)
                                      (source_kind impl))
@@ -651,13 +633,10 @@ construct, like BuckleScript did it with their Js.t type? Dunno, need to check.
 
 We expect objects to not be liftable to IR:
 
-  $ caramel compile --sugarcane --debug lambda_obj.ml
+  $ caramel compile --debug lambda_obj.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_obj.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_obj.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_obj.ml)
                                      (source_kind impl))
@@ -680,13 +659,10 @@ We expect objects to not be liftable to IR:
 We don't expect assignments to be liftable to IR since they don't have good
 support on the Erlang VM.
 
-  $ caramel compile --sugarcane --debug lambda_assign.ml
+  $ caramel compile --debug lambda_assign.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_assign.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_assign.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_assign.ml)
                                      (source_kind impl))
@@ -714,13 +690,10 @@ support on the Erlang VM.
 
 Support for recursive let bindings:
 
-  $ caramel compile --sugarcane --debug lambda_let_rec.ml
+  $ caramel compile --debug lambda_let_rec.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_let_rec.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_let_rec.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_let_rec.ml)
                                      (source_kind impl))
@@ -825,13 +798,10 @@ Support for recursive let bindings:
 
 Support for conditionals:
 
-  $ caramel compile --sugarcane --debug lambda_ifthenelse.ml
+  $ caramel compile --debug lambda_ifthenelse.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_ifthenelse.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_ifthenelse.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_ifthenelse.ml)
                                      (source_kind impl))
@@ -949,13 +919,10 @@ Support for conditionals:
 
 Support for external calls
 
-  $ caramel compile --sugarcane --debug lambda_external.ml
+  $ caramel compile --debug lambda_external.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_external.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_external.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_external.ml)
                                      (source_kind impl))
@@ -991,13 +958,10 @@ Support for external calls
 
 Support for calls between modules
 
-  $ caramel compile --sugarcane --debug lambda_modules.ml
+  $ caramel compile --debug lambda_modules.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_modules.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_modules.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_modules.ml)
                                      (source_kind impl))
@@ -1123,13 +1087,10 @@ Support for calls between modules
 
 Support for match/case/switch expressions:
 
-  $ caramel compile --sugarcane --debug lambda_switch.ml
+  $ caramel compile --debug lambda_switch.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_switch.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_switch.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_switch.ml)
                                      (source_kind impl))
@@ -1309,13 +1270,10 @@ Support for match/case/switch expressions:
 
 Support for sequences of expressions;
 
-  $ caramel compile --sugarcane --debug lambda_sequence.ml
+  $ caramel compile --debug lambda_sequence.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (lambda_sequence.ml))
-    (stdlib
-      (/Users/ostera/repos/github.com/AbstractMachinesLab/sugarcane/_build/install/default/bin/../lib/caramel/stdlib))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true))
+  ((sources (lambda_sequence.ml)) (stdlib (./)) (dump_parsetree true)
+    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_sequence.ml)
                                      (source_kind impl))
@@ -1369,7 +1327,7 @@ Sample. To add a new test, copy and paste this above, and replace `_.ml` with
 the right .ml file. Then remove the `#` that are preventing these commands from
 running.
 
-  $ # caramel compile --sugarcane --debug _.ml
+  $ # caramel compile --debug _.ml
 
   $ # cat _.ml.lambda
 

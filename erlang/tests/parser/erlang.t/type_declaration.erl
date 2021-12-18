@@ -1,1 +1,0 @@
--module(type_declaration).
