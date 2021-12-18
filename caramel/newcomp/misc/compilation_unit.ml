@@ -1,4 +1,12 @@
-type t = { source_file : Fpath.t; source_kind : Source_kind.t }
+type t = {
+  (* The filesystem path where the file should be read from *)
+  source_file : Fpath.t;
+  (* The kind of file we are working with. *)
+  source_kind : Source_kind.t;
+}
+(** A unit of compilation. This value includes all the information
+    we need to begin a compilation process.
+  *)
 
 let from_source s =
   Source_kind.of_file_path s

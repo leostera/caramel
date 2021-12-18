@@ -5,7 +5,16 @@
   (backend bisect_ppx))
  (preprocess
   (pps ppx_sexp_conv))
- (libraries caramel.sugarcane erlang fpath sexplib str logs logs.fmt fmt.tty))
+ (libraries
+  caramel.sugarcane
+  caramel.typing
+  caramel.misc
+  caramel.rio
+  sexplib
+  str
+  logs
+  logs.fmt
+  fmt.tty))
 
 (rule
  (targets compiler_version.ml)

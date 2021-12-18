@@ -1,10 +1,26 @@
-open Erlang.Parsetree
+let write ~unit ~ext pp t =
+  let filename = Compilation_unit.source_file unit ^ ext in
+  Logs.debug (fun f -> f "Writing %s" filename);
+  let oc = open_out_bin filename in
+  (try
+     let ppf = Format.formatter_of_out_channel oc in
+     Format.fprintf ppf "%a" pp t
+   with _ -> Sys.remove filename);
+  close_out oc;
+  Logs.debug (fun f -> f "OK")
 
+let write_many ~unit ~ext pp ts =
+  List.iteri
+    (fun idx t -> write ~unit ~ext:(ext ^ "_" ^ Int.to_string idx) pp t)
+    ts
+
+(*
 let write_file pp file_name impl =
   Logs.debug (fun f -> f "Writing %s\t" file_name);
   let oc = open_out_bin file_name in
   (try
      let ppf = Format.formatter_of_out_channel oc in
+     Format.fprintf ppf "%% Source code generated with Caramel.\n";
      Format.fprintf ppf "%a" pp impl
    with _ -> Sys.remove file_name);
   close_out oc;
@@ -30,3 +46,4 @@ let write_asts outs =
 
 let write_files ~kind impls =
   match kind with `ast -> write_asts impls | `sources -> write_sources impls
+  *)

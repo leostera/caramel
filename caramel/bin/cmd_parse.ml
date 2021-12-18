@@ -41,7 +41,7 @@ let pp_ocaml_to_erlang_parsetree ~stdlib_path source_file =
       Caramel_compiler.Compiler.initialize_compiler ~stdlib_path ();
       try
         let open Typedtree in
-        let {structure;_}=
+        let { structure; _ } =
           Compile_common.parse_impl i
           |> Typemod.type_implementation i.source_file i.output_prefix
                i.module_name i.env

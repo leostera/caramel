@@ -1,6 +1,8 @@
 (library
  (name caramel_sugarcane)
  (public_name caramel.sugarcane)
+ (preprocess
+  (pps ppx_sexp_conv))
  (instrumentation
   (backend bisect_ppx))
- (libraries compiler-libs.common erlang fpath sexplib str logs))
+ (libraries caramel_misc caramel_typing fpath sexplib str logs))

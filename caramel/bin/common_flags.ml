@@ -14,12 +14,12 @@ let stdlib_path =
     & opt string Caramel_compiler.Compiler.default_stdlib_path
     & info [ "stdlib-path" ] ~env:(env_var "CARAMEL_STDLIB_PATH"))
 
-let dump_ast =
+let dump_pass =
+  Arg.(value & opt int (-1) & info [ "p"; "dump-pass" ] ~docv:"DUMP_PASS")
+
+let dump name =
   Arg.(
     value & flag
-    & info [ "d"; "dump-ast" ] ~docv:"DUMP_AST"
-        ~doc:
-          "Use this flag to print out to standard output the ASTs of the \
-           different representations being used during compilation. This is \
-           NOT suitable for programmatic usage, and its mostly used for \
-           debugging the compiler itself.")
+    & info [ "dump-" ^ name ] ~docv:("DUMP_" ^ String.uppercase_ascii name))
+
+let debug = Arg.(value & flag & info [ "d"; "debug" ] ~docv:"DEBUG")

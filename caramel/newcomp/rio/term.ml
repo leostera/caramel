@@ -10,4 +10,5 @@ let from_ocaml_constant ~constant =
   | Const_int32 int -> Erl.Term.int ~ctx (Int32.to_string int)
   | Const_int64 int -> Erl.Term.int ~ctx (Int64.to_string int)
   | Const_nativeint int -> Erl.Term.int ~ctx (Nativeint.to_string int)
-  | Const_string (_str, _, _) -> Error.todo ()
+  | Const_string (_str, _, _) ->
+      Error.todo "Term.from_ocaml_constant(Const_string)"

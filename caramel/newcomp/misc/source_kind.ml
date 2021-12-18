@@ -7,3 +7,6 @@ let of_file_path s =
   | ext -> Error (`Invalid_extension ext)
 
 let to_string t = match t with Interface -> "intf" | Implementation -> "impl"
+
+let print_error (`Invalid_extension ext) =
+  Format.fprintf Format.std_formatter "Invalid file extension: %s\n%!" ext

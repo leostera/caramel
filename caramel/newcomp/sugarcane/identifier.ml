@@ -1,75 +1,22 @@
-module Erl = Erlang.Parsetree_helper
+open Sexplib.Std
 
-(* Module Name conversions between OCaml and Erlang *)
-module Module_name : sig
-  type t
+type t = { path : string list; unique_name : string; source_name : string }
+[@@deriving sexp]
 
-  val make : prefix:'a list -> ident:'a -> 'a list
+let empty = { path = []; unique_name = ""; source_name = "" }
 
-  val from_ocaml : prefix:t -> ident:Ident.t option -> t
+let to_string t = String.concat "." (List.rev (t.source_name :: t.path))
 
-  val from_parts : string list -> t
+let of_ident id =
+  { path = []; unique_name = Ident.unique_name id; source_name = Ident.name id }
 
-  val root : string -> t
+let is_module t =
+  match String.get t.source_name 0 with 'A' .. 'Z' -> true | _ -> false
 
-  val to_string : t -> string
+let namespace t ts = { t with path = List.map (fun t -> t.source_name) ts }
 
-  val to_file_name : t -> string
+let join a b = { a with path = a.path @ b.path }
 
-  val to_atom : t -> Erlang.Parsetree.location Erlang.Parsetree.atom
-end = struct
-  type t = string list
-
-  let separator = "."
-
-  let root_module = "Caramel"
-
-  let make ~prefix ~ident = ident :: prefix
-
-  let from_ocaml : prefix:t -> ident:Ident.t option -> t =
-   fun ~prefix ~ident ->
-    let ident = match ident with Some x -> Ident.name x | None -> "" in
-    make ~prefix ~ident
-
-  let from_parts parts = parts
-
-  let root ident = make ~prefix:[ root_module ] ~ident
-
-  let to_string t = String.concat separator (List.rev t)
-
-  let to_file_name t = to_string t ^ ".erl"
-
-  let to_atom t = Erl.Atom.mk ~ctx:Erl.Loc.empty (to_string t)
-end
-
-module Well_known = struct
-  let unit = Erl.Atom.mk ~ctx:Erl.Loc.empty "()"
-
-  let is_well_known id = if id = unit then `unit else `not_well_known
-end
-
-let constructor ident =
-  let name = Longident.last ident in
-  Erl.Atom.mk ~ctx:Erl.Loc.empty name
-
-let binding ident =
-  let name = Ident.name ident in
-  Erl.Name.var ~ctx:Erl.Loc.empty ~name
-
-let from_ocaml ~ident =
-  match Longident.flatten ident with
-  | [ name ] -> Erl.Name.var ~ctx:Erl.Loc.empty ~name
-  | f :: mod_path ->
-      let m =
-        List.rev mod_path |> Module_name.from_parts |> Module_name.to_string
-      in
-      Erl.Name.mf ~ctx:Erl.Loc.empty ~m ~f
-  | _ -> Error.todo ()
-
-let function_name ident =
-  let name = Ident.name ident in
-  Erl.Atom.mk ~ctx:Erl.Loc.empty name
-
-let type_name ident =
-  let name = Ident.name ident in
-  Erl.Atom.mk ~ctx:Erl.Loc.empty name
+let module_name_of_string str =
+  let str = String.capitalize_ascii str in
+  { empty with unique_name = str; source_name = str }

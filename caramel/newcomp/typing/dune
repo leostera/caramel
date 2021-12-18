@@ -1,0 +1,13 @@
+(library
+ (name caramel_typing)
+ (public_name caramel.typing)
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries
+  caramel_misc
+  caramel_syntax
+  compiler-libs.common
+  fpath
+  sexplib
+  str
+  logs))

@@ -1,51 +1,86 @@
+open Caramel_caml
+open Caramel_misc
+open Caramel_rio
+open Caramel_sugarcane
+open Caramel_syntax
+open Caramel_typing
 open Sexplib.Std
 
 (* TODO(@ostera): turn these back from `string` to `Fpath.t` *)
-type opts = { sources : string list; stdlib : string option; dump_ast : bool }
+type opts = {
+  sources : string list;
+  stdlib : string option;
+  dump_parsetree : bool;
+  dump_typedtree : bool;
+  dump_ir : bool;
+  dump_pass : int;
+  dump_erl_ast : bool;
+}
 [@@deriving sexp]
 
-let handle_typedtree ~opts ~unit ~module_name ~signature ~structure =
-  let open Caramel_sugarcane in
-  let asts =
-    Sugarcane.translate
-      {
-        file_name = Compilation_unit.file_name unit;
-        module_name;
-        signature;
-        structure;
-      }
-  in
+type t = { opts : opts }
 
-  if opts.dump_ast then Output.write_files ~kind:`ast asts else ();
-  Output.write_files ~kind:`sources asts
+let compile_one ~t ~caml:_ source =
+  let ( let* ) = Stdlib.Result.bind in
 
-let run_one ~opts ~caml source =
-  match Compilation_unit.from_source source with
-  | Error err -> Error (`Compilation_error err)
-  | Ok unit -> (
-      match Compilation_unit.source_kind unit with
-      | Interface -> Caml_compiler.compile_interface ~unit caml
-      | Implementation ->
-          Caml_compiler.compile_implementation ~unit (handle_typedtree ~opts)
-            caml)
+  let* unit = Compilation_unit.from_source source in
 
-let compile_all ~opts ~caml ~sources =
-  match
-    let _ = List.map (run_one ~opts ~caml) sources in
-    Warnings.check_fatal ()
-  with
-  | exception Env.Error err ->
-      Env.report_error Format.std_formatter err;
-      Format.fprintf Format.std_formatter "\n%!";
-      Error `Compilation_error
-  | exception exc ->
-      (match Location.error_of_exn exc with
-      | Some (`Ok error) -> Location.print_report Format.std_formatter error
-      | _ ->
-          Format.fprintf Format.std_formatter "ERROR: %s\n"
-            (Printexc.to_string exc));
-      Error `Other_error
-  | _ -> Ok ()
+  Logs.debug (fun f -> f "Compiling unit: %a\n" Compilation_unit.pp unit);
+
+  match Compilation_unit.source_kind unit with
+  | Interface ->
+      let* parsetree = Syntax.parse_interface ~unit in
+      if t.opts.dump_parsetree then
+        Output.write ~unit ~ext:".parsetree" Syntax.pp_intf parsetree;
+
+      let* interface = Typing.check_interface ~unit ~parsetree in
+      if t.opts.dump_typedtree then
+        Output.write ~unit ~ext:".typedtree" Typing.pp_intf interface;
+
+      Ok ()
+  | Implementation ->
+      let* parsetree = Syntax.parse_implementation ~unit in
+      if t.opts.dump_parsetree then
+        Output.write ~unit ~ext:".parsetree" Syntax.pp_impl parsetree;
+
+      let* typedunit = Typing.check_implementation ~unit ~parsetree in
+      if t.opts.dump_typedtree then
+        Output.write ~unit ~ext:".lambda" Typing.pp_impl typedunit;
+
+      Logs.debug (fun f -> f "Translating to IR...");
+      let tunit =
+        Sugarcane.Translation_unit.make ~dump_pass:t.opts.dump_pass ~unit
+          ~program:typedunit
+      in
+      let tunit = Sugarcane.translate tunit in
+      if t.opts.dump_ir then
+        Output.write ~unit ~ext:".ir" Sugarcane.IR.pp tunit.ir;
+
+      Logs.debug (fun f -> f "Translating to B...");
+      let b = Sugarcane.to_b_lang tunit in
+      if t.opts.dump_ir then Output.write_many ~unit ~ext:".b" Sugarcane.B.pp b;
+
+      Rio.codegen ~tunit ~b;
+
+      Logs.debug (fun f -> f "Done");
+
+      Ok ()
+
+let compile_all ~t ~caml ~sources =
+  List.fold_left
+    (fun acc src ->
+      match (acc, compile_one ~t ~caml src) with
+      | last, Ok () -> last
+      | _, Error (`Invalid_extension _ as e) ->
+          Source_kind.print_error e;
+          Error ()
+      | _, Error (`Caml_typing_error e) ->
+          Caml.print_type_error e;
+          Error ()
+      | _, Error (`Caml_parse_error e) ->
+          Caml.print_parse_error e;
+          Error ())
+    (Ok ()) sources
 
 let run ({ sources; stdlib; _ } as opts) =
   Fmt_tty.setup_std_outputs ();
@@ -59,7 +94,7 @@ let run ({ sources; stdlib; _ } as opts) =
   let sources = List.map Fpath.v sources in
 
   let caml =
-    Caml_compiler.init
+    Caml.init
       {
         stdlib = Option.map Fpath.v stdlib;
         tool_name = "caramel";
@@ -68,4 +103,4 @@ let run ({ sources; stdlib; _ } as opts) =
       }
   in
 
-  compile_all ~opts ~caml ~sources
+  compile_all ~t:{ opts } ~caml ~sources

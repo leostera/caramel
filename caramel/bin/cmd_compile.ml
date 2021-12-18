@@ -10,21 +10,30 @@ let description =
 
 let info = Info.make ~name ~doc ~description
 
-let run sources sugarcane dump_ast no_stdlib stdlib_path =
+let run sources sugarcane debug dump_ast dump_erl_ast dump_parsetree
+    dump_typedtree dump_pass no_stdlib stdlib_path =
   match
     if sugarcane then
       Caramel_newcomp.Newcomp.Runner.run
         {
           sources;
-          dump_ast;
+          dump_parsetree = debug || dump_parsetree;
+          dump_typedtree = debug || dump_typedtree;
+          dump_ir = debug || dump_ast;
+          dump_pass;
+          dump_erl_ast = debug || dump_erl_ast;
           stdlib = (if no_stdlib then None else Some stdlib_path);
         }
     else
-      Caramel_compiler.Compiler.compile
-        { sources; dump_ast; targets = [ Erlang ]; no_stdlib; stdlib_path }
+      match
+        Caramel_compiler.Compiler.compile
+          { sources; dump_ast; targets = [ Erlang ]; no_stdlib; stdlib_path }
+      with
+      | Ok () -> Ok ()
+      | Error _ -> Error ()
   with
   | Ok () -> 0
-  | Error _ -> 1
+  | Error () -> 1
 
 let cmd =
   let sugarcane =
@@ -39,6 +48,11 @@ let cmd =
       & info [] ~docv:"SOURCES" ~doc:"A list of source files to compile")
   in
   ( Term.(
-      pure run $ sources $ sugarcane $ Common_flags.dump_ast
-      $ Common_flags.no_stdlib $ Common_flags.stdlib_path),
+      pure run $ sources $ sugarcane $ Common_flags.debug
+      $ Common_flags.dump "ast"
+      $ Common_flags.dump "erl_ast"
+      $ Common_flags.dump "parsetree"
+      $ Common_flags.dump "typedtree"
+      $ Common_flags.dump_pass $ Common_flags.no_stdlib
+      $ Common_flags.stdlib_path),
     info )

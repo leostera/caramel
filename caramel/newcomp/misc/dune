@@ -1,0 +1,6 @@
+(library
+ (name caramel_misc)
+ (public_name caramel.misc)
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries fpath sexplib str logs))

@@ -1,0 +1,6 @@
+(library
+ (name caramel_caml)
+ (public_name caramel.caml)
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries caramel_misc compiler-libs.common fpath sexplib str logs))

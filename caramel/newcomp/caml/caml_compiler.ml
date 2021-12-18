@@ -1,3 +1,4 @@
+open Caramel_misc
 open Compile_common
 open Typedtree
 
@@ -50,21 +51,22 @@ let read_signature info =
     Some sign
   with Not_found -> None
 
-let compile_implementation ~unit handle_typedtree t =
+let compile_implementation ~unit ~handle_module t =
   Logs.debug (fun f ->
       f "Compiling implementation unit: %a" Compilation_unit.pp unit);
 
   let source_file = Compilation_unit.source_file unit in
-  let backend info {structure;_} =
+  let backend info { structure; coercion; _ } =
     let signature =
       match read_signature info with Some s -> s | None -> structure.str_type
     in
     let module_name =
       info.module_name |> Fpath.v |> Fpath.rem_ext ~multi:true |> Fpath.filename
     in
-    Logs.debug (fun f ->
-        f "Calling typedtree handler for unit: %a" Compilation_unit.pp unit);
-    handle_typedtree ~unit ~module_name ~signature ~structure
+    let program =
+      Translmod.transl_implementation info.module_name (structure, coercion)
+    in
+    handle_module ~unit ~module_name ~signature ~structure ~program
   in
   Compile_common.with_info ~dump_ext:"cmo" ~native:false
     ~output_prefix:(Filename.chop_extension source_file)
