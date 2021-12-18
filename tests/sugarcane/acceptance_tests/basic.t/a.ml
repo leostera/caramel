@@ -1,9 +1,9 @@
-let x () = 1
+let x () = 2
 
 module B = struct
-  let y () = 2
+  let y () = 199
 
   module C = struct
-    let omg () = 3
+    let z () = 900
   end
 end
