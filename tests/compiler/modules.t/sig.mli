@@ -1,1 +1,0 @@
-val inc : int -> int
