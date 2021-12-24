@@ -10,7 +10,7 @@ Test that the implementation pipeline works:
   $ caramel compile --debug a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
@@ -19,6 +19,9 @@ Test that the implementation pipeline works:
   caramel: [DEBUG] Writing a.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -28,11 +31,11 @@ Test that the implementation pipeline works:
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.b_2
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing A.B.C.core
+  caramel: [DEBUG] Writing Caramel.A.B.core
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing A.core
+  caramel: [DEBUG] Writing Caramel.A.core
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing A.B.core
+  caramel: [DEBUG] Writing Caramel.A.B.C.core
   caramel: [DEBUG] OK
   caramel: [DEBUG] Done
 
@@ -149,10 +152,10 @@ Test that the implementation pipeline works:
   $ cat a.ml.lambda
   (let
     (B/10 =
-       (module-defn(B/10) Ml a.ml(1):0-87
+       (module-defn(B/10) A a.ml(1):0-87
          (let
            (C/6 =
-              (module-defn(C/6) Ml.B a.ml(2):20-62
+              (module-defn(C/6) A.B a.ml(2):20-62
                 (let (z/3 = (function param/5 : int 900)) (makeblock 0 z/3)))
             y/7 = (function param/9 : int (apply (field 0 C/6) 0)))
            (makeblock 0 C/6 y/7)))
@@ -165,5 +168,16 @@ Test that the implementation pipeline works:
   [1]
 
   $ cat Caramel.A.core
-  cat: Caramel.A.core: No such file or directory
-  [1]
+  % Source code generated with Caramel.
+  module 'Caramel.A'
+  [
+   'w'/1,
+   'x'/1
+  ]
+  attributes []
+  
+  'w'/1 = (fun (Param) -> apply 'x'/1('unit') -| [])
+  
+  'x'/1 = (fun (Param) -> call 'Caramel.A.B':'y'('unit') -| [])
+  end
+  

@@ -7,32 +7,27 @@ Calling compile without inputs will error out.
 
 Calling compile with uncompilable files will error out.
   $ caramel compile dummy.txt
-  Attempted to compile dummy.txt, but .txt files are not supported with the target flag: --target=erlang
+  caramel: [DEBUG] Running Sugarcane compiler on sources: 
+  ((sources (dummy.txt)) (stdlib (./)) (dump_parsetree false)
+    (dump_typedtree false) (dump_ir false) (dump_pass -1) (dump_erl_ast false)
+    (print_time false))
+  
+  Invalid file extension: .txt
   [1]
 
-  $ cat >to_format.ml <<EOF
-  > 
-  > let 
-  > 
-  >  () = 1
-  > 
-  >   + 2
-  >   
-  > 
-  > ;;
-  > 
+  $ cat >a.ml <<EOF
+  > let a () = 1
   > EOF
-  $ cat to_format.ml
+  $ caramel compile a.ml
+  caramel: [DEBUG] Running Sugarcane compiler on sources: 
+  ((sources (a.ml)) (stdlib (./)) (dump_parsetree false) (dump_typedtree false)
+    (dump_ir false) (dump_pass -1) (dump_erl_ast false) (print_time false))
   
-  let 
+  caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
-   () = 1
-  
-    + 2
-    
-  
-  ;;
-  
-  $ caramel fmt to_format.ml
-  $ cat to_format.ml
-  let () = 1 + 2
+  caramel: [DEBUG] Translating to IR...
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] Translating to B...
+  caramel: [DEBUG] Writing Caramel.A.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Done

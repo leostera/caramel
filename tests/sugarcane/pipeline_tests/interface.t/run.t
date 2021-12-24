@@ -1,7 +1,7 @@
   $ caramel compile --debug a.mli
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.mli)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.mli) (source_kind intf))
   
@@ -9,6 +9,7 @@
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.mli.typedtree
   caramel: [DEBUG] OK
+  caramel: [DEBUG] Done
 
   $ cat a.mli.parsetree
   [

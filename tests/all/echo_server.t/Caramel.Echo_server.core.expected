@@ -1,0 +1,114 @@
+% Source code generated with Caramel.
+module 'Echo_server'
+[
+ 'main'/1,
+ 'loop'/1
+]
+attributes []
+
+'main'/1 =
+ (fun (Param) ->
+ let <Port> = 2112 in
+   let <_match_> = call 'gen_tcp':'listen'(
+                     Port,
+                     [ 'binary'|
+                      [ {'active', 'false'}|
+                       [ {'packet', 'line'}|[ {'reuseaddr', 'true'}|[] ] ] ]
+                     ])
+    in
+   case _match_ of
+   <{'ok', _}> when 'true' ->
+     do
+       call 'io':'format'(
+         #{
+           #<108>(8,1,'integer',['unsigned'|['big']]),
+           #<105>(8,1,'integer',['unsigned'|['big']]),
+           #<115>(8,1,'integer',['unsigned'|['big']]),
+           #<116>(8,1,'integer',['unsigned'|['big']]),
+           #<101>(8,1,'integer',['unsigned'|['big']]),
+           #<110>(8,1,'integer',['unsigned'|['big']]),
+           #<105>(8,1,'integer',['unsigned'|['big']]),
+           #<110>(8,1,'integer',['unsigned'|['big']]),
+           #<103>(8,1,'integer',['unsigned'|['big']]),
+           #<32>(8,1,'integer',['unsigned'|['big']]),
+           #<111>(8,1,'integer',['unsigned'|['big']]),
+           #<110>(8,1,'integer',['unsigned'|['big']]),
+           #<32>(8,1,'integer',['unsigned'|['big']]),
+           #<126>(8,1,'integer',['unsigned'|['big']]),
+           #<112>(8,1,'integer',['unsigned'|['big']]),
+           #<126>(8,1,'integer',['unsigned'|['big']]),
+           #<110>(8,1,'integer',['unsigned'|['big']])
+         }#, [ Port|[] ])
+        apply 'loop'/1(call 'erlang':'element'(2, _match_))
+   <{'error', _}> when 'true' ->
+     call 'erlang':'throw'(
+       {{'EXIT', 'badmatch'},
+        {
+         #{
+           #<101>(8,1,'integer',['unsigned'|['big']]),
+           #<99>(8,1,'integer',['unsigned'|['big']]),
+           #<104>(8,1,'integer',['unsigned'|['big']]),
+           #<111>(8,1,'integer',['unsigned'|['big']]),
+           #<95>(8,1,'integer',['unsigned'|['big']]),
+           #<115>(8,1,'integer',['unsigned'|['big']]),
+           #<101>(8,1,'integer',['unsigned'|['big']]),
+           #<114>(8,1,'integer',['unsigned'|['big']]),
+           #<118>(8,1,'integer',['unsigned'|['big']]),
+           #<101>(8,1,'integer',['unsigned'|['big']]),
+           #<114>(8,1,'integer',['unsigned'|['big']]),
+           #<46>(8,1,'integer',['unsigned'|['big']]),
+           #<109>(8,1,'integer',['unsigned'|['big']]),
+           #<108>(8,1,'integer',['unsigned'|['big']])
+         }#, 30, 2}})
+   end -| [])
+
+'loop'/1 =
+ (fun (Socket) ->
+ let <_match_> = call 'gen_tcp':'accept'(Socket) in
+   case _match_ of
+   <{'ok', _}> when 'true' ->
+     let <Conn> = call 'erlang':'element'(2, _match_) in
+       let <_match_> = call 'gen_tcp':'recv'(Conn, 0) in
+       case _match_ of
+       <{'ok', _}> when 'true' ->
+         let <Data> = call 'erlang':'element'(2, _match_) in
+           do
+             call 'io':'format'(
+               #{
+                 #<100>(8,1,'integer',['unsigned'|['big']]),
+                 #<97>(8,1,'integer',['unsigned'|['big']]),
+                 #<116>(8,1,'integer',['unsigned'|['big']]),
+                 #<97>(8,1,'integer',['unsigned'|['big']]),
+                 #<58>(8,1,'integer',['unsigned'|['big']]),
+                 #<32>(8,1,'integer',['unsigned'|['big']]),
+                 #<126>(8,1,'integer',['unsigned'|['big']]),
+                 #<112>(8,1,'integer',['unsigned'|['big']]),
+                 #<126>(8,1,'integer',['unsigned'|['big']]),
+                 #<110>(8,1,'integer',['unsigned'|['big']])
+               }#, [ Data|[] ])
+              do call 'gen_tcp':'send'(Conn, Data) apply 'loop'/1(Socket)
+       <{'error', _}> when 'true' -> call 'gen_tcp':'close'(Conn)
+       end
+   <{'error', _}> when 'true' ->
+     call 'erlang':'throw'(
+       {{'EXIT', 'badmatch'},
+        {
+         #{
+           #<101>(8,1,'integer',['unsigned'|['big']]),
+           #<99>(8,1,'integer',['unsigned'|['big']]),
+           #<104>(8,1,'integer',['unsigned'|['big']]),
+           #<111>(8,1,'integer',['unsigned'|['big']]),
+           #<95>(8,1,'integer',['unsigned'|['big']]),
+           #<115>(8,1,'integer',['unsigned'|['big']]),
+           #<101>(8,1,'integer',['unsigned'|['big']]),
+           #<114>(8,1,'integer',['unsigned'|['big']]),
+           #<118>(8,1,'integer',['unsigned'|['big']]),
+           #<101>(8,1,'integer',['unsigned'|['big']]),
+           #<114>(8,1,'integer',['unsigned'|['big']]),
+           #<46>(8,1,'integer',['unsigned'|['big']]),
+           #<109>(8,1,'integer',['unsigned'|['big']]),
+           #<108>(8,1,'integer',['unsigned'|['big']])
+         }#, 20, 2}})
+   end -| [])
+end
+
