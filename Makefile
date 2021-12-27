@@ -1,7 +1,7 @@
 export
 
 CARAMEL = $(PWD)/caramel.exe
-CARAMEL_STDLIB_PATH ?= $(PWD)/_build/default/stdlib
+CARAMEL_STDLIB_PATH ?= ./
 
 .PHONY: build
 build:
@@ -29,11 +29,11 @@ setup:
 
 .PHONY: test
 test:
-	dune runtest ./tests -p caramel
+	dune test ./tests -p caramel
 
 .PHONY: coverage
 coverage:
-	dune runtest --instrument-with bisect_ppx --force
+	dune test --instrument-with bisect_ppx --force
 	bisect-ppx-report html --expect src
 
 

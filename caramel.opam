@@ -6,21 +6,20 @@ description:
   "Caramel is a functional language for building type-safe, scalable, and maintainable applications."
 maintainer: ["Leandro Ostera <leandro@ostera.io>"]
 authors: ["Leandro Ostera <leandro@ostera.io>"]
-license: "Apache-2.0"
 homepage: "https://github.com/AbstractMachinesLab/caramel"
 bug-reports: "https://github.com/AbstractMachinesLab/caramel/issues"
 depends: [
   "dune" {>= "2.9" & >= "2.9"}
   "ocamlformat" {>= "0.17.0"}
   "ocaml" {>= "4.13.0"}
-  "reason"
   "alcotest"
   "bos"
-  "erlang"
-  "menhir"
   "ppx_sexp_conv"
+  "ppx_inline_test"
   "sexplib"
+  "bisect_ppx"
   "fpath"
+  "mtime"
   "odoc" {with-doc}
 ]
 build: [

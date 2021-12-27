@@ -21,6 +21,9 @@
   alcotest
   bos
   ppx_sexp_conv
+  ppx_inline_test
   sexplib
+  bisect_ppx
   fpath
+  mtime
   ))
