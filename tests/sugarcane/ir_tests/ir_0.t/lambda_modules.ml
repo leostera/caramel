@@ -18,7 +18,7 @@ end
 
 let a2 () = A2.f ()
 
-(*** included module ***)
+(*** anonymous included module ***)
 
 module A3 = struct
   let f _n = 1
@@ -29,3 +29,13 @@ module A3 = struct
 end
 
 let a3 () = A3.g ()
+
+(*** named included module ***)
+
+module A4 = struct
+  let f _n = 1
+
+  include A3
+end
+
+let a4 () = A4.f (A4.g ())

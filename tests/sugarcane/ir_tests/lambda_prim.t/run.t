@@ -308,8 +308,8 @@ Support for records.
            (Ir_fun (((path ()) (unique_name param_17) (source_name param)))
              (Ir_record
                (fields
-                 (((Ir_lit (Lit_string _0)) (Ir_lit (Lit_int 1)))
-                   ((Ir_lit (Lit_string _1))
+                 (((Ir_lit (Lit_atom _0)) (Ir_lit (Lit_int 1)))
+                   ((Ir_lit (Lit_atom _1))
                      (Ir_apply
                        (Ir_fn_name
                          ((path ()) (unique_name r0_12) (source_name r0)) 1)
@@ -318,9 +318,9 @@ Support for records.
              (Ir_fun (((path ()) (unique_name param_20) (source_name param)))
                (Ir_record
                  (fields
-                   (((Ir_lit (Lit_string _0)) (Ir_lit (Lit_int 1)))
-                     ((Ir_lit (Lit_string _1)) (Ir_lit (Lit_string record)))
-                     ((Ir_lit (Lit_string _2))
+                   (((Ir_lit (Lit_atom _0)) (Ir_lit (Lit_int 1)))
+                     ((Ir_lit (Lit_atom _1)) (Ir_lit (Lit_string record)))
+                     ((Ir_lit (Lit_atom _2))
                        (Ir_apply
                          (Ir_fn_name
                            ((path ()) (unique_name r1_15) (source_name r1)) 1)

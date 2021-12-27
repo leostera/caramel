@@ -51,13 +51,27 @@ Verify that calls to local functions go from (Apply (Var x)) to (Apply (Fn_name 
   $ cat a.ml.b_0
   (Module (name Caramel.A)
     (defs
-      (((df_name (g 1))
+      (((df_name (module_info 0))
          (df_body
            (Fun
-             ((args (param))
+             ((args ())
                (body
-                 (Apply (fn (Fun_ref (f 1)))
-                   (args ((Literal (Lit_atom unit))))))))))
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.A))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args ((Literal (Lit_atom Caramel.A)) (Var Opts)))))))))
+        ((df_name (g 1))
+          (df_body
+            (Fun
+              ((args (param))
+                (body
+                  (Apply (fn (Fun_ref (f 1)))
+                    (args ((Literal (Lit_atom unit))))))))))
         ((df_name (f 1))
           (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ((g 1) (f 1))))
+    (exports ((g 1) (f 1) (module_info 0) (module_info 1))))

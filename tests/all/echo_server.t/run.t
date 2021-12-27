@@ -56,7 +56,21 @@ Small TCP echo server.
   < module 'Caramel.Echo_server'
   ---
   > module 'Echo_server'
-  12,17c12,17
+  5,7c5
+  <  'loop'/1,
+  <  'module_info'/0,
+  <  'module_info'/1
+  ---
+  >  'loop'/1
+  11,17d8
+  < 'module_info'/0 =
+  <  (fun () -> call 'erlang':'get_module_info'('Caramel.Echo_server') -| [])
+  < 
+  < 'module_info'/1 =
+  <  (fun (Opts) ->
+  <  call 'erlang':'get_module_info'('Caramel.Echo_server', Opts) -| [])
+  < 
+  21,26c12,17
   <    let <_match__37> = call 'gen_tcp':'listen'(
   <                         Port,
   <                         [ 'binary'|
@@ -70,21 +84,21 @@ Small TCP echo server.
   >                       [ {'active', 'false'}|
   >                        [ {'packet', 'line'}|[ {'reuseaddr', 'true'}|[] ] ] ]
   >                      ])
-  19c19
+  28c19
   <    case _match__37 of
   ---
   >    case _match_ of
-  42c42
+  51c42
   <         apply 'loop'/1(call 'erlang':'element'(2, _match__37))
   ---
   >         apply 'loop'/1(call 'erlang':'element'(2, _match_))
-  67,68c67,68
+  76,77c67,68
   <  let <_match__36> = call 'gen_tcp':'accept'(Socket) in
   <    case _match__36 of
   ---
   >  let <_match_> = call 'gen_tcp':'accept'(Socket) in
   >    case _match_ of
-  70,72c70,72
+  79,81c70,72
   <      let <Conn> = call 'erlang':'element'(2, _match__36) in
   <        let <_match__34> = call 'gen_tcp':'recv'(Conn, 0) in
   <        case _match__34 of
@@ -92,7 +106,7 @@ Small TCP echo server.
   >      let <Conn> = call 'erlang':'element'(2, _match_) in
   >        let <_match_> = call 'gen_tcp':'recv'(Conn, 0) in
   >        case _match_ of
-  74c74
+  83c74
   <          let <Data> = call 'erlang':'element'(2, _match__34) in
   ---
   >          let <Data> = call 'erlang':'element'(2, _match_) in
@@ -291,9 +305,18 @@ Small TCP echo server.
   module 'Caramel.Echo_server'
   [
    'main'/1,
-   'loop'/1
+   'loop'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.Echo_server') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) ->
+   call 'erlang':'get_module_info'('Caramel.Echo_server', Opts) -| [])
   
   'main'/1 =
    (fun (Param) ->

@@ -23,6 +23,8 @@ parents:
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir_1
   caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing a.ml.ir_1
+  caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -110,27 +112,83 @@ parents:
   $ cat a.ml.b_0
   (Module (name Caramel.A.B.C)
     (defs
-      (((df_name (f 1))
-         (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ((f 1))))
+      (((df_name (module_info 0))
+         (df_body
+           (Fun
+             ((args ())
+               (body
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.A.B.C))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args ((Literal (Lit_atom Caramel.A.B.C)) (Var Opts)))))))))
+        ((df_name (f 1))
+          (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
+    (exports ((f 1) (module_info 0) (module_info 1))))
 
   $ cat a.ml.b_1
   (Module (name Caramel.A.B)
     (defs
-      (((df_name (f 1))
-         (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ((f 1))))
+      (((df_name (module_info 0))
+         (df_body
+           (Fun
+             ((args ())
+               (body
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.A.B))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args ((Literal (Lit_atom Caramel.A.B)) (Var Opts)))))))))
+        ((df_name (f 1))
+          (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
+    (exports ((f 1) (module_info 0) (module_info 1))))
 
   $ cat a.ml.b_2
   (Module (name Caramel.A)
     (defs
-      (((df_name (f 1))
-         (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ((f 1))))
+      (((df_name (module_info 0))
+         (df_body
+           (Fun
+             ((args ())
+               (body
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.A))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args ((Literal (Lit_atom Caramel.A)) (Var Opts)))))))))
+        ((df_name (f 1))
+          (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
+    (exports ((f 1) (module_info 0) (module_info 1))))
 
   $ cat a.ml.b_3
   (Module (name Caramel.A.B.C.D)
     (defs
-      (((df_name (f 1))
-         (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ((f 1))))
+      (((df_name (module_info 0))
+         (df_body
+           (Fun
+             ((args ())
+               (body
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.A.B.C.D))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args ((Literal (Lit_atom Caramel.A.B.C.D)) (Var Opts)))))))))
+        ((df_name (f 1))
+          (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
+    (exports ((f 1) (module_info 0) (module_info 1))))

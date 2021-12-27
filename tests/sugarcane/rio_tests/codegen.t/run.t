@@ -41,9 +41,9 @@ Lift IR into B-lang.
          (Ir_fun (((path ()) (unique_name y_16) (source_name y)))
            (Ir_record
              (fields
-               (((Ir_lit (Lit_string first))
+               (((Ir_lit (Lit_atom first))
                   (Ir_var ((path ()) (unique_name y_16) (source_name y))))
-                 ((Ir_lit (Lit_string second))
+                 ((Ir_lit (Lit_atom second))
                    (Ir_var ((path ()) (unique_name y_16) (source_name y))))))))
          (Ir_tuple
            ((Ir_var ((path ()) (unique_name m1_f_14) (source_name m1_f)))))))
@@ -64,10 +64,10 @@ Lift IR into B-lang.
               ((path ()) (unique_name second_9) (source_name second)))
             (Ir_record
               (fields
-                (((Ir_lit (Lit_string first))
+                (((Ir_lit (Lit_atom first))
                    (Ir_var
                      ((path ()) (unique_name first_8) (source_name first))))
-                  ((Ir_lit (Lit_string second))
+                  ((Ir_lit (Lit_atom second))
                     (Ir_var
                       ((path ()) (unique_name second_9) (source_name second))))))))
           (Ir_tuple
@@ -77,30 +77,23 @@ Lift IR into B-lang.
   % Source code generated with Caramel.
   module 'Caramel.A.M0'
   [
-   'm0_f'/2
+   'm0_f'/2,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
   
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.A.M0') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.A.M0', Opts) -| [])
+  
   'm0_f'/2 =
-   (fun (First, Second) ->
-   
-     ~{
-       #{
-         #<102>(8,1,'integer',['unsigned'|['big']]),
-         #<105>(8,1,'integer',['unsigned'|['big']]),
-         #<114>(8,1,'integer',['unsigned'|['big']]),
-         #<115>(8,1,'integer',['unsigned'|['big']]),
-         #<116>(8,1,'integer',['unsigned'|['big']])
-       }# => First,
-       #{
-         #<115>(8,1,'integer',['unsigned'|['big']]),
-         #<101>(8,1,'integer',['unsigned'|['big']]),
-         #<99>(8,1,'integer',['unsigned'|['big']]),
-         #<111>(8,1,'integer',['unsigned'|['big']]),
-         #<110>(8,1,'integer',['unsigned'|['big']]),
-         #<100>(8,1,'integer',['unsigned'|['big']])
-       }# => Second
-     }~ -| [])
+   (fun (First, Second) -> ~{
+                             'first' => First,
+                             'second' => Second
+                           }~ -| [])
   end
   
 
@@ -110,30 +103,22 @@ Lift IR into B-lang.
   % Source code generated with Caramel.
   module 'Caramel.A.M1'
   [
-   'm1_f'/1
+   'm1_f'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
   
-  'm1_f'/1 =
-   (fun (Y) ->
-   
-     ~{
-       #{
-         #<102>(8,1,'integer',['unsigned'|['big']]),
-         #<105>(8,1,'integer',['unsigned'|['big']]),
-         #<114>(8,1,'integer',['unsigned'|['big']]),
-         #<115>(8,1,'integer',['unsigned'|['big']]),
-         #<116>(8,1,'integer',['unsigned'|['big']])
-       }# => Y,
-       #{
-         #<115>(8,1,'integer',['unsigned'|['big']]),
-         #<101>(8,1,'integer',['unsigned'|['big']]),
-         #<99>(8,1,'integer',['unsigned'|['big']]),
-         #<111>(8,1,'integer',['unsigned'|['big']]),
-         #<110>(8,1,'integer',['unsigned'|['big']]),
-         #<100>(8,1,'integer',['unsigned'|['big']])
-       }# => Y
-     }~ -| [])
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.A.M1') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.A.M1', Opts) -| [])
+  
+  'm1_f'/1 = (fun (Y) -> ~{
+                           'first' => Y,
+                           'second' => Y
+                         }~ -| [])
   end
   
 
@@ -143,9 +128,17 @@ Lift IR into B-lang.
   % Source code generated with Caramel.
   module 'Caramel.A'
   [
-   'f0'/1
+   'f0'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.A') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.A', Opts) -| [])
   
   'f0'/1 =
    (fun (Param) ->
@@ -198,9 +191,17 @@ Lift IR into B-lang.
   % Source code generated with Caramel.
   module 'Caramel.B'
   [
-   'main'/1
+   'main'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.B') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.B', Opts) -| [])
   
   'main'/1 =
    (fun (X) ->
@@ -270,9 +271,17 @@ Lift IR into B-lang.
   % Source code generated with Caramel.
   module 'Caramel.C'
   [
-   'main'/1
+   'main'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.C') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.C', Opts) -| [])
   
   'main'/1 = (fun (X) -> apply 'main'/1(X) -| [])
   end
@@ -342,9 +351,17 @@ Lift IR into B-lang.
   % Source code generated with Caramel.
   module 'Caramel.D'
   [
-   'main'/1
+   'main'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.D') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.D', Opts) -| [])
   
   'main'/1 =
    (fun (X) ->
@@ -645,9 +662,9 @@ Codegen for primitives
                                           (source_name param)))
                                        (Ir_record
                                          (fields
-                                           (((Ir_lit (Lit_string _0))
+                                           (((Ir_lit (Lit_atom _0))
                                               (Ir_lit (Lit_int 1)))
-                                             ((Ir_lit (Lit_string _1))
+                                             ((Ir_lit (Lit_atom _1))
                                                (Ir_apply
                                                  (Ir_fn_name
                                                    ((path ())
@@ -663,11 +680,11 @@ Codegen for primitives
                                             (source_name param)))
                                          (Ir_record
                                            (fields
-                                             (((Ir_lit (Lit_string _0))
+                                             (((Ir_lit (Lit_atom _0))
                                                 (Ir_lit (Lit_int 1)))
-                                               ((Ir_lit (Lit_string _1))
+                                               ((Ir_lit (Lit_atom _1))
                                                  (Ir_lit (Lit_string record)))
-                                               ((Ir_lit (Lit_string _2))
+                                               ((Ir_lit (Lit_atom _2))
                                                  (Ir_apply
                                                    (Ir_fn_name
                                                      ((path ())
@@ -975,9 +992,18 @@ Codegen for primitives
    'list3'/1,
    'list2'/1,
    'list1'/1,
-   'list0'/1
+   'list0'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.Primitives') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) ->
+   call 'erlang':'get_module_info'('Caramel.Primitives', Opts) -| [])
   
   'gadt'/1 =
    (fun (Param) ->
@@ -1048,40 +1074,22 @@ Codegen for primitives
    (fun (Param) ->
    
      ~{
-       #{
-         #<95>(8,1,'integer',['unsigned'|['big']]),
-         #<48>(8,1,'integer',['unsigned'|['big']])
-       }# => 1,
-       #{
-         #<95>(8,1,'integer',['unsigned'|['big']]),
-         #<49>(8,1,'integer',['unsigned'|['big']])
-       }# => #{
-               #<114>(8,1,'integer',['unsigned'|['big']]),
-               #<101>(8,1,'integer',['unsigned'|['big']]),
-               #<99>(8,1,'integer',['unsigned'|['big']]),
-               #<111>(8,1,'integer',['unsigned'|['big']]),
-               #<114>(8,1,'integer',['unsigned'|['big']]),
-               #<100>(8,1,'integer',['unsigned'|['big']])
-             }#,
-       #{
-         #<95>(8,1,'integer',['unsigned'|['big']]),
-         #<50>(8,1,'integer',['unsigned'|['big']])
-       }# => apply 'r1'/1('unit')
+       '_0' => 1,
+       '_1' => #{
+                 #<114>(8,1,'integer',['unsigned'|['big']]),
+                 #<101>(8,1,'integer',['unsigned'|['big']]),
+                 #<99>(8,1,'integer',['unsigned'|['big']]),
+                 #<111>(8,1,'integer',['unsigned'|['big']]),
+                 #<114>(8,1,'integer',['unsigned'|['big']]),
+                 #<100>(8,1,'integer',['unsigned'|['big']])
+               }#,
+       '_2' => apply 'r1'/1('unit')
      }~ -| [])
   
-  'r1'/1 =
-   (fun (Param) ->
-   
-     ~{
-       #{
-         #<95>(8,1,'integer',['unsigned'|['big']]),
-         #<48>(8,1,'integer',['unsigned'|['big']])
-       }# => 1,
-       #{
-         #<95>(8,1,'integer',['unsigned'|['big']]),
-         #<49>(8,1,'integer',['unsigned'|['big']])
-       }# => apply 'r0'/1('unit')
-     }~ -| [])
+  'r1'/1 = (fun (Param) -> ~{
+                             '_0' => 1,
+                             '_1' => apply 'r0'/1('unit')
+                           }~ -| [])
   
   'r0'/1 =
    (fun (Param) ->

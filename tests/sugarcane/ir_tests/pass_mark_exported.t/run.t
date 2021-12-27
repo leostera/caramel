@@ -61,17 +61,39 @@ the Core module either.
   $ cat no_exports.ml.b_0
   (Module (name Caramel.No_exports)
     (defs
-      (((df_name (f0 1))
-         (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ()))
+      (((df_name (module_info 0))
+         (df_body
+           (Fun
+             ((args ())
+               (body
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.No_exports))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args ((Literal (Lit_atom Caramel.No_exports)) (Var Opts)))))))))
+        ((df_name (f0 1))
+          (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
+    (exports ((module_info 0) (module_info 1))))
 
   $ cat Caramel.No_exports.core
   % Source code generated with Caramel.
   module 'Caramel.No_exports'
   [
-   
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.No_exports') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) ->
+   call 'erlang':'get_module_info'('Caramel.No_exports', Opts) -| [])
   
   'f0'/1 = (fun (Param) -> 1 -| [])
   end
@@ -163,19 +185,43 @@ exports in the Core module either.
   $ cat some_exports.ml.b_0
   (Module (name Caramel.Some_exports)
     (defs
-      (((df_name (f1 1))
-         (df_body (Fun ((args (param)) (body (Literal (Lit_int 2)))))))
+      (((df_name (module_info 0))
+         (df_body
+           (Fun
+             ((args ())
+               (body
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.Some_exports))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args
+                      ((Literal (Lit_atom Caramel.Some_exports)) (Var Opts)))))))))
+        ((df_name (f1 1))
+          (df_body (Fun ((args (param)) (body (Literal (Lit_int 2)))))))
         ((df_name (f0 1))
           (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ((f0 1))))
+    (exports ((f0 1) (module_info 0) (module_info 1))))
 
   $ cat Caramel.Some_exports.core
   % Source code generated with Caramel.
   module 'Caramel.Some_exports'
   [
-   'f0'/1
+   'f0'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.Some_exports') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) ->
+   call 'erlang':'get_module_info'('Caramel.Some_exports', Opts) -| [])
   
   'f1'/1 = (fun (Param) -> 2 -| [])
   
@@ -233,17 +279,41 @@ When there is no interface, everything should be exported in the Core module.
   $ cat all_exports.ml.b_0
   (Module (name Caramel.All_exports)
     (defs
-      (((df_name (f0 1))
-         (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
-    (exports ((f0 1))))
+      (((df_name (module_info 0))
+         (df_body
+           (Fun
+             ((args ())
+               (body
+                 (Call (mod_ erlang) (fun_ get_module_info)
+                   (args ((Literal (Lit_atom Caramel.All_exports))))))))))
+        ((df_name (module_info 1))
+          (df_body
+            (Fun
+              ((args (Opts))
+                (body
+                  (Call (mod_ erlang) (fun_ get_module_info)
+                    (args
+                      ((Literal (Lit_atom Caramel.All_exports)) (Var Opts)))))))))
+        ((df_name (f0 1))
+          (df_body (Fun ((args (param)) (body (Literal (Lit_int 1)))))))))
+    (exports ((f0 1) (module_info 0) (module_info 1))))
 
   $ cat Caramel.All_exports.core
   % Source code generated with Caramel.
   module 'Caramel.All_exports'
   [
-   'f0'/1
+   'f0'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.All_exports') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) ->
+   call 'erlang':'get_module_info'('Caramel.All_exports', Opts) -| [])
   
   'f0'/1 = (fun (Param) -> 1 -| [])
   end

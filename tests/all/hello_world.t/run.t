@@ -32,7 +32,21 @@ Simple hello world test.
   < module 'Caramel.Hello_world'
   ---
   > module 'Hello_world'
-  42c42
+  4,6c4
+  <  'main'/1,
+  <  'module_info'/0,
+  <  'module_info'/1
+  ---
+  >  'main'/1
+  10,16d7
+  < 'module_info'/0 =
+  <  (fun () -> call 'erlang':'get_module_info'('Caramel.Hello_world') -| [])
+  < 
+  < 'module_info'/1 =
+  <  (fun (Opts) ->
+  <  call 'erlang':'get_module_info'('Caramel.Hello_world', Opts) -| [])
+  < 
+  51c42
   <         apply 'main'/1(call 'erlang':'tl'(X))
   ---
   >        apply 'main'/1(call 'erlang':'tl'(X))
@@ -83,9 +97,18 @@ Simple hello world test.
   % Source code generated with Caramel.
   module 'Caramel.Hello_world'
   [
-   'main'/1
+   'main'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.Hello_world') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) ->
+   call 'erlang':'get_module_info'('Caramel.Hello_world', Opts) -| [])
   
   'main'/1 =
    (fun (X) ->

@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-mkdir ebin
+mkdir -p ebin
 pushd src;
 caramel compile erlang.ml
 caramel compile elli.ml

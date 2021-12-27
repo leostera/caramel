@@ -664,10 +664,10 @@ Support for external calls
 
 Support for calls between modules
 
-  $ caramel compile --debug lambda_modules.ml
+  $ caramel compile --debug --dump-pass 1 lambda_modules.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (lambda_modules.ml)) (stdlib (./)) (dump_parsetree true)
-    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
+    (dump_typedtree true) (dump_ir true) (dump_pass 1) (dump_erl_ast true)
     (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file lambda_modules.ml)
@@ -680,19 +680,46 @@ Support for calls between modules
   caramel: [DEBUG] Translating to IR...
   caramel: [DEBUG] tuple
   caramel: [DEBUG] indexed field access 0
+  caramel: [DEBUG] indexed field access 1
   caramel: [DEBUG] tuple
   caramel: [DEBUG] tuple
   caramel: [DEBUG] tuple
   caramel: [DEBUG] tuple
   caramel: [DEBUG] tuple
+  caramel: [DEBUG] Writing lambda_modules.ml.ir_0
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_modules.ml.ir_1
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_modules.ml.ir_1
+  caramel: [DEBUG] OK
   caramel: [DEBUG] Writing lambda_modules.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
-  PANIC: we expected a let binding for a function here!
-  caramel: internal error, uncaught exception:
-                                                                 "Assert_failure caramel/newcomp/sugarcane/error.ml:22:2"
-                                                                 
-  [125]
+  caramel: [DEBUG] Writing lambda_modules.ml.b_0
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_modules.ml.b_1
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_modules.ml.b_2
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_modules.ml.b_3
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_modules.ml.b_4
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_modules.ml.b_5
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_modules.A.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_modules.A3.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_modules.A2.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_modules.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_modules.A4.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_modules.A2.B.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Done
 
   $ cat lambda_modules.ml.lambda
   (let
@@ -710,15 +737,282 @@ Support for calls between modules
            (makeblock 0 f/10 B/16)))
      a2/18 = (function param/20 : int (apply (field 0 A2/17) 0))
      A3/28 =
-       (module-defn(A3/28) Lambda_modules lambda_modules.ml(23):238-319
+       (module-defn(A3/28) Lambda_modules lambda_modules.ml(23):248-329
          (let
            (f/21 = (function _n/23 : int 1)
-            include/45 =
+            include/58 =
               (let (g/24 = (function param/26 : int (apply f/21 0)))
                 (makeblock 0 g/24)))
-           (makeblock 0 f/21 (field 0 include/45))))
-     a3/29 = (function param/31 : int (apply (field 1 A3/28) 0)))
-    (makeblock 0 A/6 a/7 A2/17 a2/18 A3/28 a3/29))
+           (makeblock 0 f/21 (field 0 include/58))))
+     a3/29 = (function param/31 : int (apply (field 1 A3/28) 0))
+     A4/37 =
+       (module-defn(A4/37) Lambda_modules lambda_modules.ml(35):385-436
+         (let (f/32 = (function _n/34 : int 1))
+           (makeblock 0 (field 0 A3/28) (field 1 A3/28))))
+     a4/38 =
+       (function param/40 : int
+         (apply (field 0 A4/37) (apply (field 1 A4/37) 0))))
+    (makeblock 0 A/6 a/7 A2/17 a2/18 A3/28 a3/29 A4/37 a4/38))
+
+  $ cat lambda_modules.ml.ir_0
+  (Ir_program
+    ((Ir_module
+       ((path ()) (unique_name Caramel.Lambda_modules)
+         (source_name Caramel.Lambda_modules))
+       (Ir_let Private ((path ()) (unique_name A_6) (source_name A))
+         (Ir_module ((path ()) (unique_name A_6) (source_name A))
+           (Ir_let Private ((path ()) (unique_name f_3) (source_name f))
+             (Ir_fun (((path ()) (unique_name _n_5) (source_name _n)))
+               (Ir_lit (Lit_int 1)))
+             (Ir_tuple
+               ((Ir_var ((path ()) (unique_name f_3) (source_name f)))))))
+         (Ir_let Private ((path ()) (unique_name a_7) (source_name a))
+           (Ir_fun (((path ()) (unique_name param_9) (source_name param)))
+             (Ir_apply
+               (Ir_field 0 ()
+                 (Ir_var ((path ()) (unique_name A_6) (source_name A))))
+               ((Ir_lit (Lit_atom unit)))))
+           (Ir_let Private ((path ()) (unique_name A2_17) (source_name A2))
+             (Ir_module ((path ()) (unique_name A2_17) (source_name A2))
+               (Ir_let Private ((path ()) (unique_name f_10) (source_name f))
+                 (Ir_fun (((path ()) (unique_name _n_12) (source_name _n)))
+                   (Ir_lit (Lit_int 1)))
+                 (Ir_let Private ((path ()) (unique_name B_16) (source_name B))
+                   (Ir_module ((path ()) (unique_name B_16) (source_name B))
+                     (Ir_let Private
+                       ((path ()) (unique_name g_13) (source_name g))
+                       (Ir_fun
+                         (((path ()) (unique_name param_15)
+                            (source_name param)))
+                         (Ir_lit (Lit_int 2)))
+                       (Ir_tuple
+                         ((Ir_var
+                            ((path ()) (unique_name g_13) (source_name g)))))))
+                   (Ir_tuple
+                     ((Ir_var ((path ()) (unique_name f_10) (source_name f)))
+                       (Ir_var ((path ()) (unique_name B_16) (source_name B))))))))
+             (Ir_let Private ((path ()) (unique_name a2_18) (source_name a2))
+               (Ir_fun (((path ()) (unique_name param_20) (source_name param)))
+                 (Ir_apply
+                   (Ir_field 0 ()
+                     (Ir_var ((path ()) (unique_name A2_17) (source_name A2))))
+                   ((Ir_lit (Lit_atom unit)))))
+               (Ir_let Private ((path ()) (unique_name A3_28) (source_name A3))
+                 (Ir_module ((path ()) (unique_name A3_28) (source_name A3))
+                   (Ir_let Private
+                     ((path ()) (unique_name f_21) (source_name f))
+                     (Ir_fun (((path ()) (unique_name _n_23) (source_name _n)))
+                       (Ir_lit (Lit_int 1)))
+                     (Ir_let Private
+                       ((path ()) (unique_name g_24) (source_name g))
+                       (Ir_fun
+                         (((path ()) (unique_name param_26)
+                            (source_name param)))
+                         (Ir_apply
+                           (Ir_var
+                             ((path ()) (unique_name f_21) (source_name f)))
+                           ((Ir_lit (Lit_atom unit)))))
+                       (Ir_tuple
+                         ((Ir_var
+                            ((path ()) (unique_name g_24) (source_name g))))))))
+                 (Ir_let Private
+                   ((path ()) (unique_name a3_29) (source_name a3))
+                   (Ir_fun
+                     (((path ()) (unique_name param_31) (source_name param)))
+                     (Ir_apply
+                       (Ir_field 1 ()
+                         (Ir_var
+                           ((path ()) (unique_name A3_28) (source_name A3))))
+                       ((Ir_lit (Lit_atom unit)))))
+                   (Ir_let Private
+                     ((path ()) (unique_name A4_37) (source_name A4))
+                     (Ir_module
+                       ((path ()) (unique_name A4_37) (source_name A4))
+                       (Ir_let Private
+                         ((path ()) (unique_name f_32) (source_name f))
+                         (Ir_fun
+                           (((path ()) (unique_name _n_34) (source_name _n)))
+                           (Ir_lit (Lit_int 1)))
+                         (Ir_tuple
+                           ((Ir_ext_call (erlang element)
+                              ((Ir_lit (Lit_int 1))
+                                (Ir_var
+                                  ((path ()) (unique_name A3_28)
+                                    (source_name A3)))))
+                             (Ir_ext_call (erlang element)
+                               ((Ir_lit (Lit_int 2))
+                                 (Ir_var
+                                   ((path ()) (unique_name A3_28)
+                                     (source_name A3)))))))))
+                     (Ir_let Private
+                       ((path ()) (unique_name a4_38) (source_name a4))
+                       (Ir_fun
+                         (((path ()) (unique_name param_40)
+                            (source_name param)))
+                         (Ir_apply
+                           (Ir_field 0 ()
+                             (Ir_var
+                               ((path ()) (unique_name A4_37) (source_name A4))))
+                           ((Ir_apply
+                              (Ir_field 1 ()
+                                (Ir_var
+                                  ((path ()) (unique_name A4_37)
+                                    (source_name A4))))
+                              ((Ir_lit (Lit_atom unit)))))))
+                       (Ir_tuple
+                         ((Ir_var
+                            ((path ()) (unique_name A_6) (source_name A)))
+                           (Ir_var
+                             ((path ()) (unique_name a_7) (source_name a)))
+                           (Ir_var
+                             ((path ()) (unique_name A2_17) (source_name A2)))
+                           (Ir_var
+                             ((path ()) (unique_name a2_18) (source_name a2)))
+                           (Ir_var
+                             ((path ()) (unique_name A3_28) (source_name A3)))
+                           (Ir_var
+                             ((path ()) (unique_name a3_29) (source_name a3)))
+                           (Ir_var
+                             ((path ()) (unique_name A4_37) (source_name A4)))
+                           (Ir_var
+                             ((path ()) (unique_name a4_38) (source_name a4))))))))))))))))
+
+  $ cat lambda_modules.ml.ir_1
+  (Ir_program
+    ((Ir_module
+       ((path ()) (unique_name Caramel.Lambda_modules)
+         (source_name Caramel.Lambda_modules))
+       (Ir_let Private ((path ()) (unique_name A_6) (source_name A))
+         (Ir_module
+           ((path (Caramel.Lambda_modules)) (unique_name A_6) (source_name A))
+           (Ir_let Private ((path ()) (unique_name f_3) (source_name f))
+             (Ir_fun (((path ()) (unique_name _n_5) (source_name _n)))
+               (Ir_lit (Lit_int 1)))
+             (Ir_tuple
+               ((Ir_var ((path ()) (unique_name f_3) (source_name f)))))))
+         (Ir_let Private ((path ()) (unique_name a_7) (source_name a))
+           (Ir_fun (((path ()) (unique_name param_9) (source_name param)))
+             (Ir_apply
+               (Ir_field 0 ()
+                 (Ir_var
+                   ((path (Caramel.Lambda_modules)) (unique_name A_6)
+                     (source_name A))))
+               ((Ir_lit (Lit_atom unit)))))
+           (Ir_let Private ((path ()) (unique_name A2_17) (source_name A2))
+             (Ir_module
+               ((path (Caramel.Lambda_modules)) (unique_name A2_17)
+                 (source_name A2))
+               (Ir_let Private ((path ()) (unique_name f_10) (source_name f))
+                 (Ir_fun (((path ()) (unique_name _n_12) (source_name _n)))
+                   (Ir_lit (Lit_int 1)))
+                 (Ir_let Private ((path ()) (unique_name B_16) (source_name B))
+                   (Ir_module
+                     ((path (A2 Caramel.Lambda_modules)) (unique_name B_16)
+                       (source_name B))
+                     (Ir_let Private
+                       ((path ()) (unique_name g_13) (source_name g))
+                       (Ir_fun
+                         (((path ()) (unique_name param_15)
+                            (source_name param)))
+                         (Ir_lit (Lit_int 2)))
+                       (Ir_tuple
+                         ((Ir_var
+                            ((path ()) (unique_name g_13) (source_name g)))))))
+                   (Ir_tuple
+                     ((Ir_var ((path ()) (unique_name f_10) (source_name f)))
+                       (Ir_var ((path ()) (unique_name B_16) (source_name B))))))))
+             (Ir_let Private ((path ()) (unique_name a2_18) (source_name a2))
+               (Ir_fun (((path ()) (unique_name param_20) (source_name param)))
+                 (Ir_apply
+                   (Ir_field 0 ()
+                     (Ir_var
+                       ((path (Caramel.Lambda_modules)) (unique_name A2_17)
+                         (source_name A2))))
+                   ((Ir_lit (Lit_atom unit)))))
+               (Ir_let Private ((path ()) (unique_name A3_28) (source_name A3))
+                 (Ir_module
+                   ((path (Caramel.Lambda_modules)) (unique_name A3_28)
+                     (source_name A3))
+                   (Ir_let Private
+                     ((path ()) (unique_name f_21) (source_name f))
+                     (Ir_fun (((path ()) (unique_name _n_23) (source_name _n)))
+                       (Ir_lit (Lit_int 1)))
+                     (Ir_let Private
+                       ((path ()) (unique_name g_24) (source_name g))
+                       (Ir_fun
+                         (((path ()) (unique_name param_26)
+                            (source_name param)))
+                         (Ir_apply
+                           (Ir_var
+                             ((path ()) (unique_name f_21) (source_name f)))
+                           ((Ir_lit (Lit_atom unit)))))
+                       (Ir_tuple
+                         ((Ir_var
+                            ((path ()) (unique_name g_24) (source_name g))))))))
+                 (Ir_let Private
+                   ((path ()) (unique_name a3_29) (source_name a3))
+                   (Ir_fun
+                     (((path ()) (unique_name param_31) (source_name param)))
+                     (Ir_apply
+                       (Ir_field 1 ()
+                         (Ir_var
+                           ((path (Caramel.Lambda_modules)) (unique_name A3_28)
+                             (source_name A3))))
+                       ((Ir_lit (Lit_atom unit)))))
+                   (Ir_let Private
+                     ((path ()) (unique_name A4_37) (source_name A4))
+                     (Ir_module
+                       ((path (Caramel.Lambda_modules)) (unique_name A4_37)
+                         (source_name A4))
+                       (Ir_let Private
+                         ((path ()) (unique_name f_32) (source_name f))
+                         (Ir_fun
+                           (((path ()) (unique_name _n_34) (source_name _n)))
+                           (Ir_lit (Lit_int 1)))
+                         (Ir_tuple
+                           ((Ir_ext_call (erlang element)
+                              ((Ir_lit (Lit_int 1))
+                                (Ir_var
+                                  ((path ()) (unique_name A3_28)
+                                    (source_name A3)))))
+                             (Ir_ext_call (erlang element)
+                               ((Ir_lit (Lit_int 2))
+                                 (Ir_var
+                                   ((path ()) (unique_name A3_28)
+                                     (source_name A3)))))))))
+                     (Ir_let Private
+                       ((path ()) (unique_name a4_38) (source_name a4))
+                       (Ir_fun
+                         (((path ()) (unique_name param_40)
+                            (source_name param)))
+                         (Ir_apply
+                           (Ir_field 0 ()
+                             (Ir_var
+                               ((path (Caramel.Lambda_modules))
+                                 (unique_name A4_37) (source_name A4))))
+                           ((Ir_apply
+                              (Ir_field 1 ()
+                                (Ir_var
+                                  ((path (Caramel.Lambda_modules))
+                                    (unique_name A4_37) (source_name A4))))
+                              ((Ir_lit (Lit_atom unit)))))))
+                       (Ir_tuple
+                         ((Ir_var
+                            ((path ()) (unique_name A_6) (source_name A)))
+                           (Ir_var
+                             ((path ()) (unique_name a_7) (source_name a)))
+                           (Ir_var
+                             ((path ()) (unique_name A2_17) (source_name A2)))
+                           (Ir_var
+                             ((path ()) (unique_name a2_18) (source_name a2)))
+                           (Ir_var
+                             ((path ()) (unique_name A3_28) (source_name A3)))
+                           (Ir_var
+                             ((path ()) (unique_name a3_29) (source_name a3)))
+                           (Ir_var
+                             ((path ()) (unique_name A4_37) (source_name A4)))
+                           (Ir_var
+                             ((path ()) (unique_name a4_38) (source_name a4))))))))))))))))
 
   $ cat lambda_modules.ml.ir
   (Ir_program
@@ -733,22 +1027,13 @@ Support for calls between modules
         (Ir_let Exported ((path ()) (unique_name f_21) (source_name f))
           (Ir_fun (((path ()) (unique_name _n_23) (source_name _n)))
             (Ir_lit (Lit_int 1)))
-          (Ir_let Private
-            ((path ()) (unique_name include_45) (source_name include))
-            (Ir_let Exported ((path ()) (unique_name g_24) (source_name g))
-              (Ir_fun (((path ()) (unique_name param_26) (source_name param)))
-                (Ir_apply
-                  (Ir_fn_name ((path ()) (unique_name f_21) (source_name f)) 1)
-                  ((Ir_lit (Lit_atom unit)))))
-              (Ir_tuple
-                ((Ir_var ((path ()) (unique_name g_24) (source_name g))))))
+          (Ir_let Exported ((path ()) (unique_name g_24) (source_name g))
+            (Ir_fun (((path ()) (unique_name param_26) (source_name param)))
+              (Ir_apply
+                (Ir_fn_name ((path ()) (unique_name f_21) (source_name f)) 1)
+                ((Ir_lit (Lit_atom unit)))))
             (Ir_tuple
-              ((Ir_var ((path ()) (unique_name f_21) (source_name f)))
-                (Ir_ext_call (erlang element)
-                  ((Ir_lit (Lit_int 1))
-                    (Ir_var
-                      ((path ()) (unique_name include_45)
-                        (source_name include))))))))))
+              ((Ir_var ((path ()) (unique_name g_24) (source_name g))))))))
       (Ir_module
         ((path (Caramel.Lambda_modules)) (unique_name A2_17) (source_name A2))
         (Ir_let Exported ((path ()) (unique_name f_10) (source_name f))
@@ -772,13 +1057,37 @@ Support for calls between modules
               (Ir_fun (((path ()) (unique_name param_31) (source_name param)))
                 (Ir_ext_call (Caramel.Lambda_modules.A3 g)
                   ((Ir_lit (Lit_atom unit)))))
-              (Ir_tuple
-                ((Ir_var ((path ()) (unique_name A_6) (source_name A)))
-                  (Ir_var ((path ()) (unique_name a_7) (source_name a)))
-                  (Ir_var ((path ()) (unique_name A2_17) (source_name A2)))
-                  (Ir_var ((path ()) (unique_name a2_18) (source_name a2)))
-                  (Ir_var ((path ()) (unique_name A3_28) (source_name A3)))
-                  (Ir_var ((path ()) (unique_name a3_29) (source_name a3)))))))))
+              (Ir_let Exported ((path ()) (unique_name a4_38) (source_name a4))
+                (Ir_fun
+                  (((path ()) (unique_name param_40) (source_name param)))
+                  (Ir_ext_call (Caramel.Lambda_modules.A4 f)
+                    ((Ir_apply
+                       (Ir_field 1 ()
+                         (Ir_var
+                           ((path (Caramel.Lambda_modules)) (unique_name A4_37)
+                             (source_name A4))))
+                       ((Ir_lit (Lit_atom unit)))))))
+                (Ir_tuple
+                  ((Ir_var ((path ()) (unique_name A_6) (source_name A)))
+                    (Ir_var ((path ()) (unique_name a_7) (source_name a)))
+                    (Ir_var ((path ()) (unique_name A2_17) (source_name A2)))
+                    (Ir_var ((path ()) (unique_name a2_18) (source_name a2)))
+                    (Ir_var ((path ()) (unique_name A3_28) (source_name A3)))
+                    (Ir_var ((path ()) (unique_name a3_29) (source_name a3)))
+                    (Ir_var ((path ()) (unique_name A4_37) (source_name A4)))
+                    (Ir_var ((path ()) (unique_name a4_38) (source_name a4))))))))))
+      (Ir_module
+        ((path (Caramel.Lambda_modules)) (unique_name A4_37) (source_name A4))
+        (Ir_let Exported ((path ()) (unique_name f_32) (source_name f))
+          (Ir_fun (((path ()) (unique_name _n_34) (source_name _n)))
+            (Ir_lit (Lit_int 1)))
+          (Ir_tuple
+            ((Ir_ext_call (erlang element)
+               ((Ir_lit (Lit_int 1))
+                 (Ir_var ((path ()) (unique_name A3_28) (source_name A3)))))
+              (Ir_ext_call (erlang element)
+                ((Ir_lit (Lit_int 2))
+                  (Ir_var ((path ()) (unique_name A3_28) (source_name A3)))))))))
       (Ir_module
         ((path (A2 Caramel.Lambda_modules)) (unique_name B_16) (source_name B))
         (Ir_let Exported ((path ()) (unique_name g_13) (source_name g))

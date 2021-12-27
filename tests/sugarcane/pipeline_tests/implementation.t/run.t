@@ -172,9 +172,17 @@ Test that the implementation pipeline works:
   module 'Caramel.A'
   [
    'w'/1,
-   'x'/1
+   'x'/1,
+   'module_info'/0,
+   'module_info'/1
   ]
   attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.A') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.A', Opts) -| [])
   
   'w'/1 = (fun (Param) -> apply 'x'/1('unit') -| [])
   
