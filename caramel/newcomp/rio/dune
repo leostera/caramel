@@ -3,4 +3,4 @@
  (public_name caramel.rio)
  (instrumentation
   (backend bisect_ppx))
- (libraries caramel_sugarcane erlang fpath sexplib str logs))
+ (libraries caramel_sugarcane fpath sexplib str logs))

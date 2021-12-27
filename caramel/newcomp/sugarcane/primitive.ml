@@ -5,9 +5,25 @@ module Erlang = struct
 
   let not_equal = (m, "=/=")
 
+  let less_than = (m, "<")
+
+  let greater_than = (m, ">")
+
+  let greater_or_equal = (m, ">=")
+
+  let less_or_equal = (m, "=<")
+
   let equal = (m, "=:=")
 
   let is_integer = (m, "is_integer")
+
+  let throw = (m, "throw")
+
+  let hd = (m, "hd")
+
+  let tl = (m, "tl")
+
+  let element = (m, "element")
 end
 
 module Caramel = struct
@@ -22,25 +38,42 @@ module Caramel = struct
   end
 end
 
-(* NOTE(@ostera): Fuck it, since we lost most of the type information by the
-   time we try to decode these primitives, particularly for the Pmakeblock
-   variant, we will encode everything as Erlang maps.
-*)
-let of_lambda_prim ~unit:_ prim fields =
+let rec of_lambda_prim ~unit:_ prim fields =
   match (prim, fields) with
-  | Pmakeblock (_, _, _), _ ->
-      let fields = List.mapi (fun idx f -> (idx, f)) fields in
-      Ir.record ~fields
-  (* NOTE: we expect field access to _have_ a single field *)
-  | Pfield idx, [ expr ] -> Ir.field ~idx ~expr
-  | Pccall prim, _ ->
+  | Pmakeblock (_, _, _, Some block), _ -> of_lambda_block ~block ~fields
+  | Pmakeblock (_, _, _, None), _ -> tuple_of_prim ~parts:fields
+  | Pfield (idx, metadata), _ -> of_lambda_field ~idx ~metadata ~fields
+  | Pccall prim, _ -> of_lambda_call ~prim ~fields
+  (********************** other primitives *****************************)
+  | Pintcomp op, _ ->
       let name =
-        match String.split_on_char ':' prim.prim_name with
-        | [ m; f ] -> (m, f)
-        | _ -> Error.todo "externals should have format M:F"
+        match op with
+        | Cne -> Erlang.not_equal
+        | Ceq -> Erlang.equal
+        | Clt -> Erlang.less_than
+        | Cgt -> Erlang.greater_than
+        | Cle -> Erlang.less_or_equal
+        | Cge -> Erlang.greater_or_equal
       in
       Ir.ext_call ~name ~args:fields
-  | Pintcomp Cne, _ -> Ir.ext_call ~name:Erlang.not_equal ~args:fields
+  | Pisint, _ -> Ir.ext_call ~name:Erlang.is_integer ~args:fields
+  | Pisout, _ ->
+      Ir.ext_call ~name:Caramel.Core.Prim_op.is_outside_interval ~args:fields
+  | Poffsetint n, _ ->
+      let fields = (Literal.int n |> Ir.lit) :: fields in
+      Ir.ext_call ~name:Caramel.Core.Prim_op.offset_int ~args:fields
+  | Praise _, _ -> Ir.ext_call ~name:Erlang.throw ~args:fields
+  (* NOTE: Pgetglobal is used for a few things, including exception
+     constructors in match failures, and external module accesses.
+  *)
+  | Pgetglobal id, _ when Identifier.is_match_failure id ->
+      Ir.tuple
+        ~parts:
+          [ Literal.atom "EXIT" |> Ir.lit; Literal.atom "badmatch" |> Ir.lit ]
+  | Pgetglobal id, [] when Identifier.of_ident id |> Identifier.is_module ->
+      let id = Identifier.of_ident id in
+      Ir.var id
+  (********************** unsupported primitives *****************************)
   | Paddbint _, _ -> Error.todo "Paddbint"
   | Paddfloat, _ -> Error.todo "Paddfloat"
   | Psubfloat, _ -> Error.todo "Psubfloat"
@@ -92,20 +125,15 @@ let of_lambda_prim ~unit:_ prim fields =
   | Pmodint _, _ -> Error.todo "Pmodint"
   | Pduparray (_, _), _ -> Error.todo "Pduparray"
   | Pduprecord (_, _), _ -> Error.todo "Pduprecord"
-  | Pfield _, _ -> Error.todo "Pfield"
   | Pfield_computed, _ -> Error.todo "Pfield_computed"
   | Pfloatcomp _, _ -> Error.todo "Pfloatcomp"
   | Pfloatfield _, _ -> Error.todo "Pfloatfield"
   | Pgetglobal _, _ -> Error.todo "Pgetglobal"
   | Pignore, _ -> Error.todo "Pignore"
   | Pint_as_pointer, _ -> Error.todo "Pint_as_pointer"
-  | Pintcomp _, _ -> Error.todo "Pintcomp"
   | Pintofbint _, _ -> Error.todo "Pintofbint"
   | Pintoffloat, _ -> Error.todo "Pintoffloat"
   | Pfloatofint, _ -> Error.todo "Pfloatofint"
-  | Pisint, _ -> Ir.ext_call ~name:Erlang.is_integer ~args:fields
-  | Pisout, _ ->
-      Ir.ext_call ~name:Caramel.Core.Prim_op.is_outside_interval ~args:fields
   | Plslbint _, _ -> Error.todo "Plslbint"
   | Plslint, _ -> Error.todo "Plslint"
   | Plsrint, _ -> Error.todo "Plsrint"
@@ -121,13 +149,9 @@ let of_lambda_prim ~unit:_ prim fields =
   | Paddint, _ -> Error.todo "Paddint"
   | Psubint, _ -> Error.todo "Psubint"
   | Pmulint, _ -> Error.todo "Pmulint"
-  | Poffsetint n, _ ->
-      let fields = (Literal.int n |> Ir.lit) :: fields in
-      Ir.ext_call ~name:Caramel.Core.Prim_op.offset_int ~args:fields
   | Poffsetref _, _ -> Error.todo "Poffsetref"
   | Popaque, _ -> Error.todo "Popaque"
   | Porbint _, _ -> Error.todo "Porbint"
-  | Praise _, _ -> Error.todo "Praise"
   | Psequand, _ -> Error.todo "Psequand"
   | Psequor, _ -> Error.todo "Psequor"
   | Pnot, _ -> Error.todo "Pnot"
@@ -143,3 +167,113 @@ let of_lambda_prim ~unit:_ prim fields =
   | Pstringrefs, _ -> Error.todo "Pstringrefs"
   | Psubbint _, _ -> Error.todo "Psubbint"
   | Pxorbint _, _ -> Error.todo "Pxorbint"
+
+and of_lambda_call ~prim ~fields =
+  match (prim.prim_name, fields) with
+  | "%identity", [ field ] -> field
+  | _ ->
+      let name =
+        (* TODO: move the module part of the call to an annotation *)
+        match String.split_on_char ':' prim.prim_name with
+        | [ m; f ] -> (m, f)
+        | _ -> Error.todo "externals should have format M:F"
+      in
+      Ir.ext_call ~name ~args:fields
+
+and of_lambda_block ~block ~fields =
+  match block with
+  | Block_record { fields = rfs; _ } -> record_of_prim ~fields ~record:rfs
+  | Block_tuple -> tuple_of_prim ~parts:fields
+  | Block_variant { label } -> variant_of_prim ~fields ~label
+  | Block_construct { name; _ } -> construct_of_prim ~fields ~name
+
+and of_lambda_field ~idx ~metadata ~fields =
+  match (metadata, fields) with
+  (* NOTE: we expect field access to _have_ a single field *)
+  | Some (Field_record { name; _ }), [ expr ] ->
+      let field = Some (Ir.lit (Literal.string name)) in
+      Ir.field ~idx ~field ~expr
+  | Some (Field_constructor { name = "::"; _ }), [ expr ] -> (
+      Logs.debug (fun f -> f "list car/cdr");
+      match idx with
+      | 0 -> Ir.ext_call ~name:Erlang.hd ~args:[ expr ]
+      | 1 -> Ir.ext_call ~name:Erlang.tl ~args:[ expr ]
+      | _ -> Error.panic "tried to access a list outside of head/tail")
+  | Some (Field_constructor { name; arity; _ }), [ expr ] ->
+      Logs.debug (fun f -> f "constructor field access %s/%d" name arity);
+      (* NOTE:
+
+         On trying to access the value inside an `Ok(x)` (regular variant),
+         we are really trying to call `erlang:element(?, {ok, X})`.
+
+         Since the OCaml expression we have at this point looks like:
+
+           [ 0: "Ok"; 1: "value" ]
+
+         You'd think we want `erlang:element(1, {ok, X})`, but you'd be surprised.
+
+         The `erlang:element/2` function is 1-indexed, so what we really want is
+         `erlang:elemnet(2, {ok, X})` to get that `X` out.
+
+         Since our `idx` is zero-indexed, this leaves us 2 slots away.
+
+         Hence, `idx + 2` will be the right position.
+      *)
+      let pos = Ir.lit (Literal.int (idx + 2)) in
+      Ir.ext_call ~name:Erlang.element ~args:[ pos; expr ]
+  | Some (Field_module _), [ expr ] ->
+      (* NOTE: this is currently implemented as a pass in pass_ext_calls.ml *)
+      Ir.field ~idx ~field:None ~expr
+  | Some (Field_primitive { mod_name; prim_name; _ }), [ expr ] ->
+      (* NOTE: are we actually using this? *)
+      Logs.debug (fun f -> f "primitive field access %d" idx);
+      Ir.ext_call ~name:(mod_name, prim_name) ~args:[ expr ]
+  | None, [ expr ] ->
+      Logs.debug (fun f -> f "indexed field access %d" idx);
+      (* NOTE: Read the note above first.
+
+         The main difference is that for anonymous tuples, we don't need an
+         additional index shift since we don't have to skip the constructor tag.
+      *)
+      let pos = Ir.lit (Literal.int (idx + 1)) in
+      Ir.ext_call ~name:Erlang.element ~args:[ pos; expr ]
+  | _, _ ->
+      Logs.debug (fun f ->
+          f "field access should happen on a single expression");
+      assert false
+
+(*
+  Handle translating an OCaml record, either inlined or not, into our IR.
+
+  We choose a proplist representation here and save all the keys and values
+  as a list.
+*)
+and record_of_prim ~fields ~record =
+  let fields =
+    List.mapi
+      (fun idx v ->
+        let field = record.(idx) in
+        let k = Ir.lit (Literal.atom field.brf_name) in
+        (k, v))
+      fields
+  in
+  Ir.record ~fields
+
+and tuple_of_prim ~parts =
+  Logs.debug (fun f -> f "tuple");
+  Ir.tuple ~parts
+
+and variant_of_prim ~fields ~label =
+  Logs.debug (fun f -> f "variant %s" label);
+  let tag = Ir.lit (Literal.atom (String.lowercase_ascii label)) in
+  Ir.tuple ~parts:(tag :: fields)
+
+and construct_of_prim ~fields ~name =
+  match (name, fields) with
+  | "::", [ h; t ] ->
+      Logs.debug (fun f -> f "list");
+      Ir.cons h t
+  | _, _ ->
+      Logs.debug (fun f -> f "construct %s" name);
+      let tag = Ir.lit (Literal.atom (String.lowercase_ascii name)) in
+      Ir.tuple ~parts:(tag :: fields)

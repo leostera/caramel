@@ -11,7 +11,7 @@ let description =
 let info = Info.make ~name ~doc ~description
 
 let run sources debug dump_ast dump_erl_ast dump_parsetree dump_typedtree
-    dump_pass no_stdlib stdlib_path =
+    dump_pass no_stdlib stdlib_path print_time =
   match
     Caramel_newcomp.Newcomp.Runner.run
       {
@@ -22,6 +22,7 @@ let run sources debug dump_ast dump_erl_ast dump_parsetree dump_typedtree
         dump_pass;
         dump_erl_ast = debug || dump_erl_ast;
         stdlib = (if no_stdlib then None else Some stdlib_path);
+        print_time;
       }
   with
   | Ok () -> 0
@@ -39,5 +40,5 @@ let cmd =
       $ Common_flags.dump "parsetree"
       $ Common_flags.dump "typedtree"
       $ Common_flags.dump_pass $ Common_flags.no_stdlib
-      $ Common_flags.stdlib_path),
+      $ Common_flags.stdlib_path $ Common_flags.print_time),
     info )

@@ -10,12 +10,13 @@ let no_stdlib =
 
 let stdlib_path =
   Arg.(
-    value
-    & opt string "./"
+    value & opt string "./"
     & info [ "stdlib-path" ] ~env:(env_var "CARAMEL_STDLIB_PATH"))
 
 let dump_pass =
   Arg.(value & opt int (-1) & info [ "p"; "dump-pass" ] ~docv:"DUMP_PASS")
+
+let print_time = Arg.(value & flag & info [ "print_time" ] ~docv:"PRINT_TIME")
 
 let dump name =
   Arg.(

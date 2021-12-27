@@ -3,4 +3,4 @@
  (public_name caramel.misc)
  (instrumentation
   (backend bisect_ppx))
- (libraries fpath sexplib str logs))
+ (libraries fpath mtime mtime.clock.os sexplib str logs))

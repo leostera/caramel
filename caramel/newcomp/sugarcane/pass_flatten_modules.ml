@@ -25,11 +25,11 @@ let rec strip ir =
       let* e = strip e in
       Some (Ir_module (id, e))
   | Ir_apply (e, args) -> Some (Ir_apply (e, List.filter_map strip args))
-  | Ir_let (_id, Ir_module (_, _), e) -> strip e
-  | Ir_let (id, e1, e2) ->
+  | Ir_let (_v, _id, Ir_module (_, _), e) -> strip e
+  | Ir_let (v, id, e1, e2) ->
       let* e1 = strip e1 in
       let* e2 = strip e2 in
-      Some (Ir_let (id, e1, e2))
+      Some (Ir_let (v, id, e1, e2))
   | Ir_case (e, pats) ->
       let* e = strip e in
       let pats =
@@ -47,23 +47,23 @@ let rec strip ir =
   | Ir_ext_call (mf, args) ->
       let args = List.filter_map strip args in
       Some (Ir_ext_call (mf, args))
-  | Ir_field (idx, e) ->
+  | Ir_field (idx, field, e) ->
       let* e = strip e in
-      Some (Ir_field (idx, e))
+      Some (Ir_field (idx, field, e))
   | Ir_fun (args, body) ->
       let* body = strip body in
       Some (Ir_fun (args, body))
   | Ir_letrec (bindings, e) ->
       let bindings =
         List.filter_map
-          (fun (id, e2) ->
+          (fun (v, id, e2) ->
             let* e2 = strip e2 in
-            Some (id, e2))
+            Some (v, id, e2))
           bindings
       in
       let* e = strip e in
       Some (Ir_letrec (bindings, e))
-  | Ir_record fields ->
+  | Ir_record { fields } ->
       let fields =
         List.filter_map
           (fun (idx, e) ->
@@ -71,13 +71,26 @@ let rec strip ir =
             Some (idx, e))
           fields
       in
-      Some (Ir_record fields)
+      Some (Ir_record { fields })
   | Ir_throw (idx, exprs) -> Some (Ir_throw (idx, List.filter_map strip exprs))
+  | Ir_cons (h, t) ->
+      let* h = strip h in
+      let* t = strip t in
+      Some (Ir_cons (h, t))
   | Ir_seq (e1, e2) ->
       let* e1 = strip e1 in
       let* e2 = strip e2 in
       Some (Ir_seq (e1, e2))
-  | Ir_program _ | Ir_lit _ | Ir_var _ -> Some ir
+  | Ir_tuple parts ->
+      let parts =
+        List.filter_map
+          (fun part ->
+            let* part = strip part in
+            Some part)
+          parts
+      in
+      Some (Ir_tuple parts)
+  | Ir_nil | Ir_fn_name (_, _) | Ir_program _ | Ir_lit _ | Ir_var _ -> Some ir
 
 (** Traverse the IR and collect all the modules. Before saving them,
     strip them of their submodules
@@ -94,7 +107,7 @@ let rec flatten mods ir =
   | Ir_apply (e, args) ->
       flatten mods e;
       List.iter (flatten mods) args
-  | Ir_let (_id, e1, e2) ->
+  | Ir_let (_v, _id, e1, e2) ->
       flatten mods e1;
       flatten mods e2
   | Ir_case (e, pats) ->
@@ -104,18 +117,21 @@ let rec flatten mods ir =
       flatten mods e1;
       flatten mods e2
   | Ir_ext_call (_mf, args) -> List.iter (flatten mods) args
-  | Ir_field (_idx, e) -> flatten mods e
+  | Ir_field (_idx, _field, e) -> flatten mods e
   | Ir_fun (_args, body) -> flatten mods body
   | Ir_letrec (bindings, e) ->
-      List.iter (fun (_id, e2) -> flatten mods e2) bindings;
+      List.iter (fun (_v, _id, e2) -> flatten mods e2) bindings;
       flatten mods e
-  | Ir_record fields -> List.iter (fun (_, e) -> flatten mods e) fields
+  | Ir_record { fields; _ } -> List.iter (fun (_, e) -> flatten mods e) fields
   | Ir_throw (_idx, exprs) -> List.iter (flatten mods) exprs
   | Ir_seq (e1, e2) ->
       flatten mods e1;
       flatten mods e2
-  | Ir_program ps -> List.iter (flatten mods) ps
-  | Ir_lit _ | Ir_var _ -> ()
+  | Ir_tuple ps | Ir_program ps -> List.iter (flatten mods) ps
+  | Ir_cons (h, t) ->
+      flatten mods h;
+      flatten mods t
+  | Ir_nil | Ir_fn_name (_, _) | Ir_lit _ | Ir_var _ -> ()
 
 let run ir =
   let tbl = Mod_table.empty in

@@ -5,4 +5,13 @@
   (pps ppx_sexp_conv))
  (instrumentation
   (backend bisect_ppx))
- (libraries caramel_misc caramel_typing fpath sexplib str logs))
+ (libraries
+  caramel_misc
+  caramel_typing
+  fpath
+  bos
+  sexplib
+  mtime
+  mtime.clock.os
+  str
+  logs))

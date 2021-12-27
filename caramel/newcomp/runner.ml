@@ -15,6 +15,7 @@ type opts = {
   dump_ir : bool;
   dump_pass : int;
   dump_erl_ast : bool;
+  print_time : bool;
 }
 [@@deriving sexp]
 
@@ -37,6 +38,8 @@ let compile_one ~t ~caml:_ source =
       if t.opts.dump_typedtree then
         Output.write ~unit ~ext:".typedtree" Typing.pp_intf interface;
 
+      Logs.debug (fun f -> f "Done");
+
       Ok ()
   | Implementation ->
       let* parsetree = Syntax.parse_implementation ~unit in
@@ -49,8 +52,8 @@ let compile_one ~t ~caml:_ source =
 
       Logs.debug (fun f -> f "Translating to IR...");
       let tunit =
-        Sugarcane.Translation_unit.make ~dump_pass:t.opts.dump_pass ~unit
-          ~program:typedunit
+        Sugarcane.Translation_unit.make ~print_time:t.opts.print_time
+          ~dump_pass:t.opts.dump_pass ~unit ~program:typedunit
       in
       let tunit = Sugarcane.translate tunit in
       if t.opts.dump_ir then

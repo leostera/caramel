@@ -4,7 +4,7 @@ open Asttypes
 type t =
   | Lit_atom of string
   | Lit_int of string
-  | Lit_char of string
+  | Lit_char of char
   | Lit_string of string
   | Lit_float of string
 [@@deriving sexp]
@@ -15,6 +15,9 @@ let atom str = Lit_atom str
 
 let int i = Lit_int (Int.to_string i)
 
+(* NOTE: this is 1 for true and 0 for false based on the current representation of these values in the OCaml Lambda. This should change to be the atoms 'true'
+   and 'false' respectively.
+*)
 let t = Lit_int "1"
 
 let f = Lit_int "0"
@@ -25,6 +28,6 @@ let of_const c =
   | Const_int64 i -> Lit_int (Int64.to_string i)
   | Const_nativeint i -> Lit_int (Nativeint.to_string i)
   | Const_int i -> Lit_int (Int.to_string i)
-  | Const_char c -> Lit_char (String.make 1 c)
+  | Const_char c -> Lit_char c
   | Const_string (str, _, _) -> string str
   | Const_float f -> Lit_float f
