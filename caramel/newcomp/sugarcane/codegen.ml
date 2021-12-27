@@ -1,5 +1,4 @@
-open Caramel_sugarcane
-open Sugarcane.B
+open B
 
 module Pp_utils = struct
   let sep_by char ppf () = Format.fprintf ppf char
@@ -57,7 +56,7 @@ let rec pp ppf b =
   | Try { expr; try_value_list; body; catch_value_list; catch_expr } ->
       pp_try ppf expr try_value_list body catch_value_list catch_expr
   | _ ->
-      Format.fprintf Format.std_formatter "%a\n" Sugarcane.B.pp b;
+      Format.fprintf Format.std_formatter "%a\n" B.pp b;
       Error.todo "unsupported expression"
 
 and pp_pat_wrap ppf pat =

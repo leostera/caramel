@@ -1,6 +1,5 @@
 open Caramel_caml
 open Caramel_misc
-open Caramel_rio
 open Caramel_sugarcane
 open Caramel_syntax
 open Caramel_typing
@@ -63,7 +62,7 @@ let compile_one ~t ~caml:_ source =
       let b = Sugarcane.to_b_lang tunit in
       if t.opts.dump_ir then Output.write_many ~unit ~ext:".b" Sugarcane.B.pp b;
 
-      Rio.codegen ~tunit ~b;
+      Sugarcane.codegen ~tunit ~b;
 
       Logs.debug (fun f -> f "Done");
 

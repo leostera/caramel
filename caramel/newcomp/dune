@@ -9,7 +9,6 @@
   caramel.sugarcane
   caramel.typing
   caramel.misc
-  caramel.rio
   sexplib
   str
   logs

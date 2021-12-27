@@ -4,6 +4,7 @@ open Caramel_misc
 module B = B
 module IR = Ir
 module Translation_unit = Translation_unit
+module Codegen = Codegen
 
 let translate Translation_unit.({ print_time; dump_pass; _ } as unit) =
   let tunit = Ir_0.ir_of_unit unit in
@@ -42,3 +43,5 @@ let translate Translation_unit.({ print_time; dump_pass; _ } as unit) =
   { tunit with ir }
 
 let to_b_lang ir = B_builder.of_ir ir
+
+let codegen = Codegen.codegen
