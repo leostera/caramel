@@ -2,10 +2,10 @@
 
 Test that we flatten all modules correctly.
 
-  $ caramel compile --debug --dump-pass 4 a.ml
+  $ caramel compile --debug --dump-pass 6 a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass 4) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass 6) (dump_erl_ast true) (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
@@ -20,7 +20,7 @@ Test that we flatten all modules correctly.
   caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir_0
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing a.ml.ir_4
+  caramel: [DEBUG] Writing a.ml.ir_6
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
@@ -120,7 +120,7 @@ Test that we flatten all modules correctly.
                    (Ir_var ((path ()) (unique_name M1_20) (source_name M1)))
                    (Ir_var ((path ()) (unique_name c1_21) (source_name c1))))))))))))
 
-  $ cat a.ml.ir_4
+  $ cat a.ml.ir_6
   (Ir_program
     ((Ir_module ((path (Caramel.A)) (unique_name M1_20) (source_name M1))
        (Ir_let Exported ((path ()) (unique_name m1_f_17) (source_name m1_f))

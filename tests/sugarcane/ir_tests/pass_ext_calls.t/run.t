@@ -2,10 +2,10 @@
 
 Verify that all qualified function calls end up as external calls:
 
-  $ caramel compile --debug --dump-pass=2 a.ml
+  $ caramel compile --debug --dump-pass=3 a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass 2) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass 3) (dump_erl_ast true) (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
@@ -22,7 +22,7 @@ Verify that all qualified function calls end up as external calls:
   caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir_0
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing a.ml.ir_2
+  caramel: [DEBUG] Writing a.ml.ir_3
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
@@ -76,7 +76,7 @@ Verify that all qualified function calls end up as external calls:
   
   let c1 () = M1.S1.S2.S3.f ()
 
-  $ cat a.ml.ir_2
+  $ cat a.ml.ir_3
   (Ir_program
     ((Ir_module ((path ()) (unique_name Caramel.A) (source_name Caramel.A))
        (Ir_let Private ((path ()) (unique_name M0_6) (source_name M0))

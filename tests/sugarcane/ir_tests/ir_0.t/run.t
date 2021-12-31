@@ -690,8 +690,6 @@ Support for calls between modules
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing lambda_modules.ml.ir_1
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing lambda_modules.ml.ir_1
-  caramel: [DEBUG] OK
   caramel: [DEBUG] Writing lambda_modules.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -1384,13 +1382,230 @@ Support for sequences of expressions;
 
 Support for function references.
 
-  $ caramel compile --debug --dump-pass 2 lambda_utils.ml lambda_funref.ml
+  $ caramel compile --debug --dump-pass 4 lambda_utils.ml lambda_funref.ml
+  caramel: [DEBUG] Running Sugarcane compiler on sources: 
+  ((sources (lambda_utils.ml lambda_funref.ml)) (stdlib (./))
+    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass 4)
+    (dump_erl_ast true) (print_time false))
+  
+  caramel: [DEBUG] Compiling unit: ((source_file lambda_utils.ml)
+                                     (source_kind impl))
+  
+  caramel: [DEBUG] Writing lambda_utils.ml.parsetree
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_utils.ml.lambda
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Translating to IR...
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] Writing lambda_utils.ml.ir_0
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_utils.ml.ir_4
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_utils.ml.ir
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Translating to B...
+  caramel: [DEBUG] Writing lambda_utils.ml.b_0
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_utils.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Done
+  caramel: [DEBUG] Compiling unit: ((source_file lambda_funref.ml)
+                                     (source_kind impl))
+  
+  caramel: [DEBUG] Writing lambda_funref.ml.parsetree
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_funref.ml.lambda
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Translating to IR...
+  caramel: [DEBUG] list car/cdr
+  caramel: [DEBUG] list car/cdr
+  caramel: [DEBUG] list
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] tuple
+  caramel: [DEBUG] Writing lambda_funref.ml.ir_0
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_funref.ml.ir_4
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_funref.ml.ir
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Translating to B...
+  caramel: [DEBUG] Writing lambda_funref.ml.b_0
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing lambda_funref.ml.b_1
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_funref.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Writing Caramel.Lambda_utils.core
+  caramel: [DEBUG] OK
+  caramel: [DEBUG] Done
 
   $ cat lambda_funref.ml.lambda
+  (let (g/3 = (function x/5 (makeblock 0 (*,int) x/5 1)))
+    (letrec
+      (map/6
+         (function f/7 x/8
+           (if x/8
+             (makeblock 0 (apply f/7 (field 0 x/8))
+               (apply map/6 f/7 (field 1 x/8)))
+             0)))
+      (let
+        (f/11 =
+           (function args/13
+             (let (h/14 = (function x/16 (makeblock 0 (*,int) x/16 2)))
+               (makeblock 0 (apply map/6 h/14 args/13)
+                 (apply map/6 g/3 args/13)
+                 (apply map/6 (field 0 (global Lambda_utils!)) args/13))))
+         f2/17 =
+           (function args/19
+             (let (g/20 = (function x/21 (makeblock 0 (*,int) x/21 2)))
+               (makeblock 0 (apply map/6 g/20 args/19)
+                 (apply map/6 (field 0 (global Lambda_utils!)) args/19)))))
+        (makeblock 0 g/3 map/6 f/11 f2/17))))
 
-  $ cat lambda_funref.ml.ir_2
+  $ cat lambda_funref.ml.ir_4
+  (Ir_program
+    ((Ir_module
+       ((path ()) (unique_name Caramel.Lambda_funref)
+         (source_name Caramel.Lambda_funref))
+       (Ir_let Private ((path ()) (unique_name g_3) (source_name g))
+         (Ir_fun (((path ()) (unique_name x_5) (source_name x)))
+           (Ir_tuple
+             ((Ir_var ((path ()) (unique_name x_5) (source_name x)))
+               (Ir_lit (Lit_int 1)))))
+         (Ir_letrec
+           ((Private ((path ()) (unique_name map_6) (source_name map))
+              (Ir_fun
+                (((path ()) (unique_name f_7) (source_name f))
+                  ((path ()) (unique_name x_8) (source_name x)))
+                (Ir_case (Ir_var ((path ()) (unique_name x_8) (source_name x)))
+                  ((P_nil Ir_nil)
+                    (P_ignore
+                      (Ir_cons
+                        (Ir_apply
+                          (Ir_var
+                            ((path ()) (unique_name f_7) (source_name f)))
+                          ((Ir_ext_call (erlang hd)
+                             ((Ir_var
+                                ((path ()) (unique_name x_8) (source_name x)))))))
+                        (Ir_apply
+                          (Ir_var
+                            ((path ()) (unique_name map_6) (source_name map)))
+                          ((Ir_var
+                             ((path ()) (unique_name f_7) (source_name f)))
+                            (Ir_ext_call (erlang tl)
+                              ((Ir_var
+                                 ((path ()) (unique_name x_8) (source_name x))))))))))))))
+           (Ir_let Private ((path ()) (unique_name f_11) (source_name f))
+             (Ir_fun (((path ()) (unique_name args_13) (source_name args)))
+               (Ir_let Private ((path ()) (unique_name h_14) (source_name h))
+                 (Ir_fun (((path ()) (unique_name x_16) (source_name x)))
+                   (Ir_tuple
+                     ((Ir_var ((path ()) (unique_name x_16) (source_name x)))
+                       (Ir_lit (Lit_int 2)))))
+                 (Ir_tuple
+                   ((Ir_apply
+                      (Ir_var
+                        ((path ()) (unique_name map_6) (source_name map)))
+                      ((Ir_var ((path ()) (unique_name h_14) (source_name h)))
+                        (Ir_var
+                          ((path ()) (unique_name args_13) (source_name args)))))
+                     (Ir_apply
+                       (Ir_var
+                         ((path ()) (unique_name map_6) (source_name map)))
+                       ((Ir_fn_name
+                          ((path ()) (unique_name g_3) (source_name g)) 1)
+                         (Ir_var
+                           ((path ()) (unique_name args_13) (source_name args)))))
+                     (Ir_apply
+                       (Ir_var
+                         ((path ()) (unique_name map_6) (source_name map)))
+                       ((Ir_fn_name
+                          ((path ()) (unique_name Lambda_utils_0)
+                            (source_name Caramel.Lambda_utils))
+                          1)
+                         (Ir_var
+                           ((path ()) (unique_name args_13) (source_name args)))))))))
+             (Ir_let Private ((path ()) (unique_name f2_17) (source_name f2))
+               (Ir_fun (((path ()) (unique_name args_19) (source_name args)))
+                 (Ir_let Private ((path ()) (unique_name g_20) (source_name g))
+                   (Ir_fun (((path ()) (unique_name x_21) (source_name x)))
+                     (Ir_tuple
+                       ((Ir_var ((path ()) (unique_name x_21) (source_name x)))
+                         (Ir_lit (Lit_int 2)))))
+                   (Ir_tuple
+                     ((Ir_apply
+                        (Ir_var
+                          ((path ()) (unique_name map_6) (source_name map)))
+                        ((Ir_var
+                           ((path ()) (unique_name g_20) (source_name g)))
+                          (Ir_var
+                            ((path ()) (unique_name args_19)
+                              (source_name args)))))
+                       (Ir_apply
+                         (Ir_var
+                           ((path ()) (unique_name map_6) (source_name map)))
+                         ((Ir_fn_name
+                            ((path ()) (unique_name Lambda_utils_0)
+                              (source_name Caramel.Lambda_utils))
+                            1)
+                           (Ir_var
+                             ((path ()) (unique_name args_19)
+                               (source_name args)))))))))
+               (Ir_tuple
+                 ((Ir_var ((path ()) (unique_name g_3) (source_name g)))
+                   (Ir_var ((path ()) (unique_name map_6) (source_name map)))
+                   (Ir_var ((path ()) (unique_name f_11) (source_name f)))
+                   (Ir_var ((path ()) (unique_name f2_17) (source_name f2))))))))))))
 
   $ cat Caramel.Lambda_funref.core
+  % Source code generated with Caramel.
+  module 'Caramel.Lambda_funref'
+  [
+   'f2'/1,
+   'f'/1,
+   'map'/2,
+   'g'/1,
+   'module_info'/0,
+   'module_info'/1
+  ]
+  attributes []
+  
+  'module_info'/0 =
+   (fun () -> call 'erlang':'get_module_info'('Caramel.Lambda_funref') -| [])
+  
+  'module_info'/1 =
+   (fun (Opts) ->
+   call 'erlang':'get_module_info'('Caramel.Lambda_funref', Opts) -| [])
+  
+  'f2'/1 =
+   (fun (Args) ->
+   let <G> = (fun (X) -> {X, 2} -| []) in
+     {apply 'map'/2(G, Args), apply 'map'/2('Caramel.Lambda_utils'/1, Args)} -| [])
+  
+  'f'/1 =
+   (fun (Args) ->
+   let <H> = (fun (X) -> {X, 2} -| []) in
+     {apply 'map'/2(H, Args), apply 'map'/2('g'/1, Args),
+      apply 'map'/2('Caramel.Lambda_utils'/1, Args)} -| [])
+  
+  'map'/2 =
+   (fun (F, X) ->
+   
+     case X of
+     <[]> when 'true' -> []
+     <_> when 'true' ->
+       [ apply F(call 'erlang':'hd'(X))|apply 'map'/2(F, call 'erlang':'tl'(X))
+       ]
+     end -| [])
+  
+  'g'/1 = (fun (X) -> {X, 1} -| [])
+  end
+  
 
 
 ================================================================================

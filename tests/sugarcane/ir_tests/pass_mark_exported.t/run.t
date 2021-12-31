@@ -3,10 +3,10 @@
 When there are no exports in the OCaml interface, there should be no exports in
 the Core module either.
 
-  $ caramel compile --debug --dump-pass=3 no_exports.mli no_exports.ml
+  $ caramel compile --debug --dump-pass=5 no_exports.mli no_exports.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (no_exports.mli no_exports.ml)) (stdlib (./)) (dump_parsetree true)
-    (dump_typedtree true) (dump_ir true) (dump_pass 3) (dump_erl_ast true)
+    (dump_typedtree true) (dump_ir true) (dump_pass 5) (dump_erl_ast true)
     (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file no_exports.mli)
@@ -28,7 +28,7 @@ the Core module either.
   caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing no_exports.ml.ir_0
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing no_exports.ml.ir_3
+  caramel: [DEBUG] Writing no_exports.ml.ir_5
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing no_exports.ml.ir
   caramel: [DEBUG] OK
@@ -48,7 +48,7 @@ the Core module either.
 
   $ cat no_exports.ml.lambda
 
-  $ cat no_exports.ml.ir_3
+  $ cat no_exports.ml.ir_5
   (Ir_program
     ((Ir_module
        ((path ()) (unique_name Caramel.No_exports)
@@ -104,10 +104,10 @@ the Core module either.
 When there are some exports in the OCaml interface, there should be some
 exports in the Core module either.
 
-  $ caramel compile --debug --dump-pass=3 some_exports.mli some_exports.ml
+  $ caramel compile --debug --dump-pass=5 some_exports.mli some_exports.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (some_exports.mli some_exports.ml)) (stdlib (./))
-    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass 3)
+    (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass 5)
     (dump_erl_ast true) (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file some_exports.mli)
@@ -129,7 +129,7 @@ exports in the Core module either.
   caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing some_exports.ml.ir_0
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing some_exports.ml.ir_3
+  caramel: [DEBUG] Writing some_exports.ml.ir_5
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing some_exports.ml.ir
   caramel: [DEBUG] OK
@@ -168,7 +168,7 @@ exports in the Core module either.
   (let (f0/3 = (function param/5 : int 1) f1/6 = (function param/8 : int 2))
     (makeblock 0 f0/3))
 
-  $ cat some_exports.ml.ir_3
+  $ cat some_exports.ml.ir_5
   (Ir_program
     ((Ir_module
        ((path ()) (unique_name Caramel.Some_exports)
@@ -233,10 +233,10 @@ exports in the Core module either.
 
 When there is no interface, everything should be exported in the Core module.
 
-  $ caramel compile --debug --dump-pass=3 all_exports.ml
+  $ caramel compile --debug --dump-pass=5 all_exports.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (all_exports.ml)) (stdlib (./)) (dump_parsetree true)
-    (dump_typedtree true) (dump_ir true) (dump_pass 3) (dump_erl_ast true)
+    (dump_typedtree true) (dump_ir true) (dump_pass 5) (dump_erl_ast true)
     (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file all_exports.ml)
@@ -250,7 +250,7 @@ When there is no interface, everything should be exported in the Core module.
   caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing all_exports.ml.ir_0
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing all_exports.ml.ir_3
+  caramel: [DEBUG] Writing all_exports.ml.ir_5
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing all_exports.ml.ir
   caramel: [DEBUG] OK
@@ -266,7 +266,7 @@ When there is no interface, everything should be exported in the Core module.
 
   $ cat all_exports.ml.lambda
 
-  $ cat all_exports.ml.ir_3
+  $ cat all_exports.ml.ir_5
   (Ir_program
     ((Ir_module
        ((path ()) (unique_name Caramel.All_exports)

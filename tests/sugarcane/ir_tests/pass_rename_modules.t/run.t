@@ -23,8 +23,6 @@ parents:
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir_1
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing a.ml.ir_1
-  caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

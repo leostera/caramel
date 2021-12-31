@@ -2,10 +2,10 @@
 
 Verify that calls to local functions go from (Apply (Var x)) to (Apply (Fn_name x arity)):
 
-  $ caramel compile --debug --dump-pass 5 a.ml
+  $ caramel compile --debug --dump-pass 7 a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass 5) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass 7) (dump_erl_ast true) (print_time false))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
@@ -17,7 +17,7 @@ Verify that calls to local functions go from (Apply (Var x)) to (Apply (Fn_name 
   caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir_0
   caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing a.ml.ir_5
+  caramel: [DEBUG] Writing a.ml.ir_7
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
@@ -33,7 +33,7 @@ Verify that calls to local functions go from (Apply (Var x)) to (Apply (Fn_name 
     (f/3 = (function param/5 : int 1)
      g/6 = (function param/8 : int (apply f/3 0)))
 
-  $ cat a.ml.ir_5
+  $ cat a.ml.ir_7
   (Ir_program
     ((Ir_module ((path ()) (unique_name Caramel.A) (source_name Caramel.A))
        (Ir_let Exported ((path ()) (unique_name f_3) (source_name f))
