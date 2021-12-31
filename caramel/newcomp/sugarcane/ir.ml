@@ -12,6 +12,8 @@ type visibility = Private | Exported [@@deriving sexp]
 
 type record_kind = List | Record | Tuple [@@deriving sexp]
 
+type fun_ref = { mod_: Identifier.t ; fun_: Identifier.t ; arity : int }
+
 type t =
   | Ir_apply of t * t list
   | Ir_case of t * (pattern * t) list

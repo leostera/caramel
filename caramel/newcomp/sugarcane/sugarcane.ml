@@ -35,6 +35,7 @@ let translate Translation_unit.({ print_time; dump_pass; _ } as unit) =
     |> pass 1 "rename modules" Pass_rename_modules.run
     |> pass 1 "build metadata table" Pass_metadata_table.build_table
     |> pass 2 "rewrite external calls" Pass_ext_calls.run
+    |> pass 2 "rewrite local fun refs" Pass_local_funrefs.run
     |> pass 3 "mark exported symbols" (Pass_mark_exported.run ~tunit)
     |> pass 4 "flatten all modules" Pass_flatten_modules.run
     |> pass 5 "rewrite recursive calls" Pass_rewrite_recursive_apply.run

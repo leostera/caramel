@@ -1382,6 +1382,19 @@ Support for sequences of expressions;
 
 ================================================================================
 
+Support for function references.
+
+  $ caramel compile --debug --dump-pass 2 lambda_utils.ml lambda_funref.ml
+
+  $ cat lambda_funref.ml.lambda
+
+  $ cat lambda_funref.ml.ir_2
+
+  $ cat Caramel.Lambda_funref.core
+
+
+================================================================================
+
 Sample. To add a new test, copy and paste this above, and replace `_.ml` with
 the right .ml file. Then remove the `#` that are preventing these commands from
 running.

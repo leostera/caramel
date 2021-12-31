@@ -9,7 +9,8 @@ open Ir
 module Mf_table = struct
   open Sexplib.Std
 
-  type entry = (string * int) * (Identifier.t * Identifier.t) [@@deriving sexp]
+  type entry = (string * int) * (Identifier.t * Identifier.t * int)
+  [@@deriving sexp]
 
   type table = { entries : entry list } [@@deriving sexp]
 
@@ -30,19 +31,25 @@ module Mf_table = struct
   let build ir =
     let meta_tbl = Hashtbl.create 1024 in
 
+    let arity expr =
+      match expr with Ir_fun (args, _) -> List.length args | _ -> -1
+    in
+
     let rec aux tbl path idx ir =
       match ir with
       | Ir_letrec (bindings, next) ->
           List.iteri
             (fun i (_v, name, body) ->
               if Identifier.to_string path != "" then
-                Hashtbl.add tbl (path.unique_name, idx + i) (path, name);
+                Hashtbl.add tbl
+                  (path.unique_name, idx + i)
+                  (path, name, arity body);
               aux tbl path (idx + i) body)
             bindings;
           aux tbl path (idx + List.length bindings) next
       | Ir_let (_v, name, body, next) ->
           if Identifier.to_string path != "" then
-            Hashtbl.add tbl (path.unique_name, idx) (path, name);
+            Hashtbl.add tbl (path.unique_name, idx) (path, name, arity body);
           aux tbl path idx body;
           aux tbl path (idx + 1) next
       | Ir_module (mod_name, next) ->
