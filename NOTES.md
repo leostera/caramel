@@ -1,5 +1,125 @@
 # Ideas and things to do
 
+## Macro System
+
+I'd like to be able to derive a lot of code from types, and to allow developers
+to build their own macros that are evaluated at compile-time easily.
+
+For example, I'd like to include a `@derive` mechanism that allows me to 
+create debug printers, accessors, setters, default values, orderings, and
+equality functions, pretty much without thinking about them. Like this:
+
+```ocaml
+@derive(Debug, Access, Setters, Default, Eq)
+type user = { name: string }
+
+(* generates: *)
+let dbg = user => "User { name: #{user.name} }"
+let name = user => user.name
+let set_name = (user, name) => { user with name = name }
+let default = { name: "" }
+let equal = (a, b) => String.equal(a.name, b.name) 
+```
+
+I'd also like to allow arbitary code to be run with this type as an input, and
+have it create more code that will be inserted _after_ it:
+
+```ocaml
+@clipper( name = "my cli" )
+type cli =
+  | Echo { message: string }
+
+(* this will generate: *)
+let from_args : list<string> -> result<cli, parse_error> =
+  args => {
+    ...
+  }
+```
+
+So the way to define a macro like `@clipper` above would be:
+
+```ocaml
+
+(def-macro-derive
+  (debug derive-input)
+  :pub
+  ())
+
+@macro(kind = "derive")
+pub fn clipper(derive_input) {
+  switch derive_input {
+  }
+}
+
+```
+
+
+
+## New syntax
+
+The OCaml syntax feels old and clunky in some areas, so a rework here that
+incorporates some aspects of Rust, ReScript and Elixir would be interesting to
+have.
+
+#### Less Keywords
+
+Ideally, we'd have no begin/end, struct/end, sig/end, object/end, and just use
+braces.
+
+#### Atoms
+
+Clojure does a nice job with its `:atom-name` syntax.
+
+#### Functions in Multiple Clauses
+
+```ocaml
+pub fn $id($arg: $type, ...) -> $type {
+} 
+
+```
+
+#### Spawn, Receive, and Send
+
+These 3 constructs are fundamental for creating concurrent systems in the actor
+model, so supporting them as syntax constructs would be very helpful:
+
+```ocaml
+let pid = spawn {
+
+};
+
+pid ! message;
+
+receive {
+} after x {
+}
+```
+
+
+#### Annotations
+
+For example, I'd love a syntax that makes it easy to annotate things, like
+Elixir's `@annotation`:
+
+```elixir
+@doc "Hello world!"
+def hello, do: 1
+```
+
+Or Rust's macro's on types, like `structopt`:
+
+```rust
+#[
+  structopt(
+    name = "My Cli",
+    description = "a description"
+  )
+]
+struct Cli {
+  print_hello: bool
+}
+```
+
 ## Internals
 
 - [ ] Who should know what `ext_calls` to build? `Ir_0` or `B_builder` ?
