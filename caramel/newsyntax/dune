@@ -1,0 +1,8 @@
+(library
+ (name caramel_newsyntax)
+ (public_name caramel.newsyntax)
+ (preprocess
+  (pps ppx_sexp_conv))
+ (instrumentation
+  (backend bisect_ppx))
+ (libraries fpath bos sexplib compiler-libs.common str logs))

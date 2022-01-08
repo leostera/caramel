@@ -1,0 +1,20 @@
+@derive(Debug, Default)
+@clipper(
+  name = "Test CLI",
+  desc = "A sample test cli"
+)
+type t =
+  | Print {
+      @clipper(short="m", long="message", env= "MESSAGE")
+      message: string,
+    }
+
+  | @clipper(name = "file")
+    Print_file {
+      @clipper(name = "PRINT_FILE")
+      file: OS.Path.t
+    }
+
+pub fn hello(name) {
+  :ok
+}

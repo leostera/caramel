@@ -1,0 +1,10 @@
+external format: string -> list<'a> -> unit = "io:format"
+
+pub fn main(args) {
+  match args {
+  | [] -> format("~p\n", [:bye_bye])
+  | [x, ...rest] ->
+      format("Hello, ~s!\n", [ x ]);
+      main(rest)
+  }
+}

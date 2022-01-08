@@ -1,0 +1,16 @@
+@derive(Debug, Default)
+@clipper(
+  name = "Test CLI",
+  desc = "A sample test cli"
+)
+type t =
+  | Print {
+      @clipper(name = "MESSAGE")
+      message: string,
+    }
+
+  | @clipper(name = "file")
+    Print_file {
+      @clipper(name = "PRINT_FILE", parser = Clipper.Parser.file)
+      file: OS.Path.t
+    }

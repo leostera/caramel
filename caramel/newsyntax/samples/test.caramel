@@ -1,0 +1,15 @@
+
+/// This is a documentation comment.
+///
+/// It is multiline too.
+@module(`erlang`)
+external display : string -> unit = `display`
+
+// this is a regular comment
+pub main(args) {
+  let a= 0;
+  switch args {
+  | [] => display(`Please provide arguments`)
+  | x :: xs => display(`${x}, `); main(xs);
+  }
+}
