@@ -1,5 +1,22 @@
 open B
 
+module Escape_sequences = struct
+  (** NOTE: because binary strings in Core Erlang are written out as an array of integers,
+      but we have no way of telling the language to consider escape sequences, we have to
+      do the work of flattening down ['\\, 'n'] into '\n' ourselves here.
+
+      This applies to any other escape sequence too.
+  *)
+  let respect_escape_codes bin =
+    let rec flatten_chars chars =
+      match chars with
+      | [] -> []
+      | '\\' :: 'n' :: rest -> '\n' :: flatten_chars rest
+      | c :: rest -> c :: flatten_chars rest
+    in
+    flatten_chars bin
+end
+
 module Pp_utils = struct
   let sep_by char ppf () = Format.fprintf ppf char
 
@@ -97,12 +114,16 @@ and pp_atom ppf a = Format.fprintf ppf "'%s'" a
 
 and pp_binary ppf bin =
   Format.fprintf ppf "@[<v 0>#{@[<v 0>@;";
+
+  let chars =
+    bin |> String.to_seq |> List.of_seq |> Escape_sequences.respect_escape_codes
+  in
+
   Format.pp_print_list ~pp_sep:Pp_utils.comma
     (fun ppf c ->
       Format.fprintf ppf "@[#<%d>(8,1,'integer',['unsigned'|['big']])@]"
         (Char.code c))
-    ppf
-    (List.of_seq (String.to_seq bin));
+    ppf chars;
   Format.fprintf ppf "@]@,}#@]"
 
 and pp_branch ppf (pat, t) =
@@ -179,19 +200,23 @@ and pp_try ppf expr try_value_list body catch_value_list catch_expr =
   Format.fprintf ppf "@]"
 
 let codegen ~tunit:_ ~b =
-  List.iter
-    (fun e ->
-      match e with
-      | Module { name; _ } ->
-          let filename = name ^ ".core" in
-          Logs.debug (fun f -> f "Writing %s" filename);
-          let oc = open_out_bin filename in
-          (try
-             let ppf = Format.formatter_of_out_channel oc in
-             Format.fprintf ppf "%% Source code generated with Caramel.\n";
-             Format.fprintf ppf "%a\n%!" pp e
-           with _ -> Sys.remove filename);
-          close_out oc;
-          Logs.debug (fun f -> f "OK")
-      | _ -> Error.panic "we can't codegen without a module!")
-    b
+  let core_files =
+    List.map
+      (fun e ->
+        match e with
+        | Module { name; _ } ->
+            let filename = name ^ ".core" in
+            Logs.debug (fun f -> f "Writing %s" filename);
+            let oc = open_out_bin filename in
+            (try
+               let ppf = Format.formatter_of_out_channel oc in
+               Format.fprintf ppf "%% Source code generated with Caramel.\n";
+               Format.fprintf ppf "%a\n%!" pp e
+             with _ -> Sys.remove filename);
+            close_out oc;
+            Logs.debug (fun f -> f "OK");
+            filename
+        | _ -> Error.panic "we can't codegen without a module!")
+      b
+  in
+  Ok core_files

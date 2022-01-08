@@ -2,7 +2,7 @@
  (name main)
  (public_name caramel)
  (package caramel)
- (libraries fpath cmdliner caramel.newcomp)
+ (libraries fpath fmt.tty logs logs.fmt cmdliner caramel.newcomp caramel.newsyntax)
  (instrumentation
   (backend bisect_ppx))
  (flags

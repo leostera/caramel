@@ -15,6 +15,8 @@ type opts = {
   dump_pass : int;
   dump_erl_ast : bool;
   print_time : bool;
+  new_syntax : bool;
+  to_beam: bool;
 }
 [@@deriving sexp]
 
@@ -41,7 +43,19 @@ let compile_one ~t ~caml:_ source =
 
       Ok ()
   | Implementation ->
-      let* parsetree = Syntax.parse_implementation ~unit in
+      let* parsetree =
+        if t.opts.new_syntax then
+          let open Caramel_newsyntax in
+          Syntax.parse
+            {
+              source_file = unit.source_file;
+              debug = false;
+              dump_parsetree = false;
+              dump_tokens = false;
+              dump_caml = false;
+            }
+        else Syntax.parse_implementation ~unit
+      in
       if t.opts.dump_parsetree then
         Output.write ~unit ~ext:".parsetree" Syntax.pp_impl parsetree;
 
@@ -62,7 +76,9 @@ let compile_one ~t ~caml:_ source =
       let b = Sugarcane.to_b_lang tunit in
       if t.opts.dump_ir then Output.write_many ~unit ~ext:".b" Sugarcane.B.pp b;
 
-      Sugarcane.codegen ~tunit ~b;
+      let* core_files = Sugarcane.codegen ~tunit ~b in
+
+      let* () = if t.opts.to_beam then Erlc.compile core_files else Ok () in
 
       Logs.debug (fun f -> f "Done");
 
@@ -73,6 +89,16 @@ let compile_all ~t ~caml ~sources =
     (fun acc src ->
       match (acc, compile_one ~t ~caml src) with
       | last, Ok () -> last
+      | last, Error `Early_exit -> last
+      | _, Error (`Msg txt) ->
+          Format.fprintf Format.err_formatter "%s" txt;
+          Error ()
+      | _, Error (`Lexer_error e) ->
+          Caramel_newsyntax.Lexer.pp_error Format.std_formatter e;
+          Error ()
+      | _, Error (`Parse_error e) ->
+          Caramel_newsyntax.Parser.Error.pp Format.std_formatter e;
+          Error ()
       | _, Error (`Invalid_extension _ as e) ->
           Source_kind.print_error e;
           Error ()
@@ -85,10 +111,6 @@ let compile_all ~t ~caml ~sources =
     (Ok ()) sources
 
 let run ({ sources; stdlib; _ } as opts) =
-  Fmt_tty.setup_std_outputs ();
-  Logs.set_reporter (Logs_fmt.reporter ());
-  Logs.set_level (Some Logs.Debug);
-
   Logs.debug (fun f ->
       f "Running Sugarcane compiler on sources: \n%s\n"
         (Sexplib.Sexp.to_string_hum ~indent:2 (sexp_of_opts opts)));

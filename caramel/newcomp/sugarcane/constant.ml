@@ -9,12 +9,9 @@ let rec of_lambda_const ~unit c =
 
 and of_const_base ~unit:_ ~metadata c =
   match metadata with
-  | Some (Const_variant { label }) ->
-      Ir.lit (Literal.atom label)
-  | Some (Const_construct { name = "()"; _ }) ->
-      Ir.lit (Literal.atom "unit")
-  | Some (Const_construct { name = "[]"; _ }) ->
-      Ir.nil
+  | Some (Const_variant { label }) -> Ir.lit (Literal.atom label)
+  | Some (Const_construct { name = "()"; _ }) -> Ir.lit (Literal.atom "unit")
+  | Some (Const_construct { name = "[]"; _ }) -> Ir.nil
   | Some (Const_construct { name; _ }) ->
       Ir.lit (Literal.atom (String.lowercase_ascii name))
   | None -> Literal.of_const c |> Ir.lit

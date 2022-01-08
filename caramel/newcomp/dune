@@ -9,9 +9,11 @@
   caramel.sugarcane
   caramel.typing
   caramel.misc
+  caramel.newsyntax
   sexplib
   str
   logs
+  bos
   logs.fmt
   fmt.tty))
 

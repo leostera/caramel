@@ -13,5 +13,8 @@ module Help = struct
 end
 
 let _ =
-  [ Cmd_compile.cmd; Cmd_version.cmd ]
+  Fmt_tty.setup_std_outputs ();
+  Logs.set_reporter (Logs_fmt.reporter ());
+  Logs.set_level (Some Logs.Debug);
+  [ Cmd_compile.cmd; Cmd_version.cmd; Cmd_parse.cmd ]
   |> Term.eval_choice Help.cmd |> Term.exit_status

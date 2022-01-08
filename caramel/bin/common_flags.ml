@@ -18,6 +18,10 @@ let dump_pass =
 
 let print_time = Arg.(value & flag & info [ "print_time" ] ~docv:"PRINT_TIME")
 
+let new_syntax = Arg.(value & flag & info [ "new-syntax" ] ~docv:"NEW_SYNTAX")
+
+let to_beam = Arg.(value & flag & info [ "to-beam" ] ~docv:"TO_BEAM")
+
 let dump name =
   Arg.(
     value & flag

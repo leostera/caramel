@@ -10,8 +10,7 @@ type t = {
 
 let from_source s =
   Source_kind.of_file_path s
-  |> Result.map (fun source_kind -> Ok { source_file = s; source_kind })
-  |> Result.join
+  |> Result.map (fun source_kind -> { source_file = s; source_kind })
 
 let file_name t = Fpath.filename t.source_file
 
