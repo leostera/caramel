@@ -6,7 +6,7 @@ Support for lists.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (prim_list.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file prim_list.ml)
                                      (source_kind impl))
@@ -108,7 +108,7 @@ Support for polymorphic variants.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (prim_polyvar.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file prim_polyvar.ml)
                                      (source_kind impl))
@@ -190,7 +190,7 @@ Support for variants.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (prim_variant.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file prim_variant.ml)
                                      (source_kind impl))
@@ -262,7 +262,7 @@ Support for records.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (prim_record.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file prim_record.ml)
                                      (source_kind impl))
@@ -377,7 +377,7 @@ Support for tuples.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (prim_tuple.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file prim_tuple.ml)
                                      (source_kind impl))

@@ -3,7 +3,8 @@
   $ caramel compile --debug p66.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (p66.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false)
+    (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file p66.ml) (source_kind impl))
   

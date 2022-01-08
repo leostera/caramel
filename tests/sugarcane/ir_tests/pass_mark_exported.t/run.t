@@ -7,7 +7,7 @@ the Core module either.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (no_exports.mli no_exports.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass 5) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file no_exports.mli)
                                      (source_kind intf))
@@ -108,7 +108,7 @@ exports in the Core module either.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (some_exports.mli some_exports.ml)) (stdlib (./))
     (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass 5)
-    (dump_erl_ast true) (print_time false))
+    (dump_erl_ast true) (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file some_exports.mli)
                                      (source_kind intf))
@@ -237,7 +237,7 @@ When there is no interface, everything should be exported in the Core module.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (all_exports.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass 5) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file all_exports.ml)
                                      (source_kind impl))

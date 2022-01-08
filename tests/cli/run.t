@@ -10,7 +10,7 @@ Calling compile with uncompilable files will error out.
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (dummy.txt)) (stdlib (./)) (dump_parsetree false)
     (dump_typedtree false) (dump_ir false) (dump_pass -1) (dump_erl_ast false)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   Invalid file extension: .txt
   [1]
@@ -21,7 +21,8 @@ Calling compile with uncompilable files will error out.
   $ caramel compile a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.ml)) (stdlib (./)) (dump_parsetree false) (dump_typedtree false)
-    (dump_ir false) (dump_pass -1) (dump_erl_ast false) (print_time false))
+    (dump_ir false) (dump_pass -1) (dump_erl_ast false) (print_time false)
+    (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   

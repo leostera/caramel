@@ -4,7 +4,7 @@
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (erlang.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file erlang.ml) (source_kind impl))
   
@@ -64,7 +64,7 @@
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (elli.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file elli.ml) (source_kind impl))
   
@@ -95,7 +95,7 @@
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (http_method.ml http_status.ml)) (stdlib (./))
     (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true) (print_time false))
+    (dump_erl_ast true) (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file http_method.ml)
                                      (source_kind impl))
@@ -163,7 +163,7 @@
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (main_sup.ml main_app.ml main.ml)) (stdlib (./))
     (dump_parsetree true) (dump_typedtree true) (dump_ir true) (dump_pass -1)
-    (dump_erl_ast true) (print_time false))
+    (dump_erl_ast true) (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file main_sup.ml)
                                      (source_kind impl))

@@ -4,7 +4,7 @@
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (p61A.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file p61A.ml) (source_kind impl))
   

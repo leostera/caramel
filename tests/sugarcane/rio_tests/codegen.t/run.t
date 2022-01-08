@@ -5,7 +5,8 @@ Lift IR into B-lang.
   $ caramel compile --debug a.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (a.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false)
+    (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
@@ -153,7 +154,8 @@ Lift IR into B-lang.
   $ caramel compile --debug b.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (b.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false)
+    (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file b.ml) (source_kind impl))
   
@@ -233,7 +235,8 @@ Lift IR into B-lang.
   $ caramel compile --debug c.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (c.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false)
+    (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file c.ml) (source_kind impl))
   
@@ -294,7 +297,8 @@ Lift IR into B-lang.
   $ caramel compile --debug d.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (d.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false)
+    (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file d.ml) (source_kind impl))
   
@@ -391,7 +395,7 @@ Codegen for primitives
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (primitives.ml)) (stdlib (./)) (dump_parsetree true)
     (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false))
+    (print_time false) (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file primitives.ml)
                                      (source_kind impl))

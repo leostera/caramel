@@ -4,7 +4,8 @@ SKIPPED: needs mutable buffers.
   $ caramel compile --debug p73.ml
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
   ((sources (p73.ml)) (stdlib (./)) (dump_parsetree true) (dump_typedtree true)
-    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false))
+    (dump_ir true) (dump_pass -1) (dump_erl_ast true) (print_time false)
+    (new_syntax false) (to_beam false))
   
   caramel: [DEBUG] Compiling unit: ((source_file p73.ml) (source_kind impl))
   
