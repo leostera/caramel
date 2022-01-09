@@ -1,18 +1,31 @@
 open Sexplib.Std
 
-type id = Id of string [@@deriving sexp]
+type id = Id of string list [@@deriving sexp]
 
 type visibility = Public | Private [@@deriving sexp]
 
-type literal = Lit_string of string | Lit_atom of string [@@deriving sexp]
+type literal =
+  | Lit_integer of string
+  | Lit_string of string
+  | Lit_atom of string
+[@@deriving sexp]
 
 type annotation = { ann_name : id; ann_desc : annotation_desc option }
 [@@deriving sexp]
 
 and annotation_desc = Map of (id * string option) list [@@deriving sexp]
 
+and quoted_ast =
+  | Quoted_expr of expr
+  | Quoted_str of structure_item
+
 and expr =
+  | Expr_record of (id * expr) list
+  | Expr_constructor of id * constructor_expr
+  | Expr_lambda of (arg_label * pattern) list * expr
+  | Expr_open of id * expr
   | Expr_call of expr * expr list
+  | Expr_let of pattern * expr * expr
   | Expr_cons of expr * expr
   | Expr_literal of literal
   | Expr_match of expr * case list
@@ -20,6 +33,8 @@ and expr =
   | Expr_seq of expr * expr
   | Expr_tuple of expr list
   | Expr_var of id
+  | Expr_quote of quoted_ast
+  | Expr_unquote of expr
 [@@deriving sexp]
 
 and pattern =
@@ -28,11 +43,23 @@ and pattern =
   | Pat_cons of pattern * pattern
   | Pat_nil
   | Pat_tuple of pattern list
+  | Pat_literal of literal
+  | Pat_record of (id * pattern) list
+  | Pat_constructor of id * constructor_pat
+[@@deriving sexp]
+
+and constructor_pat =
+  | Ctp_record of (id * pattern) list
+  | Ctp_tuple of pattern list
+[@@deriving sexp]
+
+and constructor_expr = Ctr_record of (id * expr) list | Ctr_tuple of expr list
 [@@deriving sexp]
 
 and case = { cs_lhs : pattern; cs_rhs : expr } [@@deriving sexp]
 
 and type_expr =
+  | Type_tuple of type_expr list
   | Type_arrow of type_expr * type_expr
   | Type_apply of id * type_expr list
   | Type_name of id
@@ -41,6 +68,7 @@ and type_expr =
 
 and type_decl = {
   typ_name : id;
+  typ_args : string list;
   typ_desc : type_kind;
   typ_annot : annotation list;
 }
@@ -48,7 +76,9 @@ and type_decl = {
 
 and type_kind =
   | Type_abstract
-  | Type_variant of { constructors : constructor_decl list }
+  | Type_variant of { tyk_constructors : constructor_decl list }
+  | Type_record of { tyk_labels : label_decl list }
+  | Type_alias of id
 [@@deriving sexp]
 
 and constructor_decl = {
@@ -90,10 +120,23 @@ and fun_decl = {
 and arg_label = No_label | Label of string | Optional of string
 [@@deriving sexp]
 
+and mod_decl = {
+  mod_name : id;
+  mod_items : structure_item list;
+  mod_visibility : visibility;
+  mod_annot : annotation list;
+}
+[@@deriving sexp]
+
+and mod_expr = Mod_open of id | Mod_decl of mod_decl [@@deriving sexp]
+
 and structure_item =
   | Str_type of type_decl
   | Str_fun of fun_decl
+  | Str_macro of fun_decl
   | Str_extern of extern_decl
+  | Str_mod_expr of mod_expr
+  | Str_comment of string
 [@@deriving sexp]
 
 and t = structure_item list [@@deriving sexp]
@@ -102,4 +145,12 @@ and t = structure_item list [@@deriving sexp]
 
 let pp ppf t =
   let sexp = sexp_of_t t in
+  Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
+
+let pp_expr ppf expr =
+  let sexp = sexp_of_expr expr in
+  Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
+
+let pp_pat ppf pat =
+  let sexp = sexp_of_pattern pat in
   Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp

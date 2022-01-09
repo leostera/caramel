@@ -3,12 +3,16 @@
 The new Caramel compiler is structured in subpackages that take care of
 distinct phases.
 
-To see how these are hooked together, have a look at runner.ml
+To see how these are hooked together, have a look at `runner.ml`
 
 ```
 [ Caramel Source Language ]
 	|
 	| pkg: Caramel.Syntax
+	|
+[ Caramel Parsetree ]
+	|
+	| pkg: Caramel.Macro
 	|
 [ Caramel Parsetree ]
 	|
@@ -18,13 +22,13 @@ To see how these are hooked together, have a look at runner.ml
 	|
 	| pkg: Caramel.Sugarcane
 	|
-[ Caramel IR ]--------> pkg: Caramel.Caminito
+[ Caramel IR ]--------> pkg: Caramel.Sugarcane
 	|					˄                       ˅
 	|         ╰───────────────────────╯
 	|
-	| pkg: Caramel.Rio
+	| pkg: Caramel.Sugarcane
 	˅
-[ Erlang Code ]
+[ Core Erlang + BEAM bytecode ]
 ```
 
 

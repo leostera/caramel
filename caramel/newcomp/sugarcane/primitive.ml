@@ -194,13 +194,11 @@ and of_lambda_field ~idx ~metadata ~fields =
       let field = Some (Ir.lit (Literal.string name)) in
       Ir.field ~idx ~field ~expr
   | Some (Field_constructor { name = "::"; _ }), [ expr ] -> (
-      Logs.debug (fun f -> f "list car/cdr");
       match idx with
       | 0 -> Ir.ext_call ~name:Erlang.hd ~args:[ expr ]
       | 1 -> Ir.ext_call ~name:Erlang.tl ~args:[ expr ]
       | _ -> Error.panic "tried to access a list outside of head/tail")
-  | Some (Field_constructor { name; arity; _ }), [ expr ] ->
-      Logs.debug (fun f -> f "constructor field access %s/%d" name arity);
+  | Some (Field_constructor _), [ expr ] ->
       (* NOTE:
 
          On trying to access the value inside an `Ok(x)` (regular variant),
@@ -226,10 +224,8 @@ and of_lambda_field ~idx ~metadata ~fields =
       Ir.field ~idx ~field:None ~expr
   | Some (Field_primitive { mod_name; prim_name; _ }), [ expr ] ->
       (* NOTE: are we actually using this? *)
-      Logs.debug (fun f -> f "primitive field access %d" idx);
       Ir.ext_call ~name:(mod_name, prim_name) ~args:[ expr ]
   | None, [ expr ] ->
-      Logs.debug (fun f -> f "indexed field access %d" idx);
       (* NOTE: Read the note above first.
 
          The main difference is that for anonymous tuples, we don't need an
@@ -259,21 +255,15 @@ and record_of_prim ~fields ~record =
   in
   Ir.record ~fields
 
-and tuple_of_prim ~parts =
-  Logs.debug (fun f -> f "tuple");
-  Ir.tuple ~parts
+and tuple_of_prim ~parts = Ir.tuple ~parts
 
 and variant_of_prim ~fields ~label =
-  Logs.debug (fun f -> f "variant %s" label);
   let tag = Ir.lit (Literal.atom (String.lowercase_ascii label)) in
   Ir.tuple ~parts:(tag :: fields)
 
 and construct_of_prim ~fields ~name =
   match (name, fields) with
-  | "::", [ h; t ] ->
-      Logs.debug (fun f -> f "list");
-      Ir.cons h t
+  | "::", [ h; t ] -> Ir.cons h t
   | _, _ ->
-      Logs.debug (fun f -> f "construct %s" name);
       let tag = Ir.lit (Literal.atom (String.lowercase_ascii name)) in
       Ir.tuple ~parts:(tag :: fields)

@@ -16,7 +16,7 @@ type opts = {
   dump_erl_ast : bool;
   print_time : bool;
   new_syntax : bool;
-  to_beam: bool;
+  to_beam : bool;
 }
 [@@deriving sexp]
 
@@ -53,6 +53,8 @@ let compile_one ~t ~caml:_ source =
               dump_parsetree = false;
               dump_tokens = false;
               dump_caml = false;
+              dump_macro_env = false;
+              dump_expanded = false;
             }
         else Syntax.parse_implementation ~unit
       in
@@ -98,6 +100,9 @@ let compile_all ~t ~caml ~sources =
           Error ()
       | _, Error (`Parse_error e) ->
           Caramel_newsyntax.Parser.Error.pp Format.std_formatter e;
+          Error ()
+      | _, Error (`Runtime_error e) ->
+          Caramel_newsyntax.Macro_expander.Error.pp Format.std_formatter e;
           Error ()
       | _, Error (`Invalid_extension _ as e) ->
           Source_kind.print_error e;

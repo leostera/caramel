@@ -163,7 +163,15 @@ let string t =
 
   (* capture the string *)
   let start_pos = position t in
-  skip_while (fun c -> c <> '"') t;
+  skip_while
+    (fun c ->
+      match c with
+      | '\\' ->
+          next t;
+          true
+      | '"' -> false
+      | _ -> true)
+    t;
   let end_pos = position t in
   let str = get_string ~start_pos ~end_pos t in
 
@@ -172,6 +180,34 @@ let string t =
 
   (* return the contents as a token *)
   Token.String str
+
+(**
+   Scan a coment.
+*)
+let comment t =
+  (* drop the beginning of the comment *)
+  next t;
+
+  (* capture the comment *)
+  let start_pos = position t in
+  skip_while (fun c -> c <> '\n') t;
+  let end_pos = position t in
+  let str = get_string ~start_pos ~end_pos t in
+
+  (* return the comment *)
+  Token.Comment str
+
+(**
+   Scan a number: float or integer.
+*)
+let number t =
+  let start_pos = position t in
+  skip_while is_num t;
+  let end_pos = position t in
+  let str = get_string ~start_pos ~end_pos t in
+
+  (* return the contents as a token *)
+  Token.Integer str
 
 (**
    Scan an atom.
@@ -204,21 +240,49 @@ let scan t =
 
   let token =
     match t.curr_char with
+    | '0' .. '9' -> number t
     | '_' | 'A' .. 'Z' | 'a' .. 'z' -> identifier t
     | '"' -> string t
     | '@' -> next Token.At
     | ',' -> next Token.Comma
-    | '<' -> next Token.Lesser_than
-    | '>' -> next Token.Greater_than
     | '[' -> next Token.Bracket_left
     | ']' -> next Token.Bracket_right
-    | '(' -> next Token.Parens_left
     | ')' -> next Token.Parens_right
     | '{' -> next Token.Brace_left
     | '}' -> next Token.Brace_right
-    | '|' -> next Token.Pipe
     | '=' -> next Token.Equal
     | ';' -> next Token.Semicolon
+    | '(' -> next Token.Parens_left
+    | '*' -> next Token.Star
+    | '^' -> next Token.Caret
+    | '+' -> (
+        next ();
+        match t.curr_char with '+' -> next Token.Plus_plus | _ -> Token.Plus)
+    | '/' -> (
+        next ();
+        match t.curr_char with '/' -> comment t | _ -> Token.Slash)
+    | '|' -> (
+        next ();
+        match t.curr_char with
+        | '|' -> next Token.Or
+        | '>' -> next Token.Fun_pipe
+        | _ -> Token.Pipe)
+    | '!' -> (
+        next ();
+        match t.curr_char with '=' -> next Token.Not_equal | _ -> Token.Bang)
+    | '<' -> (
+        next ();
+        match t.curr_char with
+        | '=' -> next Token.Lesser_or_equal
+        | _ -> Token.Lesser_than)
+    | '>' -> (
+        next ();
+        match t.curr_char with
+        | '=' -> next Token.Greater_or_equal
+        | _ -> Token.Greater_than)
+    | '&' -> (
+        next ();
+        match t.curr_char with '&' -> next Token.And | _ -> Token.Ampersand)
     | '-' -> (
         next ();
         match t.curr_char with '>' -> next Token.Arrow | _ -> Token.Dash)
