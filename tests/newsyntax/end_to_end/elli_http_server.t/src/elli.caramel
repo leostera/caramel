@@ -1,0 +1,37 @@
+open Erlang
+
+type meth = 
+  | GET
+  | HEAD
+  | POST
+  | PUT
+  | DELETE
+  | CONNECT
+  | OPTIONS
+  | TRACE
+
+type opts =
+  | Callback(atom)
+  | Port(int)
+
+pub fn child_spec(name, opts) {
+  open Supervisor;
+  {
+    id: atom(name),
+    start: (
+      atom("elli"),
+      atom("start_link"),
+      as_term([ opts ]),
+    ),
+  }
+}
+
+module Request {
+  type t
+
+  external meth : t -> meth = "elli_request:method"
+
+  external path : t -> list<string> = "elli_request:path"
+}
+
+pub fn reply(status, opts, body) { (status, opts, body) }

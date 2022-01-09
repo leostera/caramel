@@ -1,0 +1,4 @@
+_build
+ebin
+src/*.meta
+src/*.core

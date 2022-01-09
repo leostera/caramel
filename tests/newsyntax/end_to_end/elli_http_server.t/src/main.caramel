@@ -1,0 +1,29 @@
+open Erlang
+open Elli
+
+pub fn not_found() {
+  let html = "<!doctype html>
+<html>
+  <head>
+    <meta charset=\"utf-8\">
+    <title>Not Found</title>
+  </head>
+  <body>
+    <h1>Not Found</h1>
+  </body>
+</html>";
+
+  html |> reply(404, [])
+}
+
+pub fn handle(req, args) {
+  let meth = Request.meth(req);
+  let path = Request.path(req);
+  Io.format("Handling ~p\n", [ (meth, path) ]);
+  match (meth, path) {
+  | (GET, [ "hello", you ]) -> reply(200, [], "Hello, " ^ you ^ "!")
+  | _ -> not_found()
+  }
+}
+
+pub fn handle_event(_event, _data, _args) { :ok }

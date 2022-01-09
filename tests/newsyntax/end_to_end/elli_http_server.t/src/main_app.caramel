@@ -1,0 +1,3 @@
+pub fn start(_args, _opts) { Main_sup.start_link() }
+
+pub fn stop(_state) { :ok }

@@ -1,0 +1,22 @@
+open Erlang
+
+pub fn start_link() {
+  Supervisor.start_link(
+    Local(atom("Caramel.Main_sup")),
+    atom("Caramel.Main_sup"),
+    []
+  )
+}
+
+pub fn init(_args)  {
+  open Supervisor;
+  let sup_flags = { strategy: Supervisor.One_for_all, intensity: 0, period: 1 };
+  let child_specs =
+    [
+      Elli.child_spec(
+        "http_server",
+        [ Elli.Callback(Erlang.atom("Caramel.Main")), Elli.Port(2112) ],
+      )
+    ];
+  Ok((sup_flags, child_specs))
+}

@@ -1,0 +1,105 @@
+type pid
+
+type term
+
+type atom
+
+external atom : string -> atom = "erlang:binary_to_atom"
+
+external as_term : 'a -> term = "%identity"
+
+type result<'ok, 'err> = | Ok('ok) | Error('err)
+
+external ( && ) : bool -> bool -> bool = "erlang:and"
+
+external ( * ) : int -> int -> int = "erlang:*"
+
+external ( + ) : int -> int -> int = "erlang:+"
+
+external ( - ) : int -> int -> int = "erlang:-"
+
+external ( / ) : int -> int -> int = "erlang:div"
+
+external ( < ) : int -> int -> bool = "erlang:<"
+
+external ( <= ) : int -> int -> bool = "erlang:=<"
+
+external ( >= ) : int -> int -> bool = "erlang:>="
+
+external ( != ) : int -> int -> bool = "erlang:=/="
+
+external ( = ) : 'a -> 'a -> bool = "erlang:=="
+
+external ( > ) : int -> int -> bool = "erlang:>"
+
+external lsl : int -> int -> int = "erlang:bsl"
+
+external mod : int -> int -> int = "erlang:rem"
+
+external ( || ) : bool -> bool -> bool = "erlang:or"
+
+external abs : int -> int = "erlang:abs"
+
+external length : list<'a> -> int = "erlang:length"
+
+external list_to_binary : list<'a> -> string = "erlang:list_to_binary"
+
+external max : int -> int -> int = "erlang:max"
+
+external min : int -> int -> int = "erlang:min"
+
+external neg : int -> int = "erlang:-"
+
+external not : bool -> bool = "erlang:not"
+
+external binary_to_integer : string -> int = "erlang:binary_to_integer"
+
+external integer_to_binary : int -> string = "erlang:integer_to_binary"
+
+external throw : 'a -> 'b = "erlang:throw"
+
+  external append : list<list<'a>> -> list<'a> = "lists:append"
+
+module Io {
+  external format : string -> list<'a> -> unit = "io:format"
+}
+
+module Io_lib {
+  external format : string -> list<'a> -> string = "io_lib:format"
+}
+
+pub fn ( ^ )(a, b) { list_to_binary([ a, b ]) }
+
+pub fn ( ++ )(a, b) { append([ a, b ]) }
+
+pub fn ( |> )( x, f) { f(x) }
+
+pub fn fst((x, _)) { x }
+
+pub fn snd((_, y)) { y }
+
+module Supervisor {
+  type sup_strategy = | One_for_all
+
+  type sup_flags = { strategy : sup_strategy, intensity : int, period : int }
+
+  type child_spec = { id : atom, start : (atom, atom, term) }
+
+  type register = | Local(atom)
+
+  external start_link : register -> 'b -> list<'c> -> result<pid, 'err>
+    = "supervisor:start_link"
+}
+
+pub fn compare(a, b) {
+  match a <= b {
+  | :true -> 1
+  | _ ->
+      match a = b {
+      | :true -> 0
+      | _ -> neg(1)
+      }
+  }
+}
+
+

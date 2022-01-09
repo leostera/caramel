@@ -1,0 +1,14 @@
+{application, caramel__http_server,
+ [{description, "A small http server"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, {'Caramel.Main_app', []}},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+  {licenses, []},
+  {links, []}
+ ]}.
