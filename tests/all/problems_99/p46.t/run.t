@@ -13,26 +13,6 @@
   caramel: [DEBUG] Writing p46.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] constructor field access Var/1
-  caramel: [DEBUG] constructor field access Not/1
-  caramel: [DEBUG] constructor field access And/2
-  caramel: [DEBUG] constructor field access And/2
-  caramel: [DEBUG] constructor field access Or/2
-  caramel: [DEBUG] constructor field access Or/2
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
   caramel: [DEBUG] Writing p46.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

@@ -13,22 +13,6 @@
   caramel: [DEBUG] Writing p41.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
   caramel: [DEBUG] Writing p41.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

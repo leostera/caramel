@@ -25,7 +25,6 @@ the Core module either.
   caramel: [DEBUG] Writing no_exports.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing no_exports.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing no_exports.ml.ir_5
@@ -126,7 +125,6 @@ exports in the Core module either.
   caramel: [DEBUG] Writing some_exports.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing some_exports.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing some_exports.ml.ir_5
@@ -247,7 +245,6 @@ When there is no interface, everything should be exported in the Core module.
   caramel: [DEBUG] Writing all_exports.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing all_exports.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing all_exports.ml.ir_5

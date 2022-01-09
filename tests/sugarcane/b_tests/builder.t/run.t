@@ -15,13 +15,6 @@ Lift IR into B-lang.
   caramel: [DEBUG] Writing a.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

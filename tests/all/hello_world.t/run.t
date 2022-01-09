@@ -14,10 +14,6 @@ Simple hello world test.
   caramel: [DEBUG] Writing hello_world.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing hello_world.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

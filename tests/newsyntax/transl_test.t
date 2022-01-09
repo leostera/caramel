@@ -250,3 +250,122 @@
   external format: string -> list<'a> -> unit = "io:format"
   $ caramel parse --file test.caramel --dump-caml --debug
   caramel: [DEBUG] external format : string -> 'a list -> unit = "io:format"
+
+  $ echo -e "macro hello(a) { quote { unquote { a } } }\nfn f() { hello(:joe) }" > test.caramel
+  $ cat test.caramel
+  macro hello(a) { quote { unquote { a } } }
+  fn f() { hello(:joe) }
+  $ caramel parse --file test.caramel --dump-caml --debug
+  caramel: [DEBUG] eval: (Expr_call
+                           (Expr_lambda ((No_label (Pat_bind (Id (a)))))
+                             (Expr_quote (Expr_unquote (Expr_var (Id (a))))))
+                           ((Expr_literal (Lit_atom joe))))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_quote (Expr_literal (Lit_atom joe)))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] let rec f () = `joe
+
+  $ echo -e "macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }\nfn f() { hello(:joe) }" > test.caramel
+  $ cat test.caramel
+  macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }
+  fn f() { hello(:joe) }
+  $ caramel parse --file test.caramel --dump-caml --debug
+  caramel: [DEBUG] eval: (Expr_call
+                           (Expr_lambda ((No_label (Pat_bind (Id (a)))))
+                             (Expr_quote
+                               (Expr_cons (Expr_unquote (Expr_var (Id (a))))
+                                 (Expr_cons (Expr_unquote (Expr_var (Id (a))))
+                                   Expr_nil))))
+                           ((Expr_literal (Lit_atom joe))))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_quote
+                           (Expr_cons (Expr_literal (Lit_atom joe))
+                             (Expr_cons (Expr_literal (Lit_atom joe)) Expr_nil)))
+  caramel: [DEBUG] eval: (Expr_cons (Expr_literal (Lit_atom joe))
+                           (Expr_cons (Expr_literal (Lit_atom joe)) Expr_nil))
+  caramel: [DEBUG] eval: (Expr_cons (Expr_literal (Lit_atom joe)) Expr_nil)
+  caramel: [DEBUG] eval: Expr_nil
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] let rec f () = [`joe; `joe]
+
+  $ echo -e "macro hello(a) { quote { display(unquote { a }); [ unquote { a }, unquote { a } ] } }\nfn f() { hello(:joe) }" > test.caramel
+  $ cat test.caramel
+  macro hello(a) { quote { display(unquote { a }); [ unquote { a }, unquote { a } ] } }
+  fn f() { hello(:joe) }
+  $ caramel parse --file test.caramel --dump-caml --debug
+  caramel: [DEBUG] eval: (Expr_call
+                           (Expr_lambda ((No_label (Pat_bind (Id (a)))))
+                             (Expr_quote
+                               (Expr_seq
+                                 (Expr_call (Expr_var (Id (display)))
+                                   ((Expr_unquote (Expr_var (Id (a))))))
+                                 (Expr_cons (Expr_unquote (Expr_var (Id (a))))
+                                   (Expr_cons
+                                     (Expr_unquote (Expr_var (Id (a))))
+                                     Expr_nil)))))
+                           ((Expr_literal (Lit_atom joe))))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_quote
+                           (Expr_seq
+                             (Expr_call (Expr_var (Id (display)))
+                               ((Expr_literal (Lit_atom joe))))
+                             (Expr_cons (Expr_literal (Lit_atom joe))
+                               (Expr_cons (Expr_literal (Lit_atom joe))
+                                 Expr_nil))))
+  caramel: [DEBUG] eval: (Expr_seq
+                           (Expr_call (Expr_var (Id (display)))
+                             ((Expr_literal (Lit_atom joe))))
+                           (Expr_cons (Expr_literal (Lit_atom joe))
+                             (Expr_cons (Expr_literal (Lit_atom joe)) Expr_nil)))
+  caramel: [DEBUG] eval: (Expr_cons (Expr_literal (Lit_atom joe))
+                           (Expr_cons (Expr_literal (Lit_atom joe)) Expr_nil))
+  caramel: [DEBUG] eval: (Expr_cons (Expr_literal (Lit_atom joe)) Expr_nil)
+  caramel: [DEBUG] eval: Expr_nil
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_call (Expr_var (Id (display)))
+                           ((Expr_literal (Lit_atom joe))))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_var (Id (display)))
+  caramel: [DEBUG] let rec f () = display `joe; [`joe; `joe]
+
+  $ echo -e "macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
+  $ cat test.caramel
+  macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }
+  fn f() { if(:true, :joe, :armstrong) }
+  $ caramel parse --file test.caramel --dump-caml --debug
+  caramel: [DEBUG] eval: (Expr_call
+                           (Expr_lambda
+                             ((No_label (Pat_bind (Id (a))))
+                               (No_label (Pat_bind (Id (b))))
+                               (No_label (Pat_bind (Id (c)))))
+                             (Expr_quote
+                               (Expr_match (Expr_unquote (Expr_var (Id (a))))
+                                 (((cs_lhs (Pat_literal (Lit_atom true)))
+                                    (cs_rhs (Expr_unquote (Expr_var (Id (b))))))
+                                   ((cs_lhs (Pat_literal (Lit_atom false)))
+                                     (cs_rhs
+                                       (Expr_unquote (Expr_var (Id (c))))))))))
+                           ((Expr_literal (Lit_atom true))
+                             (Expr_literal (Lit_atom joe))
+                             (Expr_literal (Lit_atom armstrong))))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom true))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom armstrong))
+  caramel: [DEBUG] eval: (Expr_quote
+                           (Expr_match (Expr_literal (Lit_atom true))
+                             (((cs_lhs (Pat_literal (Lit_atom true)))
+                                (cs_rhs (Expr_literal (Lit_atom joe))))
+                               ((cs_lhs (Pat_literal (Lit_atom false)))
+                                 (cs_rhs (Expr_literal (Lit_atom armstrong)))))))
+  caramel: [DEBUG] eval: (Expr_match (Expr_literal (Lit_atom true))
+                           (((cs_lhs (Pat_literal (Lit_atom true)))
+                              (cs_rhs (Expr_literal (Lit_atom joe))))
+                             ((cs_lhs (Pat_literal (Lit_atom false)))
+                               (cs_rhs (Expr_literal (Lit_atom armstrong))))))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom joe))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom armstrong))
+  caramel: [DEBUG] eval: (Expr_literal (Lit_atom true))
+  caramel: [DEBUG] let rec f () =
+                     match `true with | true -> `joe | false -> `armstrong

@@ -17,7 +17,6 @@ functions:
   caramel: [DEBUG] Writing lambda_let_val.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_let_val.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -56,7 +55,6 @@ Top-level module functions, however, should be lifted to the IR:
   caramel: [DEBUG] Writing lambda_let_fun.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_let_fun.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -97,7 +95,6 @@ Support for function application:
   caramel: [DEBUG] Writing lambda_apply.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_apply.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -148,7 +145,6 @@ Support for literals:
   caramel: [DEBUG] Writing lambda_const.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_const.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -283,7 +279,6 @@ Functions and lambdas!
   caramel: [DEBUG] Writing lambda_fun.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_fun.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -378,7 +373,6 @@ support on the Erlang VM.
   caramel: [DEBUG] Writing lambda_assign.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   TODO: This function has not been implemented yet: Psetfield
   [1]
 
@@ -411,7 +405,6 @@ Support for recursive let bindings:
   caramel: [DEBUG] Writing lambda_let_rec.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_let_rec.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -520,7 +513,6 @@ Support for conditionals:
   caramel: [DEBUG] Writing lambda_ifthenelse.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_ifthenelse.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -637,7 +629,6 @@ Support for external calls
   caramel: [DEBUG] Writing lambda_external.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_external.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -678,14 +669,6 @@ Support for calls between modules
   caramel: [DEBUG] Writing lambda_modules.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_modules.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing lambda_modules.ml.ir_1
@@ -1112,18 +1095,6 @@ Support for match/case/switch expressions:
   caramel: [DEBUG] Writing lambda_switch.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] constructor field access Hello/2
-  caramel: [DEBUG] constructor field access Hello/2
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 2
-  caramel: [DEBUG] constructor field access V1/1
-  caramel: [DEBUG] constructor field access V2/2
-  caramel: [DEBUG] constructor field access V3/3
-  caramel: [DEBUG] constructor field access V1/1
-  caramel: [DEBUG] constructor field access V2/2
-  caramel: [DEBUG] constructor field access V3/3
   caramel: [DEBUG] Writing lambda_switch.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -1337,7 +1308,6 @@ Support for sequences of expressions;
   caramel: [DEBUG] Writing lambda_sequence.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_sequence.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -1396,8 +1366,6 @@ Support for function references.
   caramel: [DEBUG] Writing lambda_utils.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_utils.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing lambda_utils.ml.ir_4
@@ -1418,15 +1386,6 @@ Support for function references.
   caramel: [DEBUG] Writing lambda_funref.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing lambda_funref.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing lambda_funref.ml.ir_4

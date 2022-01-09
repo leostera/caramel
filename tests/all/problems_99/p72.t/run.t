@@ -13,26 +13,6 @@
   caramel: [DEBUG] Writing p72.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] constructor field access T/2
-  caramel: [DEBUG] list
-  caramel: [DEBUG] constructor field access T/2
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
   caramel: [DEBUG] Writing p72.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

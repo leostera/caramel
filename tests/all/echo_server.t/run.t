@@ -34,14 +34,6 @@ Small TCP echo server.
   caramel: [DEBUG] Writing echo_server.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] list
-  caramel: [DEBUG] constructor field access Ok/1
-  caramel: [DEBUG] constructor field access Ok/1
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] constructor field access Ok/1
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing echo_server.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

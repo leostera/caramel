@@ -13,16 +13,6 @@
   caramel: [DEBUG] Writing p34.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
   caramel: [DEBUG] Writing p34.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

@@ -15,7 +15,6 @@ Verify that calls to local functions go from (Apply (Var x)) to (Apply (Fn_name 
   caramel: [DEBUG] Writing a.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir_7

@@ -16,11 +16,6 @@ Support for lists.
   caramel: [DEBUG] Writing prim_list.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
   caramel: [DEBUG] Writing prim_list.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -118,10 +113,6 @@ Support for polymorphic variants.
   caramel: [DEBUG] Writing prim_polyvar.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] variant what2
-  caramel: [DEBUG] variant what1
   caramel: [DEBUG] Writing prim_polyvar.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -200,7 +191,6 @@ Support for variants.
   caramel: [DEBUG] Writing prim_variant.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing prim_variant.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -272,8 +262,6 @@ Support for records.
   caramel: [DEBUG] Writing prim_record.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] indexed field access 2
   caramel: [DEBUG] Writing prim_record.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -387,11 +375,6 @@ Support for tuples.
   caramel: [DEBUG] Writing prim_tuple.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing prim_tuple.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

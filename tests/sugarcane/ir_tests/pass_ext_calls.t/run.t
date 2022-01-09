@@ -15,12 +15,6 @@ Verify that all qualified function calls end up as external calls:
   caramel: [DEBUG] Writing a.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir_0
   caramel: [DEBUG] OK
   caramel: [DEBUG] Writing a.ml.ir_3

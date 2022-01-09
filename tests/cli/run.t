@@ -27,7 +27,6 @@ Calling compile with uncompilable files will error out.
   caramel: [DEBUG] Compiling unit: ((source_file a.ml) (source_kind impl))
   
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Translating to B...
   caramel: [DEBUG] Writing Caramel.A.core
   caramel: [DEBUG] OK

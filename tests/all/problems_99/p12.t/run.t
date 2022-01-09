@@ -13,19 +13,6 @@
   caramel: [DEBUG] Writing p12.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] constructor field access One/1
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] constructor field access Many/2
-  caramel: [DEBUG] constructor field access Many/2
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
   caramel: [DEBUG] Writing p12.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

@@ -19,21 +19,6 @@
   caramel: [DEBUG] Writing p21.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing p21.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

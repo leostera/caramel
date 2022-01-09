@@ -24,17 +24,6 @@
   caramel: [DEBUG] Writing erlang.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing erlang.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -73,11 +62,6 @@
   caramel: [DEBUG] Writing elli.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing elli.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -105,9 +89,6 @@
   caramel: [DEBUG] Writing http_method.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] variant Other
-  caramel: [DEBUG] indexed field access 1
   caramel: [DEBUG] Writing http_method.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -124,28 +105,6 @@
   caramel: [DEBUG] Writing http_status.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] list
-  caramel: [DEBUG] variant Code
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] indexed field access 0
-  caramel: [DEBUG] list
-  caramel: [DEBUG] variant Code
-  caramel: [DEBUG] indexed field access 1
-  caramel: [DEBUG] variant Code
-  caramel: [DEBUG] indexed field access 1
   caramel: [DEBUG] Writing http_status.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -173,13 +132,6 @@
   caramel: [DEBUG] Writing main_sup.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] construct Ok
-  caramel: [DEBUG] construct Callback
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] construct Local
   caramel: [DEBUG] Writing main_sup.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -196,7 +148,6 @@
   caramel: [DEBUG] Writing main_app.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing main_app.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -216,13 +167,6 @@
   caramel: [DEBUG] Writing main.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
   caramel: [DEBUG] Writing main.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...

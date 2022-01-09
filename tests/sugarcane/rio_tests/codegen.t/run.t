@@ -15,9 +15,6 @@ Lift IR into B-lang.
   caramel: [DEBUG] Writing a.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing a.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -164,7 +161,6 @@ Lift IR into B-lang.
   caramel: [DEBUG] Writing b.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing b.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -245,7 +241,6 @@ Lift IR into B-lang.
   caramel: [DEBUG] Writing c.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing c.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -307,9 +302,6 @@ Lift IR into B-lang.
   caramel: [DEBUG] Writing d.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] list car/cdr
-  caramel: [DEBUG] tuple
   caramel: [DEBUG] Writing d.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
@@ -405,22 +397,6 @@ Codegen for primitives
   caramel: [DEBUG] Writing primitives.ml.lambda
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] indexed field access 2
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] variant what2
-  caramel: [DEBUG] variant what1
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] tuple
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
-  caramel: [DEBUG] list
   caramel: [DEBUG] Writing primitives.ml.ir
   caramel: [DEBUG] OK
   caramel: [DEBUG] Translating to B...
