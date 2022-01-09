@@ -213,10 +213,6 @@
   caramel: [DEBUG] Done
 
   $ caramel parse --dump-caml --file main_sup.caramel
-  caramel: [DEBUG] constructor: expression (_none_[0,0+-1]..[0,0+-1]) ghost
-    Pexp_construct "Supervisor.One_for_all" (_none_[0,0+-1]..[0,0+-1]) ghost
-    None
-  
   caramel: [DEBUG] open Erlang
                    let rec start_link () =
                      Supervisor.start_link (Local (atom "Caramel.Main_sup"))
@@ -243,10 +239,6 @@
   
   caramel: [DEBUG] Compiling unit: ((source_file main_sup.caramel)
                                      (source_kind impl))
-  
-  caramel: [DEBUG] constructor: expression (_none_[0,0+-1]..[0,0+-1]) ghost
-    Pexp_construct "Supervisor.One_for_all" (_none_[0,0+-1]..[0,0+-1]) ghost
-    None
   
   caramel: [DEBUG] Writing main_sup.caramel.parsetree
   caramel: [DEBUG] OK

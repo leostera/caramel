@@ -335,15 +335,25 @@
 
   $ echo -e "pub macro debug(ast) {\n  match ast {\n  | Str_type { typ_name } ->\n    let name = quote {\n      pub fn unquote { id(typ_name) }() {\n        unquote { str(typ_name) }\n      }\n    };\n    [ ast, name ]\n  | _ -> [ ast ]\n  }" > test.caramel
   $ cat test.caramel
-  macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }
-  fn f() { if(:true, :joe, :armstrong) }
+  pub macro debug(ast) {
+    match ast {
+    | Str_type { typ_name } ->
+      let name = quote {
+        pub fn unquote { id(typ_name) }() {
+          unquote { str(typ_name) }
+        }
+      };
+      [ ast, name ]
+    | _ -> [ ast ]
+    }
   $ caramel parse --file test.caramel --dump-tokens --debug
-  caramel: [DEBUG] (Macro (Id if) Parens_left (Id a) Comma (Id b) Comma 
-                     (Id c) Parens_right Brace_left Quote Brace_left Match
-                     Unquote Brace_left (Id a) Brace_right Brace_left Pipe
-                     (Atom true) Arrow Unquote Brace_left (Id b) Brace_right
-                     Pipe (Atom false) Arrow Unquote Brace_left (Id c)
-                     Brace_right Brace_right Brace_right Brace_right Fn 
-                     (Id f) Parens_left Parens_right Brace_left (Id if)
-                     Parens_left (Atom true) Comma (Atom joe) Comma
-                     (Atom armstrong) Parens_right Brace_right)
+  caramel: [DEBUG] (Pub Macro (Id debug) Parens_left (Id ast) Parens_right
+                     Brace_left Match (Id ast) Brace_left Pipe (Id Str_type)
+                     Brace_left (Id typ_name) Brace_right Arrow Let (Id name)
+                     Equal Quote Brace_left Pub Fn Unquote Brace_left (Id id)
+                     Parens_left (Id typ_name) Parens_right Brace_right
+                     Parens_left Parens_right Brace_left Unquote Brace_left
+                     (Id str) Parens_left (Id typ_name) Parens_right
+                     Brace_right Brace_right Brace_right Semicolon Bracket_left
+                     (Id ast) Comma (Id name) Bracket_right Pipe Any Arrow
+                     Bracket_left (Id ast) Bracket_right Brace_right)

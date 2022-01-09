@@ -91,7 +91,6 @@ module Interpreter = struct
     | Expr_open _ | Expr_literal _ | Expr_nil -> expr
 
   let rec eval ~is_quoted ~env expr =
-    Logs.debug (fun f -> f "eval: %a" Parsetree.pp_expr expr);
     match expr with
     | Expr_quote (Quoted_expr expr) ->
         Macro.quoted_expr (eval ~is_quoted:true ~env expr)
@@ -103,7 +102,6 @@ module Interpreter = struct
         let fn_args = List.map (eval ~is_quoted ~env) fn_args in
         match fn with
         | Expr_var id when is_quoted = false -> (
-            Logs.debug (fun f -> f "calling: %a" Parsetree.pp_expr fn);
             match Macro_env.find_macro ~env id with
             | Some macro ->
                 let macro_call = Expr.call ~name:macro ~args:fn_args in
@@ -151,8 +149,6 @@ module Interpreter = struct
 
   and eval_match ~env expr cases =
     let rec match_ pat expr =
-      Logs.debug (fun f ->
-          f "match %a with %a" Parsetree.pp_pat pat Parsetree.pp_expr expr);
       match (pat, expr) with
       | Pat_bind _, _ -> true
       | Pat_any, _ -> true

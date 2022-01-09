@@ -542,7 +542,8 @@
                       ((fn_visibility Private) (fn_name (Id (hello)))
                         (fn_args ((No_label (Pat_bind (Id (a)))))) (fn_arity 1)
                         (fn_body
-                          (Expr_quote (Expr_unquote (Expr_var (Id (a))))))
+                          (Expr_quote
+                            (Quoted_expr (Expr_unquote (Expr_var (Id (a)))))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
@@ -562,9 +563,10 @@
                         (fn_args ((No_label (Pat_bind (Id (a)))))) (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Expr_cons (Expr_unquote (Expr_var (Id (a))))
+                            (Quoted_expr
                               (Expr_cons (Expr_unquote (Expr_var (Id (a))))
-                                Expr_nil))))
+                                (Expr_cons (Expr_unquote (Expr_var (Id (a))))
+                                  Expr_nil)))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
@@ -584,12 +586,13 @@
                         (fn_args ((No_label (Pat_bind (Id (a)))))) (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Expr_seq
-                              (Expr_call (Expr_var (Id (display)))
-                                ((Expr_unquote (Expr_var (Id (a))))))
-                              (Expr_cons (Expr_unquote (Expr_var (Id (a))))
+                            (Quoted_expr
+                              (Expr_seq
+                                (Expr_call (Expr_var (Id (display)))
+                                  ((Expr_unquote (Expr_var (Id (a))))))
                                 (Expr_cons (Expr_unquote (Expr_var (Id (a))))
-                                  Expr_nil)))))
+                                  (Expr_cons (Expr_unquote (Expr_var (Id (a))))
+                                    Expr_nil))))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
@@ -613,11 +616,12 @@
                         (fn_arity 3)
                         (fn_body
                           (Expr_quote
-                            (Expr_match (Expr_unquote (Expr_var (Id (a))))
-                              (((cs_lhs (Pat_literal (Lit_atom true)))
-                                 (cs_rhs (Expr_unquote (Expr_var (Id (b))))))
-                                ((cs_lhs (Pat_literal (Lit_atom false)))
-                                  (cs_rhs (Expr_unquote (Expr_var (Id (c))))))))))
+                            (Quoted_expr
+                              (Expr_match (Expr_unquote (Expr_var (Id (a))))
+                                (((cs_lhs (Pat_literal (Lit_atom true)))
+                                   (cs_rhs (Expr_unquote (Expr_var (Id (b))))))
+                                  ((cs_lhs (Pat_literal (Lit_atom false)))
+                                    (cs_rhs (Expr_unquote (Expr_var (Id (c)))))))))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
