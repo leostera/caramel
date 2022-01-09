@@ -13,7 +13,7 @@ let info = Info.make ~name ~doc ~description
 let run sources debug dump_ast dump_erl_ast dump_parsetree dump_typedtree
     dump_pass no_stdlib stdlib_path print_time new_syntax to_beam =
   match
-    Caramel_newcomp.Newcomp.Runner.run
+    Caramel_newcomp.Runner.run
       {
         sources;
         dump_parsetree = debug || dump_parsetree;
@@ -24,7 +24,7 @@ let run sources debug dump_ast dump_erl_ast dump_parsetree dump_typedtree
         stdlib = (if no_stdlib then None else Some stdlib_path);
         print_time;
         new_syntax;
-        to_beam; 
+        to_beam;
       }
   with
   | Ok () -> 0

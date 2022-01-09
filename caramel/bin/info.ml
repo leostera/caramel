@@ -15,8 +15,8 @@ let make ~name ~doc ~description =
     ]
   in
   let version =
-    match Newcomp.Version.git_version with
-    | "" -> Newcomp.Version.s
-    | v -> Printf.sprintf "%s+git-%s" Newcomp.Version.s v
+    match Version.git_version with
+    | "" -> Version.s
+    | v -> Printf.sprintf "%s+git-%s" Version.s v
   in
   Term.info name ~version ~doc ~man
