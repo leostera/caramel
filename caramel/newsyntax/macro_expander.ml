@@ -1,3 +1,50 @@
+(**
+
+   Version: 0
+
+   This rudimentary macro expander will scan the parse tree, build an environment
+   of macro definitions, and evaluate all the macros found both as annotations
+   in module structure items and within expressions.
+
+   It allows macros to be composed, calling macros from within macros, and
+   quasiquotation allows to use the surface syntax of Caramel to define both
+   new structure items and expressions to be returned from the macros.
+
+   For example, the following macro creates a new function in a module that returns
+   whatever the macro argument `name` is:
+
+   ```caramel
+   macro hello(name) {
+     quote {
+       pub fn hello() {
+         unquote(name)
+       }
+     }
+   }
+   ```
+
+   To evaluate the macro definitions themselves, a subset of Caramel is made
+   available that is interpreted with the `Interpreter` module.
+
+   For macros specified as annotations on structure items, the structure item
+   itself is reified into a data structure that can be manipualted through the
+   interpreter.
+
+   Note that the interpreter evalutes an untyped language.
+
+   Things to improve:
+
+   * The environment currently has only a single level of bindings - this
+     prevents macros from using intermediate variables that call out to
+     other functions.
+
+   * The interpreter evaluation logic feels very messy
+
+   * Build a cleaner reification of the AST values - we should write out the
+     type definitions of the Caramel parsetree in Caramel.
+
+*)
+
 open Parsetree
 open Parsetree_helper
 
@@ -385,13 +432,7 @@ end
 
 let run parsetree =
   match
-    (* Build env: traverse and find all macros definitions *)
     let env = Env.bind_macros ~env:Env.empty parsetree in
-    (* Apply macros:
-        find all macro applications,
-        look em up in the environment
-        use the evaluator to run them
-    *)
     parsetree
     |> List.concat_map (Annotation.expand_annotations ~env)
     |> List.map (expand ~env)
