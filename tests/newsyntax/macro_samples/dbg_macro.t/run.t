@@ -8,7 +8,7 @@
   }
   
   pub macro dbg(msg, val) {
-      println( (unquote{msg}, unquote{val}) )
+      println( (unquote(msg), unquote(val)) )
   }
   
   pub fn main(args) {

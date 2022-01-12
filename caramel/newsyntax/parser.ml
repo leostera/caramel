@@ -346,7 +346,11 @@ let rec parse_pattern t =
           | Token.Parens_left ->
               parse_pattern_variant_constructor_tuple ~name:id t
           | _ -> Parsetree_helper.Pat.constructor_tuple ~name:id ~parts:[])
-      | `value -> Parsetree_helper.Pat.bind id)
+      | `value -> Parsetree_helper.Pat.bind id
+      | `field_access _ ->
+          Error.expected_symbol
+            ~sym:(`One_of [ Token.Bracket_left; Token.Parens_left ])
+            ~found:t.curr_span)
   | Token.Parens_left -> parse_pattern_tuple t
   | Token.Bracket_left -> parse_pattern_list t
   | _ -> Error.expected_symbol ~sym:(`Exact Token.Pipe) ~found:t.curr_span
@@ -455,6 +459,8 @@ let rec parse_one t =
         let id = Parsetree_helper.id name in
         let name = Parsetree_helper.Expr.var id in
         match Parsetree_helper.id_kind id with
+        | `field_access (id, field, rest) ->
+            Parsetree_helper.Expr.parse_field_access id field rest
         | `constructor -> (
             match t.curr_span.token with
             | Token.Brace_left ->
@@ -543,6 +549,7 @@ and parse_expr_call ~name t =
 and parse_expr_quote t =
   expect Token.Quote t;
   expect Token.Brace_left t;
+
   let expr =
     match parse_structure_item t with
     | exception _ -> (
@@ -557,9 +564,9 @@ and parse_expr_quote t =
 
 and parse_expr_unquote t =
   expect Token.Unquote t;
-  expect Token.Brace_left t;
+  expect Token.Parens_left t;
   let expr = parse_expression t in
-  expect Token.Brace_right t;
+  expect Token.Parens_right t;
   Parsetree_helper.Macro.unquoted ~expr
 
 and parse_expr_tuple t =

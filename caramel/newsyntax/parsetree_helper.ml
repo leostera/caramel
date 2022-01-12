@@ -2,9 +2,26 @@ open Parsetree
 
 let id str = Id (String.split_on_char '.' str)
 
+let id_of_path parts = Id parts
+
 let id_kind (Id path) =
+  let first = List.nth path 0 in
   let last = List.nth path (List.length path - 1) in
-  match String.get last 0 with 'A' .. 'Z' -> `constructor | _ -> `value
+
+  let first_is_lower =
+    match String.get first 0 with 'a' .. 'z' -> true | _ -> false
+  in
+  let last_is_upper =
+    match String.get last 0 with 'A' .. 'Z' -> true | _ -> false
+  in
+
+  match path with
+  (* path = ["hello", _] *)
+  | id :: path :: rest when first_is_lower -> `field_access (id, path, rest)
+  (* path = [_, "World"] *)
+  | _ when last_is_upper -> `constructor
+  (* path = ["hello"] *)
+  | _ -> `value
 
 module Visibility = struct
   let pub = Public
@@ -24,6 +41,16 @@ module Expr = struct
   let tuple ~parts = Expr_tuple parts
 
   let field ~name ~expr = (name, expr)
+
+  let field_access ~expr ~field = Expr_field (expr, field)
+
+  let parse_field_access name field path =
+    let rec consume_path path =
+      match path with
+      | [] -> field_access ~expr:(var (id name)) ~field:(id field)
+      | f :: rest -> field_access ~expr:(consume_path rest) ~field:(id f)
+    in
+    consume_path path
 
   let record ~fields = Expr_record fields
 
@@ -182,4 +209,81 @@ module Str = struct
     | Str_fun f -> f.fn_annot
     | Str_extern e -> e.ext_annot
     | _ -> []
+end
+
+module Mapper = struct
+  let map_str ?typ ?fn ?ext ?macro ?module_ ?comment str =
+    List.map
+      (fun item ->
+        match item with
+        | Str_type i -> Str_type (match typ with Some f -> f i | _ -> i)
+        | Str_fun i -> Str_fun (match fn with Some f -> f i | _ -> i)
+        | Str_extern i -> Str_extern (match ext with Some f -> f i | _ -> i)
+        | Str_macro i -> Str_macro (match macro with Some f -> f i | _ -> i)
+        | Str_mod_expr i ->
+            Str_mod_expr (match module_ with Some f -> f i | _ -> i)
+        | Str_comment i ->
+            Str_comment (match comment with Some f -> f i | _ -> i))
+      str
+
+  (*
+     TODO(leandro): figure out how we want to use this
+
+  let rec map_expr ?record ?constructor ?lambda ?open_ ?call ?let_ ?cons
+      ?literal ?match_ ?nil ?seq ?tuple ?var ?quote ?unquote expr =
+    let record = match record with Some f -> f | _ -> fun x -> x in
+    let constructor = match constructor with Some f -> f | _ -> fun x -> x in
+    let lambda = match lambda with Some f -> f | _ -> fun x -> x in
+    let open_ = match open_ with Some f -> f | _ -> fun x -> x in
+    let call = match call with Some f -> f | _ -> fun x -> x in
+    let let_ = match let_ with Some f -> f | _ -> fun x -> x in
+    let cons = match cons with Some f -> f | _ -> fun x -> x in
+    let literal = match literal with Some f -> f | _ -> fun x -> x in
+    let match_ = match match_ with Some f -> f | _ -> fun x -> x in
+    let nil = match nil with Some f -> f | _ -> fun x -> x in
+    let seq = match seq with Some f -> f | _ -> fun x -> x in
+    let tuple = match tuple with Some f -> f | _ -> fun x -> x in
+    let var = match var with Some f -> f | _ -> fun x -> x in
+    let quote = match quote with Some f -> f | _ -> fun x -> x in
+    let unquote = match unquote with Some f -> f | _ -> fun x -> x in
+
+    let self expr =
+      map_expr ~record ~constructor ~lambda ~open_ ~call ~let_ ~cons ~literal
+        ~match_ ~nil ~seq ~tuple ~var ~quote ~unquote expr
+    in
+
+    match expr with
+    | Expr_lambda (args, body) -> Expr.lambda ~args ~body:(lambda body)
+    | Expr_call  ->
+        let (name, args) = self fn in
+        let args = List.map self args in
+        Expr.call ~name ~args
+    | Expr_cons (a, b) -> Expr.list ~head:(self a) ~tail:(self b)
+    | Expr_quote (Quoted_expr expr) -> Macro.quoted_expr (self expr)
+    | Expr_quote _ -> expr
+    | Expr_unquote expr -> Macro.unquoted ~expr:(self expr)
+    | Expr_match (expr, cases) ->
+        Expr.match_ ~expr:(self expr)
+          ~cases:
+            (List.map
+               (fun { cs_lhs; cs_rhs } -> { cs_lhs; cs_rhs = self cs_rhs })
+               cases)
+    | Expr_let (pat, body, expr) ->
+        Expr.let_ ~pat ~body:(self body) ~expr:(self expr)
+    | Expr_seq (a, b) -> Expr.seq (self a) (self b)
+    | Expr_tuple parts -> Expr.tuple ~parts:(List.map self parts)
+    | Expr_constructor (name, Ctr_tuple parts) ->
+        Expr.constructor_tuple ~name ~parts:(List.map self parts)
+    | Expr_constructor (name, Ctr_record fields) ->
+        Expr.constructor_record ~name
+          ~fields:(List.map (fun (k, v) -> (k, self v)) fields)
+    | Expr_record fields ->
+        Expr.record ~fields:(List.map (fun (k, v) -> (k, self v)) fields)
+    | Expr_open (mod_name, expr) ->
+        let mod_name, expr = open_ (mod_name, expr) in
+        Expr.open_ ~mod_name ~expr
+    | Expr_literal lit -> Expr_literal (literal lit)
+    | Expr_var id -> Expr_var (var id)
+    | Expr_nil -> Expr_nil
+    *)
 end

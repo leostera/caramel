@@ -15,11 +15,10 @@ type annotation = { ann_name : id; ann_desc : annotation_desc option }
 
 and annotation_desc = Map of (id * string option) list [@@deriving sexp]
 
-and quoted_ast =
-  | Quoted_expr of expr
-  | Quoted_str of structure_item
+and quoted_ast = Quoted_expr of expr | Quoted_str of structure_item
 
 and expr =
+  | Expr_field of expr * id
   | Expr_record of (id * expr) list
   | Expr_constructor of id * constructor_expr
   | Expr_lambda of (arg_label * pattern) list * expr
@@ -141,7 +140,7 @@ and structure_item =
 
 and t = structure_item list [@@deriving sexp]
 
-(*** Ops on t ******************************************************************)
+(*** Pretty printers ***********************************************************)
 
 let pp ppf t =
   let sexp = sexp_of_t t in
@@ -149,6 +148,14 @@ let pp ppf t =
 
 let pp_expr ppf expr =
   let sexp = sexp_of_expr expr in
+  Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
+
+let pp_exprs ppf expr =
+  let sexp = sexp_of_expr (Expr_tuple expr) in
+  Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
+
+let pp_annot ppf annot =
+  let sexp = sexp_of_annotation annot in
   Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
 
 let pp_pat ppf pat =

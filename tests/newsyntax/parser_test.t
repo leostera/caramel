@@ -533,9 +533,9 @@
                         (ext_symbol io:format) (ext_visibility Private)
                         (ext_annot ()))))
 
-  $ echo -e "macro hello(a) { quote { unquote { a } } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { unquote(a) } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { unquote { a } } }
+  macro hello(a) { quote { unquote(a) } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-parsetree --debug
   caramel: [DEBUG] ((Str_macro
@@ -553,9 +553,9 @@
                              ((Expr_literal (Lit_atom joe)))))
                          (fn_annot ()))))
 
-  $ echo -e "macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { [ unquote(a), unquote(a) ] } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }
+  macro hello(a) { quote { [ unquote(a), unquote(a) ] } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-parsetree --debug
   caramel: [DEBUG] ((Str_macro
@@ -576,9 +576,9 @@
                              ((Expr_literal (Lit_atom joe)))))
                          (fn_annot ()))))
 
-  $ echo -e "macro hello(a) { quote { display(unquote { a }); [ unquote { a }, unquote { a } ] } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { display(unquote(a)); [ unquote(a), unquote(a) ] } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { display(unquote { a }); [ unquote { a }, unquote { a } ] } }
+  macro hello(a) { quote { display(unquote(a)); [ unquote(a), unquote(a) ] } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-parsetree --debug
   caramel: [DEBUG] ((Str_macro
@@ -602,9 +602,9 @@
                              ((Expr_literal (Lit_atom joe)))))
                          (fn_annot ()))))
 
-  $ echo -e "macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
+  $ echo -e "macro if(a, b, c) { quote { match unquote(a) { | :true -> unquote(b) | :false ->  unquote(c) } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
   $ cat test.caramel
-  macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }
+  macro if(a, b, c) { quote { match unquote(a) { | :true -> unquote(b) | :false ->  unquote(c) } } }
   fn f() { if(:true, :joe, :armstrong) }
   $ caramel parse --file test.caramel --dump-parsetree --debug
   caramel: [DEBUG] ((Str_macro
@@ -633,8 +633,69 @@
                                (Expr_literal (Lit_atom armstrong)))))
                          (fn_annot ()))))
 
-  $ echo -e "pub macro debug(ast) {\n  match ast {\n  | Str_type { typ_name } ->\n    let name = quote {\n      pub fn unquote { id(typ_name) }() {\n        unquote { str(typ_name) }\n      }\n    };\n    [ ast, name ]\n  | _ -> [ ast ]\n  }" > test.caramel
+  $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n" > test.caramel
   $ cat test.caramel
-  macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }
-  fn f() { if(:true, :joe, :armstrong) }
+  pub macro debug(ast) {
+    quote {
+      pub fn type_name() {
+        unquote(ast.name)
+      }
+    }
+  }
+  
   $ caramel parse --file test.caramel --dump-parsetree --debug
+  caramel: [DEBUG] ((Str_macro
+                      ((fn_visibility Public) (fn_name (Id (debug)))
+                        (fn_args ((No_label (Pat_bind (Id (ast))))))
+                        (fn_arity 1)
+                        (fn_body
+                          (Expr_quote
+                            (Quoted_str
+                              (Str_fun
+                                ((fn_visibility Public)
+                                  (fn_name (Id (type_name))) (fn_args ())
+                                  (fn_arity 0)
+                                  (fn_body
+                                    (Expr_unquote
+                                      (Expr_field (Expr_var (Id (ast)))
+                                        (Id (name)))))
+                                  (fn_annot ()))))))
+                        (fn_annot ()))))
+
+  $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n\n@derive(debug)\ntype test\n" > test.caramel
+  $ cat test.caramel
+  pub macro debug(ast) {
+    quote {
+      pub fn type_name() {
+        unquote(ast.name)
+      }
+    }
+  }
+  
+  @derive(debug)
+  type test
+  
+  $ caramel parse --file test.caramel --dump-parsetree --debug
+  caramel: [DEBUG] ((Str_macro
+                      ((fn_visibility Public) (fn_name (Id (debug)))
+                        (fn_args ((No_label (Pat_bind (Id (ast))))))
+                        (fn_arity 1)
+                        (fn_body
+                          (Expr_quote
+                            (Quoted_str
+                              (Str_fun
+                                ((fn_visibility Public)
+                                  (fn_name (Id (type_name))) (fn_args ())
+                                  (fn_arity 0)
+                                  (fn_body
+                                    (Expr_unquote
+                                      (Expr_field (Expr_var (Id (ast)))
+                                        (Id (name)))))
+                                  (fn_annot ()))))))
+                        (fn_annot ())))
+                     (Str_type
+                       ((typ_name (Id (test))) (typ_args ())
+                         (typ_desc Type_abstract)
+                         (typ_annot
+                           (((ann_name (Id (derive)))
+                              (ann_desc ((Map (((Id (debug)) ())))))))))))

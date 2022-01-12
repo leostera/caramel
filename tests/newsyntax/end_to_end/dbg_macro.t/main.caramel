@@ -1,15 +1,14 @@
-external format: string -> list<'a> -> unit = "io:format"
-
-pub macro println(val) {
+pub macro debug(ast) {
   quote {
-    format("~p\n", [val])
+    pub fn type_name() {
+      unquote(ast.name)
+    }
   }
 }
 
-pub macro dbg(msg, val) {
-    println( (unquote{msg}, unquote{val}) )
-}
+@derive(debug)
+type another_type<'a> = | Hello
 
 pub fn main(args) {
-  dbg("input:", (:args, args))
+  Hello
 }

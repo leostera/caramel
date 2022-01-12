@@ -251,31 +251,60 @@
   $ caramel parse --file test.caramel --dump-caml --debug
   caramel: [DEBUG] external format : string -> 'a list -> unit = "io:format"
 
-  $ echo -e "macro hello(a) { quote { unquote { a } } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { unquote(a) } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { unquote { a } } }
+  macro hello(a) { quote { unquote(a) } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-caml --debug
   caramel: [DEBUG] let rec f () = `joe
 
-  $ echo -e "macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { [ unquote(a), unquote(a) ] } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }
+  macro hello(a) { quote { [ unquote(a), unquote(a) ] } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-caml --debug
   caramel: [DEBUG] let rec f () = [`joe; `joe]
 
-  $ echo -e "macro hello(a) { quote { display(unquote { a }); [ unquote { a }, unquote { a } ] } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { display(unquote(a)); [ unquote(a), unquote(a) ] } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { display(unquote { a }); [ unquote { a }, unquote { a } ] } }
+  macro hello(a) { quote { display(unquote(a)); [ unquote(a), unquote(a) ] } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-caml --debug
   caramel: [DEBUG] let rec f () = display `joe; [`joe; `joe]
 
-  $ echo -e "macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
+  $ echo -e "macro if(a, b, c) { quote { match unquote(a) { | :true -> unquote(b) | :false ->  unquote(c) } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
   $ cat test.caramel
-  macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }
+  macro if(a, b, c) { quote { match unquote(a) { | :true -> unquote(b) | :false ->  unquote(c) } } }
   fn f() { if(:true, :joe, :armstrong) }
   $ caramel parse --file test.caramel --dump-caml --debug
-  caramel: [DEBUG] let rec f () =
-                     match `true with | true -> `joe | false -> `armstrong
+  caramel: [DEBUG] let rec f () = `joe
+
+  $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n" > test.caramel
+  $ cat test.caramel
+  pub macro debug(ast) {
+    quote {
+      pub fn type_name() {
+        unquote(ast.name)
+      }
+    }
+  }
+  
+  $ caramel parse --file test.caramel --dump-caml --debug
+  caramel: [DEBUG] 
+
+  $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n\n@derive(debug)\ntype test\n" > test.caramel
+  $ cat test.caramel
+  pub macro debug(ast) {
+    quote {
+      pub fn type_name() {
+        unquote(ast.name)
+      }
+    }
+  }
+  
+  @derive(debug)
+  type test
+  
+  $ caramel parse --file test.caramel --dump-caml --debug
+  caramel: [DEBUG] type test
+                   let rec type_name () = "test"

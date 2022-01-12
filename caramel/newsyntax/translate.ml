@@ -184,6 +184,7 @@ let rec to_caml_expr exp =
       let mod_id = Caml.Mod.ident (to_caml_lid mod_name) in
       let open_desc = Caml.Exp.open_declaration mod_id in
       Caml.Exp.open_ open_desc (to_caml_expr expr)
+  | Expr_field (expr, id) -> Caml.Exp.field (to_caml_expr expr) (to_caml_lid id)
   | Expr_quote _ | Expr_unquote _ -> Caml.Exp.unreachable ()
 
 and to_caml_case { cs_lhs; cs_rhs } =

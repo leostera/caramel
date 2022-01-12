@@ -295,65 +295,78 @@
                      Lesser_than (Type_var a) Greater_than Arrow (Id unit)
                      Equal (String io:format))
 
-  $ echo -e "macro hello(a) { quote { unquote { a } } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { unquote(a) } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { unquote { a } } }
+  macro hello(a) { quote { unquote(a) } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-tokens --debug
   caramel: [DEBUG] (Macro (Id hello) Parens_left (Id a) Parens_right Brace_left
-                     Quote Brace_left Unquote Brace_left (Id a) Brace_right
+                     Quote Brace_left Unquote Parens_left (Id a) Parens_right
                      Brace_right Brace_right Fn (Id f) Parens_left Parens_right
                      Brace_left (Id hello) Parens_left (Atom joe) Parens_right
                      Brace_right)
 
-  $ echo -e "macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }\nfn f() { hello(:joe) }" > test.caramel
+  $ echo -e "macro hello(a) { quote { [ unquote(a), unquote(a) ] } }\nfn f() { hello(:joe) }" > test.caramel
   $ cat test.caramel
-  macro hello(a) { quote { [ unquote { a }, unquote { a } ] } }
+  macro hello(a) { quote { [ unquote(a), unquote(a) ] } }
   fn f() { hello(:joe) }
   $ caramel parse --file test.caramel --dump-tokens --debug
   caramel: [DEBUG] (Macro (Id hello) Parens_left (Id a) Parens_right Brace_left
-                     Quote Brace_left Bracket_left Unquote Brace_left (Id a)
-                     Brace_right Comma Unquote Brace_left (Id a) Brace_right
-                     Bracket_right Brace_right Brace_right Fn (Id f)
-                     Parens_left Parens_right Brace_left (Id hello) Parens_left
-                     (Atom joe) Parens_right Brace_right)
+                     Quote Brace_left Bracket_left Unquote Parens_left 
+                     (Id a) Parens_right Comma Unquote Parens_left (Id a)
+                     Parens_right Bracket_right Brace_right Brace_right Fn
+                     (Id f) Parens_left Parens_right Brace_left (Id hello)
+                     Parens_left (Atom joe) Parens_right Brace_right)
 
-  $ echo -e "macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
+  $ echo -e "macro if(a, b, c) { quote { match unquote(a) { | :true -> unquote(b) | :false ->  unquote(c) } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
   $ cat test.caramel
-  macro if(a, b, c) { quote { match unquote { a } { | :true -> unquote { b } | :false ->  unquote { c } } } }
+  macro if(a, b, c) { quote { match unquote(a) { | :true -> unquote(b) | :false ->  unquote(c) } } }
   fn f() { if(:true, :joe, :armstrong) }
   $ caramel parse --file test.caramel --dump-tokens --debug
   caramel: [DEBUG] (Macro (Id if) Parens_left (Id a) Comma (Id b) Comma 
                      (Id c) Parens_right Brace_left Quote Brace_left Match
-                     Unquote Brace_left (Id a) Brace_right Brace_left Pipe
-                     (Atom true) Arrow Unquote Brace_left (Id b) Brace_right
-                     Pipe (Atom false) Arrow Unquote Brace_left (Id c)
-                     Brace_right Brace_right Brace_right Brace_right Fn 
+                     Unquote Parens_left (Id a) Parens_right Brace_left Pipe
+                     (Atom true) Arrow Unquote Parens_left (Id b) Parens_right
+                     Pipe (Atom false) Arrow Unquote Parens_left (Id c)
+                     Parens_right Brace_right Brace_right Brace_right Fn 
                      (Id f) Parens_left Parens_right Brace_left (Id if)
                      Parens_left (Atom true) Comma (Atom joe) Comma
                      (Atom armstrong) Parens_right Brace_right)
 
-  $ echo -e "pub macro debug(ast) {\n  match ast {\n  | Str_type { typ_name } ->\n    let name = quote {\n      pub fn unquote { id(typ_name) }() {\n        unquote { str(typ_name) }\n      }\n    };\n    [ ast, name ]\n  | _ -> [ ast ]\n  }" > test.caramel
+  $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n" > test.caramel
   $ cat test.caramel
   pub macro debug(ast) {
-    match ast {
-    | Str_type { typ_name } ->
-      let name = quote {
-        pub fn unquote { id(typ_name) }() {
-          unquote { str(typ_name) }
-        }
-      };
-      [ ast, name ]
-    | _ -> [ ast ]
+    quote {
+      pub fn type_name() {
+        unquote(ast.name)
+      }
     }
+  }
+  
   $ caramel parse --file test.caramel --dump-tokens --debug
   caramel: [DEBUG] (Pub Macro (Id debug) Parens_left (Id ast) Parens_right
-                     Brace_left Match (Id ast) Brace_left Pipe (Id Str_type)
-                     Brace_left (Id typ_name) Brace_right Arrow Let (Id name)
-                     Equal Quote Brace_left Pub Fn Unquote Brace_left (Id id)
-                     Parens_left (Id typ_name) Parens_right Brace_right
-                     Parens_left Parens_right Brace_left Unquote Brace_left
-                     (Id str) Parens_left (Id typ_name) Parens_right
-                     Brace_right Brace_right Brace_right Semicolon Bracket_left
-                     (Id ast) Comma (Id name) Bracket_right Pipe Any Arrow
-                     Bracket_left (Id ast) Bracket_right Brace_right)
+                     Brace_left Quote Brace_left Pub Fn (Id type_name)
+                     Parens_left Parens_right Brace_left Unquote Parens_left
+                     (Id ast.name) Parens_right Brace_right Brace_right
+                     Brace_right)
+
+  $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n\n@derive(debug)\ntype test\n" > test.caramel
+  $ cat test.caramel
+  pub macro debug(ast) {
+    quote {
+      pub fn type_name() {
+        unquote(ast.name)
+      }
+    }
+  }
+  
+  @derive(debug)
+  type test
+  
+  $ caramel parse --file test.caramel --dump-tokens --debug
+  caramel: [DEBUG] (Pub Macro (Id debug) Parens_left (Id ast) Parens_right
+                     Brace_left Quote Brace_left Pub Fn (Id type_name)
+                     Parens_left Parens_right Brace_left Unquote Parens_left
+                     (Id ast.name) Parens_right Brace_right Brace_right
+                     Brace_right At (Id derive) Parens_left (Id debug)
+                     Parens_right Type (Id test))
