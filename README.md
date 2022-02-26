@@ -8,8 +8,7 @@ maintainable applications.
 
 Caramel leverages:
 
-* the OCaml compiler, to provide you with a pragmatic type system and
-  industrial-strength type safety.
+* the OCaml type-system, to provide you with industrial-strength type safety
 
 * the Erlang VM, known for running low-latency, distributed, and fault-tolerant
   systems used in a wide range of industries.
@@ -18,12 +17,10 @@ Learn more at [caramel.run](https://caramel.run)
 
 ## Feature Highlights
 
-* Excellent type inference, so you never need to annotate your code
-* Zero-cost type-safe interop with most existing Erlang and Elixir code
-* Has a reviewed standard library included
-* Supports sources in OCaml (and soon Reason syntax too)
-* Ships a single executable (`caramel`)
-* Has a built-in formatter (`caramel fmt`)
+* A familiar, modern syntax, to get up and running quickly
+* Fast and sound type inference, so you never need to annotate your code
+* Zero-cost interop for Erlang and Elixir code
+* Zero-cost abstractions through a modern macro system
 
 ## Install
 

@@ -1,0 +1,7 @@
+pub macro pair(x) {
+  quote { (unquote(x), unquote(x)) }
+}
+
+pub fn main(args) {
+  pair(:hello)
+}

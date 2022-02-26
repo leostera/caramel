@@ -52,6 +52,7 @@ type t =
   | Type
   | Type_var of string
   | Unquote
+  | Unquote_splicing
 [@@deriving sexp]
 
 type tokens = t list [@@deriving sexp]
@@ -72,6 +73,7 @@ let find_keyword str =
   | "quote" -> Some Quote
   | "type" -> Some Type
   | "unquote" -> Some Unquote
+  | "unquote_splicing" -> Some Unquote_splicing
   | _ -> None
 
 let is_op t =
@@ -147,3 +149,4 @@ let to_string t =
   | Comment c -> "//" ^ c
   | Type_var var -> "'" ^ var
   | Unquote -> "unquote"
+  | Unquote_splicing -> "unquote_splicing"

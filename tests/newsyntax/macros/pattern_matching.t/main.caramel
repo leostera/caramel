@@ -1,0 +1,20 @@
+pub macro rotate(direction, steps) {
+  match steps {
+  | 0 -> quote { [unquote(direction)] }
+  | _ ->
+    let new_direction = match direction {
+      | :up -> :right
+      | :right -> :down
+      | :down -> :left
+      | :left -> :up
+    };
+
+    quote {
+      [ unquote(direction), ...unquote(rotate(new_direction, steps - 1)) ]
+    }
+  }
+}
+
+pub fn main(args) {
+  rotate(:up, 4)
+}

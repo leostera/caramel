@@ -1,0 +1,7 @@
+pub macro hello_joe() {
+  quote { :hello_joe }
+}
+
+pub fn main(args) {
+  hello_joe()
+}

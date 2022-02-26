@@ -200,7 +200,10 @@
                                  (ctr_annot ()))))))
                         (typ_annot
                           (((ann_name (Id (clipper)))
-                             (ann_desc ((Map (((Id (name)) (stuff))))))))))))
+                             (ann_desc
+                               ((Map
+                                  (((Id (name))
+                                     ((Expr_literal (Lit_string stuff))))))))))))))
 
   $ echo -e "@clipper(\n\tname = \"stuff\",\n\tdescription = \"a cli for stuff!\"\n)\ntype t = | Print" > test.caramel
   $ cat test.caramel
@@ -221,8 +224,11 @@
                           (((ann_name (Id (clipper)))
                              (ann_desc
                                ((Map
-                                  (((Id (name)) (stuff))
-                                    ((Id (description)) ("a cli for stuff!"))))))))))))
+                                  (((Id (name))
+                                     ((Expr_literal (Lit_string stuff))))
+                                    ((Id (description))
+                                      ((Expr_literal
+                                         (Lit_string "a cli for stuff!"))))))))))))))
 
   $ echo -e "type t = | Print { @clipper(short = \"m\") message: string }" > test.caramel
   $ cat test.caramel
@@ -241,7 +247,10 @@
                                         (lbl_annot
                                           (((ann_name (Id (clipper)))
                                              (ann_desc
-                                               ((Map (((Id (short)) (m)))))))))))))
+                                               ((Map
+                                                  (((Id (short))
+                                                     ((Expr_literal
+                                                        (Lit_string m)))))))))))))))
                                  (ctr_annot ()))))))
                         (typ_annot ()))))
 
@@ -401,6 +410,23 @@
                             (Expr_var (Id (y)))))
                         (fn_annot ()))))
 
+  $ echo -e "pub fn f() { [1, [args | [ args | []]], 2 ] }" > test.caramel
+  $ cat test.caramel
+  pub fn f() { [1, [args | [ args | []]], 2 ] }
+  $ caramel parse --file test.caramel --dump-parsetree --debug
+  caramel: [ERROR] Parsing error: (Expected_symbol
+                                    (expected
+                                      (One_of (Dot_dot_dot Bracket_right)))
+                                    (found
+                                      ((start_pos
+                                         ((filename test.caramel) (line_num 1)
+                                           (col_num 24) (offset 23)))
+                                        (end_pos
+                                          ((filename test.caramel) (line_num 1)
+                                            (col_num 25) (offset 24)))
+                                        (token Pipe))))
+  [2]
+
   $ echo -e "pub fn f() {\n  match n {\n  | [] -> :empty\n  | _ -> :non_empty\n  }\n}" > test.caramel
   $ cat test.caramel
   pub fn f() {
@@ -543,7 +569,8 @@
                         (fn_args ((No_label (Pat_bind (Id (a)))))) (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Quoted_expr (Expr_unquote (Expr_var (Id (a)))))))
+                            ((Quasiquote ()) (Unquote (Expr_var (Id (a))))
+                              (Quasiquote ()))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
@@ -563,10 +590,11 @@
                         (fn_args ((No_label (Pat_bind (Id (a)))))) (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Quoted_expr
-                              (Expr_cons (Expr_unquote (Expr_var (Id (a))))
-                                (Expr_cons (Expr_unquote (Expr_var (Id (a))))
-                                  Expr_nil)))))
+                            ((Quasiquote (Bracket_left))
+                              (Unquote (Expr_var (Id (a))))
+                              (Quasiquote (Comma))
+                              (Unquote (Expr_var (Id (a))))
+                              (Quasiquote (Bracket_right)))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
@@ -586,13 +614,14 @@
                         (fn_args ((No_label (Pat_bind (Id (a)))))) (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Quoted_expr
-                              (Expr_seq
-                                (Expr_call (Expr_var (Id (display)))
-                                  ((Expr_unquote (Expr_var (Id (a))))))
-                                (Expr_cons (Expr_unquote (Expr_var (Id (a))))
-                                  (Expr_cons (Expr_unquote (Expr_var (Id (a))))
-                                    Expr_nil))))))
+                            ((Quasiquote ((Id display) Parens_left))
+                              (Unquote (Expr_var (Id (a))))
+                              (Quasiquote
+                                (Parens_right Semicolon Bracket_left))
+                              (Unquote (Expr_var (Id (a))))
+                              (Quasiquote (Comma))
+                              (Unquote (Expr_var (Id (a))))
+                              (Quasiquote (Bracket_right)))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
@@ -616,12 +645,12 @@
                         (fn_arity 3)
                         (fn_body
                           (Expr_quote
-                            (Quoted_expr
-                              (Expr_match (Expr_unquote (Expr_var (Id (a))))
-                                (((cs_lhs (Pat_literal (Lit_atom true)))
-                                   (cs_rhs (Expr_unquote (Expr_var (Id (b))))))
-                                  ((cs_lhs (Pat_literal (Lit_atom false)))
-                                    (cs_rhs (Expr_unquote (Expr_var (Id (c)))))))))))
+                            ((Quasiquote (Match)) (Unquote (Expr_var (Id (a))))
+                              (Quasiquote (Brace_left Pipe (Atom true) Arrow))
+                              (Unquote (Expr_var (Id (b))))
+                              (Quasiquote (Pipe (Atom false) Arrow))
+                              (Unquote (Expr_var (Id (c))))
+                              (Quasiquote (Brace_right)))))
                         (fn_annot ())))
                      (Str_fun
                        ((fn_visibility Private) (fn_name (Id (f))) (fn_args ())
@@ -650,16 +679,12 @@
                         (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Quoted_str
-                              (Str_fun
-                                ((fn_visibility Public)
-                                  (fn_name (Id (type_name))) (fn_args ())
-                                  (fn_arity 0)
-                                  (fn_body
-                                    (Expr_unquote
-                                      (Expr_field (Expr_var (Id (ast)))
-                                        (Id (name)))))
-                                  (fn_annot ()))))))
+                            ((Quasiquote
+                               (Pub Fn (Id type_name) Parens_left Parens_right
+                                 Brace_left))
+                              (Unquote
+                                (Expr_field (Expr_var (Id (ast))) (Id (name))))
+                              (Quasiquote (Brace_right)))))
                         (fn_annot ()))))
 
   $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n\n@derive(debug)\ntype test\n" > test.caramel
@@ -682,16 +707,12 @@
                         (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Quoted_str
-                              (Str_fun
-                                ((fn_visibility Public)
-                                  (fn_name (Id (type_name))) (fn_args ())
-                                  (fn_arity 0)
-                                  (fn_body
-                                    (Expr_unquote
-                                      (Expr_field (Expr_var (Id (ast)))
-                                        (Id (name)))))
-                                  (fn_annot ()))))))
+                            ((Quasiquote
+                               (Pub Fn (Id type_name) Parens_left Parens_right
+                                 Brace_left))
+                              (Unquote
+                                (Expr_field (Expr_var (Id (ast))) (Id (name))))
+                              (Quasiquote (Brace_right)))))
                         (fn_annot ())))
                      (Str_type
                        ((typ_name (Id (test))) (typ_args ())
@@ -699,3 +720,21 @@
                          (typ_annot
                            (((ann_name (Id (derive)))
                               (ann_desc ((Map (((Id (debug)) ())))))))))))
+
+  $ echo -e "pub fn f() { a |> f |> g }" > test.caramel
+  $ cat test.caramel
+  type t = | Print { message: string }
+  $ caramel parse --file test.caramel --dump-parsetree --debug
+  caramel: [DEBUG] ((Str_type
+                      ((typ_name (Id (t))) (typ_args ())
+                        (typ_desc
+                          (Type_variant
+                            (tyk_constructors
+                              (((ctr_name (Id (Print)))
+                                 (ctr_args
+                                   (Record
+                                     (((lbl_name (Id (message)))
+                                        (lbl_type (Type_name (Id (string))))
+                                        (lbl_annot ())))))
+                                 (ctr_annot ()))))))
+                        (typ_annot ()))))

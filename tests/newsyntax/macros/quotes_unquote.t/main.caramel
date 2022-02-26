@@ -1,0 +1,18 @@
+external format: string -> list<'a> -> unit = "io:format"
+
+pub macro value(input) {
+  match input {
+  | Structured_input { value, _ } -> value
+  }
+}
+
+pub macro print(input) {
+  match input {
+  | Structured_input { tag: :info, _} ->
+    quote { format("INFO: ~p\n", [unquote(value(input))])}
+  }
+}
+
+pub fn main(args) {
+  print(Structured_input { tag: :info, value: "hello joe" })
+}

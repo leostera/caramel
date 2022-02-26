@@ -1,0 +1,20 @@
+pub macro type_name(t) {
+  quote {
+    pub fn type_name() { unquote(t.name) }
+  }
+}
+
+module Abstract {
+  @derive(type_name)
+  type a_type
+}
+
+module Record {
+  @derive(type_name)
+  type a_record = { hello: string }
+}
+
+module Variant {
+  @derive(type_name)
+  type a_string = | Hi
+}

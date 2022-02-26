@@ -1,0 +1,21 @@
+pub macro go(direction, steps) {
+  match steps {
+  | 0 -> quote { [:done] }
+  | _ ->
+    quote {
+      [ unquote(direction), ...unquote(go(direction, steps - 1)) ]
+    }
+  }
+}
+
+pub macro comptime_if(cond, on_true, on_false) {
+  match cond {
+  | :true -> quote { unquote(on_true) }
+  | :false -> quote { unquote(on_false) }
+  }
+}
+
+pub fn main(args) {
+  let direction = comptime_if( :true, :up, :down );
+  go(direction, 3)
+}

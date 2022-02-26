@@ -1,0 +1,16 @@
+pub macro list_of_lists(args) {
+  quote {
+    [ [1, 2], unquote(args), [2, 3] ]
+  }
+}
+
+pub macro flat_list(args) {
+  quote {
+    [ 1, unquote_splicing(args), 2 ]
+  }
+}
+
+pub fn main(args) {
+  let a = list_of_lists([1, 2]);
+  flat_list([args, args])
+}

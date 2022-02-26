@@ -11,7 +11,7 @@
   type another_type<'a> = | Hello
   
   pub fn main(args) {
-    Hello
+    type_name()
   }
 
   $ caramel parse --file main.caramel --dump-tokens --debug
@@ -23,7 +23,7 @@
                      Parens_right Type (Id another_type) Lesser_than
                      (Type_var a) Greater_than Equal Pipe (Id Hello) Pub Fn
                      (Id main) Parens_left (Id args) Parens_right Brace_left
-                     (Id Hello) Brace_right)
+                     (Id type_name) Parens_left Parens_right Brace_right)
 
   $ caramel parse --file main.caramel --dump-parsetree --debug
   caramel: [DEBUG] ((Str_macro
@@ -32,16 +32,12 @@
                         (fn_arity 1)
                         (fn_body
                           (Expr_quote
-                            (Quoted_str
-                              (Str_fun
-                                ((fn_visibility Public)
-                                  (fn_name (Id (type_name))) (fn_args ())
-                                  (fn_arity 0)
-                                  (fn_body
-                                    (Expr_unquote
-                                      (Expr_field (Expr_var (Id (ast)))
-                                        (Id (name)))))
-                                  (fn_annot ()))))))
+                            ((Quasiquote
+                               (Pub Fn (Id type_name) Parens_left Parens_right
+                                 Brace_left))
+                              (Unquote
+                                (Expr_field (Expr_var (Id (ast))) (Id (name))))
+                              (Quasiquote (Brace_right)))))
                         (fn_annot ())))
                      (Str_type
                        ((typ_name (Id (another_type))) (typ_args (a))
@@ -57,8 +53,7 @@
                        ((fn_visibility Public) (fn_name (Id (main)))
                          (fn_args ((No_label (Pat_bind (Id (args))))))
                          (fn_arity 1)
-                         (fn_body
-                           (Expr_constructor (Id (Hello)) (Ctr_tuple ())))
+                         (fn_body (Expr_call (Expr_var (Id (type_name))) ()))
                          (fn_annot ()))))
 
   $ caramel parse --file main.caramel --dump-expanded --dump-macro-env --debug
@@ -70,17 +65,15 @@
                                           (fn_arity 1)
                                           (fn_body
                                             (Expr_quote
-                                              (Quoted_str
-                                                (Str_fun
-                                                  ((fn_visibility Public)
-                                                    (fn_name (Id (type_name)))
-                                                    (fn_args ()) (fn_arity 0)
-                                                    (fn_body
-                                                      (Expr_unquote
-                                                        (Expr_field
-                                                          (Expr_var (Id (ast)))
-                                                          (Id (name)))))
-                                                    (fn_annot ()))))))
+                                              ((Quasiquote
+                                                 (Pub Fn (Id type_name)
+                                                   Parens_left Parens_right
+                                                   Brace_left))
+                                                (Unquote
+                                                  (Expr_field
+                                                    (Expr_var (Id (ast)))
+                                                    (Id (name))))
+                                                (Quasiquote (Brace_right)))))
                                           (fn_annot ())))
                                        (Str_type
                                          ((typ_name (Id (another_type)))
@@ -110,14 +103,14 @@
                                              ((No_label (Pat_bind (Id (args))))))
                                            (fn_arity 1)
                                            (fn_body
-                                             (Expr_constructor (Id (Hello))
-                                               (Ctr_tuple ())))
+                                             (Expr_call
+                                               (Expr_var (Id (type_name))) ()))
                                            (fn_annot ()))))
   $ caramel parse --file main.caramel --dump-caml --debug
   caramel: [DEBUG] type 'a another_type =
                      | Hello 
                    let rec type_name () = "another_type"
-                   let rec main args = Hello
+                   let rec main args = type_name ()
 
   $ caramel compile main.caramel --new-syntax --debug
   caramel: [DEBUG] Running Sugarcane compiler on sources: 
@@ -144,7 +137,8 @@
 
   $ cat main.caramel.lambda
   (letrec (type_name/5 (function param/6 "another_type"))
-    (letrec (main/7 (function args/8 0)) (makeblock 0 type_name/5 main/7)))
+    (letrec (main/7 (function args/8 (apply type_name/5 0)))
+      (makeblock 0 type_name/5 main/7)))
 
   $ cat main.caramel.ir
   (Ir_program
@@ -158,7 +152,12 @@
          (Ir_letrec
            ((Exported ((path ()) (unique_name main_7) (source_name main))
               (Ir_fun (((path ()) (unique_name args_8) (source_name args)))
-                (Ir_lit (Lit_atom hello)))))
+                (Ir_apply
+                  (Ir_fn_name
+                    ((path ()) (unique_name type_name_5)
+                      (source_name type_name))
+                    1)
+                  ((Ir_lit (Lit_atom unit)))))))
            (Ir_tuple
              ((Ir_var
                 ((path ()) (unique_name type_name_5) (source_name type_name)))
@@ -182,7 +181,12 @@
                   (Call (mod_ erlang) (fun_ get_module_info)
                     (args ((Literal (Lit_atom Caramel.Main)) (Var Opts)))))))))
         ((df_name (main 1))
-          (df_body (Fun ((args (args)) (body (Literal (Lit_atom hello)))))))
+          (df_body
+            (Fun
+              ((args (args))
+                (body
+                  (Apply (fn (Fun_ref (type_name 1)))
+                    (args ((Literal (Lit_atom unit))))))))))
         ((df_name (type_name 1))
           (df_body (Fun ((args (param)) (body (Binary another_type))))))))
     (exports ((main 1) (type_name 1) (module_info 0) (module_info 1))))
@@ -204,7 +208,7 @@
   'module_info'/1 =
    (fun (Opts) -> call 'erlang':'get_module_info'('Caramel.Main', Opts) -| [])
   
-  'main'/1 = (fun (Args) -> 'hello' -| [])
+  'main'/1 = (fun (Args) -> apply 'type_name'/1('unit') -| [])
   
   'type_name'/1 =
    (fun (Param) ->

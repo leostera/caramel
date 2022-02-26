@@ -1,6 +1,52 @@
 open Erlang
 open Elli
 
+macro build_routes(ctrs, not_found) {
+  match ctrs {
+  | [] ->
+    quote {
+      | _ -> unquote(not_found)()
+    }
+
+  | [ Constructor { name, annot }, ...rest ] ->
+    quote {
+      | (unquote(annot.route.method), unquote(annot.route.path)) ->
+        unquote(annot.route.handler)(req, input)
+
+      unquote(build_routes(rest, not_found))
+    }
+  }
+}
+
+pub macro router(ast) {
+  let name = ast.name;
+  let not_found = ast.annot.router.not_found;
+
+  let routes = match ast.kind {
+  | Variant { constructors } -> build_routes(constructors, not_found)
+  | _ -> build_routes([], not_found)
+  };
+
+  quote {
+    pub fn handle(req, args) {
+      let meth = Request.meth(req);
+      let path = Request.path(req);
+
+      Io.format("Handling ~p\n", [ (meth, path) ]);
+
+      match (meth, path) { unquote(routes) }
+    }
+
+    pub fn handle_event(_event, _data, _args) { :ok }
+  }
+}
+
+@derive(router)
+@router(not_found = handle_404)
+type routes =
+  | @route(method = GET, path = "/hello/{}", handler = handle_hello)
+    Hello(string)
+
 pub fn not_found() {
   let html = "<!doctype html>
 <html>
@@ -16,14 +62,6 @@ pub fn not_found() {
   html |> reply(404, [])
 }
 
-pub fn handle(req, args) {
-  let meth = Request.meth(req);
-  let path = Request.path(req);
-  Io.format("Handling ~p\n", [ (meth, path) ]);
-  match (meth, path) {
-  | (GET, [ "hello", you ]) -> reply(200, [], "Hello, " ^ you ^ "!")
-  | _ -> not_found()
-  }
+pub fn handle_hello(Hello(name)) {
+  reply(200, [], "Hello, " ^ name ^ "!")
 }
-
-pub fn handle_event(_event, _data, _args) { :ok }

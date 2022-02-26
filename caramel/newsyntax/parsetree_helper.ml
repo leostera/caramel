@@ -2,6 +2,8 @@ open Parsetree
 
 let id str = Id (String.split_on_char '.' str)
 
+let id_to_string (Id parts) = String.concat "." parts
+
 let id_of_path parts = Id parts
 
 let id_kind (Id path) =
@@ -30,6 +32,8 @@ module Visibility = struct
 end
 
 module Expr = struct
+  let quote ~quote = Expr_quote quote
+
   let nil = Expr_nil
 
   let let_ ~pat ~body ~expr = Expr_let (pat, body, expr)
@@ -50,7 +54,7 @@ module Expr = struct
       | [] -> field_access ~expr:(var (id name)) ~field:(id field)
       | f :: rest -> field_access ~expr:(consume_path rest) ~field:(id f)
     in
-    consume_path path
+    consume_path (List.rev path)
 
   let record ~fields = Expr_record fields
 
@@ -76,6 +80,11 @@ module Expr = struct
   let seq a b = Expr_seq (a, b)
 
   let open_ ~mod_name ~expr = Expr_open (mod_name, expr)
+
+  let rec from_list exprs =
+    match exprs with
+    | [] -> nil
+    | head :: tail -> list ~head ~tail:(from_list tail)
 end
 
 module Typ = struct
@@ -97,7 +106,7 @@ module Type = struct
 
   let record ~labels = Type_record { tyk_labels = labels }
 
-  let alias ~name = Type_alias name
+  let alias t = Type_alias t
 
   let variant_constructor ~name ~args ~annot =
     { ctr_name = name; ctr_args = args; ctr_annot = annot }
@@ -124,18 +133,20 @@ module Pat = struct
 
   let field ~name ~pattern = (name, pattern)
 
-  let record ~fields = Pat_record fields
+  let record ~fields ~exhaustive = Pat_record (fields, exhaustive)
 
   let constructor_tuple ~name ~parts = Pat_constructor (name, Ctp_tuple parts)
 
-  let constructor_record ~name ~fields =
-    Pat_constructor (name, Ctp_record fields)
+  let constructor_record ~name ~fields ~exhaustive =
+    Pat_constructor (name, Ctp_record (fields, exhaustive))
 
   let list ~head ~tail = Pat_cons (head, tail)
 
   let lit_atom a = Pat_literal (Lit_atom a)
 
   let lit_str s = Pat_literal (Lit_string s)
+
+  let lit_int i = Pat_literal (Lit_integer i)
 end
 
 module Annot = struct
@@ -170,11 +181,11 @@ module Ext = struct
 end
 
 module Macro = struct
-  let quoted_expr expr = Expr_quote (Quoted_expr expr)
+  let quote ~tokens = Quasiquote tokens
 
-  let quoted_str_item item = Expr_quote (Quoted_str item)
+  let unquote ~expr = Unquote expr
 
-  let unquoted ~expr = Expr_unquote expr
+  let unquote_splicing ~expr = Unquote_splicing expr
 end
 
 module Mod = struct

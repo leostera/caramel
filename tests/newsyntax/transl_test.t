@@ -277,7 +277,8 @@
   macro if(a, b, c) { quote { match unquote(a) { | :true -> unquote(b) | :false ->  unquote(c) } } }
   fn f() { if(:true, :joe, :armstrong) }
   $ caramel parse --file test.caramel --dump-caml --debug
-  caramel: [DEBUG] let rec f () = `joe
+  caramel: [DEBUG] let rec f () =
+                     match `true with | true -> `joe | false -> `armstrong
 
   $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n" > test.caramel
   $ cat test.caramel
@@ -308,3 +309,21 @@
   $ caramel parse --file test.caramel --dump-caml --debug
   caramel: [DEBUG] type test
                    let rec type_name () = "test"
+
+  $ echo -e "pub fn f() { a |> f |> g }" > test.caramel
+  $ cat test.caramel
+  type t = | Print { message: string }
+  $ caramel parse --file test.caramel --dump-caml --debug
+  caramel: [DEBUG] ((Str_type
+                      ((typ_name (Id (t))) (typ_args ())
+                        (typ_desc
+                          (Type_variant
+                            (tyk_constructors
+                              (((ctr_name (Id (Print)))
+                                 (ctr_args
+                                   (Record
+                                     (((lbl_name (Id (message)))
+                                        (lbl_type (Type_name (Id (string))))
+                                        (lbl_annot ())))))
+                                 (ctr_annot ()))))))
+                        (typ_annot ()))))

@@ -370,3 +370,21 @@
                      (Id ast.name) Parens_right Brace_right Brace_right
                      Brace_right At (Id derive) Parens_left (Id debug)
                      Parens_right Type (Id test))
+
+  $ echo -e "pub fn f() { a |> f |> g }" > test.caramel
+  $ cat test.caramel
+  type t = | Print { message: string }
+  $ caramel parse --file test.caramel --dump-tokens --debug
+  caramel: [DEBUG] ((Str_type
+                      ((typ_name (Id (t))) (typ_args ())
+                        (typ_desc
+                          (Type_variant
+                            (tyk_constructors
+                              (((ctr_name (Id (Print)))
+                                 (ctr_args
+                                   (Record
+                                     (((lbl_name (Id (message)))
+                                        (lbl_type (Type_name (Id (string))))
+                                        (lbl_annot ())))))
+                                 (ctr_annot ()))))))
+                        (typ_annot ()))))

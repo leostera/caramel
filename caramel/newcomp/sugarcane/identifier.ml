@@ -5,6 +5,16 @@ type t = { path : string list; unique_name : string; source_name : string }
 
 let empty = { path = []; unique_name = ""; source_name = "" }
 
+let source_name t = t.source_name
+
+let unique_name t = t.unique_name
+
+let pp ppf t =
+  let sexp = sexp_of_t t in
+  Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
+
+let is_erasable_unit id = id.source_name = "_caramel_erasable_unit"
+
 let to_string t = String.concat "." (List.rev (t.source_name :: t.path))
 
 let clean str =
@@ -40,12 +50,10 @@ let to_argument t =
 let to_variable = to_argument
 
 let match_failure =
-  {
-    empty with
-    unique_name = "Match_failure";
-    source_name = "Match_failure";
-  }
+  { empty with unique_name = "Match_failure"; source_name = "Match_failure" }
 
 let is_match_failure id =
   let id = of_ident id in
   id = match_failure
+
+let is_unit id = id.unique_name = "unit"

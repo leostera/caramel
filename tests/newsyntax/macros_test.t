@@ -11,9 +11,9 @@
                                           (fn_arity 1)
                                           (fn_body
                                             (Expr_quote
-                                              (Quoted_expr
-                                                (Expr_unquote
-                                                  (Expr_var (Id (a)))))))
+                                              ((Quasiquote ())
+                                                (Unquote (Expr_var (Id (a))))
+                                                (Quasiquote ()))))
                                           (fn_annot ())))
                                        (Str_fun
                                          ((fn_visibility Private)
@@ -36,14 +36,11 @@
                                           (fn_arity 1)
                                           (fn_body
                                             (Expr_quote
-                                              (Quoted_expr
-                                                (Expr_cons
-                                                  (Expr_unquote
-                                                    (Expr_var (Id (a))))
-                                                  (Expr_cons
-                                                    (Expr_unquote
-                                                      (Expr_var (Id (a))))
-                                                    Expr_nil)))))
+                                              ((Quasiquote (Bracket_left))
+                                                (Unquote (Expr_var (Id (a))))
+                                                (Quasiquote (Comma))
+                                                (Unquote (Expr_var (Id (a))))
+                                                (Quasiquote (Bracket_right)))))
                                           (fn_annot ())))
                                        (Str_fun
                                          ((fn_visibility Private)
@@ -70,19 +67,16 @@
                                           (fn_arity 1)
                                           (fn_body
                                             (Expr_quote
-                                              (Quoted_expr
-                                                (Expr_seq
-                                                  (Expr_call
-                                                    (Expr_var (Id (display)))
-                                                    ((Expr_unquote
-                                                       (Expr_var (Id (a))))))
-                                                  (Expr_cons
-                                                    (Expr_unquote
-                                                      (Expr_var (Id (a))))
-                                                    (Expr_cons
-                                                      (Expr_unquote
-                                                        (Expr_var (Id (a))))
-                                                      Expr_nil))))))
+                                              ((Quasiquote
+                                                 ((Id display) Parens_left))
+                                                (Unquote (Expr_var (Id (a))))
+                                                (Quasiquote
+                                                  (Parens_right Semicolon
+                                                    Bracket_left))
+                                                (Unquote (Expr_var (Id (a))))
+                                                (Quasiquote (Comma))
+                                                (Unquote (Expr_var (Id (a))))
+                                                (Quasiquote (Bracket_right)))))
                                           (fn_annot ())))
                                        (Str_fun
                                          ((fn_visibility Private)
@@ -116,29 +110,36 @@
                                           (fn_arity 3)
                                           (fn_body
                                             (Expr_quote
-                                              (Quoted_expr
-                                                (Expr_match
-                                                  (Expr_unquote
-                                                    (Expr_var (Id (a))))
-                                                  (((cs_lhs
-                                                      (Pat_literal
-                                                        (Lit_atom true)))
-                                                     (cs_rhs
-                                                       (Expr_unquote
-                                                         (Expr_var (Id (b))))))
-                                                    ((cs_lhs
-                                                       (Pat_literal
-                                                         (Lit_atom false)))
-                                                      (cs_rhs
-                                                        (Expr_unquote
-                                                          (Expr_var (Id (c)))))))))))
+                                              ((Quasiquote (Match))
+                                                (Unquote (Expr_var (Id (a))))
+                                                (Quasiquote
+                                                  (Brace_left Pipe (Atom true)
+                                                    Arrow))
+                                                (Unquote (Expr_var (Id (b))))
+                                                (Quasiquote
+                                                  (Pipe (Atom false) Arrow))
+                                                (Unquote (Expr_var (Id (c))))
+                                                (Quasiquote (Brace_right)))))
                                           (fn_annot ())))
                                        (Str_fun
                                          ((fn_visibility Private)
                                            (fn_name (Id (f))) (fn_args ())
                                            (fn_arity 0)
                                            (fn_body
-                                             (Expr_literal (Lit_atom joe)))
+                                             (Expr_match
+                                               (Expr_literal (Lit_atom true))
+                                               (((cs_lhs
+                                                   (Pat_literal
+                                                     (Lit_atom true)))
+                                                  (cs_rhs
+                                                    (Expr_literal
+                                                      (Lit_atom joe))))
+                                                 ((cs_lhs
+                                                    (Pat_literal
+                                                      (Lit_atom false)))
+                                                   (cs_rhs
+                                                     (Expr_literal
+                                                       (Lit_atom armstrong)))))))
                                            (fn_annot ()))))
 
   $ echo -e "macro if(a, b, c) { match a { | :true -> quote { unquote(b) } | :false ->  quote { unquote(c) } } }\nfn f() { if(:true, :joe, :armstrong) }" > test.caramel
@@ -160,17 +161,19 @@
                                                   (Pat_literal (Lit_atom true)))
                                                  (cs_rhs
                                                    (Expr_quote
-                                                     (Quoted_expr
-                                                       (Expr_unquote
-                                                         (Expr_var (Id (b))))))))
+                                                     ((Quasiquote ())
+                                                       (Unquote
+                                                         (Expr_var (Id (b))))
+                                                       (Quasiquote ())))))
                                                 ((cs_lhs
                                                    (Pat_literal
                                                      (Lit_atom false)))
                                                   (cs_rhs
                                                     (Expr_quote
-                                                      (Quoted_expr
-                                                        (Expr_unquote
-                                                          (Expr_var (Id (c)))))))))))
+                                                      ((Quasiquote ())
+                                                        (Unquote
+                                                          (Expr_var (Id (c))))
+                                                        (Quasiquote ()))))))))
                                           (fn_annot ())))
                                        (Str_fun
                                          ((fn_visibility Private)
@@ -199,17 +202,15 @@
                                           (fn_arity 1)
                                           (fn_body
                                             (Expr_quote
-                                              (Quoted_str
-                                                (Str_fun
-                                                  ((fn_visibility Public)
-                                                    (fn_name (Id (type_name)))
-                                                    (fn_args ()) (fn_arity 0)
-                                                    (fn_body
-                                                      (Expr_unquote
-                                                        (Expr_field
-                                                          (Expr_var (Id (ast)))
-                                                          (Id (name)))))
-                                                    (fn_annot ()))))))
+                                              ((Quasiquote
+                                                 (Pub Fn (Id type_name)
+                                                   Parens_left Parens_right
+                                                   Brace_left))
+                                                (Unquote
+                                                  (Expr_field
+                                                    (Expr_var (Id (ast)))
+                                                    (Id (name))))
+                                                (Quasiquote (Brace_right)))))
                                           (fn_annot ()))))
 
   $ echo -e "pub macro debug(ast) {\n  quote {\n    pub fn type_name() {\n      unquote(ast.name)\n    }\n  }\n}\n\n@derive(debug)\ntype test\n" > test.caramel
@@ -234,17 +235,15 @@
                                           (fn_arity 1)
                                           (fn_body
                                             (Expr_quote
-                                              (Quoted_str
-                                                (Str_fun
-                                                  ((fn_visibility Public)
-                                                    (fn_name (Id (type_name)))
-                                                    (fn_args ()) (fn_arity 0)
-                                                    (fn_body
-                                                      (Expr_unquote
-                                                        (Expr_field
-                                                          (Expr_var (Id (ast)))
-                                                          (Id (name)))))
-                                                    (fn_annot ()))))))
+                                              ((Quasiquote
+                                                 (Pub Fn (Id type_name)
+                                                   Parens_left Parens_right
+                                                   Brace_left))
+                                                (Unquote
+                                                  (Expr_field
+                                                    (Expr_var (Id (ast)))
+                                                    (Id (name))))
+                                                (Quasiquote (Brace_right)))))
                                           (fn_annot ())))
                                        (Str_type
                                          ((typ_name (Id (test))) (typ_args ())

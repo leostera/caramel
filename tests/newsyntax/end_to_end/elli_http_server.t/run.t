@@ -284,41 +284,22 @@
   $ caramel parse --dump-caml --file main.caramel
   caramel: [DEBUG] open Erlang
                    open Elli
-                   let rec not_found () =
-                     let html =
-                       "<!doctype html>\n<html>\n  <head>\n    <meta charset=\\\"utf-8\\\">\n    <title>Not Found</title>\n  </head>\n  <body>\n    <h1>Not Found</h1>\n  </body>\n</html>" in
-                     reply 404 [] html
+                   type routes =
+                     | Hello of string 
                    let rec handle req args =
                      let meth = Request.meth req in
                      let path = Request.path req in
                      Io.format "Handling ~p\\n" [(meth, path)];
                      (match (meth, path) with
-                      | (GET, "hello"::you::[]) ->
-                          reply 200 [] ("Hello, " ^ (you ^ "!"))
-                      | _ -> not_found ())
-                   let rec handle_event _event _data _args = `ok
+                      | (GET, "/hello/{}") -> handle_hello req input
+                      | _ -> handle_404 ())
+                   let rec not_found () =
+                     let html =
+                       "<!doctype html>\n<html>\n  <head>\n    <meta charset=\\\"utf-8\\\">\n    <title>Not Found</title>\n  </head>\n  <body>\n    <h1>Not Found</h1>\n  </body>\n</html>" in
+                     reply 404 [] html
+                   let rec handle_hello (Hello (name)) =
+                     reply 200 [] ("Hello, " ^ (name ^ "!"))
 
   $ caramel compile --new-syntax --debug main.caramel
-  caramel: [DEBUG] Running Sugarcane compiler on sources: 
-  ((sources (main.caramel)) (stdlib (./)) (dump_parsetree true)
-    (dump_typedtree true) (dump_ir true) (dump_pass -1) (dump_erl_ast true)
-    (print_time false) (new_syntax true) (to_beam false))
-  
-  caramel: [DEBUG] Compiling unit: ((source_file main.caramel)
-                                     (source_kind impl))
-  
-  caramel: [DEBUG] Writing main.caramel.parsetree
-  caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing main.caramel.lambda
-  caramel: [DEBUG] OK
-  caramel: [DEBUG] Translating to IR...
-  caramel: [DEBUG] Writing main.caramel.ir
-  caramel: [DEBUG] OK
-  caramel: [DEBUG] Translating to B...
-  caramel: [DEBUG] Writing main.caramel.b_0
-  caramel: [DEBUG] OK
-  caramel: [DEBUG] Writing Caramel.Main.core
-  caramel: [DEBUG] OK
-  caramel: [DEBUG] Done
 
   $ erlc *.core

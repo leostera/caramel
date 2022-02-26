@@ -35,9 +35,15 @@
                                           (((ann_name (Id (clipper)))
                                              (ann_desc
                                                ((Map
-                                                  (((Id (short)) (m))
-                                                    ((Id (long)) (message))
-                                                    ((Id (env)) (MESSAGE)))))))))))))
+                                                  (((Id (short))
+                                                     ((Expr_literal
+                                                        (Lit_string m))))
+                                                    ((Id (long))
+                                                      ((Expr_literal
+                                                         (Lit_string message))))
+                                                    ((Id (env))
+                                                      ((Expr_literal
+                                                         (Lit_string MESSAGE)))))))))))))))
                                  (ctr_annot ()))
                                 ((ctr_name (Id (Print_file)))
                                   (ctr_args
@@ -49,11 +55,17 @@
                                            (((ann_name (Id (clipper)))
                                               (ann_desc
                                                 ((Map
-                                                   (((Id (name)) (PRINT_FILE)))))))))))))
+                                                   (((Id (name))
+                                                      ((Expr_literal
+                                                         (Lit_string
+                                                           PRINT_FILE)))))))))))))))
                                   (ctr_annot
                                     (((ann_name (Id (clipper)))
                                        (ann_desc
-                                         ((Map (((Id (name)) (file))))))))))))))
+                                         ((Map
+                                            (((Id (name))
+                                               ((Expr_literal
+                                                  (Lit_string file))))))))))))))))
                         (typ_annot
                           (((ann_name (Id (derive)))
                              (ann_desc
@@ -61,8 +73,11 @@
                             ((ann_name (Id (clipper)))
                               (ann_desc
                                 ((Map
-                                   (((Id (name)) ("Test CLI"))
-                                     ((Id (desc)) ("A sample test cli")))))))))))
+                                   (((Id (name))
+                                      ((Expr_literal (Lit_string "Test CLI"))))
+                                     ((Id (desc))
+                                       ((Expr_literal
+                                          (Lit_string "A sample test cli")))))))))))))
                      (Str_fun
                        ((fn_visibility Public) (fn_name (Id (hello)))
                          (fn_args ((No_label (Pat_bind (Id (name))))))

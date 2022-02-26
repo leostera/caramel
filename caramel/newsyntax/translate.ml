@@ -56,10 +56,9 @@ let to_caml_type { typ_name; typ_desc; typ_args; _ } =
   in
   let desc =
     match typ_desc with
-    | Type_alias id ->
+    | Type_alias expr ->
         Caml.Type.mk ~kind:Ptype_abstract ~params
-          ~manifest:(Caml.Typ.constr (to_caml_lid id) [])
-          typ_name
+          ~manifest:(to_caml_core_type expr) typ_name
     | Type_abstract -> Caml.Type.mk ~kind:Ptype_abstract ~params typ_name
     | Type_record { tyk_labels } ->
         let labels =
@@ -124,20 +123,21 @@ let rec to_caml_pat pat =
   | Pat_constructor (name, Ctp_tuple []) ->
       Caml.Pat.construct (to_caml_lid name) None
   | Pat_constructor (name, Ctp_tuple [ part ]) ->
-      Caml.Pat.construct (to_caml_lid name)
-        (Some ([], Caml.Pat.tuple [ to_caml_pat part ]))
+      Caml.Pat.construct (to_caml_lid name) (Some ([], to_caml_pat part))
   | Pat_constructor (name, Ctp_tuple parts) ->
       Caml.Pat.construct (to_caml_lid name)
         (Some ([], Caml.Pat.tuple (List.map to_caml_pat parts)))
-  | Pat_constructor (name, Ctp_record fields) ->
+  | Pat_constructor (name, Ctp_record (fields, _exhaustive)) ->
       Caml.Pat.construct (to_caml_lid name)
         (Some
            ( List.map (fun (k, _) -> to_caml_loc k) fields,
              Caml.Pat.tuple (List.map (fun (_, v) -> to_caml_pat v) fields) ))
-  | Pat_record fields ->
+  | Pat_record (fields, exhaustive) ->
       Caml.Pat.record
         (List.map (fun (k, v) -> (to_caml_lid k, to_caml_pat v)) fields)
-        Asttypes.Closed
+        (match exhaustive with
+        | Exhaustive -> Asttypes.Closed
+        | Partial -> Asttypes.Open)
 
 let rec to_caml_expr exp =
   match exp with
@@ -167,6 +167,7 @@ let rec to_caml_expr exp =
         (List.map (fun (k, v) -> (to_caml_lid k, to_caml_expr v)) fields)
         None
   | Expr_tuple [] -> Caml.Exp.construct unit None
+  | Expr_tuple [ part ] -> to_caml_expr part
   | Expr_tuple parts -> Caml.Exp.tuple (List.map to_caml_expr parts)
   | Expr_literal (Lit_atom atom) -> Caml.Exp.variant atom None
   | Expr_literal lit -> Caml.Exp.constant (to_caml_const lit)
@@ -185,7 +186,7 @@ let rec to_caml_expr exp =
       let open_desc = Caml.Exp.open_declaration mod_id in
       Caml.Exp.open_ open_desc (to_caml_expr expr)
   | Expr_field (expr, id) -> Caml.Exp.field (to_caml_expr expr) (to_caml_lid id)
-  | Expr_quote _ | Expr_unquote _ -> Caml.Exp.unreachable ()
+  | Expr_quote _ -> Caml.Exp.unreachable ()
 
 and to_caml_case { cs_lhs; cs_rhs } =
   Caml.Exp.case (to_caml_pat cs_lhs) (to_caml_expr cs_rhs)
@@ -200,7 +201,7 @@ and build_lambda args body =
           (build_fun args)
   in
   match args with
-  | [] -> build_fun [ (No_label, Pat_tuple []) ]
+  | [] -> build_fun [ (No_label, Pat_bind (Id [ "_caramel_erasable_unit" ])) ]
   | _ -> build_fun args
 
 let to_caml_external { ext_name; ext_type; ext_symbol; _ } =

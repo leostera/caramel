@@ -30,6 +30,16 @@ let rec ir_of_lambda ~unit code =
 and of_lambda_apply ~unit { ap_func; ap_args; _ } =
   let fn = ir_of_lambda ~unit ap_func in
   let args = List.map (ir_of_lambda ~unit) ap_args in
+  (* NOTE(leandro): since we know that we've added this unit atom already
+     by now, we can remove it ourselves.
+
+     TODO(leandro): how could we make this removal more idiomatic and safe?
+     What happens when someone _actually wants_ this unit?
+  *)
+  let args =
+    let open Ir in
+    match args with [ Ir_lit (Lit_atom "unit") ] -> [] | _ -> args
+  in
   Ir.apply ~fn ~args
 
 and of_lambda_const ~unit c = Constant.of_lambda_const ~unit c
@@ -48,7 +58,12 @@ and of_lambda_event ~unit lambda event =
 
 and of_lambda_function ~unit { params; body; _ } =
   let body = ir_of_lambda ~unit body in
-  let args = List.map (fun (id, _) -> Identifier.of_ident id) params in
+  let args =
+    let args = List.map (fun (id, _) -> Identifier.of_ident id) params in
+    match List.rev args with
+    | last :: rest when Identifier.is_erasable_unit last -> List.rev rest
+    | _ -> args
+  in
   Ir.fun_ ~args ~body
 
 and of_lambda_ifthenelse ~unit cond then_expr else_expr meta =

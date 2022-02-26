@@ -10,5 +10,5 @@ pub macro debug(ast) {
 type another_type<'a> = | Hello
 
 pub fn main(args) {
-  Hello
+  type_name()
 }

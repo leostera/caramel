@@ -1,0 +1,14 @@
+pub macro say_hi(item) {
+  quote {
+    pub fn say_hi() { :hello }
+  }
+}
+
+pub macro say_bye(item) {
+  quote {
+    pub fn say_bye() { :goodbye }
+  }
+}
+
+@derive(say_hi, say_bye)
+type t

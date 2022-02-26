@@ -178,6 +178,15 @@ and of_lambda_call ~prim ~fields =
         | [ m; f ] -> (m, f)
         | _ -> Error.todo "externals should have format M:F"
       in
+      (* NOTE(leandro): since we know that we've added this unit atom already
+         by now, we can remove it ourselves.
+
+         TODO(leandro): how could we make this removal more idiomatic and safe?
+         What happens when someone _actually wants_ this unit?
+       *)
+      let fields =
+        match fields with [ Ir_lit (Lit_atom "unit") ] -> [] | _ -> fields
+      in
       Ir.ext_call ~name ~args:fields
 
 and of_lambda_block ~block ~fields =
@@ -191,7 +200,7 @@ and of_lambda_field ~idx ~metadata ~fields =
   match (metadata, fields) with
   (* NOTE: we expect field access to _have_ a single field *)
   | Some (Field_record { name; _ }), [ expr ] ->
-      let field = Some (Ir.lit (Literal.string name)) in
+      let field = Some (Ir.lit (Literal.atom name)) in
       Ir.field ~idx ~field ~expr
   | Some (Field_constructor { name = "::"; _ }), [ expr ] -> (
       match idx with

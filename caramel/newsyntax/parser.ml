@@ -3,15 +3,15 @@ open Sexplib.Std
 module Error = struct
   type t =
     | End_of_file
-    | Expected_expression of Lexer.span
-    | Expected_type_expression of Lexer.span
-    | Expected_name of Lexer.span
+    | Expected_expression of Span.t
+    | Expected_type_expression of Span.t
+    | Expected_name of Span.t
     | Expected_symbol of {
         expected : [ `One_of of Token.t list | `Exact of Token.t | `Unsure ];
-        found : Lexer.span;
+        found : Span.t;
       }
-    | Unexpected_token of Lexer.span
-    | Invalid_quotation of Lexer.span
+    | Unexpected_token of Span.t
+    | Invalid_quotation of Span.t
   [@@deriving sexp]
 
   let pp ppf error =
@@ -38,16 +38,16 @@ module Error = struct
 end
 
 type t = {
-  mutable lexer : Lexer.t;
-  mutable last_span : Lexer.span;
-  mutable curr_span : Lexer.span;
+  mutable token_provider : Token_provider.t;
+  mutable last_span : Span.t;
+  mutable curr_span : Span.t;
 }
 [@@deriving sexp]
 
 (*** Parsing actions ***********************************************************)
 
 let next t =
-  match Lexer.scan t.lexer with
+  match Token_provider.next t.token_provider with
   | Ok span ->
       t.last_span <- t.curr_span;
       t.curr_span <- span;
@@ -56,7 +56,7 @@ let next t =
   | Error (`Lexer_error err) -> raise (Lexer.Lexer_error err)
 
 let peek t =
-  match Lexer.peek t.lexer with
+  match Token_provider.peek t.token_provider with
   | Ok span -> span
   | Error (`Lexer_error err) -> raise (Lexer.Lexer_error err)
 
@@ -129,10 +129,16 @@ let parse_annotations_field t =
     | Token.Equal -> (
         next t;
         match t.curr_span.token with
+        | Token.Id id ->
+            next t;
+            Some (Parsetree_helper.Expr.var (Parsetree_helper.id id))
         | Token.String str ->
             next t;
-            Some str
-        | _ -> Some "")
+            Some (Parsetree_helper.Expr.lit_str str)
+        | _ ->
+            Error.expected_symbol
+              ~sym:(`One_of [ Token.Id "some_id"; Token.String "some_string" ])
+              ~found:t.curr_span)
     | _ -> None
   in
   Parsetree_helper.Annot.field ~name ~value
@@ -259,6 +265,12 @@ let parse_type_decl_record t =
   let labels = parse_type_decl_label_decls t in
   Parsetree_helper.Type.record ~labels
 
+let parse_type_decl_tuple t =
+  expect Token.Parens_left t;
+  let parts = sep_by Token.Comma parse_type_expr t in
+  expect Token.Parens_right t;
+  Parsetree_helper.Type.alias (Parsetree_helper.Typ.tuple ~parts)
+
 let parse_type_decl_args t =
   let parse_arg t =
     match t.curr_span.token with
@@ -281,7 +293,7 @@ let parse_type_decl_args t =
 let parse_type_decl_alias id t =
   let name = Parsetree_helper.id id in
   next t;
-  Parsetree_helper.Type.alias ~name
+  Parsetree_helper.Type.alias (Parsetree_helper.Typ.id name)
 
 let parse_type_decl t ~annot =
   expect Token.Type t;
@@ -301,6 +313,7 @@ let parse_type_decl t ~annot =
         | Token.Id id -> parse_type_decl_alias id t
         | Token.Pipe -> parse_type_decl_variant t
         | Token.Brace_left -> parse_type_decl_record t
+        | Token.Parens_left -> parse_type_decl_tuple t
         | _ ->
             Error.expected_symbol
               ~sym:(`One_of [ Token.Pipe; Token.Brace_left ])
@@ -329,6 +342,9 @@ let rec parse_pattern t =
   | Token.Any ->
       next t;
       Parsetree_helper.Pat.any
+  | Token.Integer int ->
+      next t;
+      Parsetree_helper.Pat.lit_int int
   | Token.String str ->
       next t;
       Parsetree_helper.Pat.lit_str str
@@ -341,6 +357,9 @@ let rec parse_pattern t =
       match Parsetree_helper.id_kind id with
       | `constructor -> (
           match t.curr_span.token with
+          | Token.Any ->
+              next t;
+              Parsetree_helper.Pat.any
           | Token.Brace_left ->
               parse_pattern_variant_constructor_record ~name:id t
           | Token.Parens_left ->
@@ -406,16 +425,12 @@ and parse_pattern_record_field t =
   in
   let pattern =
     match t.curr_span.token with
-    | Token.Colon -> parse_pattern t
+    | Token.Colon ->
+        next t;
+        parse_pattern t
     | _ -> Parsetree_helper.Pat.bind name
   in
   Parsetree_helper.Pat.field ~name ~pattern
-
-and parse_pattern_record_fields t =
-  expect Token.Brace_left t;
-  let fields = sep_by Token.Comma parse_pattern_record_field t in
-  expect Token.Brace_right t;
-  fields
 
 and parse_pattern_variant_constructor_tuple ~name t =
   expect Token.Parens_left t;
@@ -426,8 +441,15 @@ and parse_pattern_variant_constructor_tuple ~name t =
 and parse_pattern_variant_constructor_record ~name t =
   expect Token.Brace_left t;
   let fields = sep_by Token.Comma parse_pattern_record_field t in
+  let exhaustive =
+    match t.curr_span.token with
+    | Token.Any ->
+        next t;
+        Parsetree.Partial
+    | _ -> Parsetree.Exhaustive
+  in
   expect Token.Brace_right t;
-  Parsetree_helper.Pat.constructor_record ~name ~fields
+  Parsetree_helper.Pat.constructor_record ~name ~fields ~exhaustive
 
 (*
 
@@ -483,7 +505,6 @@ let rec parse_one t =
         Parsetree_helper.Expr.lit_str str
     | Token.Match -> parse_expr_match t
     | Token.Quote -> parse_expr_quote t
-    | Token.Unquote -> parse_expr_unquote t
     | _ ->
         Error.expected_symbol
           ~sym:
@@ -518,13 +539,9 @@ and parse_expr_seq expr t =
 and parse_expr_binary_op fst t =
   if Token.is_op t.curr_span.token then
     let raw_op = parse_op t in
-    let snd = parse_expression t in
-    match (raw_op, snd) with
-    | Id [ "|>" ], Expr_call (fn, args) ->
-        Parsetree_helper.Expr.call ~name:fn ~args:(args @ [ fst ])
-    | _ ->
-        let name = Parsetree_helper.Expr.var raw_op in
-        Parsetree_helper.Expr.call ~name ~args:[ fst; snd ]
+    let snd = parse_one t in
+    let name = Parsetree_helper.Expr.var raw_op in
+    Parsetree_helper.Expr.call ~name ~args:[ fst; snd ]
   else fst
 
 and parse_expr_let t =
@@ -550,24 +567,51 @@ and parse_expr_quote t =
   expect Token.Quote t;
   expect Token.Brace_left t;
 
-  let expr =
-    match parse_structure_item t with
-    | exception _ -> (
-        match parse_expression t with
-        | exception _ ->
-            Error.quote_expects_structure_item_or_expression t.curr_span
-        | expr -> Parsetree_helper.Macro.quoted_expr expr)
-    | item -> Parsetree_helper.Macro.quoted_str_item item
+  let parse_unquote t =
+    expect Token.Unquote t;
+    expect Token.Parens_left t;
+    let expr = parse_expression t in
+    expect Token.Parens_right t;
+    Parsetree_helper.Macro.unquote ~expr
+  in
+
+  let parse_unquote_splicing t =
+    expect Token.Unquote_splicing t;
+    expect Token.Parens_left t;
+    let expr = parse_expression t in
+    expect Token.Parens_right t;
+    Parsetree_helper.Macro.unquote_splicing ~expr
+  in
+
+  let quote =
+    let rec collect_tokens ~level tokens acc =
+      let token = t.curr_span.token in
+      match token with
+      | Token.Brace_right when level = 0 ->
+          let sym = Parsetree_helper.Macro.quote ~tokens:(List.rev tokens) in
+          List.rev (sym :: acc)
+      | Token.Brace_right ->
+          next t;
+          collect_tokens ~level:(level - 1) (token :: tokens) acc
+      | Token.Brace_left ->
+          next t;
+          collect_tokens ~level:(level + 1) (token :: tokens) acc
+      | Token.Unquote ->
+          let sym = Parsetree_helper.Macro.quote ~tokens:(List.rev tokens) in
+          let unquote = parse_unquote t in
+          collect_tokens ~level [] (unquote :: sym :: acc)
+      | Token.Unquote_splicing ->
+          let sym = Parsetree_helper.Macro.quote ~tokens:(List.rev tokens) in
+          let unquote = parse_unquote_splicing t in
+          collect_tokens ~level [] (unquote :: sym :: acc)
+      | _ ->
+          next t;
+          collect_tokens ~level (token :: tokens) acc
+    in
+    collect_tokens ~level:0 [] []
   in
   expect Token.Brace_right t;
-  expr
-
-and parse_expr_unquote t =
-  expect Token.Unquote t;
-  expect Token.Parens_left t;
-  let expr = parse_expression t in
-  expect Token.Parens_right t;
-  Parsetree_helper.Macro.unquoted ~expr
+  Parsetree_helper.Expr.quote ~quote
 
 and parse_expr_tuple t =
   expect Token.Parens_left t;
@@ -635,7 +679,7 @@ and parse_expr_list t =
         parse_expression t
     | _ ->
         Error.expected_symbol
-          ~sym:(`One_of [ Token.Comma; Token.Bracket_right ])
+          ~sym:(`One_of [ Token.Dot_dot_dot; Token.Bracket_right ])
           ~found:t.curr_span
   in
 
@@ -778,7 +822,7 @@ let parse t =
   | exception Error.Parse_error err -> Error (`Parse_error err)
   | res -> Ok res
 
-let make ~lexer =
+let make ~token_provider =
   let ( let* ) = Result.bind in
-  let* last_span = Lexer.scan lexer in
-  Ok { lexer; last_span; curr_span = last_span }
+  let* last_span = Token_provider.next token_provider in
+  Ok { token_provider; last_span; curr_span = last_span }

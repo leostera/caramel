@@ -31,6 +31,11 @@ setup:
 test:
 	dune test ./tests -p caramel
 
+.PHONY: cloc
+cloc:
+	cloc caramel --read-lang-def=./tests/caramel.txt
+	cloc tests --read-lang-def=./tests/caramel.txt
+
 .PHONY: coverage
 coverage:
 	dune test --instrument-with bisect_ppx --force

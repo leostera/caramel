@@ -1,0 +1,65 @@
+macro build_path(path) {
+  quote { unquote(path) }
+}
+
+macro build_routes(ctrs, not_found) {
+  match ctrs {
+  | [] ->
+    quote {
+      | _ -> unquote(not_found)()
+    }
+
+  | [ Constructor { name, annot }, ...rest ] ->
+    quote {
+      | (unquote(annot.route.method), unquote(build_path(annot.route.path))) ->
+        unquote(annot.route.handler)(req, input)
+
+      unquote(build_routes(rest, not_found))
+    }
+  }
+}
+
+pub macro router(ast) {
+  let name = ast.name;
+  let not_found = ast.annot.router.not_found;
+
+  let routes = match ast.kind {
+  | Variant { constructors } -> build_routes(constructors, not_found)
+  | _ -> build_routes([], not_found)
+  };
+
+  quote {
+    pub fn handle(req, args) {
+      let meth = Request.meth(req);
+      let path = Request.path(req);
+
+      match (meth, path) { unquote(routes) }
+    }
+  }
+}
+
+@derive(router)
+@router(not_found = handle_404)
+type routes =
+  | @route(method = GET, path = "/hello/{0}", handler = handle_hello)
+    Hello(string)
+
+pub fn handle_hello(Hello(name)) {
+  reply(200, [], "Hello, " ^ name ^ "!")
+}
+
+pub fn handle_404() {
+  let html = "<!doctype html>
+<html>
+  <head>
+    <meta charset=\"utf-8\">
+    <title>Not Found</title>
+  </head>
+  <body>
+    <h1>Not Found</h1>
+  </body>
+</html>";
+
+  html |> reply(404, [])
+}
+

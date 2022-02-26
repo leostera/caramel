@@ -1,0 +1,15 @@
+pub macro hello_mike() {
+  quote { :hello }
+}
+
+pub macro hello_robert() {
+  hello_mike()
+}
+
+pub macro hello_joe() {
+  hello_robert()
+}
+
+pub fn main(args) {
+  hello_joe()
+}

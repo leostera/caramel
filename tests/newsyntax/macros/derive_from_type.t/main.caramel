@@ -1,0 +1,10 @@
+pub macro debug(ast) {
+  quote {
+    pub fn type_name() {
+      unquote(ast.name)
+    }
+  }
+}
+
+@derive(debug)
+type t

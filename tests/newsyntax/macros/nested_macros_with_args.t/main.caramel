@@ -1,0 +1,17 @@
+external format : string -> list<'a> -> unit = "io:format"
+
+pub macro format(tag, arg) {
+  quote { format("~p: ~p", [ unquote(tag), unquote(arg) ]) }
+}
+
+pub macro reply(what) {
+  format(:INFO, what)
+}
+
+pub macro hello(who) {
+  reply(who)
+}
+
+pub fn main(args) {
+  hello(:joe)
+}

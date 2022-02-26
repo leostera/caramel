@@ -5,6 +5,8 @@ type error = Lexer_offset_is_out_of_bounds | Unknown_character of string
 
 exception Lexer_error of error
 
+let err e = raise (Lexer_error e)
+
 type t = {
   filename : string;
   contents : string;
@@ -19,20 +21,6 @@ type t = {
   mutable col_num : int;
 }
 [@@deriving sexp]
-
-module Position = struct
-  type t = { filename : string; line_num : int; col_num : int; offset : int }
-  [@@deriving sexp]
-
-  let pp ppf t =
-    let sexp = sexp_of_t t in
-    Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
-end
-
-type span = { start_pos : Position.t; end_pos : Position.t; token : Token.t }
-[@@deriving sexp]
-
-type spans = span list [@@deriving sexp]
 
 (*** Ops on t ******************************************************************)
 
@@ -55,10 +43,6 @@ let pp ppf t =
 
 let pp_error ppf error =
   let sexp = sexp_of_error error in
-  Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
-
-let pp_spans ppf spans =
-  let sexp = sexp_of_spans spans in
   Format.fprintf ppf "%a" (Sexplib.Sexp.pp_hum_indent 2) sexp
 
 (*** Character matchers ********************************************************)
@@ -95,21 +79,21 @@ let next t =
 
 (*** Helpers *******************************************************************)
 
-let position (t : t) =
-  Position.
-    {
-      filename = t.filename;
-      line_num = t.line_num;
-      col_num = t.col_num;
-      offset = t.offset;
-    }
+let position (t : t) : Span.Position.t =
+  {
+    filename = t.filename;
+    line_num = t.line_num;
+    col_num = t.col_num;
+    offset = t.offset;
+  }
 
-let eof t = { start_pos = position t; end_pos = position t; token = Token.EOF }
+let eof t =
+  Span.{ start_pos = position t; end_pos = position t; token = Token.EOF }
 
 let get_string ~start_pos ~end_pos t =
   String.sub t.contents
-    Position.(start_pos.offset)
-    Position.(end_pos.offset - start_pos.offset)
+    Span.Position.(start_pos.offset)
+    Span.Position.(end_pos.offset - start_pos.offset)
 
 (*** Combinators ***************************************************************)
 
@@ -217,7 +201,8 @@ let atom t =
   skip_while
     (fun c ->
       match c with
-      | '_' | '.' | '0' .. '9' | 'A' .. 'Z' | 'a' .. 'z' -> true
+      | '/' | '$' | ':' | '_' | '.' | '0' .. '9' | 'A' .. 'Z' | 'a' .. 'z' ->
+          true
       | _ -> false)
     t;
   let end_pos = position t in
@@ -307,7 +292,7 @@ let scan t =
   in
 
   let end_pos = position t in
-  { start_pos; end_pos; token }
+  Span.make ~start_pos ~end_pos ~token
 
 (*** API ***********************************************************************)
 
@@ -337,7 +322,7 @@ let tokenize t =
   let ( let* ) = Result.bind in
   let rec tokenize' t acc =
     let* span = scan t in
-    if span.token = Token.EOF then Ok (List.rev acc)
-    else tokenize' t (span.token :: acc)
+    if Span.token span = Token.EOF then Ok (List.rev acc)
+    else tokenize' t (Span.token span :: acc)
   in
   tokenize' t []

@@ -39,7 +39,8 @@ let parse
     else Ok ()
   in
 
-  let* parser = Parser.make ~lexer in
+  let token_provider = Token_provider.make ~lexer in
+  let* parser = Parser.make ~token_provider in
   let* parsetree = Parser.parse parser in
 
   (* NOTE: used for debugging purposes *)
