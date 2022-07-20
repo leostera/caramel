@@ -7,7 +7,7 @@
   (pps ppx_sexp_conv))
  (libraries sexplib))
 
-(ocamllex erl_lexer)
+(ocamllex erl_lexer core_lexer)
 
 (menhir
  (modules erl_parser)

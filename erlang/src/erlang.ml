@@ -1,10 +1,7 @@
 module Core = struct
   module Ast = Core_ast
-
-  (*
-	module Lexer = Core_lexer
-  module Parser = Core_parser
-	*)
+  module Lexer = Core_lexer
+  (* module Parser = Core_parser *)
   module Printer = Core_printer
 end
 
