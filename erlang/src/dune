@@ -10,7 +10,7 @@
 (ocamllex erl_lexer core_lexer)
 
 (menhir
- (modules erl_parser)
+ (modules erl_parser core_parser)
  (flags --explain --dump))
 
 (rule

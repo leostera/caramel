@@ -1,1 +1,1 @@
-val read : Lexing.lexbuf -> Core_token.t
+val read : Lexing.lexbuf -> Core_parser.token

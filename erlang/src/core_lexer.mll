@@ -1,6 +1,5 @@
 {
-(*open Core_parser*)
-open Core_token
+open Core_parser
 
 exception Error of (Parse_info.t * string)
 
