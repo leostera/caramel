@@ -3,9 +3,11 @@ let from_file source_file =
   let lexbuf = Lexing.from_channel ic in
   match Core_parser.annotated_module Core_lexer.read lexbuf with
   | exception exc ->
+      let pos = (Lexing.lexeme_start_p lexbuf) in
       let msg =
-        Printf.sprintf "In %s, at offset %d: syntax error.\n  %s%!" source_file
-          (Lexing.lexeme_start lexbuf)
+        Printf.sprintf "In %s, at line %d, character %d: syntax error.\n  %s%!" source_file
+          pos.pos_lnum
+          (pos.pos_cnum - pos.pos_bol)
           (Printexc.to_string exc)
       in
       Error (`Parser_error msg)
