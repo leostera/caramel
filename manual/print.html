@@ -1,0 +1,1488 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js ayu">
+    <head>
+        
+        <!-- Google Analytics Tag -->
+        <script type="text/javascript">
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-HVSX9MBNEJ', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+        
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Caramel Manual</title>
+        
+        <meta name="robots" content="noindex" />
+        
+        
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://caramel.run">
+        <meta property="og:title" content="Caramel Manual">
+        <meta property="og:description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta property="og:image" content="https://caramel.run/assets/logo.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://caramel.run">
+        <meta property="twitter:title" content="Caramel Manual">
+        <meta property="twitter:description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta property="twitter:image" content="https://caramel.run/assets/logo.png">
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+              <h2 style="margin-top: 1rem;">
+                <img width="32px" src="/assets/isotype.png" alt="Caramel Logo"> </img> Caramel Manual
+              </h2>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started/index.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="getting-started/first-steps.html"><strong aria-hidden="true">2.2.</strong> First Steps</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> CHANGELOG</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="changelog/v0.1.1.html"><strong aria-hidden="true">3.1.</strong> v0.1.1</a></li><li class="chapter-item expanded "><a href="changelog/v0.1.0.html"><strong aria-hidden="true">3.2.</strong> v0.1.0</a></li><li class="chapter-item expanded "><a href="changelog/v0.0.14.html"><strong aria-hidden="true">3.3.</strong> v0.0.14 and older</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Guides</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="guides/syntax-cheatsheet.html"><strong aria-hidden="true">4.1.</strong> Syntax Cheatsheet</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Using Caramel with Rebar3</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Using Caramel with Mix</div></li><li class="chapter-item expanded "><a href="guides/erlang-ffi.html"><strong aria-hidden="true">4.4.</strong> Calling Erlang code</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.5.</strong> Calling Elixir code</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Examples</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="examples/hello-joe.html"><strong aria-hidden="true">5.1.</strong> Hello, Joe!</a></li><li class="chapter-item expanded "><a href="examples/simple-http-echo-server.html"><strong aria-hidden="true">5.2.</strong> Simple HTTP Echo Server</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="reference/index.html"><strong aria-hidden="true">6.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reference/cli/default.html"><strong aria-hidden="true">6.1.</strong> Caramel CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reference/cli/compile.html"><strong aria-hidden="true">6.1.1.</strong> caramel compile</a></li><li class="chapter-item expanded "><a href="reference/cli/fmt.html"><strong aria-hidden="true">6.1.2.</strong> caramel fmt</a></li><li class="chapter-item expanded "><a href="reference/cli/sort-deps.html"><strong aria-hidden="true">6.1.3.</strong> caramel sort-deps</a></li><li class="chapter-item expanded "><a href="reference/cli/version.html"><strong aria-hidden="true">6.1.4.</strong> caramel version</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.2.</strong> Language Features</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.</strong> Standard Library</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.1.</strong> Binary</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.2.</strong> Calendar</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.3.</strong> Erlang</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.4.</strong> Ets</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.5.</strong> Io</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.6.</strong> Lists</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.7.</strong> Maps</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.8.</strong> Process</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.9.</strong> Timer</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.4.</strong> Typed OTP</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributing</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="contrib/manual.html"><strong aria-hidden="true">7.1.</strong> Contributing to the Manual</a></li><li class="chapter-item expanded "><a href="contrib/building.html"><strong aria-hidden="true">7.2.</strong> Building from Source</a></li><li class="chapter-item expanded "><a href="contrib/architecture.html"><strong aria-hidden="true">7.3.</strong> Architecture</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h2 class="menu-title">
+                      <img width="32px" src="/assets/isotype.png" alt="Caramel Logo"> </img> Caramel
+                    </h2>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/AbstractMachinesLab/caramel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+
+                    <main>
+                        <blockquote>
+<p><strong>NOTE</strong>: This manual is a work in progress. Please let us know if you think
+something is missing by <a href="https://github.com/AbstractMachinesLab/caramel/issues/new">filing an
+issue</a>, or join our <a href="http://discord.caramel.run">Discord server.</a></p>
+</blockquote>
+
+                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<p>Caramel is a functional language for building type-safe, scalable, and
+maintainable applications.</p>
+<p>It is built in <a href="https://ocaml.org">OCaml 🐫</a> and maintained by <a href="https://github.com/AbstractMachinesLab">Abstract
+Machines</a>.</p>
+<p>Caramel leverages:</p>
+<ul>
+<li>
+<p>the OCaml compiler, to provide you with a pragmatic type system and
+industrial-strength type safety.</p>
+</li>
+<li>
+<p>the Erlang VM, known for running low-latency, distributed, and fault-tolerant
+systems used in a wide range of industries.</p>
+</li>
+</ul>
+<p>Check out the <a href="./changelog/v0.1.1.html">CHANGELOG</a> to see what's new.</p>
+<p>For installation instructions see <a href="./getting-started/installation.html">Installation</a>.</p>
+<h2><a class="header" href="#feature-highlights" id="feature-highlights">Feature highlights</a></h2>
+<ul>
+<li>Excellent type-inferece, so you never need to annotate your code</li>
+<li>Zero-cost type-safe interop with most existing Erlang and Elixir code</li>
+<li>Has a reviewed standard library included</li>
+<li>Supports sources in OCaml (and soon Reason syntax too)</li>
+<li>Ships a single executable (<code>caramel</code>)</li>
+<li>Has a built-in formatter (<code>caramel fmt</code>)</li>
+</ul>
+<h2><a class="header" href="#philosophy--goals" id="philosophy--goals">Philosophy &amp; Goals</a></h2>
+<p>Caramel aims to make building type-safe concurrent programs a productive and
+fun experience.</p>
+<p>Caramel should let anyone with existing OCaml or Reason experience be up and
+running without having to relearn the entire languages.</p>
+<p>Caramel strives to integrate with the larger ecosystem of BEAM languages, like
+Erlang, Elixir, Gleam, Purerl, LFE, and Hamler. </p>
+<p>Caramel should be a batteries included environment where you pay only for what
+you use.</p>
+<h1><a class="header" href="#getting-started" id="getting-started">Getting Started</a></h1>
+<ul>
+<li><a href="getting-started/./installation.html">Installation</a></li>
+<li><a href="getting-started/./first-steps.html">First steps</a></li>
+</ul>
+<p>Caramel works on macOS, Linux, and Windows. It is a single binary, and it has no
+external dependencies.</p>
+<p>The only prerequisite to run the code you compile with Caramel, is Erlang or
+Elixir. The <a href="https://elixir-lang.org/install.html">Elixir installation</a> page
+lists many ways to install it comfortably, we suggest you to follow that step
+before continuing.</p>
+<h3><a class="header" href="#manual-binary-installation" id="manual-binary-installation">Manual binary installation</a></h3>
+<p>You can manuall install Caramel as well on Windows, macOS, or Linux by downloading
+the zipped release from Github:
+<a href="https://github.com/AbstractMachinesLab/caramel/releases/#user-content-assets">github.com/AbstractMachines/caramel/releases</a>.</p>
+<h3><a class="header" href="#using-a-package-manager" id="using-a-package-manager">Using a package manager</a></h3>
+<blockquote>
+<p><strong>NOTE</strong>: We are working on supporting these plugins but we could use a hand
+with them. If you're interested in contributing please <a href="http://discord.caramel.run">join us on
+Discord</a></p>
+</blockquote>
+<br />
+<p>If you are an <strong>Elixir programmer</strong>, Caramel can be installed with <code>mix</code>,
+include the mix plugin in your project as a dependency and enable the compiler:</p>
+<pre><code class="language-elixir">def project do
+  [
+    ...
+    compilers: [:caramel] ++ Mix.compilers(),
+    caramel_paths: [&quot;src&quot;],
+    caramel_release: &quot;v0.1.1&quot;
+  ]
+end
+
+defp deps do
+  {:mix_caramel, github: &quot;AbstractMachinesLab/mix_caramel&quot;, branch: :main}
+end
+</code></pre>
+<br />
+<p>If you are an <strong>Erlang programmer</strong>, Caramel can be installed with <code>rebar3</code>,
+but we are still working out the plugin. If you're interested in helping out
+<a href="http://discord.caramel.run">please reach us out in
+Discord</a>!</p>
+<pre><code class="language-erlang">{plugins, [
+  {rebar3_caramel, {git, &quot;https://github.com/AbstractMachinesLab/rebar3_caramel.git&quot;, {branch, &quot;main&quot;}}}
+]}.
+</code></pre>
+<!--
+<br />
+
+If you are an **OCaml programmer**, Caramel can be installed with `opam`.
+
+```sh
+opam install caramel
+```
+-->
+<br />
+<p><strong>Other platforms.</strong> If you'd like Caramel to be easier to install in your favorite platform, feel
+free to <a href="https://github.com/AbstractMachinesLab/caramel/issues/new">Open a Github
+Issue</a> and we can
+talk about making it happen.</p>
+<h3><a class="header" href="#install-from-sources" id="install-from-sources">Install from Sources</a></h3>
+<p>Check the <a href="getting-started/../contrib/building.html">Building from Source</a> section for up to
+date instructions.</p>
+<p>If you have OCaml (opam) and the source code of Caramel, you can install it by running <code>make install</code>.</p>
+<h1><a class="header" href="#first-steps" id="first-steps">First Steps</a></h1>
+<p>This section teaches you some of the fundamentals of Caramel, make sure you installed it first following the <a href="getting-started/./installation.html">Installation guide</a>.</p>
+<p>It assumes you have some prior knowledge of functional programming, like
+Erlang or Elixir, and some knowledge of static typing, like from TypeScript
+or Java.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><a href="getting-started/first-steps.html#hello-world">Hello World</a></li>
+<li><a href="getting-started/first-steps.html#say-hello">Say Hello</a></li>
+<li><a href="getting-started/first-steps.html#working-with-types">Working with Types</a></li>
+<li>Custom Types</li>
+<li>Processes and Message Passing</li>
+</ul>
+<h3><a class="header" href="#prerequisites" id="prerequisites">Prerequisites</a></h3>
+<p>You will need a working Erlang/OTP installation. You can get one from your
+package manager:</p>
+<pre><code># For Homebrew on OS X
+brew install erlang
+
+# For Ubuntu and Debian
+apt-get install erlang
+
+# For Fedora
+yum install erlang
+
+# For FreeBSD
+pkg install erlang
+</code></pre>
+<h2><a class="header" href="#hello-world" id="hello-world">Hello World</a></h2>
+<p>Caramel is a language that relies on the Erlang VM, just like Elixir or
+Gleam. This means that we need to compile our code, and run it from within
+Erlang.</p>
+<p>Let's write a Hello World example:</p>
+<pre><code class="language-ocaml">(* file: hello_world.ml *)
+let main _ = Io.format &quot;~s~n&quot; [&quot;Hello World&quot;]
+</code></pre>
+<p>We can compile it as follows:</p>
+<pre><code class="language-bash">$ caramel compile hello_world.ml
+Compiling hello_world.erl OK
+</code></pre>
+<p>And run it with <code>escript</code>:</p>
+<pre><code>$ escript hello_world.erl
+Hello World
+</code></pre>
+<p><code>escript</code> is an Erlang utility to run an Erlang program as a script. It
+defaults to running the <code>main/1</code> function of a module, and it passes all
+command line arguments to it as a list of strings.</p>
+<p>We can also load and run this module from a regular Erlang shell.</p>
+<pre><code>$ erl
+Erlang/OTP 23 [erts-11.1.5] [source] [64-bit] [smp:64:64] [ds:64:64:10]
+[async-threads:1] [hipe]
+
+Eshell V11.1.5  (abort with ^G)
+1&gt; c(hello_world).
+{ok,hello_world}
+2&gt; hello_world:main([]).
+Hello World
+ok
+</code></pre>
+<h2><a class="header" href="#say-hello" id="say-hello">Say Hello!</a></h2>
+<p>For our next example, we will take a list of names and will say hello to each of them.</p>
+<pre><code class="language-ocaml">(* file: say_hello.ml *)
+
+(* This function is recursive, so we must mark it with `let rec` *)
+let rec say_hello names =
+
+  (* We can use `match ... with` to inspect values like a Switch/Case *)
+  match names with
+
+  (* If there are no names, then the list is empty! and we're done *)
+  | [] -&gt;
+      (* We return a *unit* (the empty parens: ()). This is the closest we have
+       * in Caramel to the usual `:ok` or `ok` atoms returned in Elixir / Erlang
+       * to indicate that nothing happened, but everything's okay
+       *)
+      ()
+
+  (* If there is at least one name, we can proceed... *)
+  | n :: names' -&gt;
+      Io.format &quot;Hello, ~s!\n&quot; [n];
+      say_hello names'
+
+let main args = say_hello args
+</code></pre>
+<p>Lets run this program now:</p>
+<pre><code>$ escript say_hello.erl Joe Robert Mike
+Hello, Joe!
+Hello, Robert!
+Hello, Mike!
+</code></pre>
+<h2><a class="header" href="#working-with-types" id="working-with-types">Working with Types</a></h2>
+<p>We said before that Caramel is a typed language, but we haven't seen any
+types at work so far. How is this possible?</p>
+<p>Caramel is a strict subset of OCaml and it has excellent type-inference. This
+means that Caramel has <strong>figured out the types for us</strong>.</p>
+<blockquote>
+<p><strong>NOTE</strong>: Type inference is great, but sometimes it makes for less clear code
+than it should. Consider annotating for clarity whenever some things start
+getting complex!</p>
+</blockquote>
+<p>Let's write a program now that will add together 2 numbers, ignoring their
+decimals.</p>
+<p>Our test cases will be:</p>
+<ul>
+<li><code>10 + 2 = 12</code></li>
+<li><code>10 + 2.7 = 12</code></li>
+</ul>
+<pre><code class="language-ocaml">(* file: calc_add.ml *)
+let main (a :: b :: _) =
+
+  (* First we will try to convert our strings to integers *)
+  let a_int = Erlang.list_to_integer a in
+  let b_int = Erlang.list_to_integer b in
+
+  (* Then we will add them both together *)
+  let result = a_int + b_int in
+
+  (* Finally we print out the results *)
+  Io.format &quot;~p + ~p = ~p\n&quot; [a_int; b_int; result]
+</code></pre>
+<p>We can call it and see if it works:</p>
+<pre><code class="language-bash">$ escript calc_add.erl 10 2
+10 + 2 = 12
+</code></pre>
+<p>But what happens when we try to add <code>10</code> and <code>2.7</code>?</p>
+<pre><code class="language-bash">λ escript calc_add.erl 10 2.7
+escript: exception error: bad argument
+  in function  list_to_integer/1
+     called as list_to_integer(&quot;2.7&quot;)
+  in call from erl_eval:do_apply/6 (erl_eval.erl, line 680)
+  in call from erl_eval:expr/5 (erl_eval.erl, line 449)
+  in call from escript:eval_exprs/5 (escript.erl, line 872)
+  in call from erl_eval:local_func/6 (erl_eval.erl, line 567)
+  in call from escript:interpret/4 (escript.erl, line 788)
+  in call from escript:start/1 (escript.erl, line 277)
+  in call from init:start_em/1
+</code></pre>
+<p>The <code>Erlang.list_to_integer/1</code> function tries to parse a string into an
+Integer, not a Float. Since Erlang makes a distinction between those at this
+level, we have to use another function for this: <code>Erlang.list_to_float/1</code>.</p>
+<p>Lets change our second value to be parsed as a float:</p>
+<pre><code class="language-ocaml">(* ... *)
+let b_int = Erlang.list_to_float b in
+(* ... *)
+</code></pre>
+<p>When we try to compile, Caramel will show us an error message!</p>
+<pre><code class="language-bash">$ caramel compile calc_add.ml
+File &quot;fs3_calc_add_tagged.ml&quot;, line 8, characters 23-28:
+Error: This expression has type float but an expression was expected of type
+         int
+</code></pre>
+<p>Caramel has figured out that you are trying to add a float and an integer
+together and its telling you that it can't <em>just do that</em>. We'll have to turn
+our float into an integer, or turn our integer into a float, to be able to add
+them together.</p>
+<blockquote>
+<p><strong>NOTE</strong>: Errors at the moment have the exact same copy and information as
+errors from the OCaml compiler. Over time this will be changed.</p>
+</blockquote>
+<h2><a class="header" href="#custom-types" id="custom-types">Custom Types</a></h2>
+<h2><a class="header" href="#processes-and-message-passing" id="processes-and-message-passing">Processes and Message Passing</a></h2>
+<h2><a class="header" href="#a-glimpse-into-otp" id="a-glimpse-into-otp">A Glimpse into OTP</a></h2>
+<h1><a class="header" href="#v011-improvements-to-docs-better-operator-support-cleaning-up-stdlib" id="v011-improvements-to-docs-better-operator-support-cleaning-up-stdlib">v0.1.1: Improvements to Docs, Better operator support, Cleaning up Stdlib</a></h1>
+<p><a href="https://github.com/AbstractMachinesLab/caramel/releases/tag/v0.1.1#user-content-assets">You can download this release from Github</a></p>
+<h2><a class="header" href="#-manual" id="-manual">📙 Manual</a></h2>
+<ul>
+<li>The manual is now automatically released in CI through Github Actions.</li>
+<li>We've got an open invite to Discord available on every page.</li>
+<li>Erlang as a runtime dependency has been clarified.</li>
+<li>Fixed several SEO issues.</li>
+</ul>
+<h2><a class="header" href="#-compiler" id="-compiler">🧰 Compiler</a></h2>
+<ul>
+<li>Better support for bit-shift, unary float, and keyword operators </li>
+<li>Now support for floating point numbers without trailing digits (<code>1. == 1.0</code>)</li>
+</ul>
+<h2><a class="header" href="#-standard-library" id="-standard-library">📚 Standard Library</a></h2>
+<ul>
+<li>Introduced the <code>Math</code> module</li>
+<li>Clean up several unimplemented bindings that were leftovers from the OCaml
+standard library</li>
+</ul>
+<div id="assets"></div>
+<h1><a class="header" href="#v010-shaping-up" id="v010-shaping-up">v0.1.0: Shaping up!</a></h1>
+<p><a href="https://github.com/AbstractMachinesLab/caramel/releases/tag/v0.1.0#user-content-assets">You can download this release from Github</a></p>
+<h2><a class="header" href="#-from-a-backend-to-language" id="-from-a-backend-to-language">🌎 From a Backend to Language</a></h2>
+<p>Caramel is starting to take shape, and we'll now refer to it as a <em>language</em>
+rather than an OCaml backend to make it a little easier to talk about it.</p>
+<p>After all, it isn't really 100% OCaml but a strict subset of it. It doesn't
+ship the same standard library or tools.</p>
+<p>We also have a new website at: <a href="https://caramel.run">caramel.run</a></p>
+<h2><a class="header" href="#--community" id="--community">🗫  Community</a></h2>
+<p>We've updated our Code of Conduct to the <a href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/">Contributor Covenant
+v2.0</a>.</p>
+<p>We've opened the <a href="https://github.com/AbstractMachinesLab/caramel/discussions">Github
+Discussions</a> --
+drop by and say hi or grab a Discord invite link! 👋</p>
+<h2><a class="header" href="#-manual-1" id="-manual-1">📙 Manual</a></h2>
+<p>I've started work on the <a href="https://caramel.run/manual/">Caramel Manual</a> where we
+have an installation guide, an introduction, a small syntax cheatsheet, some
+examples, and a small guide on writing Caramel code that talks to existing
+Erlang code.</p>
+<p>This is a big <em>work in progress</em>, so if you'd like to help, please reach out!</p>
+<p>In the future I'm planning to write guides for how to use Caramel with existing
+build systems like Rebar3 or Mix, and include a reference guide to the standard
+library.</p>
+<h2><a class="header" href="#-caramel-formatter" id="-caramel-formatter">💅 Caramel Formatter</a></h2>
+<p>Caramel now ships a formatter that you can run to make sure your code is always
+stylish and you have no more bikesheds. It supports ZERO configuration, so what
+you see is what you get.</p>
+<p>This is currently just a wrapper around <code>ocamlformat</code>, and all the kudos go to
+the amazing team putting that together.</p>
+<p>You can use it by calling <code>caramel fmt *.ml</code> and it should work on both <code>.ml</code>
+and <code>.mli</code> sources.</p>
+<p>It only does in-place formatting.</p>
+<h2><a class="header" href="#-compiler-1" id="-compiler-1">🧰 Compiler</a></h2>
+<p>The compiler has dropped support for several targets, including Core Erlang to
+Native, and the default OCaml compilation modes.</p>
+<p>It will from now on focus only on taking Caramel sources into runnable Erlang
+and Core Erlang code. Over time we will move from Erlang to only Core Erlang
+support, to make it easier to reuse Caramel code from Erlang, Elixir, Gleam,
+and Hamler.</p>
+<p>The additions to the compiler are:</p>
+<ul>
+<li>Replaced unbound vars in specs with wildcards (thanks @ilya-klyuchnikov, <a href="https://github.com/AbstractMachinesLab/caramel/pull/38">PR</a>)</li>
+<li>Keyword atoms are automatically quoted now</li>
+<li>Removed unnecessary compilation steps (thanks @Drup)</li>
+<li>Removed unused object file generation (<code>.cmo</code>)</li>
+<li>Better support for operators like <code>&amp;&amp;</code>, <code>||</code>, and <code>&gt;=</code></li>
+</ul>
+<h2><a class="header" href="#-standard-library-1" id="-standard-library-1">📚 Standard Library</a></h2>
+<p>The standard library has been simplified for contributing to it, and you can now
+find it at the top of the repository.</p>
+<p>Changes:</p>
+<ul>
+<li>String concatenation now possible with the <code>^</code> operator: <code>&quot;yay&quot; ^ &quot;!!!&quot;</code></li>
+<li><code>Binary.split/3</code> to split binary strings</li>
+<li><code>Erlang.floor/1</code> to round down floats to integers</li>
+<li><code>Erlang.list_to_float/1</code> to parse strings to floats</li>
+<li><code>Erlang.float_to_list/1</code> to turn floats into strings</li>
+<li><code>Erlang.list_to_integer/1</code> to parse strings to integers</li>
+<li><code>Erlang.integer_to_list/1</code> to turn integers into strings</li>
+<li><code>Lists.foldl/foldr</code> signature has been fixed</li>
+</ul>
+<div id="assets"></div>
+<h1><a class="header" href="#v0014-website-split-erlang-library-proper-exit-codes-and-better-runtime-support" id="v0014-website-split-erlang-library-proper-exit-codes-and-better-runtime-support">v0.0.14: Website, split Erlang library, proper exit codes, and better runtime support</a></h1>
+<ul>
+<li>
+<p>erlang: the Erlang library included, with a lexer/parser/AST/printer
+for Standard Erlang, is now completely split from the Caramel code and
+will be published to opam shortly.</p>
+</li>
+<li>
+<p>caramelc: will return exit code 0 if everything went well. Otherwise
+expect a non-zero status!</p>
+</li>
+<li>
+<p>stdlib: remove dependency on the Erlang AST printer for parts of the
+runtime (like the <code>recv</code> function), and instead include the relevant
+<code>.erl</code> sources as part of the packed stdlib.</p>
+</li>
+<li>
+<p>docs: better contribution notes, documenting the release flow and
+saying a word about the rationale behind it. I've also put together a
+small website for Caramel here: https://caramel.abstractmachines.dev</p>
+</li>
+<li>
+<p>examples: the echo tcp server has been refactored to make it harder to
+accidentally override the <code>gen_tcp</code> module that is shipped with Erlang.
+We'll have to figure out a nice way to prevent these things from
+happening, which may just mean using all the modules on the Stdlib to
+avoid redefinition.</p>
+</li>
+<li>
+<p>ci: several changes to CI to ensure we can release the <code>erlang</code>
+library to opam.</p>
+</li>
+</ul>
+<h2><a class="header" href="#v0013" id="v0013">v0.0.13</a></h2>
+<ul>
+<li>
+<p>erlang: prepare erlang library for initial release to opam.</p>
+</li>
+<li>
+<p>erlang: add a new <code>erldump</code> binary that can be used to dump the parsed ast.
+This is currently being used for the tests.</p>
+</li>
+<li>
+<p>caramelc: binary now exits with status code 0 only if everything went well.</p>
+</li>
+<li>
+<p>ci: include necessary erlang artifacts in releases so we can publish this
+library to opam.</p>
+</li>
+<li>
+<p>ci: prefix cache names with the secret version so breaking them is more
+effective.</p>
+</li>
+<li>
+<p>examples: add new <code>gen_tcp</code> example.</p>
+</li>
+<li>
+<p>docs: publish small website at <code>caramel.abstractmachines.dev</code></p>
+</li>
+</ul>
+<h2><a class="header" href="#v0012" id="v0012">v0.0.12</a></h2>
+<ul>
+<li>compiler: match expressions with cascading cases are not that
+straighforward to translate to Erlang and my gut tells me that doing the
+juggling here will get in the way of type-checking Erlang in the
+upcoming milestone, so this is forbidden as it is right now.</li>
+</ul>
+<h2><a class="header" href="#v0011" id="v0011">v0.0.11</a></h2>
+<ul>
+<li>
+<p>compiler: preliminary support for guards is added in this release.
+They are &quot;safe&quot; as long as you don't redefine any of the expected
+functions. There is no good way at the moment to prevent this from
+happening, but we could achieve it by essentially forbidding the use
+of the module name <code>Erlang</code> and requiring all guards to be fully
+qualified names.</p>
+<p>This still leaves us with the issue of compounded guard expressions.</p>
+<p>At the end of the day, we want a function <code>is_valid_guard : expression -&gt; bool</code>
+that can traverse an arbitrary expression and tell us if it
+is or is not a valid guard based on the specification found at <a href="https://erlang.org/doc/reference_manual/expressions.html#guard-expressions">the
+Erlang docs</a>.</p>
+</li>
+<li>
+<p>caramelc: the <code>parse</code> subcommand now can take a <code>--lang</code> and <code>--tree</code>
+parameters to print out the parse and typed trees for OCaml, as well
+as the parse tree of Erlang, and the parse tree of the result of
+compiling OCaml to Erlang.</p>
+<p>This is particularly useful for testing and understanding the AST
+translation, and will likely be used later on to see if the compile -&gt;
+typecheck -&gt; compile cycle yields the same inputs, and thus is an
+isomorphism.</p>
+</li>
+</ul>
+<h2><a class="header" href="#v0010" id="v0010">v0.0.10</a></h2>
+<ul>
+<li>Add support for record updates (see #23):</li>
+</ul>
+<pre><code class="language-ocaml">{ my_record with field = value }
+</code></pre>
+<pre><code class="language-erlang">My_record#{ field := value }
+</code></pre>
+<ul>
+<li>Add tests showing that lambda function calls are now working as expected and
+will be called with the right number of parameters:</li>
+</ul>
+<pre><code class="language-ocaml">let f () =
+  let g () = 1 in
+  g ()
+</code></pre>
+<pre><code class="language-erlang">f() -&gt;
+  G = fun () -&gt; 1 end,
+  G().
+</code></pre>
+<h2><a class="header" href="#v009" id="v009">v0.0.9</a></h2>
+<ul>
+<li>
+<p>compiler(#12): the compiler will now let you know when you're
+redefining a function on the OCaml side, which is not allowed on the
+Erlang side and stop compilation.</p>
+</li>
+<li>
+<p>compiler(#16): shadowing bindings with let are (for) now unsupported
+on the OCaml side, which makes translation runtime safe. We won't see
+any more <code>X = X + 1</code> on the Erlang side.</p>
+</li>
+<li>
+<p>compiler(#15): to help with #16, priming of variables is now supported
+and translated to valid Erlang. We can write <code>x' = x + 1</code> and it will
+translate to <code>X_prime = X + 1</code>.</p>
+</li>
+<li>
+<p>compiler(#13): recursive let bindings within a function definition are
+now not supported since they don't have a direct Erlang equivalent and
+require runtime overhead.</p>
+</li>
+<li>
+<p>error messages have been created for all of the above</p>
+</li>
+</ul>
+<h2><a class="header" href="#v008" id="v008">v0.0.8</a></h2>
+<ul>
+<li>stdlib: fix name of Io module so Merlin can pick it up properly.</li>
+</ul>
+<h2><a class="header" href="#v007" id="v007">v0.0.7</a></h2>
+<p>Better releases</p>
+<ul>
+<li>
+<p>compiler: automatic function reference arities! As see in #10</p>
+</li>
+<li>
+<p>compiler: We're ignoring all fresh type variables when translating to Dialyzer
+specs for now. More work will be done in #20</p>
+</li>
+<li>
+<p>caramelc: <code>caramelc compile</code> now supports multiple <code>--target</code> flags,
+so you can compile both archives and Erlang sources at once.</p>
+</li>
+<li>
+<p>caramelc: standard library will now by default be in the respective
+installation directory (respecting dune install conventions)</p>
+</li>
+<li>
+<p>stdlib: <code>Process.spawn/1</code> has been renamed to <code>Process.make/1</code> until
+we have support for module attributes (see #21)</p>
+</li>
+<li>
+<p>stdlib: Dropped top-level namespacing until we figure out how it can
+work best with .merlin</p>
+</li>
+<li>
+<p>ci: several changes to release flow, including a nicer folder
+structure in the tarball</p>
+</li>
+<li>
+<p>ci: entire codebase is instrumentabled by bisect_ppx now to start
+gathering coverage reports</p>
+</li>
+<li>
+<p>erlang: removed an unused helper</p>
+</li>
+</ul>
+<h2><a class="header" href="#v006" id="v006">v0.0.6</a></h2>
+<ul>
+<li>
+<p>Lots of work on the Stdlib, as visible in
+<a href="https://github.com/AbstractMachinesLab/caramel/issues/8">issue #8</a>.</p>
+</li>
+<li>
+<p>External definitions now can override the name they will use in the
+generated source code with their string value</p>
+</li>
+<li>
+<p>Parser supports arbitrarily parenthesized expressions</p>
+</li>
+</ul>
+<hr />
+<p>The idea for this pre-release is to start testing out how the Stdlib
+feels to write some small programs and scan 1) whether some obvious FFIs
+are missing, and 2) how straightforward it is to write new ones.</p>
+<h2><a class="header" href="#v005" id="v005">v0.0.5</a></h2>
+<p>The internal modules for the compiler and the typing experiments are
+split now, and the Erlang support is unified in a single library that
+only depends on the standard library and the Sexplib library for
+deriving Sexp representations.</p>
+<p>The goals here are:</p>
+<ul>
+<li>
+<p>make the codebase easier to hack on in general -- there's still work
+to do here, as I think the ideal structure would be flatter than it is
+right now.</p>
+</li>
+<li>
+<p>prepare the Erlang library for continued work -- extending the lexer
+with positioning information on every read token will help parametrize
+the AST with contextual information. This would aid in error
+reporting.</p>
+</li>
+<li>
+<p>establish clearer compilation and type checking paths:</p>
+<ul>
+<li>from OCaml to Erlang,</li>
+<li>from OCaml Lambda to Core Erlang,</li>
+<li>from Erlang to Native binaries.</li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#v004-triples" id="v004-triples">v0.0.4-triples</a></h2>
+<p>dist: use valid gcc host triples in release names</p>
+<h2><a class="header" href="#v004" id="v004">v0.0.4</a></h2>
+<p>First release shipping with a tiny Stdlib!</p>
+<p>Now you don't really need OCaml installed for Caramel to be able to compile
+some ML and typecheck some Erlang</p>
+<h2><a class="header" href="#v003-musl" id="v003-musl">v0.0.3-musl</a></h2>
+<p>New release naming and a new linux+musl binary</p>
+<h2><a class="header" href="#v003" id="v003">v0.0.3</a></h2>
+<ul>
+<li>compilation should have much nicer errors when dealing with unsupported
+features and expression at the value and type level</li>
+<li>new command for type-checking erlang: <code>caramelc check</code></li>
+<li><code>--target</code> flag is now available, and supports <code>core</code>, <code>erl</code> and <code>native</code>
+targets</li>
+<li><code>--dump-ast</code> flag is now documented and hooked up to core erlang backend</li>
+<li>string concatenation should support arbitrarily complex expressions now</li>
+<li>license was updated in binary file to point to BSD 3-clause too</li>
+</ul>
+<h2><a class="header" href="#v002-bin" id="v002-bin">v0.0.2-bin</a></h2>
+<p>First release with <code>caramelc</code> binaries.</p>
+<h2><a class="header" href="#v002" id="v002">v0.0.2</a></h2>
+<p>First release.</p>
+<h1><a class="header" href="#syntax-cheatsheet" id="syntax-cheatsheet">Syntax Cheatsheet</a></h1>
+<p>Here is a comparison between common Erlang and Elixir syntaxes and the OCaml
+and Reason syntaxes that are supported by Caramel.</p>
+<h2><a class="header" href="#types" id="types">Types</a></h2>
+<h3><a class="header" href="#variants-and-unions" id="variants-and-unions">Variants and Unions</a></h3>
+<p><strong>Erlang</strong>:</p>
+<pre><code class="language-erlang">-type bool() :: true | false.
+-type foo() :: bar() | baz().
+</code></pre>
+<p><strong>Elixir</strong></p>
+<pre><code class="language-elixir">@type bool() :: true | false
+@type foo() :: bar() | baz()
+</code></pre>
+<p><strong>OCaml</strong></p>
+<pre><code class="language-ocaml">type bool = True | False
+type foo = Bar of bar | Baz of baz
+type foo = [ `Bar of bar | `Baz of baz ]
+type foo = [ bar | baz ] (* for when bar and baz are polymorphic variants *)
+</code></pre>
+<h3><a class="header" href="#records" id="records">Records</a></h3>
+<p><strong>Erlang</strong>:</p>
+<pre><code class="language-erlang">-type pair(A, B) :: #{ fst =&gt; A, snd =&gt; B }.
+</code></pre>
+<p><strong>Elixir</strong></p>
+<pre><code class="language-elixir">@type pair(a, b) :: %{ :fst =&gt; a(), :snd =&gt; b() }
+</code></pre>
+<p><strong>OCaml</strong></p>
+<pre><code class="language-ocaml">type ('a, 'b) pair = { fst : 'a; snd : 'b }
+</code></pre>
+<h2><a class="header" href="#expressions-and-values" id="expressions-and-values">Expressions and Values</a></h2>
+<h3><a class="header" href="#atoms" id="atoms">Atoms</a></h3>
+<table><thead><tr><th>Erlang</th><th>Elixir</th><th>OCaml</th><th>Reason</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>ok</code></td><td><code>:ok</code></td><td><code>`ok</code></td><td><code>`ok</code></td><td>Atoms in Caramel are treated as polymorphic variants.</td></tr>
+<tr><td><code>'ok'</code></td><td><code>:'ok'</code></td><td>---</td><td>---</td><td>Quoted atoms are unsupported in Caramel.</td></tr>
+</tbody></table>
+<h3><a class="header" href="#comments" id="comments">Comments</a></h3>
+<table><thead><tr><th>Erlang</th><th>Elixir</th><th>OCaml</th><th>Reason</th></tr></thead><tbody>
+<tr><td><code>% comment</code></td><td><code># comment</code></td><td><code>(* comment *)</code></td><td><code>// comment</code></td></tr>
+</tbody></table>
+<h3><a class="header" href="#variables" id="variables">Variables</a></h3>
+<table><thead><tr><th>Erlang</th><th>Elixir</th><th>OCaml</th><th>Reason</th></tr></thead><tbody>
+<tr><td><code>A = 1</code></td><td><code>a = 1</code></td><td><code>let a = 1</code></td><td><code>let a = 1</code></td></tr>
+<tr><td><code>A2 = A + 1</code></td><td><code>a = 1</code></td><td><code>let a' = a + 1</code></td><td><code>let a' = a + 1</code></td></tr>
+</tbody></table>
+<h3><a class="header" href="#binary-strings-and-charlists" id="binary-strings-and-charlists">Binary Strings, and Charlists</a></h3>
+<table><thead><tr><th>Erlang</th><th>Elixir</th><th>OCaml</th><th>Reason</th></tr></thead><tbody>
+<tr><td><code>&lt;&lt;&quot;binary&quot;&gt;&gt;</code></td><td><code>&quot;binary&quot;</code></td><td><code>&quot;binary&quot;</code></td><td><code>&quot;binary&quot;</code></td></tr>
+<tr><td><code>&quot;string&quot;</code></td><td><code>'binary'</code></td><td><code>['b'; 'i'; 'n'; 'a'; 'r'; 'y']</code></td><td><code>['b', 'i', 'n', 'a', 'r', 'y']</code></td></tr>
+</tbody></table>
+<h3><a class="header" href="#function-calls" id="function-calls">Function Calls</a></h3>
+<table><thead><tr><th>Erlang</th><th>Elixir</th><th>OCaml</th><th>Reason</th></tr></thead><tbody>
+<tr><td><code>Lambda()</code></td><td><code>lambda.()</code></td><td><code>lambda ()</code></td><td><code>lambda()</code></td></tr>
+<tr><td><code>local()</code></td><td><code>local()</code></td><td><code>local ()</code></td><td><code>local()</code></td></tr>
+<tr><td><code>mod:fn()</code></td><td><code>Mod.fn()</code></td><td><code>Mod.fn ()</code></td><td><code>Mod.fn()</code></td></tr>
+<tr><td><code>A:F()</code></td><td><code>apply(A, F, [])</code></td><td>---</td><td>---</td></tr>
+</tbody></table>
+<p>Dynamically dispatched calles are not supported in Caramel, because we can't
+know the type of the arguments they will have, or the type of the value they
+would return.</p>
+<h3><a class="header" href="#if-expressions" id="if-expressions">If expressions</a></h3>
+<p><strong>Erlang</strong>:</p>
+<pre><code class="language-erlang">if 
+  Foo -&gt; Bar;
+  _ -&gt; Baz
+end.
+</code></pre>
+<p><strong>Elixir</strong></p>
+<pre><code class="language-elixir">if(foo, do: bar, else: baz)
+
+if foo do
+  bar
+else 
+  baz
+end
+</code></pre>
+<p><strong>OCaml</strong></p>
+<pre><code class="language-ocaml">if foo then bar else baz
+</code></pre>
+<p><strong>Reason</strong></p>
+<pre><code class="language-reason">foo ? bar : baz
+</code></pre>
+<h3><a class="header" href="#match--case--switch-expression" id="match--case--switch-expression">Match / Case / Switch expression</a></h3>
+<p><strong>Erlang</strong>:</p>
+<pre><code class="language-erlang">case Foo of
+  Bar -&gt; Baz
+end.
+</code></pre>
+<p><strong>Elixir</strong></p>
+<pre><code class="language-elixir">case foo do
+  bar -&gt; baz
+end
+</code></pre>
+<p><strong>OCaml</strong></p>
+<pre><code class="language-ocaml">match foo with
+| bar -&gt; baz
+</code></pre>
+<p><strong>Reason</strong></p>
+<pre><code class="language-reason">switch foo {
+| bar =&gt; baz
+}
+</code></pre>
+<h1><a class="header" href="#calling-erlang-code" id="calling-erlang-code">Calling Erlang code</a></h1>
+<p>One of the goals of Caramel is to make it easy and free to call Erlang code in
+a type-safe way.</p>
+<p>To do this, we have a special language feature inherited from OCaml to create
+<strong>external bindings</strong>, or simply <strong>bindings</strong>, using the <code>external</code> keyword.</p>
+<p>We can define a binding with this pattern:</p>
+<pre><code class="language-ocaml">external &lt;name&gt; : &lt;type-signature&gt; = &quot;&lt;foreign name&gt;&quot;
+</code></pre>
+<p>If the <code>&quot;&lt;foreign name&gt;&quot;</code> string is empty, Caramel will fallback to using <code>&quot;&lt;name&gt;&quot;</code>.</p>
+<p>When Caramel compiles your code, it will make sure that any calls to
+<code>Module.&lt;name&gt;</code> end up as calls to <code>Module:&lt;foreign name&gt;</code>.</p>
+<blockquote>
+<p><strong>WARNING</strong>: This is a <strong>safety escape hatch</strong> and Caramel <strong>DOES NOT</strong>
+guarantee that foreign code will be safe, or will not crash your program.</p>
+</blockquote>
+<p>There are 4 possible combinations of external bindings:</p>
+<ul>
+<li>Bindings to functions with the same name</li>
+<li>Bindings to functions with differet names</li>
+<li>Bindings for functions with many input types</li>
+<li>Bindings for functions with many return types</li>
+</ul>
+<h3><a class="header" href="#bindings-to-functions-with-the-same-name" id="bindings-to-functions-with-the-same-name">Bindings to functions with the same name</a></h3>
+<p>Let's look at an example and bind the <code>erlang:is_pid/1</code> function.</p>
+<pre><code class="language-ocaml">(* file: Erlang.ml *)
+
+external is_pid : 'a -&gt; bool = &quot;&quot;
+(* We don't care what the input type is, so we can use a type variable like
+ * `'a` but we know that we will always return a boolean.
+ * 
+ * We leave the foreign name as empty, because the actual function is called
+ * exactly the same: is_pid
+ *)
+</code></pre>
+<p>Now from our Caramel code we can call it as:</p>
+<pre><code class="language-ocaml">Erlang.is_pid 1 (* &lt;-- this will be true or false *)
+</code></pre>
+<h3><a class="header" href="#bindings-to-functions-with-different-names" id="bindings-to-functions-with-different-names">Bindings to functions with different names</a></h3>
+<p>Some bindings however, have other foreign names, or have foreign names that look 
+or feel unidiomatic for Caramel. For those we can replace that string and still
+be able to call them.</p>
+<p>For example, the <code>new</code> keyword is inherited from OCaml as a reserved word, so we can't use it directly. Instead Caramel uses the <code>make</code> word as a convention for creating new values of a given type.</p>
+<p>Here we make <code>ets:new/2</code> callable as <code>Ets.make/2</code>:</p>
+<pre><code class="language-ocaml">(* file: Ets.ml *)
+
+external make : 'a -&gt; make_opt list -&gt; ('k, 'v) t = &quot;new&quot;
+</code></pre>
+<h3><a class="header" href="#bindings-for-functions-with-many-input-types" id="bindings-for-functions-with-many-input-types">Bindings for functions with many input types</a></h3>
+<p>Some functions can take many different input types, such as tuples or lists, or
+single values, and work just the same. This is thanks to the BEAM's run-time
+support for pattern matching on values of different kinds.</p>
+<p>When doing static typing, we say these functions work on Union Types.</p>
+<p>Caramel does not support Union Types, so functions like <code>ets:insert/2</code> that
+work both with a single values and a list of values can't be mapped by a single
+function type.</p>
+<p>Instead, we split them in several bindings that all map to the same foreign function:</p>
+<pre><code class="language-ocaml">(*file: Ets.ml *)
+
+external insert_one : ('k, 'v) t -&gt; 'k * 'v -&gt; unit = &quot;insert&quot;
+
+external insert_many : ('k, 'v) t -&gt; ('k * 'v) list -&gt; unit = &quot;insert&quot;
+</code></pre>
+<h3><a class="header" href="#bindings-for-functions-with-many-output-types" id="bindings-for-functions-with-many-output-types">Bindings for functions with many output types</a></h3>
+<p>Some function can return many different output types, such as tuples or lists,
+or different single values, and they expect you to handle them just the same.
+This works thanks to the BEAM's run-time support for pattern-matching on values
+of different kinds.</p>
+<p>When doing static typing, we say these functions return Union Types.</p>
+<p>Caramel does not support Union Types, so functions like this one:</p>
+<pre><code class="language-erlang">-spec f(integer()) :: none | {integer(), integer(), integer()} | binary().
+f(0) -&gt; none;
+f(1) -&gt; {1234, 5678, 9};
+f(2) -&gt; &lt;&lt;&quot;TEN!&quot;&gt;&gt;.
+</code></pre>
+<p>That can return either an atom, like <code>none</code>, or a triple of integers, or a
+binary string, can not be called <em>directly</em>.</p>
+<p>Instead we have to choose to pay a small cost for runtime typing, or to
+restrict the values coming from Erlang.</p>
+<h4><a class="header" href="#restricting-values" id="restricting-values">Restricting Values</a></h4>
+<p>If we know that the returned values from the Erlang code are <em>tagged tuples</em>,
+on any level of nesting, and we can map them to a type in Caramel, then we can
+simplify the process by declaring the type on the Caramel side and letting the
+compilation process match the structures.</p>
+<p>For example, if the function from before returned:</p>
+<pre><code class="language-erlang">-spec f(integer()) :: {atom, none}
+                    | {triple, {integer(), integer(), integer()}}
+                    | {string, binary()}.
+f(0) -&gt; none;
+f(1) -&gt; {1234, 5678, 9};
+f(2) -&gt; &lt;&lt;&quot;TEN!&quot;&gt;&gt;.
+</code></pre>
+<p>We can bind to it by writing out the type first:</p>
+<pre><code class="language-ocaml">type none = None
+type f_return =
+  | Atom of None
+  | Triple of int * int * int
+  | String of string
+
+external f : int -&gt; f_return = &quot;&quot;
+</code></pre>
+<p>Fortunately plenty of Erlang code heavily relies on tagged tuples for runtime
+pattern matching.</p>
+<p>When it doesn't, we have to do the typing at runtime ourselves.</p>
+<h4><a class="header" href="#runtime-typing" id="runtime-typing">Runtime Typing</a></h4>
+<p>Paying a small cost means that we have to add some runtime inspection of values
+to decide what types they actually have. This is not a big deal because it is
+something we do in Erlang all the time anyways, but it certainly means that
+calling these Erlang functions is not a <em>zero cost</em> operation.</p>
+<p>For example, we can use the functions in the <code>Erlang</code> module to check if the
+return value is of some type:</p>
+<pre><code class="language-ocaml">type unknown
+external __unsafe_f : int -&gt; unknown = &quot;f&quot;
+
+type f_values = 
+  | Binary of string
+  | Atom of string
+  | Triple of (int * int * int)
+
+let f : int -&gt; f_values =
+ fun i -&gt;
+  let x = __unsafe_f i in
+  if Erlang.is_binary x then Binary (unsafe_cast x)
+  else if Erlang.is_atom x then Atom (unsafe_cast x)
+  else if Erlang.is_tuple x 3 then Triple (unsafe_cast x)
+  else panic
+</code></pre>
+<p>At this point, we could add a lot more validation logic to our <code>f</code> function to
+try to make 100% sure that the value we have is of the type we expect.</p>
+<p>This process can be error prone, and certainly relies on the Erlang code never 
+returning any value that we didn't account for.</p>
+<p>It is worth noting that this can also be done <em>on the Erlang side</em>, perhaps
+even more idiomatically, by tagging the values:</p>
+<pre><code class="language-erlang">tagged_f(X) -&gt;
+  case f(X) of
+    none -&gt; {atom, none};
+    {_, _, _} -&gt; {triple, X};
+    Y when is_binary(Y) -&gt; {string, Y}
+  end.
+</code></pre>
+<p>After this we can use the <a href="guides/erlang-ffi.html#restricting-values">Restricting Values</a> approach.</p>
+<h1><a class="header" href="#hello-joe" id="hello-joe">Hello, Joe!</a></h1>
+<p>The BEAM community has had a tradition of writing Hello World programs where we
+say Hello to <a href="https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer)">Joe
+Armstrong</a>, one of
+the creators or <a href="https://erlang.org">Erlang</a>.</p>
+<p>We can do this by creating a new file, called <code>hello_joe.ml</code> with the following
+contents:</p>
+<pre><code class="language-ocaml">let hello () = Io.format &quot;~p&quot; [&quot;Hello, Joe!&quot;]
+</code></pre>
+<p>Now we can compile this by calling <code>caramel compile hello_joe.ml</code>:</p>
+<pre><code class="language-bash">$ ls
+hello_joe.ml
+$ caramel compile hello_joe.ml
+$ ls
+hello_joe.ml  hello_joe.erl
+</code></pre>
+<p>Our new compiled file, <code>hello_joe.erl</code> should looks like this:</p>
+<pre><code class="language-erlang">% Source code Generated by Caramel
+-module(hello_joe).
+
+-export([hello/0]).
+
+hello() -&gt; io:format(&lt;&lt;&quot;~p&quot;&gt;&gt;, [&lt;&lt;&quot;Hello, Joe!&quot;&gt;&gt;]).
+</code></pre>
+<p>Now we can compile and run this Erlang code </p>
+<h1><a class="header" href="#simple-http-echo-server" id="simple-http-echo-server">Simple HTTP Echo Server</a></h1>
+<pre><code class="language-ocaml">(* file: http_echo.ml *)
+
+let handle conn =
+  Gen_tcp.send conn &quot;hello world&quot;;
+  Gen_tcp.close conn
+
+(* this function will actually spawn new processes per connection, so we
+   can easily handle millions of concurrent connections *)
+let rec loop socket =
+  let Ok conn = Gen_tcp.accept socket in
+  let handler = Process.make (fun _self _recv -&gt; handle conn ) in
+  Gen_tcp.controlling_process conn handler;
+  loop socket
+
+let start port = Process.make (fun _self _recv -&gt;
+  let Ok socket = Gen_tcp.listen port [Active false; Packet Http] in
+  loop socket)
+</code></pre>
+<h1><a class="header" href="#reference" id="reference">Reference</a></h1>
+<h1><a class="header" href="#caramel" id="caramel">caramel</a></h1>
+<pre><code>NAME
+       caramel - Caramel compiler
+
+SYNOPSIS
+       caramel COMMAND ...
+
+DESCRIPTION
+       Caramel is a functional language for building type-safe, scalable, and
+       maintainable applications.
+
+COMMANDS
+       compile
+           Compile Caramel code to run on the Erlang VM.
+
+       fmt Format Caramel code.
+
+       parse
+           (UNSTABLE) Helper command to parse sources and dump ASTs
+
+       sort-deps
+           Sort OCaml files by their dependencies on each other.
+
+       version
+           Show version information.
+
+OPTIONS
+       --help[=FMT] (default=auto)
+           Show this help in format FMT. The value FMT must be one of `auto',
+           `pager', `groff' or `plain'. With `auto', the format is `pager` or
+           `plain' whenever the TERM env var is `dumb' or undefined.
+
+       --version
+           Show version information.
+
+SEE ALSO
+       ocaml(1) erlang
+
+AUTHORS
+       Leandro Ostera.
+
+LICENSE
+       Copyright (C) 2020-present, Abstract Machines Lab Sweden AB
+
+       Caramel is licensed under Apache License 2.0
+</code></pre>
+<h1><a class="header" href="#caramel-compile" id="caramel-compile">caramel compile</a></h1>
+<pre><code>NAME
+       caramel-compile - Compile Caramel code to run on the Erlang VM.
+
+SYNOPSIS
+       caramel compile [OPTION]... SOURCES...
+
+DESCRIPTION
+        The Caramel takes as input OCaml sources and compiles them to Erlang
+       code. 
+
+ARGUMENTS
+       SOURCES (required)
+           A list of source files to compile
+
+OPTIONS
+       -d, --dump-ast
+           Use this flag to print out to standard output the ASTs of the
+           different representations being used during compilation. This is
+           NOT suitable for programmatic usage, and its mostly used for
+           debugging the compiler itself.
+
+       --help[=FMT] (default=auto)
+           Show this help in format FMT. The value FMT must be one of `auto',
+           `pager', `groff' or `plain'. With `auto', the format is `pager` or
+           `plain' whenever the TERM env var is `dumb' or undefined.
+
+       --no-stdlib
+           Use this flag to compile sources without opening the Standard
+           Library by default.
+
+       --stdlib-path=VAL (absent=/home/ostera/.opam/4.11.1/lib/caramel/stdlib
+       or CARAMEL_STDLIB_PATH env)
+
+       --version
+           Show version information.
+
+ENVIRONMENT
+       These environment variables affect the execution of compile:
+
+       CARAMEL_STDLIB_PATH
+           See option --stdlib-path.
+
+SEE ALSO
+       ocaml(1) erlang
+
+AUTHORS
+       Leandro Ostera.
+
+LICENSE
+       Copyright (C) 2020-present, Abstract Machines Lab Sweden AB
+
+       Caramel is licensed under Apache License 2.0
+</code></pre>
+<h1><a class="header" href="#caramel-fmt" id="caramel-fmt">caramel fmt</a></h1>
+<pre><code>NAME
+       caramel-fmt - Format Caramel code.
+
+SYNOPSIS
+       caramel fmt [OPTION]... SOURCES...
+
+DESCRIPTION
+        Reformats Caramel source code. 
+
+ARGUMENTS
+       SOURCES (required)
+           A list of source files to format
+
+OPTIONS
+       --help[=FMT] (default=auto)
+           Show this help in format FMT. The value FMT must be one of `auto',
+           `pager', `groff' or `plain'. With `auto', the format is `pager` or
+           `plain' whenever the TERM env var is `dumb' or undefined.
+
+       --version
+           Show version information.
+
+SEE ALSO
+       ocaml(1) erlang
+
+AUTHORS
+       Leandro Ostera.
+
+LICENSE
+       Copyright (C) 2020-present, Abstract Machines Lab Sweden AB
+
+       Caramel is licensed under Apache License 2.0
+</code></pre>
+<h1><a class="header" href="#caramel-sort-deps" id="caramel-sort-deps">caramel sort-deps</a></h1>
+<pre><code>NAME
+       caramel-sort-deps - Sort OCaml files by their dependencies on each
+       other.
+
+SYNOPSIS
+       caramel sort-deps [OPTION]... SOURCES...
+
+DESCRIPTION
+       
+
+OPTIONS
+       --help[=FMT] (default=auto)
+           Show this help in format FMT. The value FMT must be one of `auto',
+           `pager', `groff' or `plain'. With `auto', the format is `pager` or
+           `plain' whenever the TERM env var is `dumb' or undefined.
+
+       --version
+           Show version information.
+
+SEE ALSO
+       ocaml(1) erlang
+
+AUTHORS
+       Leandro Ostera.
+
+LICENSE
+       Copyright (C) 2020-present, Abstract Machines Lab Sweden AB
+
+       Caramel is licensed under Apache License 2.0
+</code></pre>
+<h1><a class="header" href="#caramel-version" id="caramel-version">caramel version</a></h1>
+<pre><code>NAME
+       caramel-version - Show version information.
+
+SYNOPSIS
+       caramel version [OPTION]... 
+
+DESCRIPTION
+        
+
+OPTIONS
+       --help[=FMT] (default=auto)
+           Show this help in format FMT. The value FMT must be one of `auto',
+           `pager', `groff' or `plain'. With `auto', the format is `pager` or
+           `plain' whenever the TERM env var is `dumb' or undefined.
+
+       --version
+           Show version information.
+
+SEE ALSO
+       ocaml(1) erlang
+
+AUTHORS
+       Leandro Ostera.
+
+LICENSE
+       Copyright (C) 2020-present, Abstract Machines Lab Sweden AB
+
+       Caramel is licensed under Apache License 2.0
+</code></pre>
+<h1><a class="header" href="#contributing-to-the-manual" id="contributing-to-the-manual">Contributing to the Manual</a></h1>
+<p>Thanks for contributing to the 📙 Caramel Manual!</p>
+<p>We'd love this manual to be useful, inclusive, and friendly, so make sure your
+tone matches this.</p>
+<p>The manual sources live in <code>&lt;root&gt;/manual/src</code>, and it is written in Markdown. 
+It is published automatically once a PR is merged, so you don't have to worry about that.</p>
+<p><strong>Topics</strong> </p>
+<ul>
+<li><a href="contrib/manual.html#manual-structure">Manual Structure</a></li>
+<li><a href="contrib/manual.html#editing-existing-pages">Editing Existing Pages</a></li>
+<li><a href="contrib/manual.html#adding-new-pages">Adding New Pages</a></li>
+<li><a href="contrib/manual.html#previewing-your-changes-locally">Previewing Your Changes Locally</a></li>
+</ul>
+<h2><a class="header" href="#manual-structure" id="manual-structure">Manual Structure</a></h2>
+<p>The structure of the manual is reflected in the <code>SUMMARY.md</code> file, so that the
+links that go under the same heading are within the same folder.</p>
+<p>Here you can see that everything under the &quot;Getting Started&quot; section is under
+the <code>./getting_started</code> folder.</p>
+<pre><code class="language-markdown"># Summary
+
+- [Introduction](./introduction.md)
+- [Getting Started](./getting-started/index.md)
+  - [Installation](./getting-started/installation.md)
+  - [First Steps](./getting-started/first-steps.md)
+- [CHANGELOG]()
+  - [v0.1.1](./changelog/v0.1.1.md)
+  - [v0.1.0](./changelog/v0.1.0.md)
+  - [v0.0.14 and older](./changelog/v0.0.14.md)
+
+--------------------------------------------------------------------------------
+
+- [Guides]()
+  - [Syntax Cheatsheet](./guides/syntax-cheatsheet.md)
+  - [Using Caramel with Rebar3]()
+  - [Using Caramel with Mix]()
+  - [Calling Erlang code](./guides/erlang-ffi.md)
+  - [Calling Elixir code]()
+- [Examples]()
+  - [Hello, Joe!](./examples/hello-joe.md)
+  - [Simple HTTP Echo Server](./examples/simple-http-echo-server.md)
+
+--------------------------------------------------------------------------------
+
+- [Reference](./reference/index.md)
+  - [Caramel CLI](./reference/cli/default.md)
+    - [`caramel compile`](./reference/cli/compile.md)
+    - [`caramel fmt`](./reference/cli/fmt.md)
+    - [`caramel sort-deps`](./reference/cli/sort-deps.md)
+    - [`caramel version`](./reference/cli/version.md)
+  - [Language Features]()
+  - [Standard Library]()
+    - [`Binary`]()
+    - [`Calendar`]()
+    - [`Erlang`]()
+    - [`Ets`]()
+    - [`Io`]()
+    - [`Lists`]()
+    - [`Maps`]()
+    - [`Process`]()
+    - [`Timer`]()
+  - [Typed OTP]()
+
+--------------------------------------------------------------------------------
+
+- [Contributing]()
+  - [Contributing to the Manual](./contrib/manual.md)
+  - [Building from Source](./contrib/building.md)
+  - [Architecture](./contrib/architecture.md)
+</code></pre>
+<h2><a class="header" href="#editing-existing-pages" id="editing-existing-pages">Editing Existing Pages</a></h2>
+<p>If you find a typo in some page, you can look into the <code>SUMMARY.md</code> to see which
+markdown file to modify.</p>
+<p>You can edit the markdown files with any editor you choose, and submit a Pull
+Request.</p>
+<p>Try to stick to 80 characters per line or less.</p>
+<h2><a class="header" href="#adding-new-pages" id="adding-new-pages">Adding New Pages</a></h2>
+<p>Start the server (see <a href="contrib/manual.html#previewing-your-changes">Previewing Your Changes</a>) and
+add a new page in <code>SUMMARY.md</code>.</p>
+<p>Once you save it, the server will have created the right folders and files for
+you.</p>
+<p>Now you can edit the new empty Markdown files as if they were pre-existing
+pages.</p>
+<p><strong>If you want help writing a section</strong>, please draft your ideas and open a
+Draft Pull Request so we can work on it together.</p>
+<h2><a class="header" href="#previewing-your-changes-locally" id="previewing-your-changes-locally">Previewing Your Changes Locally</a></h2>
+<p>If you want to work on the manual locally, you will need to install
+<a href="https://rust-lang.github.io/mdBook/">mdbook</a>.</p>
+<p><code>mdbook</code> comes with a built in server with hot-reloading. This lets you see the
+results automatically in the browser.</p>
+<p>Start the server with <code>mdbook serve</code> and open the URL it lists. If your port
+3000 is already taken, you can call <code>mdbook serve -p PORT</code> to use a different
+one.</p>
+<h1><a class="header" href="#building-from-source" id="building-from-source">Building from Source</a></h1>
+<p>Caramel is built with OCaml, so it needs a working opam installation.</p>
+<p>Additionally, we use <code>make</code>, since it makes our CI steps pretty minimal.</p>
+<h3><a class="header" href="#getting-started-1" id="getting-started-1">Getting Started</a></h3>
+<p>The next scripts show how to set up Caramel and create a release:</p>
+<pre><code class="language-zsh"># install ocaml first
+sh &lt;(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)
+
+# clone the repository
+git clone git@github.com:AbstractMachinesLab/caramel.git
+cd caramel
+
+# install all required dependencies
+make setup
+
+# compile projects and runs the tests
+make test
+
+# installs project from sources
+make install
+</code></pre>
+<h3><a class="header" href="#common-tasks" id="common-tasks">Common Tasks</a></h3>
+<p>To bootstrap the repository, you can run <code>make setup build</code>.</p>
+<p>To compile the manual, you can run <code>make manual</code>.</p>
+<p>To run all the tests, you can run <code>make test</code>.</p>
+<p>To install the local version, you can run <code>make install</code>.</p>
+<p>To format all the code, you can run <code>make fmt</code>.</p>
+<p>To create a release of Caramel, you can run <code>make release</code>, or <code>make release.win</code> on
+Windows.</p>
+<h1><a class="header" href="#architecture" id="architecture">Architecture</a></h1>
+<h2><a class="header" href="#compiler" id="compiler">Compiler</a></h2>
+<p>The Caramel compiler is composed of 2 main components: a Frontend and a Backend.</p>
+<h3><a class="header" href="#frontend-parsing-and-type-checking" id="frontend-parsing-and-type-checking">Frontend: Parsing and Type Checking</a></h3>
+<p>The <strong>Frontend</strong> takes care parsing the OCaml sources and doing the
+type-checking. You can find the entrypoint for the frontend here: <a href="https://github.com/AbstractMachinesLab/caramel/tree/main/caramel/compiler/compiler.ml">./caramel/compiler/compiler.ml</a>.</p>
+<p>For the most part, the frontend takes care of picking the right modules to
+parse the sources into the OCaml Parsetree, and it reuses most of the OCaml
+compiler frontend to type-check the Parsetree into a Typedtree.</p>
+<p>Once we have a Typedtree, we know for certain that the sources are well-typed,
+and we can hand it over to the backend.</p>
+<h3><a class="header" href="#backend-code-generation" id="backend-code-generation">Backend: Code Generation</a></h3>
+<p>The <strong>Backend</strong> takes care of generating the Erlang sources.</p>
+<p>It has for input a Typedtree that is then translated into an Erlang AST, to be
+pretty-printed into <code>.erl</code> sources.</p>
+<p>The bulk of this translation happens in the
+<a href="https://github.com/AbstractMachinesLab/caramel/tree/main/caramel/compiler/ocaml_to_erlang">./caramel/compiler/ocaml_to_erlang/</a>
+modules.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
+        
+
+    </body>
+</html>

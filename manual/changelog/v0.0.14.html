@@ -1,0 +1,529 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js ayu">
+    <head>
+        
+        <!-- Google Analytics Tag -->
+        <script type="text/javascript">
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-HVSX9MBNEJ', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+        
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>v0.0.14 and older - Caramel Manual</title>
+        
+        
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://caramel.run">
+        <meta property="og:title" content="v0.0.14 and older - Caramel Manual">
+        <meta property="og:description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta property="og:image" content="https://caramel.run/assets/logo.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://caramel.run">
+        <meta property="twitter:title" content="v0.0.14 and older - Caramel Manual">
+        <meta property="twitter:description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta property="twitter:image" content="https://caramel.run/assets/logo.png">
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+              <h2 style="margin-top: 1rem;">
+                <img width="32px" src="/assets/isotype.png" alt="Caramel Logo"> </img> Caramel Manual
+              </h2>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started/index.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../getting-started/first-steps.html"><strong aria-hidden="true">2.2.</strong> First Steps</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> CHANGELOG</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../changelog/v0.1.1.html"><strong aria-hidden="true">3.1.</strong> v0.1.1</a></li><li class="chapter-item expanded "><a href="../changelog/v0.1.0.html"><strong aria-hidden="true">3.2.</strong> v0.1.0</a></li><li class="chapter-item expanded "><a href="../changelog/v0.0.14.html" class="active"><strong aria-hidden="true">3.3.</strong> v0.0.14 and older</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Guides</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../guides/syntax-cheatsheet.html"><strong aria-hidden="true">4.1.</strong> Syntax Cheatsheet</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Using Caramel with Rebar3</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Using Caramel with Mix</div></li><li class="chapter-item expanded "><a href="../guides/erlang-ffi.html"><strong aria-hidden="true">4.4.</strong> Calling Erlang code</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.5.</strong> Calling Elixir code</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Examples</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../examples/hello-joe.html"><strong aria-hidden="true">5.1.</strong> Hello, Joe!</a></li><li class="chapter-item expanded "><a href="../examples/simple-http-echo-server.html"><strong aria-hidden="true">5.2.</strong> Simple HTTP Echo Server</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">6.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/cli/default.html"><strong aria-hidden="true">6.1.</strong> Caramel CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/cli/compile.html"><strong aria-hidden="true">6.1.1.</strong> caramel compile</a></li><li class="chapter-item expanded "><a href="../reference/cli/fmt.html"><strong aria-hidden="true">6.1.2.</strong> caramel fmt</a></li><li class="chapter-item expanded "><a href="../reference/cli/sort-deps.html"><strong aria-hidden="true">6.1.3.</strong> caramel sort-deps</a></li><li class="chapter-item expanded "><a href="../reference/cli/version.html"><strong aria-hidden="true">6.1.4.</strong> caramel version</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.2.</strong> Language Features</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.</strong> Standard Library</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.1.</strong> Binary</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.2.</strong> Calendar</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.3.</strong> Erlang</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.4.</strong> Ets</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.5.</strong> Io</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.6.</strong> Lists</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.7.</strong> Maps</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.8.</strong> Process</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.9.</strong> Timer</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.4.</strong> Typed OTP</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributing</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../contrib/manual.html"><strong aria-hidden="true">7.1.</strong> Contributing to the Manual</a></li><li class="chapter-item expanded "><a href="../contrib/building.html"><strong aria-hidden="true">7.2.</strong> Building from Source</a></li><li class="chapter-item expanded "><a href="../contrib/architecture.html"><strong aria-hidden="true">7.3.</strong> Architecture</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h2 class="menu-title">
+                      <img width="32px" src="/assets/isotype.png" alt="Caramel Logo"> </img> Caramel
+                    </h2>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/AbstractMachinesLab/caramel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+
+                    <main>
+                        <blockquote>
+<p><strong>NOTE</strong>: This manual is a work in progress. Please let us know if you think
+something is missing by <a href="https://github.com/AbstractMachinesLab/caramel/issues/new">filing an
+issue</a>, or join our <a href="http://discord.caramel.run">Discord server.</a></p>
+</blockquote>
+
+                        <h1><a class="header" href="#v0014-website-split-erlang-library-proper-exit-codes-and-better-runtime-support" id="v0014-website-split-erlang-library-proper-exit-codes-and-better-runtime-support">v0.0.14: Website, split Erlang library, proper exit codes, and better runtime support</a></h1>
+<ul>
+<li>
+<p>erlang: the Erlang library included, with a lexer/parser/AST/printer
+for Standard Erlang, is now completely split from the Caramel code and
+will be published to opam shortly.</p>
+</li>
+<li>
+<p>caramelc: will return exit code 0 if everything went well. Otherwise
+expect a non-zero status!</p>
+</li>
+<li>
+<p>stdlib: remove dependency on the Erlang AST printer for parts of the
+runtime (like the <code>recv</code> function), and instead include the relevant
+<code>.erl</code> sources as part of the packed stdlib.</p>
+</li>
+<li>
+<p>docs: better contribution notes, documenting the release flow and
+saying a word about the rationale behind it. I've also put together a
+small website for Caramel here: https://caramel.abstractmachines.dev</p>
+</li>
+<li>
+<p>examples: the echo tcp server has been refactored to make it harder to
+accidentally override the <code>gen_tcp</code> module that is shipped with Erlang.
+We'll have to figure out a nice way to prevent these things from
+happening, which may just mean using all the modules on the Stdlib to
+avoid redefinition.</p>
+</li>
+<li>
+<p>ci: several changes to CI to ensure we can release the <code>erlang</code>
+library to opam.</p>
+</li>
+</ul>
+<h2><a class="header" href="#v0013" id="v0013">v0.0.13</a></h2>
+<ul>
+<li>
+<p>erlang: prepare erlang library for initial release to opam.</p>
+</li>
+<li>
+<p>erlang: add a new <code>erldump</code> binary that can be used to dump the parsed ast.
+This is currently being used for the tests.</p>
+</li>
+<li>
+<p>caramelc: binary now exits with status code 0 only if everything went well.</p>
+</li>
+<li>
+<p>ci: include necessary erlang artifacts in releases so we can publish this
+library to opam.</p>
+</li>
+<li>
+<p>ci: prefix cache names with the secret version so breaking them is more
+effective.</p>
+</li>
+<li>
+<p>examples: add new <code>gen_tcp</code> example.</p>
+</li>
+<li>
+<p>docs: publish small website at <code>caramel.abstractmachines.dev</code></p>
+</li>
+</ul>
+<h2><a class="header" href="#v0012" id="v0012">v0.0.12</a></h2>
+<ul>
+<li>compiler: match expressions with cascading cases are not that
+straighforward to translate to Erlang and my gut tells me that doing the
+juggling here will get in the way of type-checking Erlang in the
+upcoming milestone, so this is forbidden as it is right now.</li>
+</ul>
+<h2><a class="header" href="#v0011" id="v0011">v0.0.11</a></h2>
+<ul>
+<li>
+<p>compiler: preliminary support for guards is added in this release.
+They are &quot;safe&quot; as long as you don't redefine any of the expected
+functions. There is no good way at the moment to prevent this from
+happening, but we could achieve it by essentially forbidding the use
+of the module name <code>Erlang</code> and requiring all guards to be fully
+qualified names.</p>
+<p>This still leaves us with the issue of compounded guard expressions.</p>
+<p>At the end of the day, we want a function <code>is_valid_guard : expression -&gt; bool</code>
+that can traverse an arbitrary expression and tell us if it
+is or is not a valid guard based on the specification found at <a href="https://erlang.org/doc/reference_manual/expressions.html#guard-expressions">the
+Erlang docs</a>.</p>
+</li>
+<li>
+<p>caramelc: the <code>parse</code> subcommand now can take a <code>--lang</code> and <code>--tree</code>
+parameters to print out the parse and typed trees for OCaml, as well
+as the parse tree of Erlang, and the parse tree of the result of
+compiling OCaml to Erlang.</p>
+<p>This is particularly useful for testing and understanding the AST
+translation, and will likely be used later on to see if the compile -&gt;
+typecheck -&gt; compile cycle yields the same inputs, and thus is an
+isomorphism.</p>
+</li>
+</ul>
+<h2><a class="header" href="#v0010" id="v0010">v0.0.10</a></h2>
+<ul>
+<li>Add support for record updates (see #23):</li>
+</ul>
+<pre><code class="language-ocaml">{ my_record with field = value }
+</code></pre>
+<pre><code class="language-erlang">My_record#{ field := value }
+</code></pre>
+<ul>
+<li>Add tests showing that lambda function calls are now working as expected and
+will be called with the right number of parameters:</li>
+</ul>
+<pre><code class="language-ocaml">let f () =
+  let g () = 1 in
+  g ()
+</code></pre>
+<pre><code class="language-erlang">f() -&gt;
+  G = fun () -&gt; 1 end,
+  G().
+</code></pre>
+<h2><a class="header" href="#v009" id="v009">v0.0.9</a></h2>
+<ul>
+<li>
+<p>compiler(#12): the compiler will now let you know when you're
+redefining a function on the OCaml side, which is not allowed on the
+Erlang side and stop compilation.</p>
+</li>
+<li>
+<p>compiler(#16): shadowing bindings with let are (for) now unsupported
+on the OCaml side, which makes translation runtime safe. We won't see
+any more <code>X = X + 1</code> on the Erlang side.</p>
+</li>
+<li>
+<p>compiler(#15): to help with #16, priming of variables is now supported
+and translated to valid Erlang. We can write <code>x' = x + 1</code> and it will
+translate to <code>X_prime = X + 1</code>.</p>
+</li>
+<li>
+<p>compiler(#13): recursive let bindings within a function definition are
+now not supported since they don't have a direct Erlang equivalent and
+require runtime overhead.</p>
+</li>
+<li>
+<p>error messages have been created for all of the above</p>
+</li>
+</ul>
+<h2><a class="header" href="#v008" id="v008">v0.0.8</a></h2>
+<ul>
+<li>stdlib: fix name of Io module so Merlin can pick it up properly.</li>
+</ul>
+<h2><a class="header" href="#v007" id="v007">v0.0.7</a></h2>
+<p>Better releases</p>
+<ul>
+<li>
+<p>compiler: automatic function reference arities! As see in #10</p>
+</li>
+<li>
+<p>compiler: We're ignoring all fresh type variables when translating to Dialyzer
+specs for now. More work will be done in #20</p>
+</li>
+<li>
+<p>caramelc: <code>caramelc compile</code> now supports multiple <code>--target</code> flags,
+so you can compile both archives and Erlang sources at once.</p>
+</li>
+<li>
+<p>caramelc: standard library will now by default be in the respective
+installation directory (respecting dune install conventions)</p>
+</li>
+<li>
+<p>stdlib: <code>Process.spawn/1</code> has been renamed to <code>Process.make/1</code> until
+we have support for module attributes (see #21)</p>
+</li>
+<li>
+<p>stdlib: Dropped top-level namespacing until we figure out how it can
+work best with .merlin</p>
+</li>
+<li>
+<p>ci: several changes to release flow, including a nicer folder
+structure in the tarball</p>
+</li>
+<li>
+<p>ci: entire codebase is instrumentabled by bisect_ppx now to start
+gathering coverage reports</p>
+</li>
+<li>
+<p>erlang: removed an unused helper</p>
+</li>
+</ul>
+<h2><a class="header" href="#v006" id="v006">v0.0.6</a></h2>
+<ul>
+<li>
+<p>Lots of work on the Stdlib, as visible in
+<a href="https://github.com/AbstractMachinesLab/caramel/issues/8">issue #8</a>.</p>
+</li>
+<li>
+<p>External definitions now can override the name they will use in the
+generated source code with their string value</p>
+</li>
+<li>
+<p>Parser supports arbitrarily parenthesized expressions</p>
+</li>
+</ul>
+<hr />
+<p>The idea for this pre-release is to start testing out how the Stdlib
+feels to write some small programs and scan 1) whether some obvious FFIs
+are missing, and 2) how straightforward it is to write new ones.</p>
+<h2><a class="header" href="#v005" id="v005">v0.0.5</a></h2>
+<p>The internal modules for the compiler and the typing experiments are
+split now, and the Erlang support is unified in a single library that
+only depends on the standard library and the Sexplib library for
+deriving Sexp representations.</p>
+<p>The goals here are:</p>
+<ul>
+<li>
+<p>make the codebase easier to hack on in general -- there's still work
+to do here, as I think the ideal structure would be flatter than it is
+right now.</p>
+</li>
+<li>
+<p>prepare the Erlang library for continued work -- extending the lexer
+with positioning information on every read token will help parametrize
+the AST with contextual information. This would aid in error
+reporting.</p>
+</li>
+<li>
+<p>establish clearer compilation and type checking paths:</p>
+<ul>
+<li>from OCaml to Erlang,</li>
+<li>from OCaml Lambda to Core Erlang,</li>
+<li>from Erlang to Native binaries.</li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#v004-triples" id="v004-triples">v0.0.4-triples</a></h2>
+<p>dist: use valid gcc host triples in release names</p>
+<h2><a class="header" href="#v004" id="v004">v0.0.4</a></h2>
+<p>First release shipping with a tiny Stdlib!</p>
+<p>Now you don't really need OCaml installed for Caramel to be able to compile
+some ML and typecheck some Erlang</p>
+<h2><a class="header" href="#v003-musl" id="v003-musl">v0.0.3-musl</a></h2>
+<p>New release naming and a new linux+musl binary</p>
+<h2><a class="header" href="#v003" id="v003">v0.0.3</a></h2>
+<ul>
+<li>compilation should have much nicer errors when dealing with unsupported
+features and expression at the value and type level</li>
+<li>new command for type-checking erlang: <code>caramelc check</code></li>
+<li><code>--target</code> flag is now available, and supports <code>core</code>, <code>erl</code> and <code>native</code>
+targets</li>
+<li><code>--dump-ast</code> flag is now documented and hooked up to core erlang backend</li>
+<li>string concatenation should support arbitrarily complex expressions now</li>
+<li>license was updated in binary file to point to BSD 3-clause too</li>
+</ul>
+<h2><a class="header" href="#v002-bin" id="v002-bin">v0.0.2-bin</a></h2>
+<p>First release with <code>caramelc</code> binaries.</p>
+<h2><a class="header" href="#v002" id="v002">v0.0.2</a></h2>
+<p>First release.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../changelog/v0.1.0.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../guides/syntax-cheatsheet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../changelog/v0.1.0.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../guides/syntax-cheatsheet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

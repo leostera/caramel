@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js ayu">
+    <head>
+        
+        <!-- Google Analytics Tag -->
+        <script type="text/javascript">
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-HVSX9MBNEJ', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+        
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Calling Erlang code - Caramel Manual</title>
+        
+        
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://caramel.run">
+        <meta property="og:title" content="Calling Erlang code - Caramel Manual">
+        <meta property="og:description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta property="og:image" content="https://caramel.run/assets/logo.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://caramel.run">
+        <meta property="twitter:title" content="Calling Erlang code - Caramel Manual">
+        <meta property="twitter:description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta property="twitter:image" content="https://caramel.run/assets/logo.png">
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Caramel is a functional language for building type-safe, scalable, and maintainable applications. Read the manual to get started, learn how to call existing Erlang/Elixir code, learn how to contribute, or just to have a reference of the standard library.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+              <h2 style="margin-top: 1rem;">
+                <img width="32px" src="/assets/isotype.png" alt="Caramel Logo"> </img> Caramel Manual
+              </h2>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started/index.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../getting-started/first-steps.html"><strong aria-hidden="true">2.2.</strong> First Steps</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> CHANGELOG</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../changelog/v0.1.1.html"><strong aria-hidden="true">3.1.</strong> v0.1.1</a></li><li class="chapter-item expanded "><a href="../changelog/v0.1.0.html"><strong aria-hidden="true">3.2.</strong> v0.1.0</a></li><li class="chapter-item expanded "><a href="../changelog/v0.0.14.html"><strong aria-hidden="true">3.3.</strong> v0.0.14 and older</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Guides</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../guides/syntax-cheatsheet.html"><strong aria-hidden="true">4.1.</strong> Syntax Cheatsheet</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Using Caramel with Rebar3</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Using Caramel with Mix</div></li><li class="chapter-item expanded "><a href="../guides/erlang-ffi.html" class="active"><strong aria-hidden="true">4.4.</strong> Calling Erlang code</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.5.</strong> Calling Elixir code</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Examples</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../examples/hello-joe.html"><strong aria-hidden="true">5.1.</strong> Hello, Joe!</a></li><li class="chapter-item expanded "><a href="../examples/simple-http-echo-server.html"><strong aria-hidden="true">5.2.</strong> Simple HTTP Echo Server</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">6.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/cli/default.html"><strong aria-hidden="true">6.1.</strong> Caramel CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/cli/compile.html"><strong aria-hidden="true">6.1.1.</strong> caramel compile</a></li><li class="chapter-item expanded "><a href="../reference/cli/fmt.html"><strong aria-hidden="true">6.1.2.</strong> caramel fmt</a></li><li class="chapter-item expanded "><a href="../reference/cli/sort-deps.html"><strong aria-hidden="true">6.1.3.</strong> caramel sort-deps</a></li><li class="chapter-item expanded "><a href="../reference/cli/version.html"><strong aria-hidden="true">6.1.4.</strong> caramel version</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.2.</strong> Language Features</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.</strong> Standard Library</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.1.</strong> Binary</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.2.</strong> Calendar</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.3.</strong> Erlang</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.4.</strong> Ets</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.5.</strong> Io</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.6.</strong> Lists</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.7.</strong> Maps</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.8.</strong> Process</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.9.</strong> Timer</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.4.</strong> Typed OTP</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributing</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../contrib/manual.html"><strong aria-hidden="true">7.1.</strong> Contributing to the Manual</a></li><li class="chapter-item expanded "><a href="../contrib/building.html"><strong aria-hidden="true">7.2.</strong> Building from Source</a></li><li class="chapter-item expanded "><a href="../contrib/architecture.html"><strong aria-hidden="true">7.3.</strong> Architecture</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h2 class="menu-title">
+                      <img width="32px" src="/assets/isotype.png" alt="Caramel Logo"> </img> Caramel
+                    </h2>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/AbstractMachinesLab/caramel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+
+                    <main>
+                        <blockquote>
+<p><strong>NOTE</strong>: This manual is a work in progress. Please let us know if you think
+something is missing by <a href="https://github.com/AbstractMachinesLab/caramel/issues/new">filing an
+issue</a>, or join our <a href="http://discord.caramel.run">Discord server.</a></p>
+</blockquote>
+
+                        <h1><a class="header" href="#calling-erlang-code" id="calling-erlang-code">Calling Erlang code</a></h1>
+<p>One of the goals of Caramel is to make it easy and free to call Erlang code in
+a type-safe way.</p>
+<p>To do this, we have a special language feature inherited from OCaml to create
+<strong>external bindings</strong>, or simply <strong>bindings</strong>, using the <code>external</code> keyword.</p>
+<p>We can define a binding with this pattern:</p>
+<pre><code class="language-ocaml">external &lt;name&gt; : &lt;type-signature&gt; = &quot;&lt;foreign name&gt;&quot;
+</code></pre>
+<p>If the <code>&quot;&lt;foreign name&gt;&quot;</code> string is empty, Caramel will fallback to using <code>&quot;&lt;name&gt;&quot;</code>.</p>
+<p>When Caramel compiles your code, it will make sure that any calls to
+<code>Module.&lt;name&gt;</code> end up as calls to <code>Module:&lt;foreign name&gt;</code>.</p>
+<blockquote>
+<p><strong>WARNING</strong>: This is a <strong>safety escape hatch</strong> and Caramel <strong>DOES NOT</strong>
+guarantee that foreign code will be safe, or will not crash your program.</p>
+</blockquote>
+<p>There are 4 possible combinations of external bindings:</p>
+<ul>
+<li>Bindings to functions with the same name</li>
+<li>Bindings to functions with differet names</li>
+<li>Bindings for functions with many input types</li>
+<li>Bindings for functions with many return types</li>
+</ul>
+<h3><a class="header" href="#bindings-to-functions-with-the-same-name" id="bindings-to-functions-with-the-same-name">Bindings to functions with the same name</a></h3>
+<p>Let's look at an example and bind the <code>erlang:is_pid/1</code> function.</p>
+<pre><code class="language-ocaml">(* file: Erlang.ml *)
+
+external is_pid : 'a -&gt; bool = &quot;&quot;
+(* We don't care what the input type is, so we can use a type variable like
+ * `'a` but we know that we will always return a boolean.
+ * 
+ * We leave the foreign name as empty, because the actual function is called
+ * exactly the same: is_pid
+ *)
+</code></pre>
+<p>Now from our Caramel code we can call it as:</p>
+<pre><code class="language-ocaml">Erlang.is_pid 1 (* &lt;-- this will be true or false *)
+</code></pre>
+<h3><a class="header" href="#bindings-to-functions-with-different-names" id="bindings-to-functions-with-different-names">Bindings to functions with different names</a></h3>
+<p>Some bindings however, have other foreign names, or have foreign names that look 
+or feel unidiomatic for Caramel. For those we can replace that string and still
+be able to call them.</p>
+<p>For example, the <code>new</code> keyword is inherited from OCaml as a reserved word, so we can't use it directly. Instead Caramel uses the <code>make</code> word as a convention for creating new values of a given type.</p>
+<p>Here we make <code>ets:new/2</code> callable as <code>Ets.make/2</code>:</p>
+<pre><code class="language-ocaml">(* file: Ets.ml *)
+
+external make : 'a -&gt; make_opt list -&gt; ('k, 'v) t = &quot;new&quot;
+</code></pre>
+<h3><a class="header" href="#bindings-for-functions-with-many-input-types" id="bindings-for-functions-with-many-input-types">Bindings for functions with many input types</a></h3>
+<p>Some functions can take many different input types, such as tuples or lists, or
+single values, and work just the same. This is thanks to the BEAM's run-time
+support for pattern matching on values of different kinds.</p>
+<p>When doing static typing, we say these functions work on Union Types.</p>
+<p>Caramel does not support Union Types, so functions like <code>ets:insert/2</code> that
+work both with a single values and a list of values can't be mapped by a single
+function type.</p>
+<p>Instead, we split them in several bindings that all map to the same foreign function:</p>
+<pre><code class="language-ocaml">(*file: Ets.ml *)
+
+external insert_one : ('k, 'v) t -&gt; 'k * 'v -&gt; unit = &quot;insert&quot;
+
+external insert_many : ('k, 'v) t -&gt; ('k * 'v) list -&gt; unit = &quot;insert&quot;
+</code></pre>
+<h3><a class="header" href="#bindings-for-functions-with-many-output-types" id="bindings-for-functions-with-many-output-types">Bindings for functions with many output types</a></h3>
+<p>Some function can return many different output types, such as tuples or lists,
+or different single values, and they expect you to handle them just the same.
+This works thanks to the BEAM's run-time support for pattern-matching on values
+of different kinds.</p>
+<p>When doing static typing, we say these functions return Union Types.</p>
+<p>Caramel does not support Union Types, so functions like this one:</p>
+<pre><code class="language-erlang">-spec f(integer()) :: none | {integer(), integer(), integer()} | binary().
+f(0) -&gt; none;
+f(1) -&gt; {1234, 5678, 9};
+f(2) -&gt; &lt;&lt;&quot;TEN!&quot;&gt;&gt;.
+</code></pre>
+<p>That can return either an atom, like <code>none</code>, or a triple of integers, or a
+binary string, can not be called <em>directly</em>.</p>
+<p>Instead we have to choose to pay a small cost for runtime typing, or to
+restrict the values coming from Erlang.</p>
+<h4><a class="header" href="#restricting-values" id="restricting-values">Restricting Values</a></h4>
+<p>If we know that the returned values from the Erlang code are <em>tagged tuples</em>,
+on any level of nesting, and we can map them to a type in Caramel, then we can
+simplify the process by declaring the type on the Caramel side and letting the
+compilation process match the structures.</p>
+<p>For example, if the function from before returned:</p>
+<pre><code class="language-erlang">-spec f(integer()) :: {atom, none}
+                    | {triple, {integer(), integer(), integer()}}
+                    | {string, binary()}.
+f(0) -&gt; none;
+f(1) -&gt; {1234, 5678, 9};
+f(2) -&gt; &lt;&lt;&quot;TEN!&quot;&gt;&gt;.
+</code></pre>
+<p>We can bind to it by writing out the type first:</p>
+<pre><code class="language-ocaml">type none = None
+type f_return =
+  | Atom of None
+  | Triple of int * int * int
+  | String of string
+
+external f : int -&gt; f_return = &quot;&quot;
+</code></pre>
+<p>Fortunately plenty of Erlang code heavily relies on tagged tuples for runtime
+pattern matching.</p>
+<p>When it doesn't, we have to do the typing at runtime ourselves.</p>
+<h4><a class="header" href="#runtime-typing" id="runtime-typing">Runtime Typing</a></h4>
+<p>Paying a small cost means that we have to add some runtime inspection of values
+to decide what types they actually have. This is not a big deal because it is
+something we do in Erlang all the time anyways, but it certainly means that
+calling these Erlang functions is not a <em>zero cost</em> operation.</p>
+<p>For example, we can use the functions in the <code>Erlang</code> module to check if the
+return value is of some type:</p>
+<pre><code class="language-ocaml">type unknown
+external __unsafe_f : int -&gt; unknown = &quot;f&quot;
+
+type f_values = 
+  | Binary of string
+  | Atom of string
+  | Triple of (int * int * int)
+
+let f : int -&gt; f_values =
+ fun i -&gt;
+  let x = __unsafe_f i in
+  if Erlang.is_binary x then Binary (unsafe_cast x)
+  else if Erlang.is_atom x then Atom (unsafe_cast x)
+  else if Erlang.is_tuple x 3 then Triple (unsafe_cast x)
+  else panic
+</code></pre>
+<p>At this point, we could add a lot more validation logic to our <code>f</code> function to
+try to make 100% sure that the value we have is of the type we expect.</p>
+<p>This process can be error prone, and certainly relies on the Erlang code never 
+returning any value that we didn't account for.</p>
+<p>It is worth noting that this can also be done <em>on the Erlang side</em>, perhaps
+even more idiomatically, by tagging the values:</p>
+<pre><code class="language-erlang">tagged_f(X) -&gt;
+  case f(X) of
+    none -&gt; {atom, none};
+    {_, _, _} -&gt; {triple, X};
+    Y when is_binary(Y) -&gt; {string, Y}
+  end.
+</code></pre>
+<p>After this we can use the <a href="#restricting-values">Restricting Values</a> approach.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../guides/syntax-cheatsheet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../examples/hello-joe.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../guides/syntax-cheatsheet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../examples/hello-joe.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
